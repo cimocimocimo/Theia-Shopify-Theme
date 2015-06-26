@@ -22,16 +22,28 @@
 
     {% include 'mobile-side-nav' %}
 
-    <div id="header-container" class="header-container">
-
-      {% include 'header' %}
-
-    </div>
-
     <div id="body-container" class="body-container">
 
       <div id="homepage-splash" class="homepage-splash full-viewport">
-        Testing - Splash page. Scroll up to dismiss.
+
+        <div class="eye-level-wide">
+          <div class="inner">
+            <div class="logo"></div>
+          </div>
+        </div>
+
+        <div class="eye-level-narrow">
+          <div class="inner">
+            <div class="inner-2">
+              <div class="logo"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="header-container" class="header-container">
+        {% include 'header' %}
       </div>
 
       <div id="homepage-hero" class="full-viewport homepage-hero">
@@ -52,6 +64,8 @@
     {% include 'html-footer-scripts' %}
 
     <script>
+        return;
+
         $(function(){
             $('#header-container').headroom({
                 scroller: document.getElementsByClassName('body-container')[0]

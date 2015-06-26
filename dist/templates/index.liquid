@@ -1,118 +1,82 @@
 {% layout 'full-viewport' %}
-{% comment %}
 
-  This is the homepage of your site.
+<div class="block-navigation-hero">
 
-  More info on global variables (available on all templates):
-    - http://docs.shopify.com/themes/liquid-variables/global
-{% endcomment %}
-
-{% if linklists.featured-collections.links.size > 0 %}
-
-  <div class="latest-collections-hero">
-
-    <h2>Latest Collections</h2>
-
-        <nav class="latest-collections-menu" role="navigation">
-          <ul>
-            {% for link in linklists.featured-collections.links %}
-
-              {% assign collection = link.object %}
-
-              {% comment %}
-              Use capture to put the collection title in a variable that is used in liquid filters
-              {% endcomment %}
-              {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
-
-              {% if collection.metafields.other_images.featured_menu_thumb != blank %}
-                {% assign featured_menu_thumb_url = collection.metafields.other_images.featured_menu_thumb %}
-              {% else %}
-                {% capture featured_menu_thumb_url %}{{ collection.image.src | collection_img_url: 'large' }}{% endcapture %}
-              {% endif %}
-
-              <li>
-                <style style="text/css" scoped>
-
-                    #collection-{{ collection.id }}:before {
-                        background-image: url('{{ featured_menu_thumb_url }}');
-                    }
-
-                </style>
-                <a id="collection-{{ collection.id }}" class="latest-collections-link" href="{{ collection.url }}" title="Browse our {{ collection_title }} collection">
-                  <img src="{{ featured_menu_thumb_url }}" alt="{{ collection_title }}" />
-                  <div class="overlay"></div>
-                  {% if collection.handle == 'ready-to-purchase' %}
-                    <span>Visit our Boutique</span>
-                  {% else %}
-                    <span>{{ collection_title }}</span>
-                  {% endif %}
-                </a>
-              </li>
-
-            {% endfor %}
-          </ul>
-        </nav>
-
-  </div>
-
-{% endif %}
-
-<div style="background-color: #000;" class="celebrity-gallery-hero">
-  <div class="wrapper-14-col">
-    <div class="celebrity-gallery">
-      <div class="main">
-
-        <div id="carrieUnderwood" data-bg-color="#000" style="background-color: #000;" class="slide scheme-dark active">
-          {{ 'carrie-underwood-main-desktop.jpg' | asset_url | img_tag: 'Carrie Underwood', 'hidden-on-mobile' }}
-          {{ 'carrie-underwood-main-mobile.jpg' | asset_url | img_tag: 'Carrie Underwood', 'hidden-on-desktop' }}
+  <nav class="block-navigation-menu" role="navigation">
+    <div class="block-navigation-column">
+      <div class="inner">
+        <a class="block-navigation-link-press" href="#">
+          <div class="image"></div>
+          <div class="overlay"></div>
           <div class="content">
-            <h3>Carrie Underwood</h3>
-            <p>Worn at the Grammy Awards</p>
+            <h3>
+              Celebrity
+              <br/>
+              Fashion
+            </h3>
           </div>
-        </div>
-
-        <div id="amyPoehler" data-bg-color="#ecebe8" style="background-color: #ecebe8;" class="slide scheme-light">
-          {{ 'amy-poehler-main-desktop.jpg' | asset_url | img_tag: 'Amy Poehler', 'hidden-on-mobile' }}
-          {{ 'amy-poehler-main-mobile.jpg' | asset_url | img_tag: 'Amy Poehler', 'hidden-on-desktop' }}
-          <div class="content">
-            <h3>Amy Poehler</h3>
-            <p>Worn at the Emmys</p>
-          </div>
-        </div>
-
-        <div id="oprahWinfrey" data-bg-color="#f1f3f8" style="background-color: #f1f3f8;" class="slide scheme-light">
-          {{ 'oprah-winfrey-main-desktop.jpg' | asset_url | img_tag: 'Oprah Winfrey', 'hidden-on-mobile' }}
-          {{ 'oprah-winfrey-main-mobile.jpg' | asset_url | img_tag: 'Oprah Winfrey', 'hidden-on-desktop' }}
-          <div class="content">
-            <h3>Oprah Winfrey</h3>
-            <p>Worn at the The Butler premier</p>
-          </div>
-        </div>
-
-      </div>
-      <div class="thumbs-block">
-
-        <a href="#carrieUnderwood" class="thumb scheme-dark active">
-          {{ 'carrie-underwood-thumb-desktop.jpg' | asset_url | img_tag: 'Carrie Underwood Thumb', 'hidden-on-mobile' }}
-          {{ 'carrie-underwood-thumb-mobile.jpg' | asset_url | img_tag: 'Carrie Underwood Thumb', 'hidden-on-desktop' }}
-          <h3>Carrie Underwood</h3>
         </a>
-
-        <a href="#amyPoehler" class="thumb scheme-light">
-          {{ 'amy-poehler-thumb-desktop.jpg' | asset_url | img_tag: 'Amy Poehler', 'hidden-on-mobile' }}
-          {{ 'amy-poehler-thumb-mobile.jpg' | asset_url | img_tag: 'Amy Poehler', 'hidden-on-desktop' }}
-          <h3>Amy Poehler</h3>
-        </a>
-
-        <a href="#oprahWinfrey" class="thumb scheme-light">
-          {{ 'oprah-winfrey-thumb-desktop.jpg' | asset_url | img_tag: 'Oprah Winfrey', 'hidden-on-mobile' }}
-          {{ 'oprah-winfrey-thumb-mobile.jpg' | asset_url | img_tag: 'Oprah Winfrey', 'hidden-on-desktop' }}
-          <h3>Oprah Winfrey</h3>
-        </a>
-
       </div>
     </div>
-  </div>
+    <div class="block-navigation-column">
+      <div class="inner">
+        <a class="block-navigation-link-shop" href="#">
+          <div class="image"></div>
+          <div class="overlay"></div>
+          <div class="content">
+            <h3>
+              Shop
+              <br/>
+              New Arrivals
+            </h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    {% comment %}
+
+    <ul>
+      {% for link in linklists.featured-collections.links %}
+
+        {% assign collection = link.object %}
+
+        {% comment %}
+        Use capture to put the collection title in a variable that is used in liquid filters
+        {% endcomment %}
+        {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+
+        {% if collection.metafields.other_images.featured_menu_thumb != blank %}
+          {% assign featured_menu_thumb_url = collection.metafields.other_images.featured_menu_thumb %}
+        {% else %}
+          {% capture featured_menu_thumb_url %}{{ collection.image.src | collection_img_url: 'large' }}{% endcapture %}
+        {% endif %}
+
+        <li>
+          <style style="text/css" scoped>
+
+              #collection-{{ collection.id }}:before {
+                  background-image: url('{{ featured_menu_thumb_url }}');
+              }
+
+          </style>
+          <a id="collection-{{ collection.id }}" class="latest-collections-link" href="{{ collection.url }}" title="Browse our {{ collection_title }} collection">
+            <img src="{{ featured_menu_thumb_url }}" alt="{{ collection_title }}" />
+            <div class="overlay"></div>
+            {% if collection.handle == 'ready-to-purchase' %}
+              <span>Visit our Boutique</span>
+            {% else %}
+              <span>{{ collection_title }}</span>
+            {% endif %}
+          </a>
+        </li>
+
+      {% endfor %}
+    </ul>
+
+{% endcomment %}
+  </nav>
+
 </div>
 
 <div class="social-link-hero">
@@ -136,66 +100,4 @@
 
   {% include 'newsletter-signup-block' %}
 
-</div>
-
-<div class="events-press-releases-hero">
-  <div class="wrapper">
-
-    <h2>Events and Press Releases</h2>
-
-    <div class="press-releases-column">
-      <div class="contact-block">
-        {% if settings.contact_events_full_name %}
-          <p>For press &amp; events enquiries, please contact {{ settings.contact_events_full_name }}</p>
-          <address>
-            <div class="email">
-              <a href="mailto:{{ settings.contact_events_email }}">{{ settings.contact_events_email }}</a>
-            </div>
-            <div class="address">
-              {{ settings.contact_events_address1 }}
-              {% if settings.contact_events_address2 %}
-                <br />
-                {{ settings.contact_events_address2 }}
-              {% endif %}
-            </div>
-            <div class="phone">
-              {{ settings.contact_events_phone }}
-            </div>
-          </address>
-         {% endif %}
-      </div>
-
-      {% comment %}
-      **todo** add this once the press section is done after launch.
-      {% include 'homepage-press-releases' %}
-      {% endcomment %}
-    </div>
-
-    <div class="media-events-contact-column">
-      <div class="media-events-contact-block">
-
-        <div class="contact-block">
-          {% if settings.contact_sales_full_name %}
-            <p>For any sales or general enquiries, please contact {{ settings.contact_sales_full_name }}</p>
-            <address>
-              <div class="email">
-                <a href="mailto:{{ settings.contact_sales_email }}">{{ settings.contact_sales_email }}</a>
-              </div>
-              <div class="address">
-                {{ settings.contact_sales_address1 }}
-                {% if settings.contact_sales_address2 %}
-                  <br />
-                  {{ settings.contact_sales_address2 }}
-                {% endif %}
-              </div>
-              <div class="phone">
-                {{ settings.contact_sales_phone }}
-              </div>
-            </address>
-          {% endif %}
-        </div>
-
-      </div>
-    </div>
-  </div>
 </div>

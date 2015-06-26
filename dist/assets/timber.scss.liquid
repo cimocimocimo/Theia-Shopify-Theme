@@ -231,9 +231,60 @@ $zindexNavigation: 10000;
     font-weight:  100;
 }
 
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('{{ "century-gothic.eot" | asset_url }}'); /* IE9 Compat Modes */
+    src: url('{{ "century-gothic.eot?#iefix" | asset_url }}') format('embedded-opentype'), /* IE6-IE8 */
+    url('{{ "century-gothic.woff" | asset_url }}') format('woff'), /* Modern Browsers */
+    url('{{ "century-gothic.ttf" | asset_url }}')  format('truetype'), /* Safari, Android, iOS */
+    url('{{ "century-gothic.svg#13db03934b676bad49f0835d401d12db" | asset_url }}') format('svg'); /* Legacy iOS */
+    
+    font-style:   normal;
+    font-weight:  400;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('{{ "century-gothic-bold.eot" | asset_url }}'); /* IE9 Compat Modes */
+    src: url('{{ "century-gothic-bold.eot?#iefix" | asset_url }}') format('embedded-opentype'), /* IE6-IE8 */
+    url('{{ "century-gothic-bold.woff" | asset_url }}') format('woff'), /* Modern Browsers */
+    url('{{ "century-gothic-bold.ttf" | asset_url }}')  format('truetype'), /* Safari, Android, iOS */
+    url('{{ "century-gothic-bold.svg#e8822cb86844068280e5784dfd42de7a" | asset_url }}') format('svg'); /* Legacy iOS */
+    
+    font-style:   normal;
+    font-weight:  700;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('{{ "century-gothic-bold-italic.eot" | asset_url }}'); /* IE9 Compat Modes */
+    src: url('{{ "century-gothic-bold-italic.eot?#iefix" | asset_url }}') format('embedded-opentype'), /* IE6-IE8 */
+    url('{{ "century-gothic-bold-italic.woff" | asset_url }}') format('woff'), /* Modern Browsers */
+    url('{{ "century-gothic-bold-italic.ttf" | asset_url }}')  format('truetype'), /* Safari, Android, iOS */
+    url('{{ "century-gothic-bold-italic.svg#abac0b3501277adea494bb2ed7019c25" | asset_url }}') format('svg'); /* Legacy iOS */
+    
+    font-style:   italic;
+    font-weight:  700;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('{{ "century-gothic-italic.eot" | asset_url }}'); /* IE9 Compat Modes */
+    src: url('{{ "century-gothic-italic.eot?#iefix" | asset_url }}') format('embedded-opentype'), /* IE6-IE8 */
+    url('{{ "century-gothic-italic.woff" | asset_url }}') format('woff'), /* Modern Browsers */
+    url('{{ "century-gothic-italic.ttf" | asset_url }}')  format('truetype'), /* Safari, Android, iOS */
+    url('{{ "century-gothic-italic.svg#0055fdb458fa7b470a37f9e48d363a65" | asset_url }}') format('svg'); /* Legacy iOS */
+    
+    font-style:   italic;
+    font-weight:  400;
+}
+
+
+
 // Font Stacks
 $helveticaFontStack: "HelveticaNeueLT", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $arialFontStack: Arial, sans-serif;
+$centuryGothicFontStack: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
 
 // Header Font
 $headerFontStack: $helveticaFontStack;
@@ -274,7 +325,8 @@ $socialIconFontStack: 'theia-icons';
     }
 }
 
-.clearfix {
+.clearfix,
+%clearfix {
     @include clearfix();
 }
 
@@ -4795,10 +4847,10 @@ address {
 .header-container {
     @include transition(all 0.3s);
 
-    position: fixed;
-    z-index: $zindexNavigation;
-    top: 0;
-    left: 0;
+    /* position: fixed; */
+    /* z-index: $zindexNavigation; */
+    /* top: 0; */
+    /* left: 0; */
     width: 100%;
 
     &.headroom--pinned {
@@ -5604,15 +5656,78 @@ html.full-viewport {
 }
 
 .homepage-splash {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 100%;
-    width: 100%;
-    z-index: $zindexSpash;
-    background: $colorWhite;
+    background: url({{ 'homepage-splash-bg.jpg' | asset_url }}) center center no-repeat;
+    background-size: cover;
+    position: relative;
+    
+    .eye-level-wide {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        
+        .inner {
+            position: absolute;
+            top: percentage(475/1709);
+            height: 0;
+            background: red;
+            width: 100%;
+        }
+    }
+    
+    .eye-level-narrow {
+        position: absolute;
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        
+        .inner {
+            position: absolute;
+            top: -9999px;
+            bottom: -9999px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            padding-top: percentage(1709/2560);
+            height: 0;
+        }
+        
+        .inner-2 {
+            position: absolute;
+            top: percentage(479/1709);
+            height: 0;
+            background: blue;
+            width: 100%;
+        }
+    }
+    
+    .logo {
+        height: 0;
+        width: 35%;
+        padding-top: percentage((248/940)*0.35);
+        position: absolute;
+        top: 0;
+        margin-top: percentage((-248/940)*0.35)/2;
+        left: percentage(66/2700);
+        background: url({{ 'theia-logo.svg' | asset_url }}) center center no-repeat;
+        background-size: contain;
+    }
+
+    @media screen and (min-aspect-ratio: 2560/1709){
+        .eye-level-wide {
+            display: none;
+        }
+    }
+    
+    @media screen and (max-aspect-ratio: 2560/1709){
+        .eye-level-narrow {
+            display: none;
+        }
+    }
 }
 
 .homepage-hero {
@@ -5699,12 +5814,9 @@ html.full-viewport {
     }
 }
 
-.latest-collections-hero {
-    margin: ($gutter * 2.875) 0;
-
-    h2 {
-        text-align: center;
-    }
+.site-navigation-hero {
+    margin: 0;
+    padding: 0;
 }
 
 .featured-press-hero {
@@ -6236,10 +6348,6 @@ html.full-viewport {
             width: $smallCircumfrence;
         }
     }
-}
-
-.social-media-feed-block {
-
 }
 
 .social-media-feed-item {
@@ -7478,20 +7586,151 @@ html.full-viewport {
 }
 
 
-.latest-collections-menu {
-    @extend %inline-list-base;
+// based on 2560px max wide layout
 
-    text-align: center;
+%two-column-fluid-base{
+    @extend %clearfix;
+}
 
-    li {
-        margin: 0 $gutter - 2px; /* taking off the 2px for the extra spacing from the inline-block display type. */
-        text-align: left;   /* undo the centering for child elements */
+%two-column-fluid-column-base{
+    float: left;
+    height: 0;
+    width: 50%;
+    padding-top: percentage(856/2560);
+    position: relative;
+    
+    > .inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.block-navigation-menu {
+    @extend %two-column-fluid-base;
+    
+}
+
+.block-navigation-column {
+    @extend %two-column-fluid-column-base;
+    
+}
+
+%block-navigation-link-base {
+    display: block;
+    height: 100%;
+    width: 100%;
+    
+    /* contains the background image for the transparent border outline */
+    &:before {
+        @include prefix('transition', 'all 0.4s ease');
+
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+
+        background-color: #fff;
+        background-position: left top;
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+    
+    .image {
+        @include prefix('transition', 'all 0.4s ease');
+
+        height: 100%;
+        width: 100%;
+        background-size: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'desaturate\'><feColorMatrix type=\'saturate\' values=\'0.43\'/></filter></svg>#desaturate"); /* Firefox 10+, Firefox on Android */
+        filter: gray; /* IE6-9 */
+        -webkit-filter: grayscale(43%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
+
+        clip-path: inset(10px 10px 10px 10px);
     }
 
-    @include at-query( $max, $small ){
-        li {
-            margin: 0; /*relying on inline-block whitespace for margins*/
+    .overlay {
+        @include prefix('box-shadow', 'inset 0px 0px 76px 0px rgba(50, 50, 50, 0.75)');
+        @include prefix('transition', 'box-shadow 0.4s, opacity 0.4s');
+
+        background: rgba(black, 0.20);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+
+    &:hover {
+        .image {
+            filter: none;
+            -webkit-filter: none;
         }
+
+        .overlay {
+            opacity: 0;
+            @include prefix('box-shadow', 'inset 0px 0px 0px 0px rgba(50, 50, 50, 0.75)');
+        }
+
+        &:before {
+            opacity: 0.6;
+        }
+    }
+
+    .content {
+        @include verticalCenterChildElements();
+        
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        
+        h3 {
+            margin: 0;
+            line-height: 1.15;
+            text-transform: uppercase;
+            white-space: normal;
+            font-family: $centuryGothicFontStack;
+            font-weight: 700;
+            font-size: 34px;
+            color: $colorWhite;
+        }
+    }
+}
+
+.block-navigation-link-shop {
+    @extend %block-navigation-link-base;
+
+    &:before {
+        background-image: url({{'shop-block-bg.jpg' | asset_url}});
+    }
+    
+    .image {
+        background-image: url({{'shop-block-bg.jpg' | asset_url}});
+    }
+}
+
+.block-navigation-link-press {
+    @extend %block-navigation-link-base;
+    
+    &:before {
+        background-image: url({{'amy-poehler-press-block-bg.jpg' | asset_url}});
+    }
+    
+    .image {
+        background-image: url({{'amy-poehler-press-block-bg.jpg' | asset_url}});
     }
 }
 
