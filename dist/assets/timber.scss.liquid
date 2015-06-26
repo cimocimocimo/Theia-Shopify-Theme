@@ -7608,6 +7608,12 @@ html.full-viewport {
         width: 100%;
         height: 100%;
     }
+
+    @include at-query($max, $medium){
+        float: none;
+        width: auto;
+        padding-top: percentage(856/1280);
+    }
 }
 
 .block-navigation-menu {
