@@ -5655,6 +5655,47 @@ html.full-viewport {
     }
 }
 
+.scroll-button-disc {
+    @extend %icon-base;
+    @extend .icon-arrow-down-large;
+    @include transition(all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275));
+    @include box-shadow(0 2px 3px rgba(0,0,0,0.05));
+    @include transform(scale(1));
+    @include transform-origin(bottom center);
+
+    position: absolute;
+    bottom: $gutter;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin-left: -25px;
+    background: white;
+    text-decoration: none;
+    text-align: center;
+    line-height: 57px;
+    color: $colorDarkGold;
+    font-size: 25px;
+    border-radius: 25px;
+    opacity: 0.75;
+    z-index: 2;
+
+    &:hover {
+        @include transform(scale(1.1));
+
+        opacity: 1;
+    }
+
+    &.out {
+        @include transform(scale(0));
+
+        opacity: 0;
+    }
+
+    &.initial {
+        display: none;
+    }
+}
+
 .homepage-splash {
     background: url({{ 'homepage-splash-bg.jpg' | asset_url }}) center center no-repeat;
     background-size: cover;
@@ -5769,47 +5810,6 @@ html.full-viewport {
 
         @media screen and (max-aspect-ratio: 1400/945){
             background-image: url({{ 'homepage-hero-1400x945.jpg' | asset_url }});
-        }
-    }
-
-    .scroll {
-        @extend %icon-base;
-        @extend .icon-arrow-down-large;
-        @include transition(all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275));
-        @include box-shadow(0 2px 3px rgba(0,0,0,0.05));
-        @include transform(scale(1));
-        @include transform-origin(bottom center);
-
-        position: absolute;
-        bottom: $gutter;
-        left: 50%;
-        width: 50px;
-        height: 50px;
-        margin-left: -25px;
-        background: white;
-        text-decoration: none;
-        text-align: center;
-        line-height: 57px;
-        color: $colorDarkGold;
-        font-size: 25px;
-        border-radius: 25px;
-        opacity: 0.75;
-        z-index: 2;
-
-        &:hover {
-            @include transform(scale(1.1));
-
-            opacity: 1;
-        }
-
-        &.out {
-            @include transform(scale(0));
-
-            opacity: 0;
-        }
-
-        &.initial {
-            display: none;
         }
     }
 }
@@ -6265,88 +6265,6 @@ html.full-viewport {
                 display: none;
             }
         }        
-    }
-}
-
-%social-hero-base {
-    text-align: center;
-
-    h2 {
-        letter-spacing: -1px;
-    }
-
-    @include at-query( $min, $postSmall ){
-        h2 {
-            margin: 0 0 $gutter;
-        }
-    }
-
-    @include at-query( $max, $small ){
-        h2 {
-            font-size: 35px;
-            margin-bottom: $gutter * 2;
-        }
-    }
-}
-
-.social-link-hero {
-    @extend %social-hero-base;
-}
-
-.newsletter-signup-hero {
-    @extend %social-hero-base;
-}
-
-.social-link-block {
-    @extend %inline-list-base;
-
-    ul {
-        text-align: center;
-    }
-
-    a {
-        position: relative;
-        display: block;
-        text-decoration: none;
-
-        [class$='-icon'] {
-            height: 100%;
-            width: 100%;
-            border-color: $colorMidGray;
-            color: $colorMidGray;
-            transition: all 0.3s;
-
-            &:hover {
-                @include prefix('transform', 'scale( 1.1 )');
-
-                color: $colorGold;
-                border-color: $colorGold;
-            }
-        }
-    }
-
-    li {
-        margin: 0 6px;
-    }
-
-    @include at-query( $min, $postSmall ){
-        a {
-            $desktopCircumfrence: 3.375em;
-
-            height: $desktopCircumfrence;
-            width: $desktopCircumfrence;
-        }        
-    }
-
-    @include at-query( $max, $small ){
-        margin: 0 8px;
-
-        a {
-            $smallCircumfrence: 2.66em;
-
-            height: $smallCircumfrence;
-            width: $smallCircumfrence;
-        }
     }
 }
 
@@ -7593,11 +7511,12 @@ html.full-viewport {
 }
 
 %two-column-fluid-column-base{
+    /* make sure to set padding-top to a percentage of the width of this element
+     to make it fluid */
     float: left;
-    height: 0;
-    width: 50%;
-    padding-top: percentage(856/2560);
     position: relative;
+    width: 50%;
+    height: 0;
     
     > .inner {
         position: absolute;
@@ -7612,18 +7531,21 @@ html.full-viewport {
     @include at-query($max, $medium){
         float: none;
         width: auto;
-        padding-top: percentage(856/1280);
     }
 }
 
 .block-navigation-menu {
     @extend %two-column-fluid-base;
-    
 }
 
 .block-navigation-column {
     @extend %two-column-fluid-column-base;
     
+    padding-top: percentage(856/2560);
+    
+    @include at-query($max, $medium){
+        padding-top: percentage(856/1280);
+    }
 }
 
 %block-navigation-link-base {
@@ -7740,213 +7662,101 @@ html.full-viewport {
     }
 }
 
-@mixin latest-collections-link-size($height, $width, $clipWidth){
-    height: $height;
-    width: $width;
-
-    &:before {
-        background-size: $width $height;
-    }
-
-    img {
-        height: $height;
-        width: $width;
-        clip: rect($clipWidth, $width - $clipWidth, $height - $clipWidth, $clipWidth);
-    }
-}
-
-.latest-collections-link {
-    @extend %white-hover-gray-link;
-    @extend %medium-arial-text;
-
-    $height: 190px;
-    $width: 254px;
-    $clipWidth: 10px;
-
-    text-transform: uppercase;
-    display: block;
-    position: relative;
-
-    height: $height;
-    width: $width;
-
-    /* contains the background image for the transparent border outline */
-    &:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-
-        background-color: #fff;
-        background-position: left top;
-        background-repeat: no-repeat;
-        background-size: $width $height;
-
-        transition: all 0.4s;
-    }
-
-    span {
-        @extend %rsaquo;
-
-        line-height: 1.15;
-        position: absolute;
-        bottom: $gutter;
-        left: $gutter;
-        width: ($width*2/3);
-        white-space: normal;
-    }
-
-    img {
-        height: $height;
-        width: $width;
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: block;
-
-        filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'desaturate\'><feColorMatrix type=\'saturate\' values=\'0.43\'/></filter></svg>#desaturate"); /* Firefox 10+, Firefox on Android */
-        filter: gray; /* IE6-9 */
-        -webkit-filter: grayscale(43%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
-
-        @include prefix('transition', 'all 0.4s ease');
-
-        clip: rect($clipWidth, $width - $clipWidth, $height - $clipWidth, $clipWidth);
-    }
-
-    .overlay {
-        @include prefix('box-shadow', 'inset 0px 0px 76px 0px rgba(50, 50, 50, 0.75)');
-
-        background: rgba(black, 0.20);
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-        @include prefix('transition', 'box-shadow 0.4s, opacity 0.4s');
-    }
-
-    &:hover {
-        img {
-            filter: none;
-            -webkit-filter: none;
-        }
-
-        .overlay {
-            opacity: 0;
-            @include prefix('box-shadow', 'inset 0px 0px 0px 0px rgba(50, 50, 50, 0.75)');
-        }
-
-        &:before {
-            opacity: 0.6;
-        }
-    }
-
-    /* Small, most phones in landscape */
-    @include at-query( $max, $small ){
-        @include latest-collections-link-size($height: 59px, $width: 90px, $clipWidth: 2px);
-
-        .overlay {
-            @include prefix('box-shadow', 'inset 0px 0px 40px 0px rgba(50, 50, 50, 0.75)');
-        }
-
-        span {
-            top: 23px;
-            left: 9px;
-            font-size: 6px;
-            width: 37px;
-        }
-    }
+.social-link-newsletter-hero {
+    @extend %clearfix;
     
-    /* Medium, portrait tablet */
-    @include at-query (null, $postSmall, $medium) {
-        @include latest-collections-link-size($height: 94px, $width: 138px, $clipWidth: 4px);
+    text-align: center;
+    padding: $gutter * 3 0;
 
-        .overlay {
-            @include prefix('box-shadow', 'inset 0px 0px 40px 0px rgba(50, 50, 50, 0.75)');
+    h2 {
+        letter-spacing: -1px;
+    }
+
+    @include at-query( $min, $postSmall ){
+        h2 {
+            margin: 0 0 $gutter;
         }
+    }
 
-        span {
-            top: 23px;
-            left: 9px;
-            font-size: 6px;
-            width: 37px;
-        }        
+    @include at-query( $max, $small ){
+        h2 {
+            font-size: 35px;
+            margin-bottom: $gutter * 2;
+        }
     }
 }
 
-.customer-account-menu {
-    .main-content & {
-        @extend .clearfix;
+.social-link-newsletter-column {
+    float: left;
+    width: 50%;
+    padding: $gutter * 3 $gutter;
+    text-align: center;
 
-        width: 112px;
-        border-right: 1px solid $borderColor;
+    @include at-query($max, $medium){
+        float: none;
+        width: auto;
+    }
+}
 
-        li {
-            margin: 14px 0;
-        }
+.social-link-block {
+    @extend %inline-list-base;
+
+    ul {
+        text-align: center;
     }
 
-    .mobile-side-nav & {
+    a {
+        position: relative;
+        display: block;
+        text-decoration: none;
 
-        ul {
-            margin: 0 $gutter;
-        }
+        [class$='-icon'] {
+            height: 100%;
+            width: 100%;
+            border-color: $colorMidGray;
+            color: $colorMidGray;
+            transition: all 0.3s;
 
-        li {
-            border-top: 1px solid $colorLightGray;
-            margin-bottom: 0;
+            &:hover {
+                @include prefix('transform', 'scale( 1.1 )');
 
-            &:first-child {
-                border-top-width: 0;
+                color: $colorGold;
+                border-color: $colorGold;
             }
         }
     }
-}
 
-.customer-account-menu-link {
-    @extend %gray-hover-gold-link;
-    display: block;
-    position: relative;
-
-    .main-content & {
-        @extend %smallish-arial-text;
-        @extend %rsaquo;
-
-        text-transform: uppercase;
-        white-space: normal;
-        line-height: (15/12);
-
-        &.active {
-            color: $colorGold;
-        }
+    li {
+        margin: 0 6px;
     }
 
-    .mobile-side-nav & {
-        @extend %small-bold-arial-text;
-        @extend %icon-base;
-        @extend .icon-arrow-left;
+    @include at-query( $min, $postSmall ){
+        a {
+            $desktopCircumfrence: 3.375em;
 
-        font-weight: 700;
-        padding: $gutter 0 ($gutter - 2) 20px;
+            height: $desktopCircumfrence;
+            width: $desktopCircumfrence;
+        }        
+    }
 
-        &:before {
-            display: block !important;
-            position: absolute;
-            font-size: 14px;
-            top: 16px;
-            left: 0;
+    @include at-query( $max, $small ){
+        margin: 0 8px;
+
+        a {
+            $smallCircumfrence: 2.66em;
+
+            height: $smallCircumfrence;
+            width: $smallCircumfrence;
         }
     }
 }
 
 /* **todo** clean the newsletter block up. Do we need two different layouts for the interior pages vs. the home page? */
 .newsletter-signup-block {
-    @extend %gold-outline-block-large;
-
     display: inline-block;
 
     h4 {
-        color: #fff;
+        color: $colorWarmGray;
         margin: 0;
     }
 
@@ -7964,8 +7774,6 @@ html.full-viewport {
         }
 
         @include at-query( $min, $postSmall ){
-            width: 608px;
-            padding: $gutter * 1.75;
 
             h4 {
                 font-size: 1.75em;
@@ -7991,7 +7799,6 @@ html.full-viewport {
 
         @include at-query( $max, $small ){
             width: 100%;
-            padding: $gutter;
 
             border-left: 0;
             border-right: 0;
@@ -8089,24 +7896,26 @@ html.full-viewport {
     @extend .clearfix;
 
     position: relative;
-    border: 1px solid $colorDarkerGold;
-    border-bottom: 1px solid $colorLightGold;
+    border: 1px solid $colorDarkerGray;
     margin: 0;
 
     input, button {
-        background: $colorDarkGold;
+        background: $colorWarmDarkGray;
         display: block;
-        color: $colorLighterGold;
     }
 
+    button {
+        color: $colorWarmLightGray;
+    }
+    
     input {
         @extend %medium-arial-text;
 
-        color: $colorLighterGold;
+        color: $colorWhite;
         line-height: 1;
 
         @include placeholder {
-            color: $colorLighterGold;
+            color: $colorWarmLightGray;
             line-height: 1.2;
         }
 
@@ -8154,6 +7963,71 @@ html.full-viewport {
     }
 }
 
+.customer-account-menu {
+    .main-content & {
+        @extend .clearfix;
+
+        width: 112px;
+        border-right: 1px solid $borderColor;
+
+        li {
+            margin: 14px 0;
+        }
+    }
+
+    .mobile-side-nav & {
+
+        ul {
+            margin: 0 $gutter;
+        }
+
+        li {
+            border-top: 1px solid $colorLightGray;
+            margin-bottom: 0;
+
+            &:first-child {
+                border-top-width: 0;
+            }
+        }
+    }
+}
+
+.customer-account-menu-link {
+    @extend %gray-hover-gold-link;
+    display: block;
+    position: relative;
+
+    .main-content & {
+        @extend %smallish-arial-text;
+        @extend %rsaquo;
+
+        text-transform: uppercase;
+        white-space: normal;
+        line-height: (15/12);
+
+        &.active {
+            color: $colorGold;
+        }
+    }
+
+    .mobile-side-nav & {
+        @extend %small-bold-arial-text;
+        @extend %icon-base;
+        @extend .icon-arrow-left;
+
+        font-weight: 700;
+        padding: $gutter 0 ($gutter - 2) 20px;
+
+        &:before {
+            display: block !important;
+            position: absolute;
+            font-size: 14px;
+            top: 16px;
+            left: 0;
+        }
+    }
+}
+
 .events-press-releases-hero {
     .wrapper {
         @extend .wrapper-10-col;
@@ -8189,7 +8063,6 @@ html.full-viewport {
 }
 
 .homepage-press-releases {
-
     span {
         font-size: 0.75em;
         width: $gridGutter;

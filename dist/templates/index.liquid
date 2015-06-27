@@ -29,71 +29,21 @@
         </a>
       </div>
     </div>
-
-    {% comment %}
-
-    <ul>
-      {% for link in linklists.featured-collections.links %}
-
-        {% assign collection = link.object %}
-
-        {% comment %}
-        Use capture to put the collection title in a variable that is used in liquid filters
-        {% endcomment %}
-        {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
-
-        {% if collection.metafields.other_images.featured_menu_thumb != blank %}
-          {% assign featured_menu_thumb_url = collection.metafields.other_images.featured_menu_thumb %}
-        {% else %}
-          {% capture featured_menu_thumb_url %}{{ collection.image.src | collection_img_url: 'large' }}{% endcapture %}
-        {% endif %}
-
-        <li>
-          <style style="text/css" scoped>
-
-              #collection-{{ collection.id }}:before {
-                  background-image: url('{{ featured_menu_thumb_url }}');
-              }
-
-          </style>
-          <a id="collection-{{ collection.id }}" class="latest-collections-link" href="{{ collection.url }}" title="Browse our {{ collection_title }} collection">
-            <img src="{{ featured_menu_thumb_url }}" alt="{{ collection_title }}" />
-            <div class="overlay"></div>
-            {% if collection.handle == 'ready-to-purchase' %}
-              <span>Visit our Boutique</span>
-            {% else %}
-              <span>{{ collection_title }}</span>
-            {% endif %}
-          </a>
-        </li>
-
-      {% endfor %}
-    </ul>
-
-{% endcomment %}
   </nav>
 
 </div>
 
-<div class="social-link-hero">
-  <div class="wrapper">
+<div class="social-link-newsletter-hero">
+  <div class="social-link-newsletter-column">
 
-    <h2>Keep in touch:</h2>
+    <h2>Keep in touch</h2>
 
     {% include 'social-link-block' %}
 
   </div>
-</div>
+  <div class="social-link-newsletter-column">
 
-{% comment %}
-**todo** add this post launch
-<div class="social-media-feed-row">
-{% include 'social-media-feed-block' %}
-</div>
-{% endcomment %}
+    {% include 'newsletter-signup-block' %}
 
-<div class="newsletter-signup-hero">
-
-  {% include 'newsletter-signup-block' %}
-
+  </div>
 </div>

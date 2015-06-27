@@ -99,22 +99,23 @@ timber.homepageInit = function(){
     // timber.homepageSplash();
 };
 
-timber.homepageHero = function(){
-    var scroll = timber.cache.homepage.$heroScroller,
-        hero = timber.cache.homepage.$hero;
+timber.homepageSplash = function(){
+    var scroll = timber.cache.homepage.$splashScroller,
+        splash = timber.cache.homepage.$splash;
 
     scroll.click(function(e){
         e.preventDefault();
         
-        var height = hero.outerHeight();
-        $('#body-container').animate({scrollTop: height}, 600, 'swing');
+        $('#body-container').animate({
+            scrollTop: splash.outerHeight()
+        }, 600, 'swing');
     });
 
-    hero.addClass('loading');
+    splash.addClass('loading');
     timber.loader.show(hero[0]);
 
     $(window).load(function(){
-        hero.removeClass('loading');
+        splash.removeClass('loading');
         scroll.addClass('out');
         scroll.removeClass('initial');
         setTimeout(function(){
