@@ -55,6 +55,8 @@ $small: 480px;
 $medium: 768px;
 $large: 1024px;
 $xLarge: 1152px;
+$huge: 1366px;
+$gigantic: 1920px;
 
 $postSmall: $small + $viewportIncrement;
 $preMedium: $medium - $viewportIncrement;
@@ -62,6 +64,15 @@ $postMedium: $medium + $viewportIncrement;
 $preLarge: $large - $viewportIncrement;
 $postLarge: $large + $viewportIncrement;
 $preXLarge: $xLarge - $viewportIncrement;
+$postXLarge: $xLarge + $viewportIncrement;
+$preHuge: $huge - $viewportIncrement;
+$postHuge: $huge + $viewportIncrement;
+$preGigantic: $gigantic - $viewportIncrement;
+$postGigantic: $gigantic - $viewportIncrement;
+
+// scaling breakpoints
+$scalePostLargeXLarge: 0.76;
+$scalePostMediumLarge: 0.82;
 
 /*================ The following are dependencies of csswizardry grid ================*/
 $breakpoints: (
@@ -1099,10 +1110,6 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
             max-width: $small;
             float: none;
             margin: 0 auto;
-            /* padding: { */
-            /*     left: $gutter; */
-            /*     right: $gutter; */
-            /* } */
         }
     }
 }
@@ -2823,11 +2830,28 @@ label.error {
     width: 1px;
 }
 
+%icon-pseudo-element-base {
+    /* hide icon by default */
+    display: none;
 
-$iconSelector: '[class^="icon-"], [class*=" icon-"]';
-#{$iconSelector},
-%icon-base {
+    .supports-fontface & {
+        /* show the icon if modernizer detected support */
+        display: inline;
+        font-family: $socialIconFontStack;
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
 
+        /* Better Font Rendering =========== */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+%icon-font-base {
     .icon-fallback-text & {
         display: none;
 
@@ -2835,26 +2859,23 @@ $iconSelector: '[class^="icon-"], [class*=" icon-"]';
             display: inline-block;
         }
     }
+}
 
+$iconSelector: '[class^="icon-"], [class*=" icon-"]';
+#{$iconSelector},
+%icon-base {
+    @extend %icon-font-base;
+    
     &:before {
-        /* hide icon by default */
-        display: none;
+        @extend %icon-pseudo-element-base;
+    }
+}
 
-        .supports-fontface & {
-            /* show the icon if modernizer detected support */
-            display: inline;
-            font-family: $socialIconFontStack;
-            speak: none;
-            font-style: normal;
-            font-weight: normal;
-            font-variant: normal;
-            text-transform: none;
-            line-height: 1;
-
-            /* Better Font Rendering =========== */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+%icon-suffix-base {
+    @extend %icon-font-base;
+    
+    &:after {
+        @extend %icon-pseudo-element-base;
     }
 }
 
@@ -2883,6 +2904,10 @@ $iconSelector: '[class^="icon-"], [class*=" icon-"]';
 }
 
 .icon-arrow-right-solid:before {
+    content: "\e603";
+}
+
+.icon-arrow-right-solid-suffix:after {
     content: "\e603";
 }
 
@@ -5773,10 +5798,198 @@ html.full-viewport {
 
 .homepage-hero {
     position: relative;
-    height: 100%;
     width: 100%;
-    padding-top: $desktopHeaderHeight;
+    height: 0;
+    padding-top: percentage(1166/2560);
+    background: url({{ "homepage-hero-bg-1366.jpg" | asset_url }}) center center no-repeat;
+    background-size: cover;
+    text-align: center;
+    
+    @include at-query($max, $medium){
+        background: url({{ "homepage-hero-bg-mobile-768.jpg" | asset_url }}) top left no-repeat;
+        height: 640px;
+        padding-top: 0;
+    }
+    
+    @include at-query(null, $postMedium, $large){
+        background-image: url({{ "homepage-hero-bg-mobile-1024.jpg" | asset_url }});
+        padding-top: percentage(700/1024);
+    }
+    
+    @include at-query(null, $postLarge, $huge){
+        background-image: url({{ "homepage-hero-bg-1366.jpg" | asset_url }});
+    }
+    
+    @include at-query(null, $postHuge, $gigantic){
+        background-image: url({{ "homepage-hero-bg-1920.jpg" | asset_url }});
+    }
+    
+    @include at-query($min, $postGigantic){
+        background-image: url({{ "homepage-hero-bg-2560.jpg" | asset_url }});
+    }
+    
+    .inner {
+        @include verticalCenterChildElements();
 
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+    }
+    
+    .content {
+        position: relative;
+        width: 45%;
+        max-width: 640px;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.60);
+        padding: $gutter $gutter*2;
+        text-align: center;
+    }
+    
+    h2 {
+        font-family: $centuryGothicFontStack;
+        font-size: 60px;
+        color: $colorWarmDarkGray;
+        text-transform: uppercase;
+        margin: 0 0 $gutter*2;
+    }
+
+    p {
+        font-family: $centuryGothicFontStack;
+        font-size: 24px;
+        font-style: italic;
+        line-height: (29/24);
+        color: $colorWarmDarkGray;
+    }
+
+    a {
+        @extend %icon-suffix-base;
+        @extend .icon-arrow-right-solid-suffix;
+        
+        font-family: $centuryGothicFontStack;
+        font-size: 30px;
+        font-style: italic;
+        font-weight: 700;
+        text-decoration: none;
+        color: $colorGold;
+
+        &:after {
+            font-size: 21px;
+            margin-left: $gutter/2;
+        }
+    }
+    
+    /* @include at-query(); */
+    @include at-query($max, $small){
+        text-align: right;
+
+        .content {
+            margin: 0 2.5% 0 auto;
+            width: 55%;
+        }
+
+        h2 {
+            font-size: 30px;
+            margin: 0 0 $gutter;
+        }
+
+        p {
+            font-size: 12px;
+        }
+
+        a {
+            font-size: 15px;
+
+            &:after {
+                font-size: 11px;
+                margin-left: $gutter/4;
+            }
+        }        
+    }
+    
+    @include at-query(null, $postSmall, $medium){
+        text-align: right;
+
+        .content {
+            margin: 0 5% 0 auto;
+            width: 61.666667%;
+        }
+
+        h2 {
+            font-size: 40px;
+            margin: 0 0 21px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        a {
+            font-size: 20px;
+
+            &:after {
+                font-size: 14;
+                margin-left: 6px;
+            }
+        }        
+    }
+    
+    @include at-query(null, $postMedium, $large){
+        text-align: right;
+
+        .content {
+            margin: 0 5% 0 auto;
+            width: 61.666667%;
+        }
+
+        h2 {
+            font-size: 60px * $scalePostMediumLarge;
+            margin: 0 0 $gutter*2 * $scalePostMediumLarge;
+        }
+
+        p {
+            font-size: 24px * $scalePostMediumLarge;
+        }
+
+        a {
+            font-size: 30px * $scalePostMediumLarge;
+
+            &:after {
+                font-size: 21px * $scalePostMediumLarge;
+                margin-left: $gutter/2 * $scalePostMediumLarge;
+            }
+        }        
+    }
+    
+    @include at-query(null, $postLarge, $xLarge){
+        .content {
+            max-width: 640px * $scalePostLargeXLarge;
+            padding: $gutter*$scalePostLargeXLarge $gutter*2*$scalePostLargeXLarge;
+        }
+        
+        h2 {
+            font-size: 60px * $scalePostLargeXLarge;
+            margin: 0 0 $gutter*2 * $scalePostLargeXLarge;
+        }
+
+        p {
+            font-size: 24px * $scalePostLargeXLarge;
+        }
+
+        a {
+            font-size: 30px * $scalePostLargeXLarge;
+
+            &:after {
+                font-size: 21px * $scalePostLargeXLarge;
+                margin-left: $gutter/2 * $scalePostLargeXLarge;
+            }
+        }        
+    }
+    
     &.loading .image {
         opacity: 0;
     }
@@ -7634,6 +7847,30 @@ html.full-viewport {
             font-weight: 700;
             font-size: 34px;
             color: $colorWhite;
+        }
+    }
+
+    @include at-query(null, $postLarge, $huge){
+        .content {
+            h3 {
+                font-size: 30px;
+            }
+        }
+    }
+    
+    @include at-query(null, $postMedium, $large){
+        .content {
+            h3 {
+                font-size: 24px;
+            }
+        }
+    }
+
+    @include at-query($max, $small){
+        .content {
+            h3 {
+                font-size: 24px;
+            }
         }
     }
 }
