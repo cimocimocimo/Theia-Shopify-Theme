@@ -4874,10 +4874,10 @@ address {
 .header-container {
     @include transition(all 0.3s);
 
-    /* position: fixed; */
-    /* z-index: $zindexNavigation; */
-    /* top: 0; */
-    /* left: 0; */
+    position: fixed;
+    z-index: $zindexNavigation;
+    top: 0;
+    left: 0;
     width: 100%;
 
     &.headroom--pinned {
@@ -5041,7 +5041,7 @@ address {
         
         position: absolute;
         bottom: 0px;
-        background: rgba($colorDarkGray, 0.80);
+        background: rgba($colorWhite, 0.68);
         padding: 16px 10px;
         opacity: 0;
         transition: all 0.3s;
@@ -5053,8 +5053,6 @@ address {
 
         .sub-menu-column {
             padding: 0 10px;
-            width: 160px;
-            float: left;
         }
 
         /* Mobile */
@@ -5082,12 +5080,6 @@ address {
 
 .sub-menu-column {
     .mobile-side-nav & {
-        border-top: {
-            width: 1px;
-            style: solid;
-            color: $colorLightGray;
-        }
-
         padding: 6px 0;
     }
 }
@@ -5099,12 +5091,6 @@ address {
     text-transform: uppercase;
 
     .site-header & {
-
-        border-bottom: {
-            width: 1px;
-            style: solid;
-            color: $colorWarmGray;
-        }
         padding-bottom: 4px;
         margin-bottom: 4px;
     }
@@ -5664,13 +5650,6 @@ html.full-viewport {
     .body-container,
     .full-viewport {
         height: 100%;
-        // needed to allow headroom.js to detect page scroll with the 100% height
-        // overflow: visible;
-    }
-
-    // remove the padding added to make room for the headers.
-    .body-container {
-        padding-top: 0;
     }
 }
 
@@ -5716,9 +5695,15 @@ html.full-viewport {
 }
 
 .homepage-splash {
+    @include transition(all 0.3s);
+   
     background: url({{ 'homepage-splash-bg.jpg' | asset_url }}) center center no-repeat;
     background-size: cover;
-    position: relative;
+    position: fixed;
+    z-index: 13000;
+    top: 0;
+    left: 0;
+    width: 100%;
     
     .eye-level-wide {
         position: absolute;
@@ -5776,7 +5761,12 @@ html.full-viewport {
         background: url({{ 'theia-logo.svg' | asset_url }}) center center no-repeat;
         background-size: contain;
     }
-
+    
+    &.js-splash-hidden {
+        @include transform(translateY(-100%));
+        opacity: 0;
+    }
+    
     @media screen and (min-aspect-ratio: 2560/1709){
         .eye-level-wide {
             display: none;
@@ -5984,18 +5974,6 @@ html.full-viewport {
         }        
     }
     
-    &.loading .image {
-        opacity: 0;
-    }
-
-    .spinner {
-        @include verticalCenterChildElements();
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        z-index: 0;
-    }
-
     .image {
         @include transition(opacity 1s);
 
@@ -7449,6 +7427,11 @@ html.full-viewport {
             padding: $gutter/4 $gutter * 1.25;
         }
 
+        @include at-query(null, $postLarge, $xLarge){
+            padding-left: $gutter * (2/3);
+            padding-right: $gutter * (2/3);
+        }
+        
         @include at-query ($max, $small) {
             padding: $gutter/2 0;
         }
@@ -7661,7 +7644,7 @@ html.full-viewport {
         text-align: center;
 
         &:before {
-            content: '';
+            // content: '';
             display: block;
             border: 1px solid #fff;
             height: 14px;
@@ -9799,6 +9782,7 @@ $opacity-not-active: .25;
         overflow-y: hidden; // disables scroll when menu open
     }
 }
+
 .body-container {
     position: relative;
     overflow-x: hidden;
