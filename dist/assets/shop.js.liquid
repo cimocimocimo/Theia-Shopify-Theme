@@ -38,7 +38,7 @@ timber.cache = {
     // homepage
     homepage: {
         $body: $('body.template-index'),
-        $heroScroller: $('#homepage-hero-scroller'),
+        $splashScroller: $('#homepage-splash-scroller'),
         $hero: $('#homepage-hero'),
         $splash: $('#homepage-splash')
     },
@@ -95,8 +95,7 @@ timber.homepageInit = function(){
         return;
     }
 
-    timber.homepageHero();
-    // timber.homepageSplash();
+    timber.homepageSplash();
 };
 
 timber.homepageSplash = function(){
@@ -106,35 +105,20 @@ timber.homepageSplash = function(){
     scroll.click(function(e){
         e.preventDefault();
         
-        $('#body-container').animate({
-            scrollTop: splash.outerHeight()
-        }, 600, 'swing');
+        $splash.addClass('js-splash-hidden');
     });
 
-    splash.addClass('loading');
-    timber.loader.show(hero[0]);
-
-    $(window).load(function(){
-        splash.removeClass('loading');
-        scroll.addClass('out');
-        scroll.removeClass('initial');
-        setTimeout(function(){
-            scroll.removeClass('out');
-        }, 600);
-    });
-};
-
-timber.homepageSplash = function(){
+    // when the user starts scrolling we want the feeling of a weighted 
     var $splash = timber.cache.homepage.$splash,
         $window = timber.cache.$window;
 
-        var threshold = -512;
-        var scrollDelta = 0; // this is the total of how much the user has scrolled so far
-
+    var threshold = -128;
+    var scrollDelta = 0; // this is the total of how much the user has scrolled so far
+    
     $window.on('mousewheel.homepage-splash', function(event) {
         // get the delta
         var deltaY = event.deltaY * event.deltaFactor;
-
+        
         scrollDelta = scrollDelta + deltaY;
 
         // scroll ceiling
@@ -142,43 +126,31 @@ timber.homepageSplash = function(){
             scrollDelta = 0;
         }
 
-        var opacity = 1 * ((threshold-scrollDelta)/threshold);
-
-        opacity = opacity > 0 ? opacity : 0;
-
-        console.log(opacity);
-
-        console.log($splash);
-        $splash.css('opacity', opacity);
-
         if (scrollDelta < threshold){
-            console.log('threshold exceeded');
-            $splash.hide();
-            $window.off('mousewheel.homepage-splash');
+            $splash.addClass('js-splash-hidden');
+        } else if ($('#body-container').scrollTop() === 0 && $splash.hasClass('js-splash-hidden')){
+            // if the user is at the top of the page and the splash is hidden we want to show it again
+            $splash.removeClass('js-splash-hidden');
         }
     });
+    
+    var splashDismiss = new Hammer($splash[0]);
+    splashDismiss.on('panup', function(ev) {
+        console.log(ev);
+        if (!$splash.hasClass('js-splash-hidden')){
+            $splash.addClass('js-splash-hidden');
+        }
+    });    
+    
+    var splashRestore = new Hammer($('body')[0]);
+    splashRestore.on('pandown', function(ev) {
+        console.log(ev);
+        if ($('#body-container').scrollTop() === 0 && $splash.hasClass('js-splash-hidden')){
+            $splash.removeClass('js-splash-hidden');
+        }
 
-
-    console.log(scrollDelta);
-    // set a scroll threshold for when to get rid of the spash
-
-
-
-    // on scroll down fade the spash and hide it
-
-
-        // once the threshold has been exceeded
-        // opacity of the splash should be zero
-        // set display none to the element
-        // this function should then exit.
-
-        // while (scrollDelta < threshold){
-        //     scrollDelta = scrollDelta - event.deltaY * event.deltaFactor;
-        // }
-
-        // console.log('threshold exceeded');
-
-
+    });    
+    
 };
 
 timber.switchClass = function( $el, c1, c2){
