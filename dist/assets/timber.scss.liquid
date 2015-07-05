@@ -4874,12 +4874,15 @@ address {
 .header-container {
     @include transition(all 0.3s);
 
-    position: fixed;
     z-index: $zindexNavigation;
-    top: 0;
-    left: 0;
-    width: 100%;
-
+    
+    &.headroom {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+    
     &.headroom--pinned {
         @include transform(translateY(0%));
         opacity: 1;
@@ -5699,11 +5702,13 @@ html.full-viewport {
    
     background: url({{ 'homepage-splash-bg.jpg' | asset_url }}) center center no-repeat;
     background-size: cover;
-    position: fixed;
+    
+    // position: fixed;
+    position: relative;
     z-index: 13000;
-    top: 0;
-    left: 0;
-    width: 100%;
+    /* top: 0; */
+    /* left: 0; */
+    /* width: 100%; */
     
     .eye-level-wide {
         position: absolute;
@@ -9811,10 +9816,11 @@ $opacity-not-active: .25;
     }
 }
 
-.body-container {
+// only add this padding for the interior pages
+.layout-theme .body-container {
     position: relative;
     overflow-x: hidden;
-
+    
     // add padding to get the page content right
     @include at-query($max, $preLarge){
         padding-top: 44px;
@@ -9824,6 +9830,20 @@ $opacity-not-active: .25;
         padding-top: 85px;
     }
 }
+
+.js-header-waypoint {
+    &.js-headroom-active {
+        // add padding to get the page content right
+        @include at-query($max, $preLarge){
+            padding-top: 44px;
+        }
+
+        @include at-query($min, $large){
+            padding-top: 85px;
+        }
+    }
+}
+
 
 /* end required styles */
 

@@ -40,7 +40,10 @@ timber.cache = {
         $body: $('body.template-index'),
         $splashScroller: $('#homepage-splash-scroller'),
         $hero: $('#homepage-hero'),
-        $splash: $('#homepage-splash')
+        $splash: $('#homepage-splash'),
+        $headerWaypoint: $('.js-header-waypoint'),
+        $headerContainer: $('#header-container'),
+        $scrollBody: $('#main-content')
     },
 
     headerSubNav: {
@@ -70,7 +73,7 @@ timber.init = function () {
     timber.homepageInit();
     timber.headerSubNav();
     timber.contactForm();
-
+    
     // initialize smooth scroll
     smoothScroll.init();
 };
@@ -94,8 +97,48 @@ timber.homepageInit = function(){
     if (timber.cache.homepage.$body.length === 0){
         return;
     }
-
+    
     timber.homepageSplash();
+    timber.homepageHeader();
+};
+
+timber.homepageHeader = function(){
+    // on the home page we want to activate headroom.js when
+    // scrolling up and the header hits the top of the screen.
+    // then deactivate it at the same point on scroll down.
+    // this allows the header to sit below the homepage splash but still
+    // use headroom.js for showing hiding in the main body of the
+    // page.
+    
+    var $container = timber.cache.homepage.$headerContainer, // headroom.js is applied to this element
+        $waypoint = timber.cache.homepage.$headerWaypoint,
+        // used as the context/scroller element for waypoints and headroom, needed to get around the full-viewport
+        // css hacks used.
+        $scrollBody = timber.cache.homepage.$scrollBody,
+        headroomInstance = {}; // closure to hold the headroom instance between waypoint handler calls
+    
+    // create the waypoint for the header
+    var headerWaypoint = $waypoint.waypoint({
+         // context: $scrollBody[0],
+        handler: function(direction){
+            console.log(direction);
+            
+            if (direction === 'down'){
+                headroomInstance = new Headroom($container[0]);
+                headroomInstance.init();
+                $waypoint.addClass('js-headroom-active');
+            } else {
+                headroomInstance.destroy();
+                $waypoint.removeClass('js-headroom-active');
+            }
+        },
+        offset: function(){
+            return - $(this.element).height();
+        }
+
+    });
+
+    console.log(headerWaypoint);
 };
 
 timber.homepageSplash = function(){
@@ -105,52 +148,8 @@ timber.homepageSplash = function(){
     scroll.click(function(e){
         e.preventDefault();
         
-        $splash.addClass('js-splash-hidden');
+        // $splash.addClass('js-splash-hidden');
     });
-
-    // when the user starts scrolling we want the feeling of a weighted 
-    var $splash = timber.cache.homepage.$splash,
-        $window = timber.cache.$window;
-
-    var threshold = -128;
-    var scrollDelta = 0; // this is the total of how much the user has scrolled so far
-    
-    $window.on('mousewheel.homepage-splash', function(event) {
-        // get the delta
-        var deltaY = event.deltaY * event.deltaFactor;
-        
-        scrollDelta = scrollDelta + deltaY;
-
-        // scroll ceiling
-        if (scrollDelta > 0){
-            scrollDelta = 0;
-        }
-
-        if (scrollDelta < threshold){
-            $splash.addClass('js-splash-hidden');
-        } else if ($('#body-container').scrollTop() === 0 && $splash.hasClass('js-splash-hidden')){
-            // if the user is at the top of the page and the splash is hidden we want to show it again
-            $splash.removeClass('js-splash-hidden');
-        }
-    });
-    
-    var splashDismiss = new Hammer($splash[0]);
-    splashDismiss.on('panup', function(ev) {
-        console.log(ev);
-        if (!$splash.hasClass('js-splash-hidden')){
-            $splash.addClass('js-splash-hidden');
-        }
-    });    
-    
-    var splashRestore = new Hammer($('body')[0]);
-    splashRestore.on('pandown', function(ev) {
-        console.log(ev);
-        if ($('#body-container').scrollTop() === 0 && $splash.hasClass('js-splash-hidden')){
-            $splash.removeClass('js-splash-hidden');
-        }
-
-    });    
-    
 };
 
 timber.switchClass = function( $el, c1, c2){
