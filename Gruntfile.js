@@ -19,8 +19,8 @@ module.exports = function(grunt) {
             options: {
                 api_key: private.shopify.api_key,
                 password: private.shopify.password,
-                url: "theia.myshopify.com",
-                base: "dist/"
+                url: "theia2.myshopify.com",
+                base: "dist"
             }
         },
         watch: {

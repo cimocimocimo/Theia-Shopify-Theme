@@ -7,12 +7,18 @@ JS Plugins
 {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
 {{ 'handlebars.min.js' | asset_url | script_tag }}
 {{ 'jquery.loupe.min.js' | asset_url | script_tag }}
+{{ 'jquery.elevatezoom.js' | asset_url | script_tag }}
 {{ 'smooth-scroll.js' | asset_url | script_tag }}
 {{ 'jquery.leanModal.min.js' | asset_url | script_tag }}
 {{ 'headroom.min.js' | asset_url | script_tag }}
 {{ 'jQuery.headroom.min.js' | asset_url | script_tag }}
 {{ 'jquery.cookie-1.4.1.min.js' | asset_url | script_tag }}
+{{ 'jquery.waypoints.min.js' | asset_url | script_tag }}
+{{ 'vex.combined.min.js' | asset_url | script_tag }}
 
+
+<script>vex.defaultOptions.className = 'vex-theme-os';
+</script>
 {% comment %}
 An (almost) empty JS file for you to place your code
 {% endcomment %}
@@ -137,8 +143,8 @@ Ajaxify Cart Documentation:
           // BEGIN SWATCHES
           /* if (variant) {
              var form = jQuery('#' + selector.domIdPrefix).closest('form'),
-             length = variant.options.length, 
-             radioButton, 
+             length = variant.options.length,
+             radioButton,
              radioSelector;
 
              for (var i = 0; i < length; i++) {
@@ -191,13 +197,36 @@ Ajaxify Cart Documentation:
           {% if option == 'Size' %}
           var colorOptionIndex =  {{ forloop.index0 }};
           $('.selector-wrapper:eq(' + colorOptionIndex + ')').append('<a href="#dress-sizing-modal-content" id="dress-sizes-link" class="js-open-modal dress-sizing-link">Size Chart</a>');
-          $('.js-open-modal').leanModal({closeButton: '.modal-close-link'});
+          // old modal
+          //$('.js-open-modal').leanModal({closeButton: '.modal-close-link'});
+
+          $('#dress-sizes-link').click(function() {
+            vex.dialog.open({
+                // default is no close button
+                showCloseButton: true,
+                escapeButtonCloses: true,
+                // default is two buttons, we don't want that.
+                buttons: [],
+                // you need the padding at the top else your close button infringes on the content.
+                contentCSS: { width: '600px', border : 'none', 'padding-top' : '30px' },
+                // dump the table into the modal
+                message: $('#modal-content-dress-size').html(),
+                callback: function(value) {
+                  // do nothing, just close
+                }
+              });
+          })
           {% endif %}
           {% endfor %}
       });
 
       // Initialize image zoom on the product page.
-      $('#productPhotoImg').loupe();
+      //$('#productPhotoImg').loupe();
+
+
+      $('#productPhotoImg').elevateZoom({ zoomType : "inner"});
+
+
 
   </script>
 

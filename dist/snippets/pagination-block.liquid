@@ -42,10 +42,8 @@
   {% endfor %}
 
   {% if paginate.next %}
-    <li><a href="{{ paginate.next.url }}" title="{{ paginate.next.title }}">Next</a></li>
+    <li class='more'><a href="{{ paginate.next.url }}" title="{{ paginate.next.title }}">Next</a></li>
   {% else %}
     <li class="disabled"><span>Next</span></li>
   {% endif %}
-</ul>    
-
-
+</ul>

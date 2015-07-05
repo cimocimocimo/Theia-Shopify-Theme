@@ -44,7 +44,7 @@ For more information on these Scheme.org tags, visit:
     <div id="productInfoBlock" class="product-info-block" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 
       <div class="breadcrumb-row">
-        
+
         {% include 'breadcrumb' %}
 
       </div>
@@ -65,7 +65,7 @@ For more information on these Scheme.org tags, visit:
                 Style #: {{ style_number }}
               </div>
             {% endif %}
-            
+
           </div>
 
           <div id="productPurchaseBlock" class="product-purchase-block">
@@ -188,7 +188,7 @@ For more information on these Scheme.org tags, visit:
               </span><span class="icon up"></span>
             </a>
           </div>
-          
+
         </div>
       </div>
     </div>
@@ -196,8 +196,8 @@ For more information on these Scheme.org tags, visit:
     <div class="product-gallery-block">
 
       <div class="product-gallery-image-block" id="productPhoto">
-        
-        <img src="{{ product.featured_image.src | product_img_url: 'master' }}" alt="{{ product.featured_image.alt | escape }}" id="productPhotoImg">
+
+        <img src="{{ product.featured_image.src | product_img_url: 'master' }}" alt="{{ product.featured_image.alt | escape }}" id="productPhotoImg" data-zoom-image="{{ product.featured_image.src | product_img_url: 'master' }}" >
 
       </div>
 
@@ -234,7 +234,7 @@ in the URL, we can show next/previous links to other products in the collection.
   <div class="related-products-hero">
 
     <div class="wrapper">
-      
+
       <h2>Other styles you might like:</h2>
 
       <div class="carousel-block">
@@ -280,7 +280,7 @@ in the URL, we can show next/previous links to other products in the collection.
       </div>
 
     </div>
-    
+
   </div>
 
   <hr class="hr-4-col" />
@@ -302,7 +302,7 @@ in the URL, we can show next/previous links to other products in the collection.
 </div>
 
 <div id="dress-sizing-modal-content" class="modal hidden">
-  <div class="modal-content-block">
+  <div class="modal-content-block" id="modal-content-dress-size">
 
     {{ pages['dress-sizes'].content }}
 

@@ -62,12 +62,17 @@ timber.init = function () {
     timber.productDescriptionBlock();
     timber.loader.init();
     timber.homepageHero();
-    timber.headerSubNav();
+  //  timber.headerSubNav();
     timber.contactForm();
 
     // initialize smooth scroll
     smoothScroll.init();
+
+    timber.infiniteScroll();
+
 };
+
+
 
 timber.contactForm = function(){
     var styleNumber = timber.getUrlVars()['style_number'];
@@ -89,7 +94,7 @@ timber.homepageHero = function(){
 
     scroll.click(function(e){
         e.preventDefault();
-        
+
         var height = hero.outerHeight();
         $('#body-container').animate({scrollTop: height}, 600, 'swing');
     });
@@ -383,6 +388,49 @@ timber.loginFormInit = function(){
     {% endif %}
 };
 
+
+timber.infiniteScroll = function() {
+  // add a way point to the last item currently shown on the page.
+  $('.last-item').last().waypoint(function() {
+
+    var waypoint = this;
+    // you're at the end of the page, stop assigning waypoints.
+    if (typeof $('#end')[0] != 'undefined') {
+      waypoint.disable();
+      return;
+    }
+
+    var loadingImage;
+    pInfScrNode = $('.more').last();
+    pInfScrURL = $('.more a').last().attr("href");
+
+    $.ajax({
+        type: 'GET',
+        url: pInfScrURL,
+        beforeSend: function() {
+          loadingImage = pInfScrNode.clone().empty().append('<img src=\"http://cdn.shopify.com/s/files/1/0068/2162/assets/loading.gif?105791\" />');
+          loadingImage.insertAfter(pInfScrNode);
+          pInfScrNode.hide();
+        },
+        success: function(data) {
+          // remove loading feedback
+          pInfScrNode.next().remove();
+          var filteredData = $(data).find("#collection-matrix");
+          filteredData.insertBefore( $("#product-list-foot") );
+          loadingImage.remove();
+          waypoint.disable();
+          // recursively call yourself to attach another waypoint to the last item we just received
+          timber.infiniteScroll();
+        },
+        dataType: "html"
+      });
+
+  //  console.log('You have scrolled to my waypoint.');
+}, {
+  offset: 'bottom-in-view'
+});
+};
+
 timber.carouselInit = function () {
     $('.carousel').slick({
         dots: true,
@@ -486,7 +534,9 @@ timber.productImageSwitch = function () {
         timber.cache.productPage.$mainImage.attr({ src: timber.cache.productPage.$newImage });
 
         // change the loupe image
-        $('.loupe img').attr({ src: timber.cache.productPage.$newImage });
+        //$('.loupe img').attr({ src: timber.cache.productPage.$newImage });
+        // change the background image in the zoom window
+        $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
     });
 };
 
