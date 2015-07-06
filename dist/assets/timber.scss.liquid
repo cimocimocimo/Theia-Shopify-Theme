@@ -9817,17 +9817,19 @@ $opacity-not-active: .25;
 }
 
 // only add this padding for the interior pages
-.layout-theme .body-container {
+.body-container {
     position: relative;
     overflow-x: hidden;
     
-    // add padding to get the page content right
-    @include at-query($max, $preLarge){
-        padding-top: 44px;
-    }
+    .layout-theme & {
+        // add padding to get the page content right
+        @include at-query($max, $preLarge){
+            padding-top: 44px;
+        }
 
-    @include at-query($min, $large){
-        padding-top: 85px;
+        @include at-query($min, $large){
+            padding-top: 85px;
+        }
     }
 }
 
