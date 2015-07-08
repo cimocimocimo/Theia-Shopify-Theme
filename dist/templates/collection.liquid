@@ -6,47 +6,46 @@ For more information on collection tags:
 {% endcomment %}
 
 {% if collection.metafields.collection.type == 'exclusive' %}
-{% assign is_exclusive = true %}
+  {% assign is_exclusive = true %}
 {% endif %}
 
 <style>
-{% if collection.metafields.other_images.desktop_hero != blank %}
-{% assign other_images = collection.metafields.other_images %}
+    {% if collection.metafields.other_images.desktop_hero != blank %}
+    {% assign other_images = collection.metafields.other_images %}
 
-.collection-page-hero {
-  background-image: url('{{ other_images.desktop_hero }}');
-}
+    .collection-page-hero {
+        background-image: url('{{ other_images.desktop_hero }}');
+    }
 
-@media screen and (min-width: 481px) and (max-width: 1024px){
-  .collection-page-hero {
-    background-image: url('{{ other_images.tablet_hero }}');
-  }
-}
+    @media screen and (min-width: 481px) and (max-width: 1024px){
+        .collection-page-hero {
+            background-image: url('{{ other_images.tablet_hero }}');
+        }
+    }
 
-@media screen and (max-width: 480px){
-  .collection-page-hero {
-    background-image: url('{{ other_images.mobile_hero }}');
-  }
-}
-{% endif %}
-{% if collection.metafields.hero.headingColor != blank %}
-.collection-page-hero h2 {
-  color: {{ collection.metafields.hero.headingColor }};
-}
-{% endif %}
+    @media screen and (max-width: 480px){
+        .collection-page-hero {
+            background-image: url('{{ other_images.mobile_hero }}');
+        }
+    }
+    {% endif %}
+    {% if collection.metafields.hero.headingColor != blank %}
+    .collection-page-hero h2 {
+        color: {{ collection.metafields.hero.headingColor }};
+    }
+    {% endif %}
 
-{% if collection.metafields.hero.hideHeading == 'true' %}
-.collection-page-hero .content {
-  display: none;
-}
-{% endif %}
+    {% if collection.metafields.hero.hideHeading == 'true' %}
+    .collection-page-hero .content {
+        display: none;
+    }
+    {% endif %}
 
-{% if collection.metafields.hero.centerBackground == 'true' %}
-.collection-page-hero {
-  background-position: top center !important;
-}
-{% endif %}
-
+    {% if collection.metafields.hero.centerBackground == 'true' %}
+    .collection-page-hero {
+        background-position: top center !important;
+    }
+    {% endif %}
 </style>
 
 
@@ -65,15 +64,8 @@ For more information on collection tags:
     </div>
     <div class="logo">
 
-      {% comment %}
-      <div class="usa-today-logo">
-      {{ 'usa-today-logo.svg' | asset_url | img_tag }}
-      {{ 'usa-today-logo.png' | asset_url | img_tag }}
     </div>
-    {% endcomment %}
-
   </div>
-</div>
 </div>
 
 <div class="page-header">
@@ -105,55 +97,47 @@ For more information on collection tags:
     {% endcomment %}
 
     <div id="collection-matrix">
-    {% for product in collection.products %}
+      {% for product in collection.products %}
 
-    {% if forloop.last == true %}
-      {% assign lastClass = true %}
+        {% if forloop.last == true %}
+          {% assign lastClass = true %}
 
-      {% else %}
-      {% assign lastClass = false %}
+        {% else %}
+          {% assign lastClass = false %}
 
-    {% endif %}
+        {% endif %}
 
-
-    {% include 'product-grid-item' %}
+        {% include 'product-grid-item' %}
 
     {% else %}
 
-    <div class="grid-item">
-      <p>Sorry, there are no products matching your search.</p>
-    </div>
+        <div class="grid-item">
+          <p>Sorry, there are no products matching your search.</p>
+        </div>
 
+      {% endfor %}
 
-    {% endfor %}
-
-
-    {% if paginate.next %}
-    <ul>
-      {% comment %}
-      li more class is used by infinite scroll to grab the url of next dresses
-      {% endcomment %}
-     <li class="more">&darr; <a href="{{ paginate.next.url }}">More</a></li>
-   </ul>
-     {% else %}
-     <div style="padding: 0;">
-       <ul class="pagination-block">
-         <li class="top"><a href="#collectiontop">Back to Top</a> &uarr;</li>
-         <li id="end" style="display: none"></li>
-      </ul>
- </div>
-    {% endif %}
+      {% if paginate.next %}
+        <ul>
+          {% comment %}
+          li more class is used by infinite scroll to grab the url of next dresses
+          {% endcomment %}
+          <li class="more">&darr; <a href="{{ paginate.next.url }}">More</a></li>
+        </ul>
+      {% else %}
+        <div class="back-to-top-block">
+          <a data-scroll class="back-to-top-link" href="#collectiontop">Back to Top</a>
+        </div>
+        <div id="end"></div>
+      {% endif %}
 
     </div>
 
-    <!-- {% if paginate.pages > 1 %}
-    {% include 'pagination-block' %}
-    {% endif %} -->
+
 
     <div id="product-list-foot"></div>
 
     {% endpaginate %}
-
 
   </div>
 </div>
@@ -167,7 +151,7 @@ For more information on collection tags:
 
     {% for collection in collections limit:4 %}
 
-    {% include 'collection-grid-item' %}
+      {% include 'collection-grid-item' %}
 
     {% endfor %}
 
@@ -176,16 +160,17 @@ For more information on collection tags:
 
 <hr class="hr-4-col" />
 
-<div class="newsletter-signup-hero">
+<div class="social-link-newsletter-hero">
+  <div class="social-link-newsletter-column">
 
-  <h2>Keep in touch:</h2>
+    <h2>Keep in touch</h2>
 
-  {% include 'newsletter-signup-block' %}
+    {% include 'social-link-block' %}
 
-</div>
+  </div>
+  <div class="social-link-newsletter-column">
 
-<div class="social-link-hero">
+    {% include 'newsletter-signup-block' %}
 
-  {% include 'social-link-block' %}
-
+  </div>
 </div>

@@ -3017,6 +3017,10 @@ $iconSelector: '[class^="icon-"], [class*=" icon-"]';
     content: "\e618";
 }
 
+.icon-arrow-up-suffix:after {
+    content: "\e618";
+}
+
 .icon-arrow-right:before {
     content: "\e619";
 }
@@ -3272,7 +3276,26 @@ $smallSocialIconRatio: (2.66/3.375);
     }
 }
 
+.back-to-top-block {
+    text-align: center;
+    margin: $gutter * 4 0;
+}
 
+.back-to-top-link {
+    @extend %gray-hover-gold-link;
+    @extend %small-mid-arial-text;
+    @extend %icon-suffix-base;
+    @extend .icon-arrow-up-suffix;
+
+    display: inline-block;
+    height: 40px;
+    width: 192px;
+    border-top: 1px solid $borderColor;
+    border-bottom: 1px solid $borderColor;
+    text-transform: uppercase;
+    line-height: 38px;
+    font-weight: 700;
+}
 
 /*============================================================================
   #Site Header
