@@ -22,17 +22,32 @@
 
     {% include 'mobile-side-nav' %}
 
-    <div id="header-container" class="header-container">
-
-      {% include 'header' %}
-
-    </div>
-
     <div id="body-container" class="body-container">
 
-      <div id="homepage-hero" class="full-viewport homepage-hero">
-        <div class="image"></div>
-        <a href="#main-content" id="homepage-hero-scroller" class="scroll initial"></a>
+      <div id="homepage-splash" class="homepage-splash full-viewport">
+
+        <div class="eye-level-wide">
+          <div class="inner">
+            <div class="logo"></div>
+          </div>
+        </div>
+
+        <div class="eye-level-narrow">
+          <div class="inner">
+            <div class="inner-2">
+              <div class="logo"></div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#header-waypoint" id="homepage-splash-scroller" class="scroll-button-disc"></a>
+
+      </div>
+
+      <div id="header-waypoint" class="js-header-waypoint"></div>
+
+      <div id="header-container" class="header-container">
+        {% include 'header' %}
       </div>
 
       <main id="main-content" class="main-content" role="main">
@@ -49,9 +64,12 @@
 
     <script>
         $(function(){
-            $('#header-container').headroom({
-                scroller: document.getElementsByClassName('body-container')[0]
-            });
+            // debug
+            /* return;
+
+               $('#header-container').headroom({
+               scroller: document.getElementsByClassName('body-container')[0]
+               }); */
         });
     </script>
 

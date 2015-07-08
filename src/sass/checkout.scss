@@ -1,0 +1,2538 @@
+/*============================================================================
+  #Breakpoint and Grid Variables (from timber.scss.liquid)
+==============================================================================*/
+$viewportIncrement: 1px;
+
+$small: 480px;
+$medium: 768px;
+$large: 769px;
+
+$postSmall: $small + $viewportIncrement;
+$preMedium: $medium - $viewportIncrement;
+$preLarge: $large - $viewportIncrement;
+
+/*============================================================================
+  #Breakpoint and Grid Variables
+  ==============================================================================*/
+$viewportIncrement: 1px;
+
+$small: 480px;
+$medium: 768px;
+$large: 769px;
+
+$postSmall: $small + $viewportIncrement;
+$preMedium: $medium - $viewportIncrement;
+$preLarge: $large - $viewportIncrement;
+
+/*================ The following are dependencies of csswizardry grid ================*/
+$breakpoints: (
+    'small' '(max-width: #{$small})',
+    'medium' '(min-width: #{$postSmall}) and (max-width: #{$medium})',
+    'medium-down' '(max-width: #{$medium})',
+    'large' '(min-width: #{$large})'
+);
+$breakpoint-has-widths: ('small', 'medium', 'medium-down', 'large');
+$breakpoint-has-push:  ('medium', 'medium-down', 'large');
+$breakpoint-has-pull:  ('medium', 'medium-down', 'large');
+
+/*============================================================================
+  #General Variables
+  ==============================================================================*/
+
+
+// Font Stacks
+$helveticaFontStack: "HelveticaNeueLT", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$arialFontStack: Arial, sans-serif;
+
+// Header Font
+$headerFontStack: $helveticaFontStack;
+$headerFontWeight: 100;
+
+// Body Font
+$bodyFontStack: $helveticaFontStack;
+$baseFontSize: 100%; // Henseforth known as 1em (assumed at 16px)e
+
+// Icon font
+$socialIconFontStack: 'theia-icons';
+
+
+
+// Theia Colors
+$colorOffWhite: #fefefe;
+
+$colorPaleGray: #fafafa;
+$colorLightestGray: #f2f2f2;
+$colorLighterGray: #e5e5e5;
+$colorLightGray: #d8d8d8;
+$colorMidGray: #bcbbbb;
+$colorGray: #8d8d8d;
+$colorDarkGray: #616161;
+$colorDarkerGray: #2f2f2f;
+
+$colorWarmLighterGray: #f9f8f8;
+$colorWarmLightGray: #a5a2a4;
+$colorWarmGray: #797778;
+$colorWarmGrayDark: #4d4c4c;
+
+$colorLighterGold: #ddc28a;
+$colorLightGold: #c8a45a;
+$colorGold: #c19946;
+$colorDarkGold: #a98741;
+$colorDarkerGold: #896e35;
+
+$colorGreen: #29c050;
+
+/*============================================================================
+  Ajaxify Colours
+==============================================================================*/
+$ajaxifyGrey: #444;
+$ajaxifyGreyDark: #454545;
+
+/* Border colors from Timber */
+$borderColor: $colorLightGray;
+
+$drawerBackgroundColor: $colorWarmLighterGray;
+$drawerBorderColor: #454545;
+
+$modalBackgroundColor: #fff;
+$modalBorderColor: $borderColor;
+
+
+// Timber Colors
+/* $colorPrimary: {{ settings.color_primary }}; */
+/* $colorSecondary: {{ settings.color_secondary }}; */
+
+// 
+$colorPrimary: $colorWarmGrayDark;
+$colorSecondary: $colorGold;
+
+
+// Button colors
+$colorBtnPrimary: $colorPrimary;
+$colorBtnPrimaryHover: darken($colorBtnPrimary, 10%);
+$colorBtnPrimaryActive: darken($colorBtnPrimaryHover, 10%);
+
+$colorBtnSecondary: $colorSecondary;
+$colorBtnSecondaryHover: darken($colorBtnSecondary, 10%);
+$colorBtnSecondaryActive: darken($colorBtnSecondaryHover, 10%);
+
+// Text link colors
+$colorLink: $colorPrimary;
+$colorLinkHover: #333;
+
+// Text colors
+$colorBody: #fff;
+/* $colorTextBody: {{ settings.color_body_text }}; */
+$colorTextBody: $colorWarmGray;
+$colorHeaders: $colorWarmGray;
+
+// Nav and dropdown link background
+$colorNav: #f2f2f2;
+$colorNavText: #333;
+
+// Helper colors
+$disabledGrey: #f6f6f6;
+$disabledBorder: darken($disabledGrey, 25%);
+$errorRed: #dc0000;
+$errorRedBg: lighten($errorRed, 55%);
+$successGreen: #0a942a;
+
+// Width variables
+$siteWidth14col: 1344px;
+$siteWidth: 1152px; // 12 col width standard
+$siteWidth10Col: 960px;
+$siteWidth9Col: 864px;
+$siteWidth8Col: 768px;
+$gutter: 16px;
+$gridGutter: 32px; // can be a %, but nested grids will have smaller margins because of it
+
+// Radius
+$radius: 3px;
+
+
+
+
+/*============================================================================
+  #Sass Mixins
+  ==============================================================================*/
+@mixin clearfix() {
+    &:after, &:before {
+        content: "";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+.clearfix {
+    @include clearfix();
+}
+
+@mixin overflowEllipsis() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin prefix($property, $value) {
+    -webkit-#{$property}: #{$value};
+    -moz-#{$property}: #{$value};
+    -ms-#{$property}: #{$value};
+    -o-#{$property}: #{$value};
+    #{$property}: #{$value};
+}
+
+@mixin keyframes-prefix($animation-name) {
+    @-webkit-keyframes $animation-name {
+        @content;
+    }
+    @-moz-keyframes $animation-name {
+        @content;
+    }
+    @-o-keyframes $animation-name {
+        @content;
+    }
+    @keyframes $animation-name {
+        @content;
+    }
+}
+
+@mixin rotateX($t) {
+  -webkit-transform: rotateX($t);
+  -moz-transform: rotateX($t);
+  -o-transform: rotateX($t);
+  -ms-transform: rotateX($t);
+  transform: rotateX($t);
+}
+
+@mixin perspective ($p) {
+  -webkit-perspective: $p;
+  -moz-perspective: $p;
+  -o-perspective: $p;
+  perspective: $p;
+}
+
+@mixin backface($visibility: hidden) {
+  -moz-backface-visibility: $visibility;
+  -webkit-backface-visibility: $visibility;
+  -o-backface-visibility: $visibility;
+  backface-visibility: $visibility;
+}
+
+@mixin transform($transform) {
+    @include prefix('transform', #{$transform});
+}
+
+@mixin transition($transition: 0.1s all) {
+    @include prefix('transition', #{$transition});
+}
+
+@mixin gradient($dir, $from, $to, $fallback: transparent) {
+    /* **todo** - finish this cross browser mixin. */
+
+    /* variables in sass are scoped to blocks, need to initialize them here. */
+    $dirFrom: top;
+    $dirTo: bottom;
+
+    @if $dir == ltr {
+        $dirFrom: left;
+        $dirTo: right;
+    } @else if $dir == rtl {
+        $dirFrom: right;
+        $dirTo: left;
+    }
+
+    background: $fallback;
+    /* background: -moz-linear-gradient(top, $from 0%, $to 100%); */
+    /* background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$from), color-stop(100%,$to)); */
+    /* background: -webkit-linear-gradient(top, $from 0%, $to 100%); */
+    /* background: -o-linear-gradient(top, $from 0%, $to 100%); */
+    /* background: -ms-linear-gradient(top, $from 0%, $to 100%); */
+    background: linear-gradient(to $dirTo, $from 0%, $to 100%);
+}
+
+
+@mixin backface($visibility: hidden) {
+    @include prefix('backface-visibility', #{$visibility});
+}
+
+@mixin box-sizing($box-sizing: border-box) {
+    -webkit-box-sizing: #{$box-sizing};
+    -moz-box-sizing: #{$box-sizing};
+    box-sizing: #{$box-sizing};
+}
+
+@function color-control($color) {
+    @if (lightness( $color ) > 40) {
+        @return #000;
+    }
+    @else {
+        @return #fff;
+    }
+}
+
+@mixin transform-origin($origin) {
+  -webkit-transform-origin: $origin;
+  -moz-transform-origin: $origin;
+  -o-transform-origin: $origin;
+  -ms-transform-origin: $origin;
+  transform-origin: $origin;
+}
+
+@mixin transform-style($style: preserve-3d) {
+  -moz-transform-style: $style;
+  -webkit-transform-style: $style;
+  -o-transform-style: $style;
+  transform-style: $style;
+}
+
+@mixin box-shadow($shadow) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+/* Vertical Centering Mixin - now 100% table free!
+   http://css-tricks.com/centering-in-the-unknown/ */
+@mixin verticalCenterChildElements() {
+    font-size: 0; /* set to remove the spacing from the :before element */
+
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    > * {
+        font-size: 16px; /* ratchet up the font-size to the default base hight; */
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+/* http://stackoverflow.com/questions/17181849/placeholder-mixin-scss-css */
+@mixin placeholder() {
+    &::-webkit-input-placeholder {
+        @content
+    }
+
+    &:-moz-placeholder {
+        @content
+    }
+
+    &::-moz-placeholder {
+        @content
+    }
+
+    &:-ms-input-placeholder {
+        @content
+    }
+}
+
+
+/*============================================================================
+  Dependency-free breakpoint mixin
+  - http://blog.grayghostvisuals.com/sass/sass-media-query-mixin/
+  ==============================================================================*/
+$min: min-width;
+$max: max-width;
+@mixin at-query ($constraint, $viewport1, $viewport2:null) {
+    @if $constraint == $min {
+        @media screen and ($min: $viewport1) {
+            @content;
+        }
+    } @else if $constraint == $max {
+        @media screen and ($max: $viewport1) {
+            @content;
+        }
+    } @else {
+        @media screen and ($min: $viewport1) and ($max: $viewport2) {
+            @content;
+        }
+    }
+}
+
+
+/*============================================================================
+  #Forms
+  ==============================================================================*/
+form {
+    margin-bottom: $gutter;
+}
+
+button,
+input[type="text"],
+input[type="search"],
+input[type="password"],
+input[type="email"],
+input[type="file"],
+input[type="number"],
+input[type="tel"],
+input[type="submit"],
+select,
+textarea {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+input,
+textarea,
+select,
+fieldset {
+    max-width: 100%;
+
+    &.input-full {
+        width: 100%;
+    }
+}
+
+input,
+select,
+textarea {
+    @include prefix( 'border-radius', 0 ); /* resets the user agent border radius in webkit*/
+}
+
+fieldset {
+    padding: $gutter/2 0;
+}
+
+input {
+    display: inline-block;
+    width: auto;
+}
+
+button,
+input[type="submit"] {
+    cursor: pointer;
+}
+
+input[type="submit"] {
+    @extend .btn;
+}
+
+/*================ Input width  ================*/
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="file"],
+input[type="number"],
+input[type="tel"],
+textarea,
+select {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    margin-bottom: 22px;
+    border: 1px solid $colorWarmLightGray;
+    background-color: $colorPaleGray;
+    padding: ( $gutter / 2 ) $gutter;
+    line-height: 1.625;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+ 
+    &:focus {
+
+    }
+
+    &[disabled],
+    &.disabled {
+        cursor: default;
+        background-color: $disabledGrey;
+        border-color: $disabledBorder;
+    }
+}
+
+input.half {
+    width: 49%;
+    margin-right: 2%;
+    float: left;
+
+    & + input.half {
+        margin-right: 0;
+    }
+}
+
+
+textarea {
+    min-height: 100px;
+}
+
+/* custom checkboxs and radios */
+
+input[type="checkbox"],
+input[type="radio"] {
+    display: inline;
+    margin: 0;
+
+    /* position labels following to be inline */
+    & + label {
+        display: inline-block;
+        font-size: 16px;
+        text-transform: none;
+        font-family: $helveticaFontStack;
+        color: $colorWarmGray;
+    }
+}
+
+%checkbox-radio-icon {
+    /* hide custom checkbox styles from browers that do not support css3 psuedo classes */
+    /* http://code.stephenmorley.org/html-and-css/hiding-rules-with-the-negation-pseudo-class/ */
+    &:not(old) {
+        display: none;
+
+        /* http://code.stephenmorley.org/html-and-css/styling-checkboxes-and-radio-buttons/ */
+        & + label {
+            @extend %icon-base;
+            @extend .icon-box-unchecked;
+
+            /* ensure correct positioning of the icon, if the block is center aligned. */
+            text-align: left;
+
+            &:before {
+                display: inline-block !important;
+                width: 18px;
+                font-size: 16px;
+                color: $colorGold;
+                position: relative;
+                top: 1px;
+            }
+        }
+
+        &:checked + label {
+            @extend .icon-box-checked;
+
+            color: $colorGold;
+        }
+    }
+}
+
+/* fabric/color swatch radio block */
+%checkbox-radio-swatch {
+    &:not(old) {
+        display: none;
+
+        & + label {
+            margin: 0;
+            height: 32px;
+            width: 32px;
+        }
+
+        &:not(:checked) + label {
+            border: 3px solid white;
+        }
+
+        &:checked + label {
+            @extend %darkGray-outline-block-medium;
+        }
+    }
+}
+
+.swatch {
+    @extend .clearfix;
+
+    $height: 32px;
+
+    padding: 0;
+    height: $height;
+
+    legend {
+        display: block;
+        margin: 0;
+        line-height: $height;
+    }
+
+    .swatch-element {
+        width: 32px;
+        margin: 0 2px 0 0;
+        background: pink;
+    }
+
+    .swatch-element, legend {
+        float: left;
+        height: 100%;
+    }
+
+    .tooltip {
+        display: none;
+    }
+
+    img {
+        display: block;
+    }
+
+    input[type="radio"], input[type="checkbox"] {
+        @extend %checkbox-radio-swatch;
+    }
+}
+
+
+.contact-form {
+    .message {
+        height: 325px;
+    }
+
+    .newsletter-signup-row,
+    .submit-button-row {
+        margin: ( $gutter * 1.5 ) 0 ( $gutter * 1.75 );
+        text-align: center;
+
+        label {
+            margin: 0;
+        }
+    }
+
+    button {
+        @extend %medium-gold-rsaquo-button;
+        width: 288px;
+    }
+
+    input[type="radio"], input[type="checkbox"] {
+        @extend %checkbox-radio-icon;
+    }
+}
+
+.contact-form-title,
+.contact-form-sender-type {
+    @extend .clearfix;
+
+    label {
+        display: block;
+        float: left;
+    }
+}
+
+.contact-form-title {
+    label {
+        width: 25%;
+    }
+}
+
+.contact-form-sender-type {
+    label {
+        width: percentage(1/3);
+    }
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: {
+        image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNy4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNy43cHgiIGhlaWdodD0iNC4zcHgiIHZpZXdCb3g9IjAgMCA3LjcgNC4zIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA3LjcgNC4zIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxwYXRoIGZpbGw9IiM5OTk5OTkiIGQ9Ik03LjEsMC4xQzYuNywwLjUsMy45LDMuMiwzLjksMy4yUzEsMC41LDAuNiwwLjFTMCwwLjcsMCwwLjdsMy45LDMuNmwzLjgtMy42QzcuNywwLjcsNy41LTAuMyw3LjEsMC4xeiIvPg0KPC9zdmc+DQo="); // svg base64 encoded arrow
+        repeat: no-repeat;
+        position: right 10px center;
+        color: #fff;
+    }
+    padding-right: 28px;
+    text-indent: 0.01px;
+    text-overflow: '';
+
+    /*================ Hide the svg arrow in IE9 and below ================*/
+    .ie9 &,
+    .lt-ie9 & {
+        padding-right: 10px;
+        background-image: none;
+    }
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+/*================ Form labels ================*/
+label,
+legend {
+    @extend %smallish-arial-text;
+
+    display: block;
+    margin: ($gutter / 2 ) 0 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $colorWarmLightGray;
+    line-height: 1;
+
+    .meta {
+        font-weight: 400;
+    }
+
+    &.inline {
+        display: inline;
+    }
+
+    .form-horizontal &.hidden-label,
+    &.hidden-label {
+        height: 0;
+        width: 0;
+        margin-bottom: 0;
+        overflow: hidden;
+
+        .ie9 &,
+        .lt-ie9 & {
+            height: auto;
+            margin-bottom: 2px;
+            overflow: visible;
+        }
+    }
+}
+
+/*================ We don't want the same label treatment for checkboxes/radios ================*/
+input[type="checkbox"] + label,
+input[type="radio"] + label {
+    font-weight: normal;
+}
+
+label[for] {
+    cursor: pointer;
+}
+
+.label-hint {
+    color: #999;
+}
+
+/*================ Horizontal Form ================*/
+form.form-horizontal,
+.form-horizontal {
+    margin-bottom: 0;
+
+    input[type="text"],
+    input[type="search"],
+    input[type="password"],
+    input[type="email"],
+    input[type="file"],
+    input[type="number"],
+    input[type="tel"],
+    textarea,
+    select,
+    label {
+        display: inline-block;
+        margin-bottom: 0;
+        width: auto;
+    }
+}
+
+/*================ Error styles ================*/
+input[type="text"],
+input[type="search"],
+input[type="password"],
+input[type="email"],
+input[type="file"],
+input[type="number"],
+input[type="tel"],
+textarea {
+    &.error {
+        border-color: $errorRed;
+        background-color: $errorRedBg;
+        color: $errorRed;
+    }
+}
+
+label.error {
+    color: $errorRed;
+}
+
+
+/*================ Input Group ================*/
+.input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+
+    input {
+        // Nasty Firefox hack for inputs http://davidwalsh.name/firefox-buttons
+        &::-moz-focus-inner {
+            border: 0;
+            padding: 0;
+            margin-top: -1px;
+            margin-bottom: -1px;
+        }
+    }
+}
+
+.input-group-field,
+.input-group-btn {
+    display: table-cell;
+    vertical-align: middle;
+    margin: 0;
+}
+
+.input-group .btn,
+.input-group .input-group-field {
+    height: 37px;
+}
+
+.input-group .input-group-field {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.input-group-btn {
+    position: relative;
+    white-space: nowrap;
+    width: 1%;
+    padding: 0;
+}
+
+.form-spacer {
+    margin: 0 $gutter/2;
+}
+
+
+
+/*================================================================================
+  #Extends - these are for common text and block styles
+  ================================================================================*/
+
+%medium-arial-text {
+    font-family: $arialFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 1.125em; /* ~18px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.9375em; /* ~15px */
+    }
+}
+
+%small-mid-arial-text {
+    font-family: $arialFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.875em; /* ~14px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.8125em; /* ~13px */
+    }
+}    
+
+%small-arial-text {
+    font-family: $arialFontStack;
+    font-weight: 700;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.8125em; /* ~13px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.625em; /* ~10px */
+    }
+}    
+
+%smallish-arial-text {
+    font-family: $arialFontStack;
+    font-weight: 700;
+
+    font-size: 0.75em; /* ~12px */
+}    
+
+%smaller-arial-text {
+    font-family: $arialFontStack;
+    font-weight: 700;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.6875em; /* ~11px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.6875em; /* ~11px */
+    }
+}
+
+%medium-helvetica-text {
+    font-family: $helveticaFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 1.25em; /* ~20px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.9375em; /* ~15px */
+    }
+}
+
+%small-helvetica-text {
+    font-family: $helveticaFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 1.125em; /* ~18px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.9375em; /* ~15px */
+    }
+}
+
+%smaller-helvetica-text {
+    font-family: $helveticaFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.875em; /* ~14px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.78125em; /* ~12.5px */
+    }
+}
+
+%smallest-helvetica-text {
+    font-family: $helveticaFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.75em; /* ~12px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.75em; /* ~12px */
+    }
+}
+
+
+%character-prefix-suffix-base {
+    display: inline-block;
+    position: relative;
+}
+
+%character-prefix-base {
+    &:before {
+        @extend %character-prefix-suffix-base;
+        padding-right: 3px;
+    }
+}
+
+%character-suffix-base {
+    &:after {
+        @extend %character-prefix-suffix-base;
+        padding-left: 3px;
+    }
+}
+
+%lsaquo-prefix {
+    @extend %character-prefix-base;
+
+    &:before {
+        content: '\2039';
+    }
+}
+
+%rsaquo {
+    @extend %character-suffix-base;
+
+    &:after {
+        content: '\203a';
+    }
+}
+
+%rdaquo {
+    @extend %character-suffix-base;
+
+    &:after {
+        content: '\BB';
+    }
+}
+
+%link-base {
+    white-space: nowrap;
+}
+
+%base-link {
+    text-decoration: none;
+    white-space: nowrap;
+    color: $colorGray;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+/* link text styles */
+
+/* gray link base */
+
+/* gray, gold on hover */
+%gray-hover-gold-link {
+    @extend %link-base;
+
+    color: $colorGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+/* gray, gold on hover */
+%warmGray-hover-underline-link {
+    @extend %link-base;
+
+    color: $colorWarmGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+%warmGray-underline-hover-gold-link {
+    @extend %link-base;
+
+    color: $colorWarmGray;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+/* gray, gold on hover */
+%warmLightGray-hover-gold-link {
+    @extend %link-base;
+
+    color: $colorWarmLightGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+
+
+/* gray, gold and underline on hover */
+%gray-hover-gold-underline-link {
+    @extend %link-base;
+
+    color: $colorGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: underline;
+        color: $colorGold;
+    }
+}
+
+/* gray, underline on hover */
+%gray-hover-underline-link {
+    @extend %link-base;
+
+    color: $colorGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+
+/* gray underline, gold on hover */
+%gray-underline-hover-gold-link {
+    @extend %link-base;
+
+    color: $colorGray;
+    text-decoration: underline;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+/* gold, underline on hover */
+%gold-hover-underline-link {
+    @extend %link-base;
+
+    color: $colorGold;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+/* white, gray on hover */
+%white-hover-gray-link {
+    @extend %link-base;
+    @include prefix('transition', 'all 0.4s ease');
+
+    color: #fff;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $colorWarmGrayDark;
+    }
+}
+
+/* white, gray on hover */
+%white-underline-hover-gold-link {
+    @extend %link-base;
+
+    color: #fff;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+%item-info-icon-text {
+    color: $colorWarmLightGray;
+    line-height: 18px;
+
+    .icon {
+        @extend %icon-base;
+
+        font-size: 12px;
+        display: inline-block;
+        height: 12px;
+    }
+
+    .label {
+        @extend %smallish-arial-text;
+
+        text-transform: uppercase;
+    }
+}
+
+/*================================================================================
+  # Layouts
+  ================================================================================*/
+
+%wrapper-base {
+    @extend .clearfix;
+    position: relative;
+
+    margin: 0 auto;
+}
+
+.wrapper-14-col {
+    @extend %wrapper-base;
+
+    max-width: $siteWidth14col;
+}
+
+.wrapper {
+    @extend %wrapper-base;
+
+    max-width: $siteWidth;
+}
+
+.wrapper-10-col {
+    @extend %wrapper-base;
+
+    max-width: $siteWidth10Col;
+}
+
+.wrapper-9-col {
+    @extend %wrapper-base;
+
+    max-width: $siteWidth9Col;
+}
+
+.wrapper-8-col {
+    @extend %wrapper-base;
+
+    max-width: $siteWidth8Col;
+}
+
+%column-base {
+    padding-right: $gutter;
+    padding-left: $gutter;
+}
+
+%row-base {
+    @extend .clearfix;
+
+    position: relative;
+
+    .vr {
+        height: 100%;
+        width: 0;
+        position: absolute;
+        border-right: 1px solid $colorLightestGray;
+    }
+
+    .col {
+        float: left;
+    }
+}
+
+%row-2-col {
+    @extend %row-base;
+
+    .vr {
+        left: 50%;
+    }
+
+    .col {
+        width: 50%;
+    }
+}
+
+%row-3-col {
+    @extend %row-base;
+
+    .vr {
+        left: percentage(1/3);
+
+        & ~ .vr {
+            left: percentage(2/3);
+        }
+    }
+
+    .col {
+        width: percentage(1/3);
+    }
+}
+
+
+
+%inline-list-base {
+    ul, li {
+        margin: 0;
+    }
+
+    li {
+        display: inline-block;
+        vertical-align: top;
+    }
+}
+
+%nav-menu-base {
+    @extend %inline-list-base;
+
+    @include at-query ($min, $postSmall) {
+        ul {
+            height: 21px;
+        }
+    }
+
+    .site-footer & {
+        @include at-query ($max, $small) {
+            ul {
+                @include clearfix();
+            }
+
+            li {
+                display: block;
+                width: 50%;
+                float: left;
+                padding: 0 $gutter/2;
+            }
+        }
+    }
+}
+
+
+
+/*============================================================================
+  #Links and Buttons
+  ==============================================================================*/
+
+%button-base {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    color: #fff;
+
+    > * {
+        line-height: 1;
+    }
+
+    &:active,
+    &:focus {
+
+    }
+
+    &[disabled],
+    &.disabled {
+        cursor: default;
+    }
+}
+
+%extra-large-button-base {
+    height: 64px;
+    padding: 12px ( $gutter * 1.25 ) 0;
+    font-size: 1.5em;
+    line-height: 1;
+    font-weight: 400;
+    font-family: $helveticaFontStack;
+}
+
+%large-button-base {
+    height: 50px;
+    padding: 6px $gutter 0;
+    font-size: 1.5625em;
+    font-weight: 300;
+    font-family: $helveticaFontStack;
+}
+
+%medium-button-base {
+    height: 44px;
+    padding: 4px $gutter;
+    line-height: 36px;
+
+    font-size: 1.125em;
+    font-weight: 400;
+    font-family: $helveticaFontStack;
+}
+
+%small-button-base {
+    @extend %smallish-arial-text;
+
+    line-height: 1.2;
+    height: 30px;
+    padding: 5px 12px 0;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+
+%gold-button-base {
+    @extend %gold-outline-block-small;
+}
+
+%gray-button-base {
+    @extend %gray-outline-block-small;
+}
+
+%lightGray-button-base {
+
+}
+
+%icon-button-base {
+    .icon {
+        @extend %icon-base;
+
+        display: inline-block;
+        position: relative;
+    }
+}
+
+%arrow-icon-button-base {
+    @extend %icon-button-base;
+
+    .icon {
+        @extend .icon-arrow-right-solid;
+
+        font-size: 12px;
+    }
+}
+
+%rsaquo-button-base {
+    @extend %icon-button-base;
+
+    .icon {
+        @extend .icon-arrow-right-large;
+        font-size: 12px;
+    }
+}
+
+/* gold, large button with solid arrow icon */
+%large-gold-arrow-button {
+    @extend %button-base;
+    @extend %large-button-base;
+    @extend %gold-button-base;
+    @extend %arrow-icon-button-base;
+
+    .icon {
+        padding-left: 2px;
+        top: -2px;
+    }
+}
+
+/* gold, small button with solid arrow icon */
+%small-gold-arrow-button {
+    @extend %button-base;
+    @extend %small-button-base;
+    @extend %gold-button-base;
+    @extend %arrow-icon-button-base;
+
+    .icon {
+        top: 1px;
+    }
+}
+
+/* gold, medium button with rsaquo */
+%large-gold-rsaquo-button {
+    @extend %button-base;
+    @extend %large-button-base;
+    @extend %gold-button-base;
+    @extend %rsaquo;
+}
+
+/* gold, medium button with rsaquo  */
+%medium-gold-rsaquo-button {
+    @extend %button-base;
+    @extend %medium-button-base;
+    @extend %gold-button-base;
+    @extend %rsaquo-button-base;
+
+    .icon {
+        margin-left: -3px;
+    }
+}
+
+/* gold, small button with rsaquo  */
+%small-gold-rsaquo-button {
+
+}
+
+/* gray, medium button with rsaquo */
+%large-gray-rsaquo-button {
+
+}
+
+/* gray, medium button with rsaquo  */
+%medium-gray-rsaquo-button {
+
+}
+
+/* gray, small button with rsaquo  */
+%small-gray-rsaquo-button {
+
+}
+
+
+/* gold, small button */
+%small-gold-button {
+    @extend %button-base;
+    @extend %small-button-base;
+    @extend %gold-button-base;
+}
+
+
+/* gray, medium button */
+%medium-gray-button {
+    @extend %button-base;
+    @extend %medium-button-base;
+    @extend %gray-button-base;
+}
+
+/* gray, small button */
+%small-gray-button {
+    @extend %button-base;
+    @extend %small-button-base;
+    @extend %gray-button-base;
+
+    padding-top: 2px;
+}
+
+
+/* light gray, small button */
+%small-lightGray-button {
+}
+
+
+/* extra large gold button */
+%extra-large-gold-button {
+    @extend %button-base;    
+    @extend %extra-large-button-base;
+    @extend %gold-button-base;
+}
+
+/* custom buttons */
+
+.facebook-login-button {
+    @extend %extra-large-gold-button;
+    @extend %icon-button-base;
+
+    padding-top: 12px;
+
+    span {
+        vertical-align: middle;
+    }
+
+    .label {
+
+    }
+
+    /* facebook f icon */
+    .icon:first-of-type {
+        @extend .icon-facebook-f;
+        
+        font-size: 34px;
+        right: 6px;
+    }
+
+    /* rsaquo icon */
+    .icon ~ .icon {
+        @extend .icon-arrow-right-large;
+
+        font-size: 15px;
+        left: -4px;
+        bottom: 1px;
+    }
+}
+
+
+
+/* Logos */
+
+%logo-base {
+    text-align: center;
+    margin: 0;
+
+    a,
+    a:hover,
+    a:focus {
+        text-decoration: none;
+    }
+
+    a, img {
+        display: block;
+    }
+
+    img {
+        margin: 0 auto;
+        height: 100%;
+        width: 100%;
+    }
+
+    /* Fallback .png support for IE8 */
+    [src*=".svg"] {
+        display: none;
+    }
+
+    .supports-svg & {
+        [src*=".png"] {
+            display: none;
+        }
+
+        [src*=".svg"] {
+            display: block;
+        }
+    }
+}
+
+
+
+
+
+%outline-block-base {
+    position: relative;
+    z-index: 0;
+
+    /* outer border */
+    border-style: solid;
+
+    /* inner border */
+    &:before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        border-style: solid;
+        border-color: #fff;
+    }
+}
+
+%gold-outline-block-base {
+    @extend %outline-block-base;
+
+    background: $colorGold;
+
+    /* outer border */
+    border-color: $colorGold;
+}
+
+%gray-outline-block-base {
+    @extend %outline-block-base;
+
+    background: $colorGray;
+
+    /* outer border */
+    border-color: $colorGray;
+}
+
+@mixin outlineBlockBorderWidths( $innerWidth, $outerWidth ){
+    /* outer border */
+    border-width: $outerWidth + $innerWidth;
+
+    /* inner border */
+    &:before {
+        top: -$innerWidth;
+        right: -$innerWidth;
+        bottom: -$innerWidth;
+        left: -$innerWidth;
+        border-width: $innerWidth;
+    }
+}
+
+%gold-outline-block-large {
+    @extend %gold-outline-block-base;
+    @include outlineBlockBorderWidths( 5px, 2px );
+}
+
+%gold-outline-block-small {
+    @extend %gold-outline-block-base;
+    @include outlineBlockBorderWidths( 1px, 1px );
+}
+
+%gray-outline-block-small {
+    @extend %gray-outline-block-base;
+    @include outlineBlockBorderWidths( 1px, 1px );
+}
+
+%darkGray-outline-block-medium {
+    @extend %outline-block-base;
+    @include outlineBlockBorderWidths( 2px, 1px );
+}
+
+
+
+
+
+
+
+
+
+/*============================================================================
+  Override the default checkout styles. Delete the file or change its
+  filename to revert to the default styles.
+  ==============================================================================*/
+
+/*================ #General ================*/
+
+body, #main, #container, #header, #footer {
+    background: #fff;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+*, input, :before, :after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*================ #Typography ================*/
+
+
+
+
+
+
+$iconSelector: '[class^="icon-"], [class*=" icon-"]';
+#{$iconSelector}, %icon-base {
+
+    .icon-fallback-text & {
+        display: none;
+
+        .supports-fontface & {
+            display: inline-block;
+        }
+    }
+
+    &:before {
+        /* hide icon by default */
+        display: none;
+
+        .supports-fontface & {
+            /* show the icon if modernizer detected support */
+            display: inline;
+            font-family: $socialIconFontStack;
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+
+            /* Better Font Rendering =========== */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    }
+}
+
+.icon-box-checked:before {
+    content: "\f046";
+}
+.icon-box-unchecked:before {
+    content: "\f096";
+}
+.icon-menu:before {
+    content: "\e60c";
+}
+.icon-telephone-handset:before {
+    content: "\e600";
+}
+.icon-map-pin:before {
+    content: "\e601";
+}
+.icon-stamp:before {
+    content: "\e602";
+}
+.icon-arrow-right-solid:before {
+    content: "\e603";
+}
+.icon-facebook-f:before {
+    content: "\e604";
+}
+.icon-instagram:before {
+    content: "\e605";
+}
+.icon-pinterest-p:before {
+    content: "\e606";
+}
+.icon-arrow-right-xlarge:before {
+    content: "\e607";
+}
+.icon-arrow-left-xlarge:before {
+    content: "\e608";
+}
+.icon-search:before {
+    content: "\e609";
+}
+.icon-store:before {
+    content: "\e60a";
+}
+.icon-safe:before {
+    content: "\e60b";
+}
+.icon-fancy:before {
+    content: "\46";
+}
+.icon-twitter:before {
+    content: "\54";
+}
+.icon-facebook:before {
+    content: "\66";
+}
+.icon-pinterest:before {
+    content: "\70";
+}
+.icon-tumblr:before {
+    content: "\74";
+}
+.icon-vimeo:before {
+    content: "\76";
+}
+.icon-youtube:before {
+    content: "\79";
+}
+.icon-gift:before {
+    content: "\e60e";
+}
+.icon-calendar:before {
+    content: "\e60f";
+}
+.icon-arrow-left-curved:before {
+    content: "\e610";
+}
+.icon-arrow-right-curved:before {
+    content: "\e611";
+}
+.icon-cross:before {
+    content: "\e612";
+}
+.icon-cross-circle:before {
+    content: "\e613";
+}
+.icon-info:before {
+    content: "\e614";
+}
+.icon-info-circle:before {
+    content: "\e615";
+}
+.icon-arrow-left:before {
+    content: "\e616";
+}
+.icon-arrow-down:before {
+    content: "\e617";
+}
+.icon-arrow-up:before {
+    content: "\e618";
+}
+.icon-arrow-right:before {
+    content: "\e619";
+}
+.icon-arrow-left-small:before {
+    content: "\e61a";
+}
+.icon-arrow-down-small:before {
+    content: "\e61b";
+}
+.icon-arrow-up-small:before {
+    content: "\e61c";
+}
+.icon-arrow-right-small:before {
+    content: "\e61d";
+}
+.icon-arrow-left-large:before {
+    content: "\e61e";
+}
+.icon-arrow-down-large:before {
+    content: "\e61f";
+}
+.icon-arrow-up-large:before {
+    content: "\e620";
+}
+.icon-arrow-right-large:before {
+    content: "\e621";
+}
+
+
+
+
+
+body, input, textarea, button, select {
+    font-size: 100%;
+    font-family: $helveticaFontStack;
+    color: #333;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+}
+
+h2, h3, h4, h5, h6,
+.h2, .h3, .h4, .h5, .h6 {
+    display: block;
+    font-family: $headerFontStack;
+    font-weight: $headerFontWeight;
+    margin: 0.5em 0;
+    line-height: 1;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+/*================ #Layout ================*/
+
+#container {
+    max-width: 100%;
+    margin: 0 auto;
+    font-size: 100%;
+    padding: 0;
+    width: auto;
+}
+
+#content, #footer {
+    padding: 0;
+    width: auto;
+}
+
+#main {
+    width: 100%;
+    max-width: 992px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+#content, #overview {
+    float: right;
+}
+
+#content {
+    width: 640px;
+    padding-right: 31px;
+    border-right: 1px solid $colorLightestGray;
+    margin-right: 32px;
+}
+
+#overview {
+    width: 320px;
+    margin-left: 32px;
+}
+
+/*================ Box colors ================*/
+
+#email, #addresses, #buttons {
+    background-color: #fff;
+}
+
+/*================ #Responsive Layouts ================*/
+@media only screen and (max-width: 1000px) {
+    #content {
+        width: 65%;
+    }
+    #overview {
+        width: 35%;
+    }
+}
+
+@media only screen and (max-width: 646px) {
+    #content, #overview {
+        float: none;
+        width: 100%;
+        padding: 0;
+    }
+}
+
+/*================ #Group and Email Containers ================*/
+
+#email {
+    margin: 0 0 ($gutter * 2);
+    padding: 0 0 ($gutter * 2);
+    line-height: 1.5em;
+    border: none;
+    border-bottom: 1px solid $colorLightestGray;
+
+    input {
+        margin-bottom: $gutter;
+    }
+
+    .sign-in-message {
+        display: block;
+        font-size: 14px;
+        margin: 0;
+    }
+
+    #customer-login-link {
+        @extend %small-gold-button;
+
+        margin-left: 8px;
+    }
+
+    .active-customer {
+        font-size: 26px;
+        margin-top: $gutter;
+
+        .sign-in-message {
+            margin-top: 12px;
+        }
+    }
+}
+
+.group {
+    line-height: 1.5em;
+    border: none;
+    margin: 0 0 ($gutter * 3);
+    padding: 0;
+    background: white;
+
+    h3 {
+        font-size: 24px;
+        font-weight: 400;
+        margin: 0 0 $gutter 0;
+        padding: 1px 0 0 0;
+        color: $colorWarmGrayDark;
+        border: 0;
+        text-shadow: none;
+    }
+
+    p {
+        color: $colorWarmGray;
+        font-weight: 400;
+    }
+}
+
+.pgroup h3,
+#email label {
+    font-weight: bold;
+    font-size: 100%;
+    margin: 0 0 8px;
+    padding: 0;
+}
+
+/*================ #Secure Server Bar ================*/
+
+#info-bar {
+    display: none;
+}
+
+/*================ #Header ================*/
+
+#header {
+    padding: 0;
+    h1 {
+        padding: 0;
+    }
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+#tagline .subtitle {
+    display: none;
+}
+
+#logo {
+    width: 100%;
+    height: 72px;
+    margin-bottom: $gutter * 4;
+    /* background image defined in checkout.css.liquid */
+    background-repeat: no-repeat;
+    background-position: center bottom;
+}
+
+#tagline {
+    display: none;
+}
+
+/*================ #Overview - right column widget ================*/
+
+#overview {
+    border: 1px solid $colorLightGray;
+    background: white !important;
+    margin: 0 0 20px 0;
+    position: relative;
+    overflow: hidden;
+    height: 1%;
+    padding: 82px 32px 32px;
+
+    &:before {
+        content: 'Order summary';
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        background: $colorLightGray;
+        font-family: $helveticaFontStack;
+        font-size: 18px;
+        line-height: 50px;
+        padding-left: 32px;
+        color: $colorWarmGray;
+    }
+}
+
+/* "You're purchasing this.." text */
+
+#products > h2 {
+    display: none;
+}
+
+#overview #products {
+    width: auto;
+    float: none;
+    border: none;
+}
+
+#wallet {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+#overview {
+    #cost {
+        font-family: $helveticaFontStack;
+        font-weight: 300;
+        font-size: 26px;
+        line-height: 1.9;
+        text-shadow: none;
+        border-bottom: dotted 1px #ccc;
+        color: $colorWarmGrayDark;
+    }
+    .hint {
+        margin: 0 0 3px 0;
+        display: block;
+        font-size: 100%;
+        color: $colorWarmLightGray;
+        font-style: normal;
+    }
+    #steps {
+        font-family: $helveticaFontStack;
+        font-style: normal;
+        margin: 0;
+        padding: 0 0 8px 0;
+        display: block;
+        font-size: 22px;
+        border-bottom: dotted 1px #ccc;
+    }
+    br {
+        display: none;
+    }
+}
+
+#thumbs {
+    position: relative;
+    margin: 0;
+    border-collapse: collapse;
+
+    td {
+        overflow: hidden;
+        height: 1%;
+        font-size: 100%;
+        vertical-align: top;
+        display: block;
+        width: 100%;
+        padding-bottom: 0;
+    }
+
+    div {
+        width: 64px !important;
+        height: 64px !important;
+        overflow: hidden;
+        border: 1px solid $colorLightestGray;
+        margin: 0 16px 16px 0;
+        padding: 0;
+    }
+
+    img {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    h3 {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 26px;
+        @include overflowEllipsis();
+    }
+
+    span {
+        font-size: 13px;
+        font-family: $helveticaFontStack;
+        color: $colorWarmGray;
+    }
+}
+
+/* Product title color */
+
+/* Product variant and price color */
+
+.slim #overview {
+    display: none;
+}
+
+
+
+
+/*================ #Checkout Form ================*/
+
+#container {
+    input[type="text"],
+    input[type="search"],
+    input[type="password"],
+    input[type="email"],
+    input[type="file"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="submit"],
+    select,
+    textarea {
+        font-size: 16px;
+        width: 100%;
+        font-weight: 400;
+        color: $colorWarmGray;
+        background-color: $colorPaleGray;
+        padding: 10px $gutter 6px;
+        margin-top: 0;
+    }
+}
+
+
+.form {
+    width: 100%;
+    display: block;
+
+    tbody, tr {
+        display: block;
+    }
+
+    td {
+        @extend .clearfix;
+
+        display: block;
+        width: 100% !important;
+        padding: 0;
+
+        &.lbl {
+            width: 100%;
+        }
+    }
+
+    td + td {
+        margin-bottom: $gutter;
+    }
+
+    label {
+
+    }
+
+    ul.inline {
+        li {
+            float: none !important;
+            width: 100% !important;
+            margin: 0 !important;
+            overflow: hidden;
+            height: 1%;
+            padding: 0 0 16px;
+        }
+
+        select, input {
+            width: 100% !important;
+        }
+    }
+
+    .multiple_address_selection {
+        margin-bottom: $gutter;
+
+    }
+}
+
+
+.form .inline select {
+    float: left;
+}
+
+/* Form Errors */
+
+.field-with-errors {}
+
+/* Billing/Shipping Addresses */
+
+#addresses {
+    position: relative;
+    overflow: hidden;
+    height: 1%;
+    margin: 0;
+    padding: 0;
+
+    .gleft, .gright {
+        width: 288px;
+        padding: 0;
+        margin: 0;
+        min-width: 266px;
+        float: left;
+    }
+
+    .gright {
+        margin-left: 32px;
+    }
+}
+
+@media only screen and (max-width: 954px) {
+    #addresses {
+        .gleft, .gright {
+            float: none;
+            width: 100%;
+        }
+        .gleft {
+            margin-bottom: 20px;
+        }
+        .gright {
+            padding-left: 0;
+        }
+    }
+}
+
+#billing_address_phone {
+    margin: 0 0 10px 0;
+}
+
+#billing-is-shipping td {
+    border: solid 1px #ccc;
+    padding: ($gutter / 2);
+
+    label {
+        display: inline;
+        font-size: 13px;
+    }
+}
+
+#addresses #shipping-same.address-notification {
+    padding: $gutter;
+    text-align: left;
+    border: 1px solid $colorLightGray;
+    background-color: #fff;
+}
+
+@media only screen and (max-width: 1000px) {
+    .form .inline label {
+        width: 100px;
+    }
+}
+
+/*================ #Step 2 - Paying for your order ================*/
+
+.sst .gleft {
+    width: 40%;
+}
+
+#credit-card-info {
+    float: left;
+    width: 60%;
+    margin: 0;
+    table {
+        width: 100%;
+    }
+}
+
+#container #credit_card_verification_value {
+    width: auto;
+}
+
+#marketing-box {
+    label {
+        display: inline;
+    }
+}
+
+@media only screen and (max-width: 646px) {
+    .sst .gleft, #credit-card-info {
+        width: 100%;
+        float: none;
+        padding: 0;
+    }
+    #payment-methods {
+        margin-bottom: 5px;
+    }
+}
+
+
+
+/*================ #Buttons ================*/
+
+#buttons {
+    clear: both;
+    border: 0 none;
+    word-spacing: 1em;
+    a {
+        word-spacing: normal;
+    }
+}
+
+#cancel-purchase {
+    font-size: 16px;
+    font-style: italic;
+    display: block;
+    margin: $gutter 0;
+    text-align: center;
+    color: $colorLightGray;
+
+    a {
+        @extend %gray-hover-underline-link;
+        @extend %rsaquo;
+
+        font-style: normal;
+    }
+}
+
+#buttons {
+    margin-top: $gutter;
+    padding: 0;
+
+    #complete-purchase {
+        margin: 10px 0 !important;
+    }
+    #commit-button, #complete-purchase {
+        @extend %large-gold-arrow-button;
+
+        outline: 1px solid $colorGold;
+        margin: 1px;
+        @include prefix( 'border-radius', 0 );
+        border: 2px solid white;
+    }
+}
+
+input[type="submit"] {
+    display: inline-block;
+    padding: 8px 20px;
+    margin: 0;
+    line-height: 1.42;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1px solid transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -webkit-appearance: none;
+    border-radius: 2px;
+    text-transform: uppercase;
+}
+
+#buttons {
+    #commit-button:hover, #complete-purchase:hover {
+        opacity: 0.8;
+    }
+    #commit-button:active, #complete-purchase:active {
+        opacity: 1;
+    }
+}
+
+/*============================================================================
+  container slim
+  ============================================================================*/
+
+#container.slim {
+    #header {
+        background-image: none;
+    }
+
+    #main {
+        width: 430px;
+        marign: 0;
+        padding: 0;
+    }
+
+    #overview {
+        display: none;
+    }
+
+    #content {
+        width: auto;
+        margin: 0;
+        border: 0;
+        padding: 0;
+        text-align: center;
+
+        p:first-child {
+            font-size: 24px;
+        }
+    }
+
+    #footer {
+        background-image: none;
+    }
+}
+
+
+
+/*================ #Footer ================*/
+
+#footer {
+    clear: both;
+    padding: 15px 0;
+}
+
+/*================ Forms ================*/
+
+/* #container { */
+/*     button { */
+/*         -webkit-appearance: none; */
+/*         -moz-appearance: none; */
+/*     } */
+/*     input { */
+/*         &[type="text"], &[type="search"], &[type="password"], &[type="email"], &[type="file"], &[type="number"], &[type="tel"], &[type="submit"] { */
+/*             -webkit-appearance: none; */
+/*             -moz-appearance: none; */
+/*         } */
+/*     } */
+/*     textarea { */
+/*         -webkit-appearance: none; */
+/*         -moz-appearance: none; */
+/*     } */
+/*     input, textarea, select, fieldset { */
+/*         border-radius: 2px; */
+/*         max-width: 100%; */
+/*     } */
+/*     input, select, textarea { */
+/*         font-size: 1em; */
+/*         padding: 8px 10px; */
+/*         line-height: 1.42; */
+/*     } */
+/*     input { */
+/*         display: inline-block; */
+/*         width: auto; */
+/*     } */
+/*     button { */
+/*         cursor: pointer; */
+/*     } */
+/*     input { */
+/*         &[type="submit"] { */
+/*             cursor: pointer; */
+/*         } */
+/*         &[type="text"], &[type="search"], &[type="password"], &[type="email"], &[type="file"], &[type="number"], &[type="tel"] { */
+/*             border: 1px solid #ececec; */
+/*             width: 100%; */
+/*             max-width: 100%; */
+/*             display: block; */
+/*             margin: 0 0 15px; */
+/*         } */
+/*     } */
+/*     textarea, select { */
+/*         border: 1px solid #ececec; */
+/*         width: 100%; */
+/*         max-width: 100%; */
+/*         display: block; */
+/*         margin: 0 0 15px; */
+/*     } */
+/*     input { */
+/*         &[type="text"]:focus, &[type="search"]:focus, &[type="password"]:focus, &[type="email"]:focus, &[type="file"]:focus, &[type="number"]:focus, &[type="tel"]:focus { */
+/*             border: 1px solid #c3c3c3; */
+/*         } */
+/*     } */
+/*     textarea:focus, select:focus { */
+/*         border: 1px solid #c3c3c3; */
+/*     } */
+/*     input { */
+/*         &[type="text"][disabled], &[type="search"][disabled], &[type="password"][disabled], &[type="email"][disabled], &[type="file"][disabled], &[type="number"][disabled], &[type="tel"][disabled] { */
+/*             cursor: default; */
+/*             background-color: #f6f6f6; */
+/*             border-color: #d1d1d1; */
+/*         } */
+/*     } */
+/*     textarea[disabled], select[disabled] { */
+/*         cursor: default; */
+/*         background-color: #f6f6f6; */
+/*         border-color: #d1d1d1; */
+/*     } */
+/*     textarea { */
+/*         min-height: 100px; */
+/*     } */
+/*     input { */
+/*         &[type="checkbox"], &[type="radio"] { */
+/*             display: inline; */
+/*             margin: 0; */
+/*         } */
+/*     } */
+/*     select { */
+/*         -webkit-appearance: none; */
+/*         -moz-appearance: none; */
+/*         appearance: none; */
+/*         background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNy4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNy43cHgiIGhlaWdodD0iNC4zcHgiIHZpZXdCb3g9IjAgMCA3LjcgNC4zIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA3LjcgNC4zIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxwYXRoIGZpbGw9IiM5OTk5OTkiIGQ9Ik03LjEsMC4xQzYuNywwLjUsMy45LDMuMiwzLjksMy4yUzEsMC41LDAuNiwwLjFTMCwwLjcsMCwwLjdsMy45LDMuNmwzLjgtMy42QzcuNywwLjcsNy41LTAuMyw3LjEsMC4xeiIvPg0KPC9zdmc+DQo="); */
+/*         background-repeat: no-repeat; */
+/*         background-position: right 10px center; */
+/*         background-color: #fff; */
+/*         padding-right: 28px; */
+/*         text-indent: 0.01px; */
+/*         text-overflow: ''; */
+/*     } */
+/*     label, legend { */
+/*         display: inline-block; */
+/*         margin: 0; */
+/*         font-size: 14px; */
+/*     } */
+/*     input { */
+/*         &[type="checkbox"] + label, &[type="radio"] + label { */
+/*             display: inline; */
+/*         } */
+/*     } */
+/* } */

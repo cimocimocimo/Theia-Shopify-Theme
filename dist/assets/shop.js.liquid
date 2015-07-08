@@ -2,6 +2,7 @@ window.timber = window.timber || {};
 
 timber.cache = {
     // General
+    $window: $(window),
     $html: $('html'),
     $body: $('body'),
 
@@ -34,8 +35,16 @@ timber.cache = {
         $subMenus: $('.sub-menu-mobile')
     },
 
-    homepageHeroScroller: $('#homepage-hero-scroller'),
-    homepageHero: $('#homepage-hero'),
+    // homepage
+    homepage: {
+        $body: $('body.template-index'),
+        $splashScroller: $('#homepage-splash-scroller'),
+        $hero: $('#homepage-hero'),
+        $splash: $('#homepage-splash'),
+        $headerWaypoint: $('.js-header-waypoint'),
+        $headerContainer: $('#header-container'),
+        $scrollBody: $('#body-container')
+    },
 
     headerSubNav: {
         $row: $('.site-header-sub-row'),
@@ -61,15 +70,14 @@ timber.init = function () {
     timber.mobileProductInfoBlock();
     timber.productDescriptionBlock();
     timber.loader.init();
-    timber.homepageHero();
-  //  timber.headerSubNav();
+    timber.homepageInit();
+    timber.headerSubNav();
     timber.contactForm();
-
+    
     // initialize smooth scroll
     smoothScroll.init();
 
     timber.infiniteScroll();
-
 };
 
 
@@ -88,29 +96,66 @@ timber.getUrlVars = function () {
     return result ;
 };
 
-timber.homepageHero = function(){
-    var scroll = timber.cache.homepageHeroScroller,
-        hero = timber.cache.homepageHero;
+timber.homepageInit = function(){
+    // if not on the homepage, return
+    if (timber.cache.homepage.$body.length === 0){
+        return;
+    }
+    
+    timber.homepageSplash();
+    timber.homepageHeader();
+};
 
-    scroll.click(function(e){
-        e.preventDefault();
-
-        var height = hero.outerHeight();
-        $('#body-container').animate({scrollTop: height}, 600, 'swing');
+timber.homepageHeader = function(){
+    // on the home page we want to activate headroom.js when
+    // scrolling up and the header hits the top of the screen.
+    // then deactivate it at the same point on scroll down.
+    // this allows the header to sit below the homepage splash but still
+    // use headroom.js for showing hiding in the main body of the
+    // page.
+    
+    var $container = timber.cache.homepage.$headerContainer, // headroom.js is applied to this element
+        $waypoint = timber.cache.homepage.$headerWaypoint,
+        // used as the context/scroller element for waypoints and headroom, needed to get around the full-viewport
+        // css hacks used.
+        $scrollBody = timber.cache.homepage.$scrollBody,
+        headroomInstance = {}; // closure to hold the headroom instance between waypoint handler calls
+    
+    // create the waypoint for the header
+    var headerWaypoint = $waypoint.waypoint({
+        context: $scrollBody[0],
+        handler: function(direction){
+            console.log(direction);
+            
+            if (direction === 'down'){
+                headroomInstance = new Headroom($container[0], {
+                    scroller: $scrollBody[0]
+                });
+                headroomInstance.init();
+                $waypoint.addClass('js-headroom-active');
+            } else {
+                headroomInstance.destroy();
+                $waypoint.removeClass('js-headroom-active');
+            }
+        },
+        offset: function(){
+            return - $(this.element).height();
+        }
     });
+};
 
-
-    hero.addClass('loading');
-    timber.loader.show(hero[0]);
-
-    $(window).load(function(){
-        hero.removeClass('loading');
-        scroll.addClass('out');
-        scroll.removeClass('initial');
-        setTimeout(function(){
-            scroll.removeClass('out');
-        }, 600);
+timber.homepageSplash = function(){
+    
+    var $splash = timber.cache.homepage.$splash,
+        $scroll = timber.cache.homepage.$splashScroller,
+        $body = timber.cache.homepage.$body;
+    
+    $scroll.click(function(event){
+        event.preventDefault();
+        
+        $('#body-container').animate({scrollTop: $splash.height()});
     });
+    
 };
 
 timber.switchClass = function( $el, c1, c2){
@@ -323,6 +368,7 @@ timber.headerSubNav = function(){
             $subMenuLinks.removeClass('active');
             $targetMenu.addClass('js-open');
             $this.addClass('active');
+            
         } else if (!$subMenus.hasClass('js-open')) {
             // no menus are open, so open the target
             $targetMenu.addClass('js-open');
