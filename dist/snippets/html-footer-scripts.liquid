@@ -14,7 +14,7 @@ JS Plugins
 {{ 'hammer.min.js' | asset_url | script_tag }}
 {{ 'jQuery.headroom.min.js' | asset_url | script_tag }}
 {{ 'jquery.cookie-1.4.1.min.js' | asset_url | script_tag }}
-{{ 'vex.combined.min.js' | asset_url | script_tag }}
+{{ 'vex.min.js' | asset_url | script_tag }}
 {{ 'jquery.mousewheel.min.js' | asset_url | script_tag }}
 {{ 'noframework.waypoints.min.js' | asset_url | script_tag }}
 {{ 'jquery.waypoints.min.js' | asset_url | script_tag }}
@@ -194,42 +194,28 @@ Ajaxify Cart Documentation:
           {% endif %}
           {% endfor %}
 
-
           {% comment %}dress sizes popup.{% endcomment %}
           {% for option in product.options %}
           {% if option == 'Size' %}
           var colorOptionIndex =  {{ forloop.index0 }};
           $('.selector-wrapper:eq(' + colorOptionIndex + ')').append('<a href="#dress-sizing-modal-content" id="dress-sizes-link" class="js-open-modal dress-sizing-link">Size Chart</a>');
-          // old modal
-          //$('.js-open-modal').leanModal({closeButton: '.modal-close-link'});
 
           $('#dress-sizes-link').click(function() {
-            vex.dialog.open({
-                // default is no close button
-                showCloseButton: true,
-                escapeButtonCloses: true,
-                // default is two buttons, we don't want that.
-                buttons: [],
-                // you need the padding at the top else your close button infringes on the content.
-                contentCSS: { width: '600px', border : 'none', 'padding-top' : '30px' },
-                // dump the table into the modal
-                message: $('#modal-content-dress-size').html(),
-                callback: function(value) {
-                  // do nothing, just close
-                }
+              vex.open({
+                  // default is no close button
+                  showCloseButton: true,
+                  escapeButtonCloses: true,
+                  // default is two buttons, we don't want that.
+                  // you need the padding at the top else your close button infringes on the content.
+                  // dump the table into the modal
+                  content: $('#modal-content-dress-size').html(),
+                  className: 'vex-theme-wireframe'
               });
-          })
+          });
+
           {% endif %}
           {% endfor %}
       });
-
-      // Initialize image zoom on the product page.
-      //$('#productPhotoImg').loupe();
-
-
-      $('#productPhotoImg').elevateZoom({ zoomType : "inner"});
-
-
 
   </script>
 

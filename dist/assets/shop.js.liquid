@@ -78,9 +78,12 @@ timber.init = function () {
     smoothScroll.init();
 
     timber.infiniteScroll();
+
+    timber.modalInit();
 };
 
-
+timber.modalInit = function(){
+};
 
 timber.contactForm = function(){
     var styleNumber = timber.getUrlVars()['style_number'];
@@ -571,7 +574,9 @@ timber.productImageSwitch = function () {
     if ( !timber.cache.productPage.$thumbImages.length ) {
         return;
     }
-
+    
+    $('#productPhotoImg').elevateZoom({ zoomType : "inner"});
+    
     // Switch the main image with one of the thumbnails
     // Note: this does not change the variant selected, just the image
     timber.cache.productPage.$thumbImages.on('click', function(e) {
