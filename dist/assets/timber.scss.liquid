@@ -5494,9 +5494,12 @@ address {
 .contact-page-form-hero {
     h2 {
         margin: ( $gutter * 2 ) 0;
+    }
+    
+    header {
         text-align: center;
     }
-
+    
     /* Desktop */
     @include at-query ($min, $postSmall) {
         margin-bottom: $gutter * 3;
@@ -6806,7 +6809,7 @@ html.full-viewport {
         height: 264px;
 
         .image-row {
-            height: 122px;
+            height: auto;
         }
     }
 
@@ -9848,7 +9851,8 @@ $opacity-not-active: .25;
     position: relative;
     overflow-x: hidden;
     
-    .layout-theme & {
+    .layout-theme &,
+    .layout-customer-account & {
         // add padding to get the page content right
         @include at-query($max, $preLarge){
             padding-top: 44px;

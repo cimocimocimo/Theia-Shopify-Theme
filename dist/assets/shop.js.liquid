@@ -54,7 +54,9 @@ timber.cache = {
 
     contactForm: {
         $form: $('.contact-form'),
-        $styleNumber: $('#contactFormStyleNumber')
+        $styleNumberInput: $('#contactFormStyleNumber'),
+        $styleNumberInquiryBlock: $('#styleNumberInquiryBlock'),
+        $styleNumberInquiryBlockNumber: $('#styleNumberInquiryBlock .js-number')
     }
 };
 
@@ -86,8 +88,17 @@ timber.modalInit = function(){
 };
 
 timber.contactForm = function(){
-    var styleNumber = timber.getUrlVars()['style_number'];
-    timber.cache.contactForm.$styleNumber.val(styleNumber);
+    var styleNumber = timber.getUrlVars()['style_number'],
+        $block = timber.cache.contactForm.$styleNumberInquiryBlock,
+        $blockNumber = timber.cache.contactForm.$styleNumberInquiryBlockNumber,
+        $styleNumberInput = timber.cache.contactForm.$styleNumberInput;
+    
+    if (styleNumber){
+        $styleNumberInput.val(styleNumber);
+        console.log($blockNumber);
+        $blockNumber.text(styleNumber);
+        $block.removeClass('js-hidden');
+    }
 };
 
 timber.getUrlVars = function () {

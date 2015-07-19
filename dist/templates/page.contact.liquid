@@ -12,16 +12,21 @@
   <div class="wrapper">
     <div class="content">
 
-      <h3>One click away</h3>
+      <h2>One click away</h2>
 
     </div>
   </div>
 </div>
 
 <div class="contact-page-form-hero">
-  <div class="wrapper-8-col">
-    <h2>{{ page.title }}</h2>
+  <header class="wrapper-8-col">
 
+    <h2>{{ page.title }}</h2>
+    <p id="styleNumberInquiryBlock" class="js-hidden">You are inquiring about style number: <span class="js-number"></span></p>
+
+  </header>
+  <div class="wrapper-8-col">
+    
     {% comment %}
     Contact form starts here
     {% endcomment %}
@@ -39,7 +44,7 @@
       {% include 'form-errors-custom' %}
 
       <input type="hidden" id="contactFormStyleNumber" name="contact[styleNumber]" value="" />
-
+      
       <div class="row-2-col">
         <div class="col">
       
@@ -236,7 +241,7 @@
         212-354-4700 ext. 2325
       </div>
       <div class="email">
-        <a href="mailto:melissa@jsgroup.com">melissa@jsgroup.com</a>
+        <a href="mailto:melissa.veniero@gmail.com">melissa.veniero@gmail.com</a>
       </div>
     </address>
 
