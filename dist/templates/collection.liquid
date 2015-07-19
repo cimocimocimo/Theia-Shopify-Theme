@@ -48,17 +48,14 @@ For more information on collection tags:
     {% endif %}
 </style>
 
-
 <div id="collectiontop" class="collection-page-hero">
   <div class="wrapper">
     <div class="content">
 
       <h2>
-        Theia.
-        <br />
         {{ collection.title }}
         <br />
-        Collection.
+        Collection
       </h2>
 
     </div>
@@ -73,18 +70,11 @@ For more information on collection tags:
     <h2>In this collection:</h2>
   </div>
 </div>
-<div class="product-grid-filter-hero">
-  <div class="wrapper">
-    {% include 'product-grid-filters' %}
-  </div>
-</div>
 <div class="product-grid-hero">
   <div class="wrapper">
 
 
     {% paginate collection.products by 12 %}
-
-    {{collection.description}}
 
     {% comment %}
     Use class grid-uniform to have evenly sized columns clear
@@ -133,8 +123,6 @@ For more information on collection tags:
 
     </div>
 
-
-
     <div id="product-list-foot"></div>
 
     {% endpaginate %}
@@ -147,7 +135,7 @@ For more information on collection tags:
 <div class="collection-grid-hero">
   <div class="wrapper">
 
-    <h2>Other collections from Theia:</h2>
+    <h2>Other collections from THEIA:</h2>
 
     {% for collection in collections limit:4 %}
 

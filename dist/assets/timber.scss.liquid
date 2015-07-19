@@ -4952,106 +4952,105 @@ address {
         float: left;
     }
 
-    .layout-main & {
-        background: white;
+    
+    background: white;
 
-        .wrapper > div {
-            @extend %column-base;
+    .wrapper > div {
+        @extend %column-base;
+    }
+
+    /* Large Desktop */
+    @include at-query ($min, $large) {
+        padding: $gutter 0;
+        height: $desktopHeaderHeight;
+
+        .wrapper {
+            position: relative;
+            @extend .clearfix;
         }
 
-        /* Large Desktop */
-        @include at-query ($min, $large) {
-            padding: $gutter 0;
-            height: $desktopHeaderHeight;
+        %header-column {
+            @include header-column();
 
-            .wrapper {
-                position: relative;
-                @extend .clearfix;
-            }
+            height: $desktopHeaderHeight - $gridGutter;
+            margin: 0 $gutter;
+        }
 
-            %header-column {
-                @include header-column();
+        .logo-column {
+            @extend %header-column;
+        }
 
-                height: $desktopHeaderHeight - $gridGutter;
-                margin: 0 $gutter;
-            }
+        .main-menu-column {
+            @extend %header-column;
+            width: 432px;
+            text-align: right;
 
-            .logo-column {
-                @extend %header-column;
-            }
-
-            .main-menu-column {
-                @extend %header-column;
-                width: 432px;
-                text-align: right;
-
-                ul {
-                    padding-top: 2px;
-                }
-            }
-
-            .customer-menu-column {
-                @extend %header-column;
-
-                text-align: right;
-                width: 218px;
-            }
-
-            .search-column {
-                @extend %header-column;
-
-                width: 220px;
+            ul {
+                padding-top: 2px;
             }
         }
 
-        /* Desktop */
-        // narrow some of the widths defined above
-        @include at-query(null, $large, $preXLarge) {
-            .main-menu-column {
-                width: 362px;
-            }
+        .customer-menu-column {
+            @extend %header-column;
 
-            .customer-menu-column {
-                width: 190px;
-            }
-
-            .search-column {
-                width: 190px;
-            }
+            text-align: right;
+            width: 218px;
         }
 
-        /* Mobile */
-        @include at-query ($max, $preLarge) {
-            padding: $gutter/2 0;
+        .search-column {
+            @extend %header-column;
 
-            height: $mobileHeaderHeight;
+            width: 220px;
+        }
+    }
 
-            .wrapper {
-                @extend .clearfix;
+    /* Desktop */
+    // narrow some of the widths defined above
+    @include at-query(null, $large, $preXLarge) {
+        .main-menu-column {
+            width: 362px;
+        }
 
-                position: relative;
-                margin: 0 $gutter;
-            }
+        .customer-menu-column {
+            width: 190px;
+        }
 
-            %header-column {
-                @include header-column();
+        .search-column {
+            width: 190px;
+        }
+    }
 
-                height: $mobileHeaderHeight - $gridGutter/2;
-            }
+    /* Mobile */
+    @include at-query ($max, $preLarge) {
+        padding: $gutter/2 0;
 
-            .logo-column {
-                @extend %header-column;
-            }
+        height: $mobileHeaderHeight;
 
-            .customer-menu-column {
-                @extend  %header-column;
-                float: right;
-            }
+        .wrapper {
+            @extend .clearfix;
 
-            .main-menu-column,
-            .search-column {
-                display: none;
-            }
+            position: relative;
+            margin: 0 $gutter;
+        }
+
+        %header-column {
+            @include header-column();
+
+            height: $mobileHeaderHeight - $gridGutter/2;
+        }
+
+        .logo-column {
+            @extend %header-column;
+        }
+
+        .customer-menu-column {
+            @extend  %header-column;
+            float: right;
+        }
+
+        .main-menu-column,
+        .search-column {
+            display: none;
         }
     }
 }
@@ -5067,7 +5066,7 @@ address {
 
         position: absolute;
         bottom: 0px;
-        background: rgba($colorWhite, 0.68);
+        background: rgba($colorWhite, 0.93);
         padding: 16px 10px;
         opacity: 0;
         transition: all 0.3s;
@@ -5076,7 +5075,11 @@ address {
             @include transform(translateY(100%));
             opacity: 1;
         }
-
+        
+        ul {
+            margin-bottom: 0;
+        }
+        
         .sub-menu-column {
             padding: 0 10px;
         }
@@ -5368,33 +5371,34 @@ address {
     }
 }
 
-.usa-today-logo {
+.in-style-logo {
     @extend %logo-base;
-    @include logo-responsive-sizes( $baseHeight: 85px, $baseWidth: 163px );
+
+    @include logo-responsive-sizes( $baseHeight: 49px, $baseWidth: 206px );
 }
 
-.people-logo {
+.style-com-logo {
     @extend %logo-base;
 
-    @include logo-responsive-sizes( $baseHeight: 65px, $baseWidth: 157px );
+    @include logo-responsive-sizes( $baseHeight: 38px, $baseWidth: 269px );
+}
+
+.the-new-york-times-logo {
+    @extend %logo-base;
+
+    @include logo-responsive-sizes( $baseHeight: 38px, $baseWidth: 266px );
+}
+
+.vogue-logo {
+    @extend %logo-base;
+
+    @include logo-responsive-sizes( $baseHeight: 52px, $baseWidth: 195px );
 }
 
 .womens-wear-daily-logo {
     @extend %logo-base;
 
-    @include logo-responsive-sizes( $baseHeight: 58px, $baseWidth: 128px );
-}
-
-.martha-stewart-weddings-logo {
-    @extend %logo-base;
-
-    @include logo-responsive-sizes( $baseHeight: 59px, $baseWidth: 216px );
-}
-
-.the-oprah-magazine-logo {
-    @extend %logo-base;
-
-    @include logo-responsive-sizes( $baseHeight: 86px, $baseWidth: 64px );
+    @include logo-responsive-sizes( $baseHeight: 68px, $baseWidth: 148px );
 }
 
 
@@ -6861,10 +6865,10 @@ html.full-viewport {
 .product-grid-item {
     @extend %grid-item-3-col;
 
-    .header-row {
-        text-align: left;
+    .image-row {
+        border-width: 0;
     }
-
+    
     .info-block {
         @extend %smallish-arial-text;
 
@@ -7648,13 +7652,13 @@ html.full-viewport {
 
 .cart-count-link {
 
-    #{$iconSelector} {
-    position: relative;
+    #{$iconSelector}{
+        position: relative;
 
-    &:before {
-        position: absolute;
+        &:before {
+            position: absolute;
+        }
     }
-}
 
     .count {
         @extend %smaller-arial-text;
@@ -10169,22 +10173,22 @@ span#resultMessage {
         background: none;
 
         > div {
-            @include prefix('animation', 'bouncedelay 1.4s infinite ease-in-out both');
+            @include prefix('animation', 'bouncedelay 1.5s infinite ease-in-out both');
 
             width: $gutter * 2;
             height: $gutter * 2;
             margin: 0 $gutter/2;
             display: inline-block;
-            border: 1px solid $colorLightGray;
+            border: 1px solid $colorDarkGray;
             border-radius: 100%;
         }
 
         .bounce1 {
-            @include prefix('animation-delay', '-0.32s');
+            @include prefix('animation-delay', '-0.5s');
         }
 
         .bounce2 {
-            @include prefix('animation-delay', '-0.16s');
+            @include prefix('animation-delay', '-0.1s');
         }
     }
 }
