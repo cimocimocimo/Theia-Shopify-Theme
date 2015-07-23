@@ -1,20 +1,13 @@
 module.exports = function(grunt) {
 
-    // Project configuration
-    grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json')
-    });
+    require('load-grunt-tasks')(grunt);
 
     // Private variables
     var private = grunt.file.readJSON('private.json');
 
-    grunt.loadNpmTasks('grunt-shopify');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-sass');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-
+    // Private variables
     grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
         shopify: {
             options: {
                 api_key: private.shopify.api_key,
@@ -71,4 +64,7 @@ module.exports = function(grunt) {
             }
         }
     });
+
+    // Default task(s).
+    grunt.registerTask('default', ['watch']);
 };
