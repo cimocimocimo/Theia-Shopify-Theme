@@ -1,5 +1,5 @@
 {% capture coll_url %}{{ shop.url }}/collections/{{ coll.handle }}{% endcapture %}
-<div class="sub-menu-column">
+<li class="sub-menu-column">
   <a class="sub-menu-header" href="{{ coll_url }}">{{ coll.title }}</a>
   <!-- these are the tags that are present in this collection -->
   {% comment %}
@@ -8,4 +8,4 @@
   <a class="sub-menu-link" href="{{ coll_url }}/{{ cat | handle }}">{{ cat }}</a>
   {% endif %}{% endfor %}
   {% endcomment %}
-</div>
+</li>

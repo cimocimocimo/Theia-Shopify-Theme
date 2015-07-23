@@ -100,6 +100,7 @@ $colorLightGray: #d8d8d8;
 $colorMidGray: #bcbbbb;
 $colorGray: #8d8d8d;
 $colorDarkGray: #616161;
+$colorDarkerMidGray: #4d4c4c;
 $colorDarkerGray: #2f2f2f;
 
 $colorWarmLighterGray: #f9f8f8;
@@ -726,19 +727,6 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 
 %link-base {
     white-space: nowrap;
-}
-
-%base-link {
-    text-decoration: none;
-    white-space: nowrap;
-    color: $colorGray;
-
-    &:hover,
-    &:active,
-    &.active,
-    &:focus {
-        color: $colorGold;
-    }
 }
 
 /* link text styles */
@@ -1578,7 +1566,7 @@ hr {
     @extend %smallish-arial-text;
 
     height: 30px;
-    padding: 5px 12px 0;
+    padding: 7px 12px 0;
     text-transform: uppercase;
     font-weight: 700;
 }
@@ -1600,11 +1588,14 @@ hr {
 }
 
 %gray-button-base {
-    @extend %gray-outline-block-small;
-}
+    @include transition(all 0.3s);
+    
+    background: $colorDarkerMidGray;
+    color: $colorWhite;
 
-%lightGray-button-base {
-
+    &:hover {
+        background-color: $colorDarkGold;
+    }
 }
 
 %icon-button-base {
@@ -1639,7 +1630,7 @@ hr {
 %large-gold-arrow-button {
     @extend %button-base;
     @extend %large-button-base;
-    @extend %gold-button-base;
+    @extend %gray-button-base;
     @extend %arrow-icon-button-base;
 
     .icon {
@@ -1660,11 +1651,23 @@ hr {
     }
 }
 
+/* gray, small button with solid arrow icon */
+%small-gray-arrow-button {
+    @extend %button-base;
+    @extend %small-button-base;
+    @extend %gray-button-base;
+    @extend %arrow-icon-button-base;
+
+    .icon {
+        top: 1px;
+    }
+}
+
 /* gold, medium button with rsaquo */
 %large-gold-rsaquo-button {
     @extend %button-base;
     @extend %large-button-base;
-    @extend %gold-button-base;
+    @extend %gray-button-base;
     @extend %rsaquo;
 }
 
@@ -1672,7 +1675,7 @@ hr {
 %medium-gold-rsaquo-button {
     @extend %button-base;
     @extend %medium-button-base;
-    @extend %gold-button-base;
+    @extend %gray-button-base;
     @extend %rsaquo-button-base;
 
     .icon {
@@ -1726,25 +1729,25 @@ hr {
 %extra-large-gold-button {
     @extend %button-base;
     @extend %extra-large-button-base;
-    @extend %gold-button-base;
+    @extend %gray-button-base;
 }
 
 %medium-gold-button {
     @extend %button-base;
     @extend %medium-button-base;
-    @extend %gold-button-base;
+    @extend %gray-button-base;
 }
 
 %small-gold-button {
     @extend %button-base;
     @extend %small-button-base;
-    @extend %gold-button-base;
+    @extend %gray-button-base;
 }
 
 %mini-gold-button {
     @extend %button-base;
     @extend %mini-button-base;
-    @extend %gold-button-base;
+    @extend %gray-button-base;
     @extend %rsaquo-button-base;
 }
 
@@ -4574,7 +4577,7 @@ $smallSocialIconRatio: (2.66/3.375);
     }
 
     .button {
-        @extend %small-gold-arrow-button;
+        @extend %small-gray-arrow-button;
 
         text-align: center;
         width: 160px;
@@ -4617,7 +4620,7 @@ $smallSocialIconRatio: (2.66/3.375);
 
     /* Desktop */
     @include at-query ($min, $postSmall) {
-        height: 96px;
+        height: auto;
         width: 96px;
     }
 
@@ -4626,7 +4629,7 @@ $smallSocialIconRatio: (2.66/3.375);
         position: absolute;
         top: 0;
         left: 0;
-        height: 64px;
+        height: auto;
         width: 64px;
     }
 }
@@ -6847,7 +6850,7 @@ html.full-viewport {
     @extend %grid-item-4-col;
 
     .button {
-        @extend %small-gold-arrow-button;
+        @extend %small-gray-arrow-button;
     }
 
     /* **todo** some of the collection photos are not the correct aspect ratio. Fix this with either custome or better images. */
@@ -6876,7 +6879,7 @@ html.full-viewport {
         @extend %smallish-arial-text;
 
         text-transform: uppercase;
-        color: $colorMidGray;
+        color: $colorGray;
         text-align: left;
     }
 
@@ -6885,7 +6888,7 @@ html.full-viewport {
     }
 
     .button {
-        @extend %small-gold-arrow-button;
+        @extend %small-gray-arrow-button;
 
         text-align: center;
     }
@@ -9826,7 +9829,7 @@ $opacity-not-active: .25;
     height: 100%;
     top: 0;
     right: -$mobileNavMenuWidth;
-    z-index: 1000;
+    z-index: $zindexNavigation;
 
     &.open {
         right: 0px;
@@ -10324,26 +10327,12 @@ span#resultMessage {
     }
 }
 
-.dress-sizing-link,
-.modal-close-link {
+.dress-sizing-link {
     @extend %gray-underline-hover-gold-link;
     @extend %rsaquo;
     @extend %smallish-arial-text;
 
     text-transform: uppercase;
-}
-
-.modal-content-block {
-    padding: $gutter $gutter 0;
-}
-
-.modal-controls-block {
-    padding: $gutter $gutter 0;
-}
-
-.modal-close-link {
-    margin: $gutter auto 0;
-    text-align: center;
 }
 
 .add-to-waitlist-modal {
@@ -10367,33 +10356,9 @@ span#resultMessage {
     }
 }
 
-
-// modal
-#lean_overlay {
-    position: absolute;
-    z-index: $zindexModal;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-    height:100%;
-    width:100%;
-    background: #000;
-    display: none;
-}
-
-.modal {
-    z-index: $zindexModal + 100;
-    background: #fff;
-    padding-bottom: $gutter;
-}
-
 .js-no-scroll {
     overflow: hidden;
 }
-
-
-
 
 // vex styles
 
@@ -11270,4 +11235,6 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
     height: 2.5em;
     width: 2.5em;
 }
+
+// end vex
 
