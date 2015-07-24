@@ -287,18 +287,21 @@ in the URL, we can show next/previous links to other products in the collection.
 
 {% endif %}
 
-<div class="newsletter-signup-hero">
+<div class="social-link-newsletter-hero">
+  <div class="wrapper">
+    <div class="social-link-newsletter-column">
 
-  <h2>Keep in Touch:</h2>
+      <h2>Keep in touch</h2>
 
-  {% include 'newsletter-signup-block' %}
+      {% include 'social-link-block' %}
 
-</div>
+    </div>
+    <div class="social-link-newsletter-column">
 
-<div class="social-link-hero">
+      {% include 'newsletter-signup-block' %}
 
-  {% include 'social-link-block' %}
-
+    </div>
+  </div>
 </div>
 
 <div id="dress-sizing-modal-content" class="modal hidden">

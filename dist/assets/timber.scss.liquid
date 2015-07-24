@@ -299,11 +299,11 @@ $arialFontStack: Arial, sans-serif;
 $centuryGothicFontStack: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
 
 // Header Font
-$headerFontStack: $helveticaFontStack;
+$headerFontStack: $centuryGothicFontStack;
 $headerFontWeight: 100;
 
 // Body Font
-$bodyFontStack: $helveticaFontStack;
+$bodyFontStack: $centuryGothicFontStack;
 $baseFontSize: 100%; // Henseforth known as 1em (assumed at 16px)
 
 
@@ -553,7 +553,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
   ================================================================================*/
 
 %large-arial-text {
-    font-family: $arialFontStack;
+    font-family: $bodyFontStack;
 
     @include at-query ($min, $postSmall) {
         font-size: 1.5em; /* ~24px */
@@ -565,7 +565,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 }
 
 %medium-arial-text {
-    font-family: $arialFontStack;
+    font-family: $bodyFontStack;
 
     @include at-query ($min, $postSmall) {
         font-size: 1.125em; /* ~18px */
@@ -577,7 +577,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 }
 
 %small-mid-arial-text {
-    font-family: $arialFontStack;
+    font-family: $bodyFontStack;
 
     @include at-query ($min, $postSmall) {
         font-size: 0.875em; /* ~14px */
@@ -589,7 +589,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 }
 
 %small-bold-arial-text {
-    font-family: $arialFontStack;
+    font-family: $bodyFontStack;
     font-weight: 700;
 
     @include at-query ($min, $postSmall) {
@@ -602,7 +602,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 }
 
 %small-arial-text {
-    font-family: $arialFontStack;
+    font-family: $bodyFontStack;
 
     @include at-query ($min, $postSmall) {
         font-size: 0.8125em; /* ~13px */
@@ -614,14 +614,14 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 }
 
 %smallish-arial-text {
-    font-family: $arialFontStack;
+    font-family: $bodyFontStack;
     font-weight: 700;
 
     font-size: 0.75em; /* ~12px */
 }
 
 %smaller-arial-text {
-    font-family: $arialFontStack;
+    font-family: $bodyFontStack;
     font-weight: 700;
 
     @include at-query ($min, $postSmall) {
@@ -1247,7 +1247,7 @@ textarea,
 button,
 select {
     font-size: 1em;
-    font-family: $arialFontStack;
+    font-family: $bodyFontStack;
     line-height: 1.4375; // ~23px with a font size of 16px
     font-weight: 400;
     color: $colorWarmGray;
@@ -1256,7 +1256,7 @@ select {
 
     @include placeholder {
         line-height: 1.4375; // ~23px with a font size of 16px
-        font-family: $arialFontStack;
+        font-family: $bodyFontStack;
         color: $colorMidGray;
     }
 }
@@ -1554,7 +1554,7 @@ hr {
 
 %medium-button-base {
     height: 44px;
-    padding: 4px $gutter;
+    padding: 6px $gutter;
     line-height: 36px;
 
     font-size: 1.125em;
@@ -4773,7 +4773,7 @@ $smallSocialIconRatio: (2.66/3.375);
         line-height: 1;
         text-transform: uppercase;
         font-size: 12px;
-        font-family: $arialFontStack;
+        font-family: $bodyFontStack;
         font-weight: 700;
     }
 
@@ -4997,13 +4997,13 @@ address {
             @extend %header-column;
 
             text-align: right;
-            width: 218px;
+            width: 220px;
         }
 
         .search-column {
             @extend %header-column;
 
-            width: 220px;
+            width: 218px;
         }
     }
 
@@ -7948,6 +7948,16 @@ html.full-viewport {
     text-align: center;
     padding: $gutter * 3 0;
 
+    .wrapper {
+
+    }
+    
+    .template-index & {
+        .wrapper {
+            max-width: none;
+        }
+    }
+    
     h2 {
         letter-spacing: -1px;
     }
@@ -7971,7 +7981,7 @@ html.full-viewport {
     width: 50%;
     padding: $gutter * 3 $gutter;
     text-align: center;
-
+    
     @include at-query($max, $medium){
         float: none;
         width: auto;
@@ -8039,137 +8049,54 @@ html.full-viewport {
         color: $colorWarmGray;
         margin: 0;
     }
+    
+    h4 {
+        font-weight: 300;
+        line-height: 1.25;
+    }
 
-    /* template specific layouts */
+    .form-block {
+        margin: 0 auto;
+    }
 
-    /* two row layout */
-    .template-index & {
+    @include at-query( $min, $postSmall ){
+
         h4 {
-            font-weight: 300;
-            line-height: 1.25;
+            font-size: 1.75em;
+        }
+
+        .header-block {
+            max-width: 416px;
+            margin: 0 auto ( $gutter / 2 );
         }
 
         .form-block {
-            margin: 0 auto;
-        }
-
-        @include at-query( $min, $postSmall ){
-
-            h4 {
-                font-size: 1.75em;
-            }
-
-            .header-block {
-                max-width: 416px;
-                margin: 0 auto ( $gutter / 2 );
-            }
-
-            .form-block {
-                max-width: 352px;
-            }
-        }
-
-        @include at-query( null, $postSmall, $medium) {
-            max-width: $small - $gutter;
-
-            h4 {
-                font-size: 1.5em;
-            }
-        }
-
-        @include at-query( $max, $small ){
-            width: 100%;
-
-            border-left: 0;
-            border-right: 0;
-
-            h4 {
-                font-size: 1.25em;
-            }
-
-            .header-block {
-                margin: 0 auto $gutter;
-            }
+            max-width: 352px;
         }
     }
 
-    /* single row, two column layout */
-    .template-collection &,
-    .template-product &,
-    .template-list-collections & {
-        padding: 0 5px;
+    @include at-query( null, $postSmall, $medium) {
+        max-width: $small - $gutter;
 
-        /* Desktop */
-        @include at-query ($min, $large) {
-            > * {
-                display: inline-block;
-                height: 68px;
-                vertical-align: top;
-                margin: 0 5px;
-            }
-
-            .form-block {
-                width: 300px;
-                padding-top: 10px;
-            }
-
-            h4 {
-                line-height: 68px;
-                font-family: $arialFontStack;
-                font-size: 18px;
-            }
-        }
-
-        @include at-query( null, $postSmall, $preLarge ){
-            width: 608px;
-            padding: $gutter * 1.75;
-
-            h4 {
-                font-size: 1.75em;
-                line-height: 1.25;
-                font-weight: 300;
-            }
-
-            .header-block {
-                max-width: 416px;
-                margin: 0 auto ( $gutter / 2 );
-            }
-
-            .form-block {
-                max-width: 352px;
-                margin: 0 auto;
-            }
-        }
-
-        @include at-query( null, $postSmall, $medium) {
-            max-width: $small - $gutter;
-
-            h4 {
-                font-size: 1.5em;
-            }
-        }
-
-        /* Mobile */
-        @include at-query ($max, $small) {
-            width: 100%;
-            padding: ($gutter * 2) $gutter;
-
-            border: {
-                left: 0;
-                right: 0;
-            }
-
-            h4 {
-                font-weight: 300;
-                font-size: 20px;
-                line-height: 1.1;
-            }
-
-            .header-block {
-                margin: 0 auto $gutter;
-            }
+        h4 {
+            font-size: 1.5em;
         }
     }
+
+    @include at-query( $max, $small ){
+        width: 100%;
+
+        border-left: 0;
+        border-right: 0;
+
+        h4 {
+            font-size: 1.25em;
+        }
+
+        .header-block {
+            margin: 0 auto $gutter;
+        }
+    }   
 }
 
 .newsletter-form {
