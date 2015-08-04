@@ -4,10 +4,8 @@
       <li><a class="main-menu-link" href="/">Home</a></li>
     {% endif %}
     {% for link in linklists.main-menu.links %}
-      {% if link.url contains '/collections/?view=' %}
-        {% assign link_id = link.url | split: '=' %}
-        {% assign link_id = link_id[1] %}
-        {% capture menu_target %}{{ link_id }}{% endcapture %}
+      {% if link.type == 'collection_link' %}
+        {% capture menu_target %}{{ link.object.handle }}{% endcapture %}
       {% else %}
         {% assign link_id = link.title | handle %}
         {% assign menu_target = false %}
@@ -21,6 +19,7 @@
       <li><a id="{{ link_id }}-side-nav-main-menu-link" class="main-menu-link{% if menu_target %} js-has-sub-menu{% endif %}" {% if menu_target %}data-target="{{ menu_target }}" {% endif %}href="{{ link.url }}">{{ link.title }}</a>
         <!-- mobile sub-nav -->
         {% if menu_target %}
+          {% assign coll = link.object %}
           {% include 'side-nav-sub-menu' %}
         {% endif %}
       </li>

@@ -1,1 +1,10 @@
-{% assign sub-menu-categories = 'Testing Tag, oyster, gold, nickel, black, blonde, silver, cerise, watermelon, coral, ' | split: ',' %}
+{% capture coll_url %}{{ shop.url }}/collections/{{ coll.handle }}{% endcapture %}
+{% if coll.handle == 'shop' %}
+  {% assign sub-menu-categories = 'New Arrivals, Evening Gowns, Cocktail Dresses' | split: ', ' %}
+  {% comment %}
+  {% elsif coll.handle == 'bridal' %}
+  {% assign sub-menu-categories = 'Bridal 2013, Bridal 2014, Bridal 2015, Bridal 2016, Bridal 2017' | split: ', ' %}
+  {% endcomment %}
+{% elsif coll.handle == 'evening-wear' %}
+  {% assign sub-menu-categories = 'Resort 2015, Spring 2015, Fall 2015, Pre-Fall 2015' | split: ', ' %}
+{% endif %}

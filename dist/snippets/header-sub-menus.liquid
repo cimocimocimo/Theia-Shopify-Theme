@@ -1,21 +1,6 @@
-{% include 'sub-menu-categories' %}
 <!-- Shop - available-online -->
-<div id="sub-menu-desktop-available-online" class="js-header-sub-menu sub-menu-desktop-available-online">
-  <ul>
-    {% for coll in collections %}
-      {% if coll.metafields.collection.type == 'available-online' %}
-        {% include 'header-sub-menu' %}
-      {% endif %}
-    {% endfor %}
-  </ul>
+{% for coll in collections %}
+<div id="sub-menu-desktop-{{ coll.handle }}" class="js-header-sub-menu sub-menu-desktop">
+  {% include 'header-sub-menu' %}
 </div>
-<!-- Collections - exclusive -->
-<div id="sub-menu-desktop-exclusive" class="js-header-sub-menu sub-menu-desktop-exclusive">
-  <ul>
-    {% for coll in collections %}
-      {% if coll.metafields.collection.type == 'exclusive' %}
-        {% include 'header-sub-menu' %}
-      {% endif %}
-    {% endfor %}
-  </ul>
-</div>
+{% endfor %}

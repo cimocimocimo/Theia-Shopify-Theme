@@ -53,9 +53,15 @@ For more information on collection tags:
     <div class="content">
 
       <h2>
-        {{ collection.title }}
-        <br />
-        Collection
+        {% if collection.handle == 'shop' %}
+          Welcome
+          <br/>
+          to the Shop
+        {% else %}
+          {{ collection.title }}
+          <br />
+          Collection
+        {% endif %}
       </h2>
 
     </div>
@@ -67,7 +73,11 @@ For more information on collection tags:
 
 <div class="page-header">
   <div class="wrapper">
+    {% if current_tags %}
+    <h2>{{ current_tags }}</h2>
+    {% else %}
     <h2>In this collection:</h2>
+    {% endif %}
   </div>
 </div>
 <div class="product-grid-hero">
@@ -132,19 +142,22 @@ For more information on collection tags:
 
 <hr class="hr-4-col" />
 
-<div class="collection-grid-hero">
-  <div class="wrapper">
+{% comment %}
+  <!-- commented out till we fix this block. -->
+  <div class="collection-grid-hero">
+    <div class="wrapper">
 
-    <h2>Other collections from THEIA:</h2>
+      <h2>Other collections from THEIA:</h2>
 
-    {% for collection in collections limit:4 %}
+      {% for collection in collections limit:4 %}
 
-      {% include 'collection-grid-item' %}
+        {% include 'collection-grid-item' %}
 
-    {% endfor %}
+      {% endfor %}
 
+    </div>
   </div>
-</div>
+{% endcomment %}
 
 <hr class="hr-4-col" />
 

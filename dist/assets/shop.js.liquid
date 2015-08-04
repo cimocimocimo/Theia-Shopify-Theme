@@ -65,6 +65,7 @@ timber.init = function () {
     // Run on load
     timber.accessibleNav();
     timber.productImageSwitch();
+    timber.productImageZoom();
     timber.carouselInit();
     timber.loginFormInit();
     timber.celebrityGallery();
@@ -339,26 +340,28 @@ timber.celebrityGallery = function(){
 };
 
 timber.headerSubNav = function(){
-
+    
     // get elements
-    var $subNavRow = timber.cache.headerSubNav.$row,
+    var $mainMenu = timber.cache.headerSubNav.$mainMenu,
+        $subNavRow = timber.cache.headerSubNav.$row,
         $subMenus = timber.cache.headerSubNav.$subMenus,
-        $availableOnlineSubMenu = $('#sub-menu-desktop-available-online'),
-        $exclusiveSubMenu = $('#sub-menu-desktop-exclusive'),
-        $mainMenu = timber.cache.headerSubNav.$mainMenu,
-        $subMenuLinks = $mainMenu.find('#available-online-header-main-menu-link, #exclusive-header-main-menu-link'),
-        $shopLink = $mainMenu.find('#available-online-header-main-menu-link'),
-        $collectionsLink = $mainMenu.find('#exclusive-header-main-menu-link'),
+        $subMenuLinks = $mainMenu.find('.js-has-sub-menu'),
         menuClosetimeoutId;
 
     // set the sub menu left offset to be the same as the link
     function setMenuHorizontalPositions(){
-        var shopLinkLeftOffset = $shopLink.offset().left,
-            collectionsLinkLeftOffset = $collectionsLink.offset().left;
-
-        $availableOnlineSubMenu.css('left', shopLinkLeftOffset);
-        $exclusiveSubMenu.css('left', collectionsLinkLeftOffset);
-        console.log('setting positions');
+        var $currentLink,
+            currentOffset,
+            currentTarget,
+            $currentMenu;
+        
+        for (var i = 0; i<$subMenuLinks.length; i++){
+            $currentLink = $subMenuLinks.eq(i);
+            currentOffset = $currentLink.offset().left;
+            currentTarget = $currentLink.attr('data-target');
+            $currentMenu = $('#sub-menu-desktop-' + currentTarget);
+            $currentMenu.css('left', currentOffset);
+        }
     }
     setMenuHorizontalPositions();
 
@@ -581,12 +584,24 @@ timber.accessibleNav = function () {
     }
 };
 
+timber.productImageZoom = function(){
+    if (!timber.cache.productPage.$mainImage){
+        return;
+    }
+
+    var $mainImage = timber.cache.productPage.$mainImage;
+
+    if ($(window).width() >= 1024){
+        $mainImage.elevateZoom({ zoomType: 'inner' });
+    }
+}
+
 timber.productImageSwitch = function () {
     if ( !timber.cache.productPage.$thumbImages.length ) {
         return;
     }
     
-    $('#productPhotoImg').elevateZoom({ zoomType : "inner"});
+    // $('#productPhotoImg').elevateZoom({ zoomType : "inner"});
     
     // Switch the main image with one of the thumbnails
     // Note: this does not change the variant selected, just the image
@@ -595,10 +610,10 @@ timber.productImageSwitch = function () {
         timber.cache.productPage.$newImage = $(this).attr('href');
         timber.cache.productPage.$mainImage.attr({ src: timber.cache.productPage.$newImage });
 
-        // change the loupe image
-        //$('.loupe img').attr({ src: timber.cache.productPage.$newImage });
         // change the background image in the zoom window
-        $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
+        if ($(window).width() >= 1024){
+            $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
+        }
     });
 };
 

@@ -254,7 +254,7 @@ in the URL, we can show next/previous links to other products in the collection.
         {% endcomment %}
         {% assign this_product = product %}
 
-        {% for product in collection.products limit:5 %}
+        {% for product in collection.products limit:4 %}
 
           {% if product.id != this_product.id %}
 
@@ -264,13 +264,11 @@ in the URL, we can show next/previous links to other products in the collection.
 
         {% endfor %}
 
-
         {% if paginate.pages > 1 %}
           <div class="text-center">
             {% include 'pagination-custom' %}
           </div>
         {% endif %}
-
 
         {% comment %}
         Restore the current page product.

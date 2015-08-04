@@ -5062,8 +5062,7 @@ address {
     position: relative;
     z-index: 0;
 
-    .sub-menu-desktop-available-online,
-    .sub-menu-desktop-exclusive {
+    .sub-menu-desktop {
         @extend %clearfix;
         @include transform(translateY(0%));
 
@@ -5874,7 +5873,7 @@ html.full-viewport {
     
     h2 {
         font-family: $centuryGothicFontStack;
-        font-size: 60px;
+        font-size: 46px;
         color: $colorWarmDarkGray;
         text-transform: uppercase;
         margin: 0 0 $gutter*2;
@@ -5915,7 +5914,7 @@ html.full-viewport {
         }
 
         h2 {
-            font-size: 30px;
+            font-size: 26px;
             margin: 0 0 $gutter;
         }
 
@@ -5942,7 +5941,7 @@ html.full-viewport {
         }
 
         h2 {
-            font-size: 40px;
+            font-size: 32px;
             margin: 0 0 21px;
         }
 
@@ -5969,7 +5968,7 @@ html.full-viewport {
         }
 
         h2 {
-            font-size: 60px * $scalePostMediumLarge;
+            font-size: 46px * $scalePostMediumLarge;
             margin: 0 0 $gutter*2 * $scalePostMediumLarge;
         }
 
@@ -5994,7 +5993,7 @@ html.full-viewport {
         }
         
         h2 {
-            font-size: 60px * $scalePostLargeXLarge;
+            font-size: 46px * $scalePostLargeXLarge;
             margin: 0 0 $gutter*2 * $scalePostLargeXLarge;
         }
 
@@ -6873,6 +6872,26 @@ html.full-viewport {
 
     .image-row {
         border-width: 0;
+        min-height: 384px;
+        position: relative;
+
+        a {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
     }
     
     .info-block {
@@ -6913,6 +6932,10 @@ html.full-viewport {
             margin-bottom: 0;
         }
 
+        .image-row {
+            min-height: 218px;
+        }
+        
         .info-block {
             height: 24px;
             font-size: 9px;
@@ -11165,3 +11188,9 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
 
 // end vex
 
+// elevate zoom styles for the product image zoom
+.zoomWindowContainer {
+    @include at-query($max, $large){
+        display: none !important;
+    }
+}
