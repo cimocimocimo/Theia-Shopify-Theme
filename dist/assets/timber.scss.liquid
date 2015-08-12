@@ -6700,8 +6700,6 @@ html.full-viewport {
         line-height: 1;
 
         a {
-            @extend %rsaquo;
-
             color: $colorWarmDarkGray;
 
             &:after {
@@ -6725,14 +6723,16 @@ html.full-viewport {
     /* Desktop */
     @include at-query ($min, $postSmall) {
         margin: ( $gutter / 2 ) ( $gutter - 2px );
-
+        
+        .header-row {
+            height: 32px;
+        }
+        
         [class$="-row"] {
             margin: $gutter 0;
         }
 
         h4 {
-            @include overflowEllipsis();
-
             font-size: 1em; /* ~16px */
         }
     }
@@ -7962,6 +7962,18 @@ html.full-viewport {
     
     .image {
         background-image: url({{'amy-poehler-press-block-bg.jpg' | asset_url}});
+    }
+}
+
+.block-navigation-link-collection {
+    @extend %block-navigation-link-base;
+    
+    &:before {
+        background-image: url({{'evening-wear-collection-block-bg.jpg' | asset_url}});
+    }
+    
+    .image {
+        background-image: url({{'evening-wear-collection-block-bg.jpg' | asset_url}});
     }
 }
 
@@ -9389,7 +9401,7 @@ $opacity-not-active: .25;
     $radius: $diameter / 2;
 
     position: absolute;
-    bottom: -54px;
+    bottom: -104px;
     height: $diameter;
     list-style: none;
     display: block;
@@ -9449,9 +9461,15 @@ $opacity-not-active: .25;
     h2 {
         margin-top: 0;
         line-height: 1;
+        margin-bottom: 0;
+    }
+    
+    h3 {
+        margin-top: 0;
+        line-height: 1;
         margin-bottom: 18px;
     }
-
+    
     header {
         @extend .clearfix;
 
@@ -9491,7 +9509,7 @@ $opacity-not-active: .25;
 
     @include at-query( $min, $postLarge ){
         .wrapper {
-            height: 698px;
+            height: 820px;
         }
 
         .content {
@@ -9559,7 +9577,7 @@ $opacity-not-active: .25;
     /* landscape tablets */
     @include at-query( null, $postMedium, $large ){
         .wrapper {
-            height: 620px;
+            height: 720px;
             max-width: (($large - $medium)/2) + $medium;
         }
 
@@ -9634,7 +9652,7 @@ $opacity-not-active: .25;
 
         .wrapper {
             max-width: $small;
-            height: 712px;
+            height: 876px;
         }
 
         .content {
@@ -9659,7 +9677,10 @@ $opacity-not-active: .25;
 
         .carousel {
             width: 55%;
-            height: 346px;
+        }
+
+        .slick-dots {
+            bottom: -28px;
         }
 
         .slide p {
@@ -9667,7 +9688,7 @@ $opacity-not-active: .25;
         }
 
         img {
-            right: -106px;
+            right: -176px;
             height: 63%;
         }
     }
@@ -9706,7 +9727,7 @@ $opacity-not-active: .25;
     /* Mobile */
     @include at-query ($max, $small) {
         .wrapper {
-            height: 620px;
+            height: 832px;
             max-width: 320px;
         }
 
@@ -9730,7 +9751,6 @@ $opacity-not-active: .25;
         }
 
         .carousel {
-            height: 256px;
             width: 192px + 32px;
         }
 
@@ -9739,7 +9759,7 @@ $opacity-not-active: .25;
         }
 
         .slick-dots {
-            bottom: -90px;
+            bottom: -28px;
             left: 0;
         }
 
