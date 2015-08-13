@@ -2006,6 +2006,10 @@ hr {
 %hero-medium {
     @extend %hero-base;
 
+    background-size: auto 100%;
+    background-position: top center;
+    background-repeat: repeat-x;
+    
     h2,
     h3 {
         line-height: 1;
@@ -5441,6 +5445,16 @@ address {
 
 .collection-page-hero {
     @extend %hero-large;
+
+    background-image: url({{ 'collection-page-hero-bg-DELETE.jpg' | asset_url }});
+
+    .content {
+        top: $gutter * 3.75;
+    }
+}
+
+.shop-page-hero {
+    @extend %hero-medium;
 
     background-image: url({{ 'collection-page-hero-bg-DELETE.jpg' | asset_url }});
 

@@ -13,54 +13,68 @@ For more information on collection tags:
     {% if collection.metafields.other_images.desktop_hero != blank %}
     {% assign other_images = collection.metafields.other_images %}
 
-    .collection-page-hero {
+    .collection-page-hero,
+    .shop-page-hero {
         background-image: url('{{ other_images.desktop_hero }}');
     }
 
     @media screen and (min-width: 481px) and (max-width: 1024px){
-        .collection-page-hero {
+        .collection-page-hero,
+        .shop-page-hero {
             background-image: url('{{ other_images.tablet_hero }}');
         }
     }
 
     @media screen and (max-width: 480px){
-        .collection-page-hero {
+        .collection-page-hero,
+        .shop-page-hero {
             background-image: url('{{ other_images.mobile_hero }}');
         }
     }
     {% endif %}
     {% if collection.metafields.hero.headingColor != blank %}
-    .collection-page-hero h2 {
+    .collection-page-hero h2,
+    .shop-page-hero h2 {
         color: {{ collection.metafields.hero.headingColor }};
     }
     {% endif %}
 
     {% if collection.metafields.hero.hideHeading == 'true' %}
+    .collection-page-hero .content,
     .collection-page-hero .content {
         display: none;
     }
     {% endif %}
 
     {% if collection.metafields.hero.centerBackground == 'true' %}
-    .collection-page-hero {
+    .collection-page-hero,
+    .shop-page-hero {
         background-position: top center !important;
     }
     {% endif %}
 </style>
 
-<div id="collectiontop" class="collection-page-hero">
+<div id="collectiontop" class="{% if collection.handle == 'shop' %}shop-page-hero{% else %}collection-page-hero{% endif %}">
   <div class="wrapper">
     <div class="content">
 
       <h2>
-        {% if collection.handle == 'shop' %}
-          Shop
-          <br/>
-          THEIA
+        {% if current_tags %}
+          {{ current_tags }}
         {% else %}
-          {{ collection.title }}
-          <br />
-          Collection
+          {% if collection.handle == 'shop' %}
+            Shop
+            <br/>
+            THEIA
+          {% elsif collection.handle == 'collections' %}
+            THEIA
+            <br/>
+            Collections
+          {% else %}
+            {{ collection.title }}
+            <br />
+            Collection
+          {% endif %}
         {% endif %}
       </h2>
 
@@ -71,18 +85,8 @@ For more information on collection tags:
   </div>
 </div>
 
-<div class="page-header">
-  <div class="wrapper">
-    {% if current_tags %}
-    <h2>{{ current_tags }}</h2>
-    {% else %}
-    <h2>In this collection:</h2>
-    {% endif %}
-  </div>
-</div>
 <div class="product-grid-hero">
   <div class="wrapper">
-
 
     {% paginate collection.products by 12 %}
 

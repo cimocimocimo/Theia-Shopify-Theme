@@ -4,7 +4,7 @@
       <li><a class="main-menu-link" href="/">Home</a></li>
     {% endif %}
     {% for link in linklists.main-menu.links %}
-      {% if link.type == 'collection_link' %}
+      {% if link.type == 'collection_link' and link.object.handle != 'bridal' %}
         {% capture menu_target %}{{ link.object.handle }}{% endcapture %}
       {% else %}
         {% assign link_id = link.title | handle %}
@@ -12,11 +12,24 @@
       {% endif %}
       {% case location %}
       {% when 'footer' %}
-      <li><a id="{{ link_id }}-footer-main-menu-link" class="main-menu-link" href="{{ link.url }}">{{ link.title }}</a></li>
+      <li>
+        <a id="{{ link_id }}-footer-main-menu-link"
+           class="main-menu-link"
+           href="{{ link.url }}">{{ link.title }}</a>
+      </li>
       {% when 'header' %}
-      <li><a id="{{ link_id }}-header-main-menu-link" class="main-menu-link{% if menu_target %} js-has-sub-menu{% endif %}" {% if menu_target %}data-target="{{ menu_target }}" {% endif %}href="{{ link.url }}">{{ link.title }}</a></li>
+      <li>
+        <a id="{{ link_id }}-header-main-menu-link"
+           class="main-menu-link{% if menu_target %} js-has-sub-menu{% endif %}"
+           {% if menu_target %}data-target="{{ menu_target }}"{% endif %}
+           href="{{ link.url }}">{{ link.title }}</a>
+      </li>
       {% when 'side-nav' %}
-      <li><a id="{{ link_id }}-side-nav-main-menu-link" class="main-menu-link{% if menu_target %} js-has-sub-menu{% endif %}" {% if menu_target %}data-target="{{ menu_target }}" {% endif %}href="{{ link.url }}">{{ link.title }}</a>
+      <li>
+        <a id="{{ link_id }}-side-nav-main-menu-link"
+           class="main-menu-link{% if menu_target %} js-has-sub-menu{% endif %}"
+           {% if menu_target %}data-target="{{ menu_target }}"{% endif %}
+           href="{{ link.url }}">{{ link.title }}</a>
         <!-- mobile sub-nav -->
         {% if menu_target %}
           {% assign coll = link.object %}

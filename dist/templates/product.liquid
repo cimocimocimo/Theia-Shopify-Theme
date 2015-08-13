@@ -9,12 +9,11 @@ For more information on these Scheme.org tags, visit:
 {% endcomment %}
 
 {% include 'capture-style-number' %}
-{% for collection in product.collections %}
-  {% assign collection_type = collection.metafields.collection.type %}
-  {% if collection_type == 'exclusive' %}
+{% if product.type == 'Theia Shop' %}
+    {% assign is_exclusive = false %}
+{% else %}
     {% assign is_exclusive = true %}
-  {% endif %}
-{% endfor %}
+{% endif %}
 
 
 <div class="product-detail-hero{% if is_exclusive %} product-is-exclusive{% endif %}" itemscope itemtype="http://schema.org/Product">
@@ -142,9 +141,7 @@ For more information on these Scheme.org tags, visit:
                   {% if product.tags contains 'waitlist' and product.available == false %}
                     <a href="#add-to-waitlist-modal" id="add-to-waitlist-link" class="js-open-modal add-to-waitlist-link">Notify When Available</a>
                   {% else %}
-
                     <a href="/account" class="add-to-wishlist-link" id="add-to-wishlist-link" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">Add to wishlist</a>
-
                   {% endif %}
                 </div>
 
@@ -302,37 +299,29 @@ in the URL, we can show next/previous links to other products in the collection.
   </div>
 </div>
 
-<div id="dress-sizing-modal-content" class="modal hidden">
-  <div class="modal-content-block" id="modal-content-dress-size">
-    <div class="vex-content-inner">
-      {{ pages['dress-sizes'].content }}
-    </div>
-  </div>
+<div class="modal-content-block hidden" id="modal-content-dress-size">
+  <div class="vex-content-inner">
 
-  <div class="modal-controls-block">
-    <a href="#" class="modal-close-link">close</a>
+    {{ pages['dress-sizes'].content }}
+
   </div>
 </div>
 
-<div id="add-to-waitlist-modal" class="modal hidden add-to-waitlist-modal">
-
-  <div class="modal-content-block">
+<div class="modal-content-block hidden" id="add-to-waitlist-modal">
+  <div class="vex-content-inner">
 
     <h3>{{ pages['add-to-waitlist'].title }}</h3>
 
     {{ pages['add-to-waitlist'].content }}
 
-  </div>
+    {% include 'capture-style-number' %}
 
-  {% include 'capture-style-number' %}
+    <div class="waitlist-signup-form-block">
 
-  <div class="waitlist-signup-form-block">
+      {% include 'waitlist-signup-form' %}
 
-    {% include 'waitlist-signup-form' %}
+    </div>
 
-  </div>
-
-  <div class="modal-controls-block">
-    <a href="#" class="modal-close-link">close</a>
   </div>
 </div>
+

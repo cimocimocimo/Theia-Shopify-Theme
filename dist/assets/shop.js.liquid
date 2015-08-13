@@ -31,7 +31,7 @@ timber.cache = {
         $bothContainers: $('#body-container, #header-container'),
         $toggle: $('#sideNavToggle'),
         $nav: $( '#mobileSideNav' ),
-        $subMenuLinks: $('.main-menu-link.js-has-sub-menu'),
+        $subMenuLinks: $('#mobileSideNav .main-menu-link.js-has-sub-menu'),
         $subMenus: $('.sub-menu-mobile')
     },
 
@@ -346,6 +346,7 @@ timber.headerSubNav = function(){
         $subNavRow = timber.cache.headerSubNav.$row,
         $subMenus = timber.cache.headerSubNav.$subMenus,
         $subMenuLinks = $mainMenu.find('.js-has-sub-menu'),
+        $nonSubMenuLinks = $mainMenu.find('a:not(.js-has-sub-menu)'),
         menuClosetimeoutId;
 
     // set the sub menu left offset to be the same as the link
@@ -407,7 +408,9 @@ timber.headerSubNav = function(){
     $subMenus.mouseenter(function(event){
         window.clearTimeout(menuClosetimeoutId);
     });
-
+    
+    $nonSubMenuLinks.mouseenter(closeSubMenus);
+    
     function closeSubMenus(){
         $subMenus.removeClass('js-open');
         $subMenuLinks.removeClass('active');

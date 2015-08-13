@@ -9,7 +9,6 @@ JS Plugins
 {{ 'jquery.loupe.min.js' | asset_url | script_tag }}
 {{ 'jquery.elevatezoom.js' | asset_url | script_tag }}
 {{ 'smooth-scroll.js' | asset_url | script_tag }}
-{{ 'jquery.leanModal.min.js' | asset_url | script_tag }}
 {{ 'headroom.min.js' | asset_url | script_tag }}
 {{ 'hammer.min.js' | asset_url | script_tag }}
 {{ 'jQuery.headroom.min.js' | asset_url | script_tag }}
@@ -198,9 +197,14 @@ Ajaxify Cart Documentation:
           {% for option in product.options %}
           {% if option == 'Size' %}
           var colorOptionIndex =  {{ forloop.index0 }};
-          $('.selector-wrapper:eq(' + colorOptionIndex + ')').append('<a href="#dress-sizing-modal-content" id="dress-sizes-link" class="js-open-modal dress-sizing-link">Size Chart</a>');
+          $('.selector-wrapper:eq(' + colorOptionIndex + ')').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">Size Chart</a>');
 
-          $('#dress-sizes-link').click(function() {
+          $('.js-open-modal').click(function(event) {
+              event.preventDefault();
+
+              var $this = $(this),
+                  modalContentSelector = $this.attr('href');
+
               vex.open({
                   // default is no close button
                   showCloseButton: true,
@@ -208,7 +212,8 @@ Ajaxify Cart Documentation:
                   // default is two buttons, we don't want that.
                   // you need the padding at the top else your close button infringes on the content.
                   // dump the table into the modal
-                  content: $('#modal-content-dress-size').html(),
+                  // content: $('#modal-content-dress-size').html(),
+                  content: $(modalContentSelector).html(),
                   className: 'vex-theme-wireframe'
               });
           });

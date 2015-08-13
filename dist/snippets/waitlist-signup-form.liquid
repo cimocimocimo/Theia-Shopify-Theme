@@ -26,7 +26,7 @@
     <input type="hidden" name="STYLENUM" value="{{ style_number }}" id="mce-STYLENUM">
     <input type="hidden" name="DRESSTITLE" value="{{ product.title }}" id="mce-DRESSTITLE">
     <input type="hidden" name="PRODUCTURL" value="{{ shop.url }}{{ product.url }}" id="mce-PRODUCTURL">
-    <input type="hidden" name="IMAGEURL" value="{{ product.featured_image | product_img_url: "grande" }}" id="mce-IMAGEURL">
+    <input type="hidden" name="IMAGEURL" value="http:{{ product.featured_image | product_img_url: "grande" }}" id="mce-IMAGEURL">
 
     <button type="submit" name="subscribe" id="mc-embedded-subscribe">
       <span class="label">Sign up</span>
