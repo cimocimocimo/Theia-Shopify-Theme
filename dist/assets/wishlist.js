@@ -110,7 +110,7 @@ var wishlist = (function($){
 
                         // is the wishlist empty?
                         if ( defaultWishlist.products.length === 0 ){
-                            $wrapper.html('<p style="text-align: center;">Your wishlist is empty. Time to <a href="/collections">start shopping!</a></p>');
+                            $wrapper.html('<p style="text-align: center;">Your wishlist is empty. Time to <a href="/collections/shop">start shopping!</a></p>');
                         }
                     } else {
                         // fail

@@ -56,37 +56,27 @@ For more information on collection tags:
 
 <div id="collectiontop" class="{% if collection.handle == 'shop' %}shop-page-hero{% else %}collection-page-hero{% endif %}">
   <div class="wrapper">
-    <div class="content">
 
-      <h2>
-        {% if current_tags %}
-          {{ current_tags }}
-        {% else %}
-          {% if collection.handle == 'shop' %}
-            Shop
-            <br/>
-            THEIA
-          {% elsif collection.handle == 'collections' %}
-            THEIA
-            <br/>
-            Collections
-          {% else %}
-            {{ collection.title }}
-            <br />
-            Collection
-          {% endif %}
-        {% endif %}
-      </h2>
-
-    </div>
-    <div class="logo">
-
-    </div>
   </div>
 </div>
 
 <div class="product-grid-hero">
   <div class="wrapper">
+
+    <h2>
+      {% if current_tags %}
+        {{ current_tags }}
+      {% else %}
+        {% if collection.handle == 'shop' %}
+          Shop THEIA
+        {% elsif collection.handle == 'collections' %}
+          THEIA Collections
+        {% else %}
+          {{ collection.title }} Collection
+        {% endif %}
+      {% endif %}
+    </h2>
+
 
     {% paginate collection.products by 12 %}
 

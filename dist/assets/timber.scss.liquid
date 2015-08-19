@@ -1291,7 +1291,13 @@ h2, .h2 {
         font-size: 3.25em; // 52px
     }
 }
-h3, .h3 { font-size: 2.25em; }    // 36px
+h3, .h3 {
+    font-size: 2.25em; // 36px
+    
+    @include at-query (null, $postSmall, $large) {
+        font-size: 1.95em; // 32px
+    }
+}    
 h4, .h4 { font-size: 1.5em; }     // 24px
 h5, .h5 { font-size: 1.143em; }   // ? get these values from the PSD
 h6, .h6 { font-size: 1em; }       // ?
@@ -4948,6 +4954,7 @@ address {
 
     position: relative;
     z-index: $zindexNavigation + 100;
+    background: white;
 
     /* Using a mixin here since this is shared between media queries */
     @mixin header-column() {
@@ -4959,14 +4966,10 @@ address {
         float: left;
     }
 
-    
-    background: white;
-
     .wrapper > div {
         @extend %column-base;
     }
 
-    /* Large Desktop */
     @include at-query ($min, $large) {
         padding: $gutter 0;
         height: $desktopHeaderHeight;
@@ -5011,9 +5014,7 @@ address {
         }
     }
 
-    /* Desktop */
-    // narrow some of the widths defined above
-    @include at-query(null, $large, $preXLarge) {
+    @include at-query(null, $postLarge, $preXLarge) {
         .main-menu-column {
             width: 362px;
         }
@@ -5027,8 +5028,7 @@ address {
         }
     }
 
-    /* Mobile */
-    @include at-query ($max, $preLarge) {
+    @include at-query ($max, $large) {
         padding: $gutter/2 0;
 
         height: $mobileHeaderHeight;
@@ -5277,7 +5277,6 @@ address {
 */
 
 .site-logo {
-
     text-align: center;
     margin: 0;
 
@@ -5318,7 +5317,7 @@ address {
         height: 40px;
         width: 154px;
 
-        @include at-query ( $max, $preLarge ) {
+        @include at-query ( $max, $large ) {
             height: 22px;
             width: 84px;
         }
@@ -6691,11 +6690,18 @@ html.full-viewport {
     }
 }
 
-.product-grid-hero,
 .related-products-hero,
 .collection-grid-hero,
 .order-grid-row {
     @extend %grid-block-base;
+}
+
+.product-grid-hero {
+    @extend %grid-block-base;
+
+    h2 {
+        @extend .h3;
+    }
 }
 
 %grid-item-base {
@@ -7544,7 +7550,7 @@ html.full-viewport {
     @extend %inline-list-base;
 
     /* Desktop */
-    @include at-query ($min, $large) {
+    @include at-query ($min, $postLarge) {
         @include verticalCenterChildElements();
 
         height: 41px;
@@ -7565,7 +7571,7 @@ html.full-viewport {
     }
 
     /* Mobile */
-    @include at-query ($max, $preLarge) {
+    @include at-query ($max, $large) {
 
         &, ul, li {
             height: 22px;
@@ -7628,7 +7634,7 @@ html.full-viewport {
         }
 
         /* Desktop */
-        @include at-query ($min, $large) {
+        @include at-query ($min, $postLarge) {
             @include customerLoginLink();
 
             padding: 3px $gutter/2 2px;
@@ -7649,7 +7655,7 @@ html.full-viewport {
         }
 
         /* Mobile */
-        @include at-query ($max, $preLarge) {
+        @include at-query ($max, $large) {
             height: 22px;
             width: 22px;
             border: 1px solid $colorGray;
@@ -7740,7 +7746,7 @@ html.full-viewport {
         }
     }
 
-    @include at-query($min, $large){
+    @include at-query($min, $postLarge){
         #{$iconSelector}{
             &:before {
                 top: -4px;
@@ -7750,7 +7756,7 @@ html.full-viewport {
         }
     }
 
-    @include at-query($max, $preLarge){
+    @include at-query($max, $large){
         #{$iconSelector}{
             &:before {
                 top: -2px;
