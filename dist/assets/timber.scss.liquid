@@ -190,8 +190,9 @@ $radius: 3px;
 
 
 // header heights
-$mobileHeaderHeight: 44px;
-$desktopHeaderHeight: 85px;
+$desktopHeaderTopRowHeight: 32px;
+$desktopHeaderMainRowHeight: 85px;
+$mobileHeaderMainRowHeight: 44px;
 
 
 // moblie side nav
@@ -1014,6 +1015,10 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     @extend %wrapper-base;
 
     max-width: $siteWidth;
+
+    @include at-query(null, $postLarge, $preXLarge){
+        max-width: $large;
+    }
 }
 
 .wrapper-10-col {
@@ -4949,74 +4954,142 @@ address {
     }
 }
 
-.site-header-top-row {
-    @include box-shadow(0 2px 3px rgba(0,0,0,0.05));
+/* Using a mixin here since this is shared between media queries */
+@mixin site-header-column() {
+    @include verticalCenterChildElements();
+    @include box-sizing( content-box );
 
     position: relative;
+    display: block;
+    float: left;
+}
+
+%site-header-row-base {
+    position: relative;
     z-index: $zindexNavigation + 100;
-    background: white;
-
-    /* Using a mixin here since this is shared between media queries */
-    @mixin header-column() {
-        @include verticalCenterChildElements();
-        @include box-sizing( content-box );
-
-        position: relative;
-        display: block;
-        float: left;
+    
+    .wrapper {
+        @extend %clearfix;
     }
-
-    .wrapper > div {
-        @extend %column-base;
-    }
-
+    
     @include at-query ($min, $large) {
-        padding: $gutter 0;
-        height: $desktopHeaderHeight;
-
         .wrapper {
             position: relative;
-            @extend .clearfix;
         }
 
-        %header-column {
-            @include header-column();
-
-            height: $desktopHeaderHeight - $gridGutter;
+        div[class$='-column'] {
             margin: 0 $gutter;
         }
+    }
 
+    @include at-query ($max, $large) {
+        .wrapper {
+            position: relative;
+            margin: 0 $gutter;
+        }
+    }
+}
+
+.site-header-top-row {
+    @extend %site-header-row-base;
+    @include box-shadow(inset 0 -4px 3px -3px rgba(0,0,0,0.05));
+    
+    background: $colorLightestGray;
+    
+    @include at-query ($min, $postLarge) {
+        height: $desktopHeaderTopRowHeight;
+        padding: $gutter/4 0;
+
+        %site-header-main-row-column-postLarge {
+            @include site-header-column();
+
+            height: $desktopHeaderTopRowHeight - $gutter/2;
+        }
+
+        .site-message-column {
+            @extend %site-header-main-row-column-postLarge;
+            
+            width: 544px;
+        }
+
+        .customer-secondary-menu-column {
+            @extend %site-header-main-row-column-postLarge;
+
+            width: 544px;
+            text-align: right;
+        }
+    }
+    
+    @include at-query(null, $postLarge, $preXLarge){
+        .site-message-column {
+            width: 480px;
+        }
+        
+        .customer-secondary-menu-column {
+            width: 480px;
+        }
+    }
+    
+    @include at-query($max, $large){
+        display: none;
+    }
+}
+
+.site-message-block {
+    p {
+        margin: 0;
+        font-size: 13px;
+        font-family: $centuryGothicFontStack;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+}
+
+.site-header-main-row {
+    @extend %site-header-row-base;
+    @include box-shadow(0 2px 3px rgba(0,0,0,0.05));
+
+    background: $colorWhite;
+    
+    @include at-query ($min, $postLarge) {
+        height: $desktopHeaderMainRowHeight;
+        padding: $gutter 0;
+
+        %site-header-main-row-column-postLarge {
+            @include site-header-column();
+
+            height: $desktopHeaderMainRowHeight - $gridGutter;
+        }
+        
+        
         .logo-column {
-            @extend %header-column;
+            @extend %site-header-main-row-column-postLarge;
         }
 
         .main-menu-column {
-            @extend %header-column;
-            width: 432px;
-            text-align: right;
+            @extend %site-header-main-row-column-postLarge;
+            width: 684px;
+            text-align: center;
 
             ul {
                 padding-top: 2px;
             }
         }
 
-        .customer-menu-column {
-            @extend %header-column;
-
-            text-align: right;
-            width: 220px;
-        }
-
         .search-column {
-            @extend %header-column;
+            @extend %site-header-main-row-column-postLarge;
 
             width: 218px;
+        }
+
+        .mobile-ui-column {
+            display: none;
         }
     }
 
     @include at-query(null, $postLarge, $preXLarge) {
         .main-menu-column {
-            width: 362px;
+            width: 584px;
         }
 
         .customer-menu-column {
@@ -5030,31 +5103,23 @@ address {
 
     @include at-query ($max, $large) {
         padding: $gutter/2 0;
+        height: $mobileHeaderMainRowHeight;
 
-        height: $mobileHeaderHeight;
+        %site-header-main-row-column-large {
+            @include site-header-column();
 
-        .wrapper {
-            @extend .clearfix;
-
-            position: relative;
-            margin: 0 $gutter;
-        }
-
-        %header-column {
-            @include header-column();
-
-            height: $mobileHeaderHeight - $gridGutter/2;
+            height: $mobileHeaderMainRowHeight - $gridGutter/2;
         }
 
         .logo-column {
-            @extend %header-column;
+            @extend %site-header-main-row-column-large;
         }
 
-        .customer-menu-column {
-            @extend  %header-column;
+        .mobile-ui-column {
+            @extend  %site-header-main-row-column-large;
             float: right;
         }
-
+        
         .main-menu-column,
         .search-column {
             display: none;
@@ -7553,20 +7618,16 @@ html.full-viewport {
     @include at-query ($min, $postLarge) {
         @include verticalCenterChildElements();
 
-        height: 41px;
+        height: 24px;
         padding: 0 $gutter/2;
-        border-left: 1px solid #f2f2f2;
+        border-right: 1px solid $colorLighterGray;
 
         ul, li {
-            height: 21px;
+            height: 24px;
         }
 
         li {
             margin: 0 -2px; /* inline-block spacing fix */
-        }
-
-        .side-menu-toggle-block {
-            display: none;
         }
     }
 
@@ -7583,6 +7644,27 @@ html.full-viewport {
 
         .profile-login-links-block {
             display: none;
+        }
+    }
+}
+
+.secondary-menu {
+    @extend %inline-list-base;
+
+    /* Desktop */
+    @include at-query ($min, $postLarge) {
+        @include verticalCenterChildElements();
+
+        height: 24px;
+        padding: 0 $gutter/2;
+        border-left: 1px solid #f2f2f2;
+
+        ul, li {
+            height: 24px;
+        }
+
+        li {
+            margin: 0 -2px; /* inline-block spacing fix */
         }
     }
 }
@@ -7697,6 +7779,13 @@ html.full-viewport {
             border: 1px solid $colorWarmGray;
         }
     }
+}
+
+.secondary-menu-link {
+    @extend %gray-hover-gold-link;
+    @extend %small-bold-arial-text;
+
+    padding: 3px $gutter/2 2px;
 }
 
 .cart-count-link {
@@ -9877,7 +9966,7 @@ $opacity-not-active: .25;
     background: $colorPaleGray;
 
     .search-bar-row {
-        height: $mobileHeaderHeight;
+        height: $mobileHeaderMainRowHeight;
         background: #fff;
         padding: 9px $gutter;
 
