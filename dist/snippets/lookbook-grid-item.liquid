@@ -1,0 +1,126 @@
+{% comment %} **todo** adapt this to get the product image data for the dress {% endcomment %}
+{% comment %}
+
+  This snippet is used to showcase each product during the loop,
+  'for product in collection.products' in collection.liquid.
+
+  A liquid variable (grid_item_width) is set just before the this
+  snippet is included to change the size of the container.
+  Once the variable is set on a page, all future instances of this
+  snippet will use that width. Overwrite the variable to adjust this.
+
+  Example
+    - assign grid_item_width = 'large--one-quarter medium--one-half'
+
+{% endcomment %}
+
+{% include 'capture-style-number' %}
+
+{% capture lookbook_modal_id %}lookbook-style-{{ style_number }}-modal{% endcapture %}
+
+{% comment %}
+  Set a class for sold-out and on-sale items
+  add css class for last item, used to determine when to grab new dresses as user scrolls...
+{% endcomment %}
+<div class="product-grid-item {% if lastClass %} last-item{% endif %}">
+
+  {% comment %}
+    Link to your product with the 'within: collection' filter for the link to be aware of the collection.
+    This allows you to create collection-based navigation on the product page.
+
+    Results of using 'within: collection':
+    - Instead of a URL with /products/product-handle
+      you would get /collections/collection-handle/products/product-handle
+
+    For more info on navigation within a collection
+      - http://docs.shopify.com/support/your-store/collections/how-to-navigate-within-a-collection
+
+  {% endcomment %}
+
+  <div class="header-row">
+
+    <h4>
+      <a href="{{ product.url | within: collection }}"{% comment %}href="#{{ lookbook_modal_id }}" class="js-open-modal"{% endcomment %}>{{ product.title }}</a>
+    </h4>
+
+  </div>
+  <div class="image-row">
+
+    <a href="{{ product.url | within: collection }}" {% comment %}href="#{{ lookbook_modal_id }}" class="js-open-modal"{% endcomment %}>
+      <img src="{{ product.featured_image.src | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+    </a>
+
+  </div>
+
+  <div class="meta-row">
+    <div class="info-block">
+      <div>
+        US {{ product.price | money }}
+      </div>
+    </div>
+
+    <div class="button-block">
+      <a class="button" href="{{ product.url | within: collection }}">
+        <span class="label">View Dress</span>
+        <span class="icon"></span>
+      </a>
+
+      {% comment %}      <a class="js-open-modal button" href="#{{ lookbook_modal_id }}">
+        <span class="label">View Dress</span>
+        <span class="icon"></span>
+      </a>
+      {% endcomment %}
+    </div>
+  </div>
+
+</div>
+
+{% comment %}add the data for the modal{% endcomment %}
+
+<div class="modal-content-block hidden" id="{{ lookbook_modal_id }}">
+  <div class="vex-content-inner lookbook-modal">
+    
+    <h3>{{ product.title }}</h3>
+    
+    <div class="product-gallery-block lookbook-modal-image-gallery">
+
+      <div class="product-gallery-image-block" id="productPhoto">
+        {% for image in product.images %}
+        <img src="{{ image.src | product_img_url: 'master' }}"
+             alt="{{ image.alt | escape }}" id="lookbook-modal-main-image-{{ forloop.index }}"
+             data-zoom-image="{{ product.featured_image.src | product_img_url: 'master' }}"
+             class="lookbook-modal-main-image{% if forloop.index != 1 %} js-hidden{% endif %}">
+        {% endfor %}
+      </div>
+
+      {% if product.images.size > 1 %}
+
+        <div class="product-image-thumbs-block">
+
+          <ul id="productThumbs">
+
+            {% for image in product.images %}
+              <li>
+                <a href="{{ image.src | product_img_url: 'master' }}" class="product-photo-thumb">
+                  <img src="{{ image.src | product_img_url: 'large' }}" alt="{{ image.alt | escape }}">
+                </a>
+              </li>
+            {% endfor %}
+
+          </ul>
+
+        </div>
+
+      {% endif %}
+
+    </div>
+    
+    <div class="call-to-action-block">
+      <a class="button" href="/pages/contact?style_number={{ style_number }}">
+        <span class="label">Contact Sales</span>
+        <span class="icon"></span>
+      </a>
+    </div>
+
+  </div>
+</div>

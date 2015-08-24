@@ -198,6 +198,8 @@ Ajaxify Cart Documentation:
           {% if option == 'Size' %}
           var colorOptionIndex =  {{ forloop.index0 }};
           $('.selector-wrapper:eq(' + colorOptionIndex + ')').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">Size Chart</a>');
+          {% endif %}
+          {% endfor %}
 
           $('.js-open-modal').click(function(event) {
               event.preventDefault();
@@ -217,9 +219,6 @@ Ajaxify Cart Documentation:
                   className: 'vex-theme-wireframe'
               });
           });
-
-          {% endif %}
-          {% endfor %}
       });
 
   </script>

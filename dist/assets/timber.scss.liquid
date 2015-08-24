@@ -358,6 +358,11 @@ $socialIconFontStack: 'theia-icons';
     #{$property}: #{$value};
 }
 
+@mixin animation-prefix($animation){
+    @include prefix('animation', $animation);
+    -webkit-backface-visibility: hidden;
+}
+
 @mixin keyframes-prefix($animation-name) {
     @-webkit-keyframes $animation-name {
         @content;
@@ -373,12 +378,12 @@ $socialIconFontStack: 'theia-icons';
     }
 }
 
+@mixin transform($transform) {
+    @include prefix('transform', #{$transform});
+}
+
 @mixin rotateX($t) {
-    -webkit-transform: rotateX($t);
-    -moz-transform: rotateX($t);
-    -o-transform: rotateX($t);
-    -ms-transform: rotateX($t);
-    transform: rotateX($t);
+    @include transform(rotateX($t));
 }
 
 @mixin perspective ($p) {
@@ -388,6 +393,12 @@ $socialIconFontStack: 'theia-icons';
     perspective: $p;
 }
 
+@mixin perspective-origin($origin: 50%) {
+    -moz-perspective-origin: $origin;
+    -webkit-perspective-origin: $origin;
+    perspective-origin: $origin;
+}
+
 @mixin backface($visibility: hidden) {
     -moz-backface-visibility: $visibility;
     -webkit-backface-visibility: $visibility;
@@ -395,8 +406,10 @@ $socialIconFontStack: 'theia-icons';
     backface-visibility: $visibility;
 }
 
-@mixin transform($transform) {
-    @include prefix('transform', #{$transform});
+@mixin appearance($appearance) {
+    $appearance: unquote($appearance);
+    -moz-appearance: $appearance;
+    -webkit-appearance: $appearance;
 }
 
 @mixin transition($transition: 0.1s all) {
@@ -430,6 +443,12 @@ $socialIconFontStack: 'theia-icons';
 
 @mixin backface($visibility: hidden) {
     @include prefix('backface-visibility', #{$visibility});
+}
+
+@mixin border-radius($radius) {
+    -moz-border-radius: $radius;
+    -webkit-border-radius: $radius;
+    border-radius: $radius;
 }
 
 @mixin box-sizing($box-sizing: border-box) {
@@ -3603,6 +3622,17 @@ $smallSocialIconRatio: (2.66/3.375);
             height: $thumbMobileSize;
             width: $thumbMobileSize;
         }
+    }
+}
+
+.lookbook-modal-image-gallery {
+    
+}
+
+.lookbook-modal {
+    h3 {
+        text-align: center;
+        color: $colorDarkGray;
     }
 }
 
@@ -6952,6 +6982,7 @@ html.full-viewport {
     }
 }
 
+// **todo** add a style for the .lookbook-grid-item based on this.
 .product-grid-item {
     @extend %grid-item-3-col;
 
@@ -9304,6 +9335,7 @@ This file includes
     @include perspective (1000px);
     @include transform-style(preserve-3d);
     @include transition(all 600ms cubic-bezier(0.47, 0.5, 0, 0.95));
+    @include box-shadow(inset 0 -4px 3px -3px rgba(0,0,0,0.08));
 
     &.is-visible {
         @include transition(all 550ms cubic-bezier(0.47, 0, 0, 0.95));
@@ -9318,8 +9350,7 @@ This file includes
         margin: 0 auto;
         opacity: 0;
         overflow: hidden;
-        background-color: $drawerBackgroundColor;
-        color: color-control($drawerBackgroundColor);
+        color: $colorDarkGray;
 
         @include transform-origin(top);
         @include rotateX(-90deg);
@@ -9941,7 +9972,7 @@ $opacity-not-active: .25;
         }
 
         @include at-query($min, $large){
-            padding-top: 85px;
+            padding-top: 117px;
         }
     }
 }
@@ -10441,137 +10472,9 @@ span#resultMessage {
 
 // vex styles
 
-// _mixins.scss
-
-@mixin vex-keyframes($name) {
-    @keyframes #{$name} {
-    @content;
-}
-
-    @-webkit-keyframes #{$name} {
-        @content;
-    }
-
-    @-moz-keyframes #{$name} {
-        @content;
-    }
-
-    @-ms-keyframes #{$name} {
-        @content;
-    }
-
-    @-o-keyframes #{$name} {
-        @content;
-    }
-}
-
-@mixin vex-animation($animation) {
-    animation: $animation;
-    -webkit-animation: $animation;
-    -moz-animation: $animation;
-    -ms-animation: $animation;
-    -o-animation: $animation;
-    -webkit-backface-visibility: hidden;
-}
-
-@mixin vex-transform($transform) {
-    transform: $transform;
-    -webkit-transform: $transform;
-    -moz-transform: $transform;
-    -ms-transform: $transform;
-    -o-transform: $transform;
-}
-
-@mixin vex-preserve-3d {
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-}
-
-// copied from Compass (https://github.com/Compass/compass) on the 21st of January 2015:
-
-$prefix-context: null;
-$current-prefix: null;
-$critical-usage-threshold: 0.01 !default;
-$default-has-layout-approach: zoom !default;
-$has-layout-support-threshold: $critical-usage-threshold !default;
-
-// full mixin: https://github.com/Compass/compass/blob/stable/core/stylesheets/compass/css3/_box-shadow.scss
-@mixin box-shadow($shadow...) {
-    -moz-box-shadow: $shadow;
-    -webkit-box-shadow: $shadow;
-    box-shadow: $shadow;
-}
-
-// full mixin: https://github.com/Compass/compass/blob/stable/core/stylesheets/compass/css3/_border-radius.scss
-@mixin border-radius($radius) {
-    -moz-border-radius: $radius;
-    -webkit-border-radius: $radius;
-    border-radius: $radius;
-}
-
-// full mixin: https://github.com/Compass/compass/blob/stable/core/stylesheets/compass/css3/_transform.scss
-@mixin perspective($p) {
-    -moz-perspective: $p;
-    -webkit-perspective: $p;
-    perspective: $p;
-}
-
-// full mixin: https://github.com/Compass/compass/blob/stable/core/stylesheets/compass/css3/_transform.scss
-@mixin perspective-origin($origin: 50%) {
-    -moz-perspective-origin: $origin;
-    -webkit-perspective-origin: $origin;
-    perspective-origin: $origin;
-}
-
-// full mixin: https://github.com/Compass/compass/blob/stable/core/stylesheets/compass/_support.scss
-@mixin appearance($appearance) {
-    $appearance: unquote($appearance);
-    -moz-appearance: $appearance;
-    -webkit-appearance: $appearance;
-}
-
-@mixin has-layout($approach: $default-has-layout-approach) {
-    @if support-legacy-browser("ie", "7", $threshold: $has-layout-support-threshold) {
-        @if $approach == zoom {
-            @include has-layout-zoom;
-        }
-        @else if $approach == block {
-            @include has-layout-block;
-        }
-        @else {
-            @warn "Unknown has-layout approach: #{$approach}";
-            @include has-layout-zoom;
-        }
-    }
-}
-
-@mixin has-layout-zoom {
-    @if support-legacy-browser("ie", "7", $threshold: $has-layout-support-threshold) {
-        *zoom: 1;
-    }
-}
-
-@mixin pie-clearfix {
-    &:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-    @include has-layout;
-}
-
-// full mixin: https://github.com/Compass/compass/blob/stable/core/stylesheets/compass/_support.scss
-@function support-legacy-browser($browser, $min-version, $max-version: null, $threshold: $critical-usage-threshold) {
-    @return true;
-}
-
-// _keyframes.scss
-
 // Overlay/content animations
-
 @mixin keyframes-vex-fadein {
-    @include vex-keyframes("vex-fadein") {
+    @include keyframes-prefix("vex-fadein") {
         0% {
             opacity: 0;
         }
@@ -10582,7 +10485,7 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
 }
 
 @mixin keyframes-vex-fadeout {
-    @include vex-keyframes("vex-fadeout") {
+    @include keyframes-prefix("vex-fadeout") {
         0% {
             opacity: 1;
         }
@@ -10595,33 +10498,33 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
 // Content animations
 
 @mixin keyframes-vex-flyin {
-    @include vex-keyframes("vex-flyin") {
+    @include keyframes-prefix("vex-flyin") {
         0% {
             opacity: 0;
-            @include vex-transform(translateY(-40px));
+            @include transform(translateY(-40px));
         }
         100% {
             opacity: 1;
-            @include vex-transform(translateY(0));
+            @include transform(translateY(0));
         }
     }
 }
 
 @mixin keyframes-vex-flyout {
-    @include vex-keyframes("vex-flyout") {
+    @include keyframes-prefix("vex-flyout") {
         0% {
             opacity: 1;
-            @include vex-transform(translateY(0));
+            @include transform(translateY(0));
         }
         100% {
             opacity: 0;
-            @include vex-transform(translateY(-40px));
+            @include transform(translateY(-40px));
         }
     }
 }
 
 @mixin keyframes-vex-dropin {
-    @include vex-keyframes("vex-dropin") {
+    @include keyframes-prefix("vex-dropin") {
         // We start at 0 first and, while hidden
         // move to -800px, where the animation
         // really begins. This was necessary because
@@ -10631,38 +10534,38 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
         // above the page.
         // https://github.com/HubSpot/vex/issues/21
         0% {
-            @include vex-transform(translateY(0));
+            @include transform(translateY(0));
             opacity: 0;
         }
         1% {
-            @include vex-transform(translateY(-800px));
+            @include transform(translateY(-800px));
             opacity: 0;
         }
         // Real animation begins here
         2% {
-            @include vex-transform(translateY(-800px));
+            @include transform(translateY(-800px));
             opacity: 1;
         }
         100% {
-            @include vex-transform(translateY(0));
+            @include transform(translateY(0));
             opacity: 1;
         }
     }
 }
 
 @mixin keyframes-vex-dropout {
-    @include vex-keyframes("vex-dropout") {
+    @include keyframes-prefix("vex-dropout") {
         0% {
-            @include vex-transform(translateY(0));
+            @include transform(translateY(0));
         }
         100% {
-            @include vex-transform(translateY(-800px));
+            @include transform(translateY(-800px));
         }
     }
 }
 
 @mixin keyframes-vex-slideup {
-    @include vex-keyframes("vex-slideup") {
+    @include keyframes-prefix("vex-slideup") {
         // We start at 0 first and, while hidden
         // move to -800px, where the animation
         // really begins. This was necessary because
@@ -10672,58 +10575,58 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
         // above the page.
         // https://github.com/HubSpot/vex/issues/21
         0% {
-            @include vex-transform(translateY(0));
+            @include transform(translateY(0));
             opacity: 0;
         }
         1% {
-            @include vex-transform(translateY(800px));
+            @include transform(translateY(800px));
             opacity: 0;
         }
         // Real animation begins here
         2% {
-            @include vex-transform(translateY(800px));
+            @include transform(translateY(800px));
             opacity: 1;
         }
         100% {
-            @include vex-transform(translateY(0));
+            @include transform(translateY(0));
             opacity: 1;
         }
     }
 }
 
 @mixin keyframes-vex-slidedown {
-    @include vex-keyframes("vex-slidedown") {
+    @include keyframes-prefix("vex-slidedown") {
         0% {
-            @include vex-transform(translateY(0));
+            @include transform(translateY(0));
         }
         100% {
-            @include vex-transform(translateY(800px));
+            @include transform(translateY(800px));
         }
     }
 }
 
 @mixin keyframes-vex-flipin-horizontal {
-    @include vex-keyframes("vex-flipin-horizontal") {
+    @include keyframes-prefix("vex-flipin-horizontal") {
         0% {
             opacity: 0;
-            @include vex-transform(rotateY(-90deg));
+            @include transform(rotateY(-90deg));
         }
         100% {
             opacity: 1;
-            @include vex-transform(rotateY(0deg));
+            @include transform(rotateY(0deg));
         }
     }
 }
 
 @mixin keyframes-vex-flipout-horizontal {
-    @include vex-keyframes("vex-flipout-horizontal") {
+    @include keyframes-prefix("vex-flipout-horizontal") {
         0% {
             opacity: 1;
-            @include vex-transform(rotateY(0deg));
+            @include transform(rotateY(0deg));
         }
         100% {
             opacity: 0;
-            @include vex-transform(rotateY(90deg));
+            @include transform(rotateY(90deg));
         }
     }
 }
@@ -10731,12 +10634,12 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
 // Spinner animations
 
 @mixin keyframes-vex-rotation {
-    @include vex-keyframes("vex-rotation") {
+    @include keyframes-prefix("vex-rotation") {
         0% {
-            @include vex-transform(rotate(0deg));
+            @include transform(rotate(0deg));
         }
         100% {
-            @include vex-transform(rotate(359deg));
+            @include transform(rotate(359deg));
         }
     }
 }
@@ -10744,7 +10647,7 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
 // Button animations
 
 @mixin keyframes-vex-pulse {
-    @include vex-keyframes("vex-pulse") {
+    @include keyframes-prefix("vex-pulse") {
         0% {
             @include box-shadow(inset 0 0 0 300px transparent);
         }
@@ -10760,9 +10663,7 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
 // vex.scss
 
 @include keyframes-vex-fadein;
-
 @include keyframes-vex-fadeout;
-
 @include keyframes-vex-rotation;
 
 .vex {
@@ -10785,7 +10686,7 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
 }
 
 .vex-overlay {
-    @include vex-animation(vex-fadein 0.5s);
+    @include animation-prefix(vex-fadein 0.5s);
     position: fixed;
     background: rgba(0, 0, 0, 0.4);
     top: 0;
@@ -10793,17 +10694,17 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
     bottom: 0;
     left: 0;
     .vex.vex-closing & {
-        @include vex-animation(vex-fadeout 0.5s);
+        @include animation-prefix(vex-fadeout 0.5s);
     }
 }
 
 .vex-content {
-    @include vex-animation(vex-fadein 0.5s);
+    @include animation-prefix(vex-fadein 0.5s);
     
     background: #fff;
     
     .vex.vex-closing & {
-        @include vex-animation(vex-fadeout 0.5s);
+        @include animation-prefix(vex-fadeout 0.5s);
     }
 }
 
@@ -10824,7 +10725,7 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
 }
 
 .vex-loading-spinner {
-    @include vex-animation(vex-rotation 0.7s linear infinite);
+    @include animation-prefix(vex-rotation 0.7s linear infinite);
     @include box-shadow(0 0 1em rgba(0, 0, 0, 0.1));
     position: fixed;
     z-index: 1112;
@@ -10847,317 +10748,7 @@ body.vex-open {
 // vex-theme-wireframe.scss
 // edited to suit our needs.
 
-@mixin vex-keyframes($name) {
-    @keyframes #{$name} {
-    @content;
-}
-
-    @-webkit-keyframes #{$name} {
-        @content;
-    }
-
-    @-moz-keyframes #{$name} {
-        @content;
-    }
-
-    @-ms-keyframes #{$name} {
-        @content;
-    }
-
-    @-o-keyframes #{$name} {
-        @content;
-    }
-}
-
-@mixin vex-animation($animation) {
-    animation: $animation;
-    -webkit-animation: $animation;
-    -moz-animation: $animation;
-    -ms-animation: $animation;
-    -o-animation: $animation;
-    -webkit-backface-visibility: hidden;
-}
-
-@mixin vex-transform($transform) {
-    transform: $transform;
-    -webkit-transform: $transform;
-    -moz-transform: $transform;
-    -ms-transform: $transform;
-    -o-transform: $transform;
-}
-
-@mixin vex-preserve-3d {
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-}
-
-// copied from Compass (https://github.com/Compass/compass) on the 21st of January 2015:
-
-$prefix-context: null;
-$current-prefix: null;
-$critical-usage-threshold: 0.01 !default;
-$default-has-layout-approach: zoom !default;
-$has-layout-support-threshold: $critical-usage-threshold !default;
-
-// full mixin: https://github.com/Compass/compass/blob/stable/core/stylesheets/compass/css3/_box-shadow.scss
-@mixin box-shadow($shadow...) {
-    -moz-box-shadow: $shadow;
-    -webkit-box-shadow: $shadow;
-    box-shadow: $shadow;
-}
-
-// full mixin: https://github.com/Compass/compass/blob/stable/core/stylesheets/compass/css3/_border-radius.scss
-@mixin border-radius($radius) {
-    -moz-border-radius: $radius;
-    -webkit-border-radius: $radius;
-    border-radius: $radius;
-}
-
-// full mixin: https://github.com/Compass/compass/blob/stable/core/stylesheets/compass/css3/_transform.scss
-@mixin perspective($p) {
-    -moz-perspective: $p;
-    -webkit-perspective: $p;
-    perspective: $p;
-}
-
-// full mixin: https://github.com/Compass/compass/blob/stable/core/stylesheets/compass/css3/_transform.scss
-@mixin perspective-origin($origin: 50%) {
-    -moz-perspective-origin: $origin;
-    -webkit-perspective-origin: $origin;
-    perspective-origin: $origin;
-}
-
-// full mixin: https://github.com/Compass/compass/blob/stable/core/stylesheets/compass/_support.scss
-@mixin appearance($appearance) {
-    $appearance: unquote($appearance);
-    -moz-appearance: $appearance;
-    -webkit-appearance: $appearance;
-}
-
-@mixin has-layout($approach: $default-has-layout-approach) {
-    @if support-legacy-browser("ie", "7", $threshold: $has-layout-support-threshold) {
-        @if $approach == zoom {
-            @include has-layout-zoom;
-        }
-        @else if $approach == block {
-            @include has-layout-block;
-        }
-        @else {
-            @warn "Unknown has-layout approach: #{$approach}";
-            @include has-layout-zoom;
-        }
-    }
-}
-
-@mixin has-layout-zoom {
-    @if support-legacy-browser("ie", "7", $threshold: $has-layout-support-threshold) {
-        *zoom: 1;
-    }
-}
-
-@mixin pie-clearfix {
-    &:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-    @include has-layout;
-}
-
-// full mixin: https://github.com/Compass/compass/blob/stable/core/stylesheets/compass/_support.scss
-@function support-legacy-browser($browser, $min-version, $max-version: null, $threshold: $critical-usage-threshold) {
-    @return true;
-}
-
 // Overlay/content animations
-
-@mixin keyframes-vex-fadein {
-    @include vex-keyframes("vex-fadein") {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-}
-
-@mixin keyframes-vex-fadeout {
-    @include vex-keyframes("vex-fadeout") {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-}
-
-// Content animations
-
-@mixin keyframes-vex-flyin {
-    @include vex-keyframes("vex-flyin") {
-        0% {
-            opacity: 0;
-            @include vex-transform(translateY(-40px));
-        }
-        100% {
-            opacity: 1;
-            @include vex-transform(translateY(0));
-        }
-    }
-}
-
-@mixin keyframes-vex-flyout {
-    @include vex-keyframes("vex-flyout") {
-        0% {
-            opacity: 1;
-            @include vex-transform(translateY(0));
-        }
-        100% {
-            opacity: 0;
-            @include vex-transform(translateY(-40px));
-        }
-    }
-}
-
-@mixin keyframes-vex-dropin {
-    @include vex-keyframes("vex-dropin") {
-        // We start at 0 first and, while hidden
-        // move to -800px, where the animation
-        // really begins. This was necessary because
-        // otherwise, when starting the animation
-        // at -800px, the browser scrolls up 800px
-        // to try to display this object positioned
-        // above the page.
-        // https://github.com/HubSpot/vex/issues/21
-        0% {
-            @include vex-transform(translateY(0));
-            opacity: 0;
-        }
-        1% {
-            @include vex-transform(translateY(-800px));
-            opacity: 0;
-        }
-        // Real animation begins here
-        2% {
-            @include vex-transform(translateY(-800px));
-            opacity: 1;
-        }
-        100% {
-            @include vex-transform(translateY(0));
-            opacity: 1;
-        }
-    }
-}
-
-@mixin keyframes-vex-dropout {
-    @include vex-keyframes("vex-dropout") {
-        0% {
-            @include vex-transform(translateY(0));
-        }
-        100% {
-            @include vex-transform(translateY(-800px));
-        }
-    }
-}
-
-@mixin keyframes-vex-slideup {
-    @include vex-keyframes("vex-slideup") {
-        // We start at 0 first and, while hidden
-        // move to -800px, where the animation
-        // really begins. This was necessary because
-        // otherwise, when starting the animation
-        // at -800px, the browser scrolls up 800px
-        // to try to display this object positioned
-        // above the page.
-        // https://github.com/HubSpot/vex/issues/21
-        0% {
-            @include vex-transform(translateY(0));
-            opacity: 0;
-        }
-        1% {
-            @include vex-transform(translateY(800px));
-            opacity: 0;
-        }
-        // Real animation begins here
-        2% {
-            @include vex-transform(translateY(800px));
-            opacity: 1;
-        }
-        100% {
-            @include vex-transform(translateY(0));
-            opacity: 1;
-        }
-    }
-}
-
-@mixin keyframes-vex-slidedown {
-    @include vex-keyframes("vex-slidedown") {
-        0% {
-            @include vex-transform(translateY(0));
-        }
-        100% {
-            @include vex-transform(translateY(800px));
-        }
-    }
-}
-
-@mixin keyframes-vex-flipin-horizontal {
-    @include vex-keyframes("vex-flipin-horizontal") {
-        0% {
-            opacity: 0;
-            @include vex-transform(rotateY(-90deg));
-        }
-        100% {
-            opacity: 1;
-            @include vex-transform(rotateY(0deg));
-        }
-    }
-}
-
-@mixin keyframes-vex-flipout-horizontal {
-    @include vex-keyframes("vex-flipout-horizontal") {
-        0% {
-            opacity: 1;
-            @include vex-transform(rotateY(0deg));
-        }
-        100% {
-            opacity: 0;
-            @include vex-transform(rotateY(90deg));
-        }
-    }
-}
-
-// Spinner animations
-
-@mixin keyframes-vex-rotation {
-    @include vex-keyframes("vex-rotation") {
-        0% {
-            @include vex-transform(rotate(0deg));
-        }
-        100% {
-            @include vex-transform(rotate(359deg));
-        }
-    }
-}
-
-// Button animations
-
-@mixin keyframes-vex-pulse {
-    @include vex-keyframes("vex-pulse") {
-        0% {
-            @include box-shadow(inset 0 0 0 300px transparent);
-        }
-        70% {
-            @include box-shadow(inset 0 0 0 300px rgba(255, 255, 255, 0.25));
-        }
-        100% {
-            @include box-shadow(inset 0 0 0 300px transparent);
-        }
-    }
-}
 
 @include keyframes-vex-pulse;
 
@@ -11181,11 +10772,12 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
         
         font-size: 1.1em;
         line-height: 1.5em;
+        
         h1, h2, h3, h4, h5, h6, p, ul, li {
-            color: inherit;
+            color: $colorDarkGray;
         }
     }
-    
+
     .vex-content-inner {
         overflow-y: scroll;
         height: 100%;
@@ -11271,7 +10863,7 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
             }
         }
         .vex-dialog-buttons {
-            @include pie-clearfix;
+            @extend %clearfix;
         }
     }
     .vex-dialog-button {
@@ -11289,12 +10881,12 @@ $has-layout-support-threshold: $critical-usage-threshold !default;
             margin-left: 0;
         }
         &:focus {
-            @include vex-animation(vex-pulse 1.1s infinite);
+            @include animation-prefix(vex-pulse 1.1s infinite);
             outline: none;
             // vex-pulse uses -webkit-filter which
             // doesn't play so nice in mobile webkit
             @media (max-width: 568px) {
-                @include vex-animation(none);
+                @include animation-prefix(none);
             }
         }
         &.vex-dialog-button-primary {
