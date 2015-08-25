@@ -1,0 +1,10 @@
+{% comment %}
+Used for processing pairs in unpack_image_alt_data.liquid
+{% endcomment %}
+{% if item contains pair_separator %}
+  {% assign pair = item | split: pair_separator %}
+  {% comment %}first half is the name, 2nd is the value{% endcomment %}
+  {% if pair.first == 'color' %}
+    {% assign image_color = pair.last %}
+  {% endif %}
+{% endif %}
