@@ -11,6 +11,7 @@ timber.cache = {
 
     // Product Page
     productPage: {
+        $body: $('.template-product'),
         $mainImage: $('#productPhotoImg'),
         $thumbImages: $('#productThumbs').find('a.product-photo-thumb'),
         $newImage: null,
@@ -18,11 +19,6 @@ timber.cache = {
         $infoBlock: $('#productInfoBlock'),
         $descriptionToggle: $('#descriptionToggle')
     },
-
-    // Celebrity Gallery
-    $celebrityGallery: $('.celebrity-gallery-hero'),
-    $celebritySlides: $('.celebrity-gallery .slide'),
-    $celebrityThumbs: $('.celebrity-gallery .thumb'),
 
     // Mobile Slide Out Navigation
     mobileSideNav: {
@@ -68,25 +64,33 @@ timber.cache = {
     }
 };
 
+// used for passing in data from local pages through script tags
+timber.pageData = {
+    productPage: {}
+};
+
 timber.init = function () {
 
     // Run on load
     timber.accessibleNav();
-    timber.productImageSwitch();
-    timber.productImageZoom();
     timber.carouselInit();
     timber.loginFormInit();
-    timber.celebrityGallery();
     timber.mobileSideNav();
-    timber.mobileProductInfoBlock();
-    timber.productDescriptionBlock();
     timber.loader.init();
     timber.homepageInit();
     timber.headerSubNav();
     timber.contactForm();
+    
+    // product page
+    if (timber.cache.productPage.$body.length !== 0){
+        timber.productPage();
+    }
+    
     // if (timber.cache.collectionLookbook.$body.length !== 0){
     //     timber.lookbookPage();
     // }
+    
+    // shop collection pages
     if (timber.cache.collectionShop.$body.length !== 0){
         timber.shopPage();
     }
@@ -274,38 +278,6 @@ timber.switchClass = function( $el, c1, c2){
     }
 };
 
-timber.productDescriptionBlock = function(){
-
-    var $toggle = timber.cache.productPage.$descriptionToggle,
-        $infoBlock = timber.cache.productPage.$infoBlock,
-        $icon = $toggle.find('.icon'),
-        $content = $infoBlock.find('.content');
-
-    $toggle.click(function(e){
-        e.preventDefault();
-
-        $content.scrollTop(0);
-        $infoBlock.toggleClass('description-expanded');
-        timber.switchClass( $icon, 'up', 'down' );
-    });
-};
-
-timber.mobileProductInfoBlock = function(){
-
-    var $toggle = timber.cache.productPage.$mobileHeaderLink,
-        $icon = $toggle.find('.icon'),
-        $infoBlock = timber.cache.productPage.$infoBlock;
-
-    $toggle.click(function(e){
-        e.preventDefault();
-
-        // flip the arrow icon
-        timber.switchClass( $icon, 'up', 'down' );
-
-        $infoBlock.toggleClass('expanded');
-    });
-};
-
 timber.mobileSideNav = function(){
 
     var $body = timber.cache.$body,
@@ -403,31 +375,6 @@ timber.mobileSideNav = function(){
         $subMenuLinks.addClass('active');
         $subMenus.addClass('js-open');
     }
-};
-
-timber.celebrityGallery = function(){
-
-    // get elements
-    var $gallery = timber.cache.$celebrityGallery,
-        $slides = timber.cache.$celebritySlides,
-        $thumbs = timber.cache.$celebrityThumbs;
-
-    // wire click actions
-    $thumbs.click(function(e){
-        e.preventDefault();
-
-        var $this = $(this),
-            $targetSlide = $( $this.attr('href') ),
-            bgColor = $targetSlide.data('bgColor');
-
-        $thumbs.removeClass('active');
-        $slides.removeClass('active');
-
-        $this.addClass('active');
-        $targetSlide.addClass('active');
-        $gallery.css('backgroundColor', bgColor);
-
-    });
 };
 
 timber.headerSubNav = function(){
@@ -677,17 +624,124 @@ timber.accessibleNav = function () {
     }
 };
 
-timber.productImageZoom = function(){
-    if (!timber.cache.productPage.$mainImage){
-        return;
+timber.productPage = function(){
+    var pageData = timber.pageData.productPage;
+    
+    new Shopify.OptionSelectors('productSelect', {
+        product: pageData.product,
+        onVariantSelected: timber.productSelectCallback
+    });
+    
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    if (pageData.addSingleOptionLabel){
+        $('.selector-wrapper:eq(0)').prepend('<label>' + pageData.singleOptionLabelText + '</label>');
     }
-
-    var $mainImage = timber.cache.productPage.$mainImage;
-
-    if ($(window).width() >= 1024){
-        $mainImage.elevateZoom({ zoomType: 'inner' });
+    
+    // Hide selectors if we only have 1 variant and its title contains 'Default'.
+    if (pageData.hasSingleDefaultVariant){
+        $('.selector-wrapper').hide();
     }
+    
+    // Auto-select first available variant on page load. Otherwise the product looks sold out.
+    var foundVariantInStock = false;
+    var currentVariant = null;
+    for (var i=0; i<pageData.product.variants.length; i++){
+        currentVariant = pageData.product.variants[i];
+        if (currentVariant.available && !foundVariantInStock){
+            foundVariantInStock = true;
+            var currentOption = null;
+            for (var j=0; j<pageData.product.options.length; j++){
+                currentOption = pageData.product.options[j];
+                $('.single-option-selector:eq(' + j + ')').val(currentVariant.options[j]).trigger('change');
+            }
+            break;
+        }
+    }
+    
+    // dress sizes popup link
+    currentOption = null;
+    for (var k=0; k<pageData.product.options.length; k++){
+        currentOption = pageData.product.options[k];
+        
+        if (currentOption === 'Size'){
+            $('.selector-wrapper:eq(' + k + ')').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">Size Chart</a>');
+        }
+    }
+    
+    // wire the modal popup
+    $('.js-open-modal').click(function(event) {
+        event.preventDefault();
+
+        var $this = $(this),
+            modalContentSelector = $this.attr('href');
+
+        vex.open({
+            // default is no close button
+            showCloseButton: true,
+            escapeButtonCloses: true,
+            // default is two buttons, we don't want that.
+            // you need the padding at the top else your close button infringes on the content.
+            // dump the table into the modal
+            // content: $('#modal-content-dress-size').html(),
+            content: $(modalContentSelector).html(),
+            className: 'vex-theme-wireframe'
+        });
+    });
+    
+    timber.productImageSwitch();
+    timber.productImageZoom();
+    timber.mobileProductInfoBlock();
+    timber.productDescriptionBlock();
 }
+
+timber.productSelectCallback = function(variant, selector) {
+
+    var addToCart = $('#addToCart'),
+        productPrice = $('#productPrice'),
+        comparePrice = $('#comparePrice'),
+        showProductWaitlist = timber.pageData.productPage.showProductWaitlist;
+
+    if (showProductWaitlist) {
+        addToCart.addClass('disabled').prop('disabled', true);
+        addToCart.find('.label').text('Coming Soon');
+    } else if (variant) {
+        if (variant.available) {
+            // We have a valid product variant, so enable the submit button
+            addToCart.removeClass('disabled').prop('disabled', false);
+            addToCart.find('.label').text('Add to Cart');
+
+        } else {
+            // Variant is sold out, disable the submit button
+            addToCart.addClass('disabled').prop('disabled', true);
+            addToCart.find('.label').text('Sold Out');
+        }
+
+        // Regardless of stock, update the product price
+        productPrice.html(Shopify.formatMoney(variant.price, "{{ shop.money_format }}"));
+
+    } else {
+        // The variant doesn't exist, disable submit button.
+        // This may be an error or notice that a specific variant is not available.
+        // To only show available variants, implement linked product options:
+        //   - http://docs.shopify.com/manual/configuration/store-customization/advanced-navigation/linked-product-options
+        addToCart.val('Unavailable').addClass('disabled').prop('disabled', true);
+    }
+
+    var colorIndex = null;
+    var currentSelector = {};
+    for (var i = 0; i < selector.selectors.length; i++){
+        currentSelector = selector.selectors[i];
+
+        if (currentSelector.name === 'Color'){
+            colorIndex = currentSelector.index;
+
+            console.log(currentSelector);
+            console.log(variant);
+
+            $('#productPhoto img').attr('src', variant.featured_image.src);
+        }
+    }
+};
 
 timber.productImageSwitch = function () {
     if ( !timber.cache.productPage.$thumbImages.length ) {
@@ -709,6 +763,52 @@ timber.productImageSwitch = function () {
         }
     });
 };
+
+timber.productImageZoom = function(){
+    if (!timber.cache.productPage.$mainImage){
+        return;
+    }
+
+    var $mainImage = timber.cache.productPage.$mainImage;
+
+    if ($(window).width() >= 1024){
+        $mainImage.elevateZoom({ zoomType: 'inner' });
+    }
+}
+
+timber.productDescriptionBlock = function(){
+
+    var $toggle = timber.cache.productPage.$descriptionToggle,
+        $infoBlock = timber.cache.productPage.$infoBlock,
+        $icon = $toggle.find('.icon'),
+        $content = $infoBlock.find('.content');
+
+    $toggle.click(function(e){
+        e.preventDefault();
+
+        $content.scrollTop(0);
+        $infoBlock.toggleClass('description-expanded');
+        timber.switchClass( $icon, 'up', 'down' );
+    });
+};
+
+timber.mobileProductInfoBlock = function(){
+
+    var $toggle = timber.cache.productPage.$mobileHeaderLink,
+        $icon = $toggle.find('.icon'),
+        $infoBlock = timber.cache.productPage.$infoBlock;
+
+    $toggle.click(function(e){
+        e.preventDefault();
+
+        // flip the arrow icon
+        timber.switchClass( $icon, 'up', 'down' );
+
+        $infoBlock.toggleClass('expanded');
+    });
+};
+
+
 
 timber.loader = {
     element: '',
