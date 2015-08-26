@@ -25,4 +25,6 @@ some: thing
   {% else %}
     {% include 'check_unpack_process_pair_data', item: raw_data %}
   {% endif %}
+{% else %}
+  {% assign image_alt_text = raw_alt_text %}
 {% endif %}

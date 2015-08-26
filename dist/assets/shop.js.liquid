@@ -12,12 +12,13 @@ timber.cache = {
     // Product Page
     productPage: {
         $body: $('.template-product'),
-        $mainImage: $('#productPhotoImg'),
-        $thumbImages: $('#productThumbs').find('a.product-photo-thumb'),
-        $newImage: null,
         $mobileHeaderLink: $('#mobileProductHeaderLink'),
         $infoBlock: $('#productInfoBlock'),
-        $descriptionToggle: $('#descriptionToggle')
+        $descriptionToggle: $('#descriptionToggle'),
+        gallery: {
+            $mainImageBlock: $('#mainImageBlock'),
+            $thumbBlock: $('#productThumbs')
+        }
     },
 
     // Mobile Slide Out Navigation
@@ -688,15 +689,15 @@ timber.productPage = function(){
         });
     });
     
-    timber.productImageSwitch();
-    timber.productImageZoom();
+    timber.productImageGallery();
     timber.mobileProductInfoBlock();
     timber.productDescriptionBlock();
 }
 
 timber.productSelectCallback = function(variant, selector) {
 
-    var addToCart = $('#addToCart'),
+    var $body = $('body'),
+        addToCart = $('#addToCart'),
         productPrice = $('#productPrice'),
         comparePrice = $('#comparePrice'),
         showProductWaitlist = timber.pageData.productPage.showProductWaitlist;
@@ -726,54 +727,58 @@ timber.productSelectCallback = function(variant, selector) {
         //   - http://docs.shopify.com/manual/configuration/store-customization/advanced-navigation/linked-product-options
         addToCart.val('Unavailable').addClass('disabled').prop('disabled', true);
     }
-
-    var colorIndex = null;
+    
+    // trigger event for selected color
     var currentSelector = {};
-    for (var i = 0; i < selector.selectors.length; i++){
+    for (var i = 1; i < selector.selectors.length; i++){
         currentSelector = selector.selectors[i];
 
         if (currentSelector.name === 'Color'){
-            colorIndex = currentSelector.index;
-
-            console.log(currentSelector);
-            console.log(variant);
-
-            $('#productPhoto img').attr('src', variant.featured_image.src);
+            $body.trigger('colorChanged.productPage', {color: currentSelector.element.value});
         }
     }
 };
 
-timber.productImageSwitch = function () {
-    if ( !timber.cache.productPage.$thumbImages.length ) {
-        return;
-    }
-    
-    // $('#productPhotoImg').elevateZoom({ zoomType : "inner"});
-    
-    // Switch the main image with one of the thumbnails
-    // Note: this does not change the variant selected, just the image
-    timber.cache.productPage.$thumbImages.on('click', function(e) {
-        e.preventDefault();
-        timber.cache.productPage.$newImage = $(this).attr('href');
-        timber.cache.productPage.$mainImage.attr({ src: timber.cache.productPage.$newImage });
+timber.productImageGallery = function(){
+    /*
+     image gallery
 
-        // change the background image in the zoom window
-        if ($(window).width() >= 1024){
-            $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
-        }
+     specs
+     - only show photos of the color currently selected in the color dropdown.
+     - preload the images so they switch faster
+     - clicking on a thumb shows the image in the main area
+     */
+    
+    var $mainBlock = timber.cache.productPage.gallery.$mainImageBlock,
+        $thumbBlock = timber.cache.productPage.gallery.$thumbBlock,
+        $mainImages = $mainBlock.find('img'),
+        $thumbLinks = $thumbBlock.find('a');
+    
+    $('body').on('colorChanged.productPage', function(event, data){
+        $thumbLinks.removeClass('js-hidden');
+        $thumbLinks.filter(':not([data-image-color="' + data.color + '"])').addClass('js-hidden');
+
+        $mainImages.addClass('js-hidden');
+        $mainImages.each(function(index){
+            var $this = $(this),
+                attachedToVariant = ($this.attr('data-attached-to-variant') === 'true'),
+                imageColor = $this.attr('data-image-color');
+            
+            if (attachedToVariant && imageColor === data.color){
+                $this.removeClass('js-hidden');
+                return;
+            }
+        });
     });
-};
+    
+    $thumbLinks.click(function(event){
+        event.preventDefault();
 
-timber.productImageZoom = function(){
-    if (!timber.cache.productPage.$mainImage){
-        return;
-    }
+        var imageId = $(this).attr('data-target-image-id');
 
-    var $mainImage = timber.cache.productPage.$mainImage;
-
-    if ($(window).width() >= 1024){
-        $mainImage.elevateZoom({ zoomType: 'inner' });
-    }
+        $('#' + imageId).removeClass('js-hidden');
+        $mainImages.filter(':not(#' + imageId + ')').addClass('js-hidden');
+    });
 }
 
 timber.productDescriptionBlock = function(){
