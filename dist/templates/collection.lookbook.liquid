@@ -110,9 +110,23 @@ For more information on collection tags:
 
       {% endfor %}
 
+      {% if paginate.next %}
+        <ul class="js-hidden">
+          {% comment %}
+          li more class is used by infinite scroll to grab the url of next dresses
+          {% endcomment %}
+          <li class="more">&darr; <a href="{{ paginate.next.url }}">More</a></li>
+        </ul>
+      {% else %}
+        <div class="back-to-top-block">
+          <a data-scroll class="back-to-top-link" href="#collectiontop">Back to Top</a>
+        </div>
+        <div id="end"></div>
+      {% endif %}
+
     </div>
 
-    <div class="pagination-row">
+    <div class="js-hidden" class="pagination-row">
       {% include 'pagination-block' %}
     </div>
 

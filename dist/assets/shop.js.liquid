@@ -15,6 +15,7 @@ timber.cache = {
         $mobileHeaderLink: $('#mobileProductHeaderLink'),
         $infoBlock: $('#productInfoBlock'),
         $descriptionToggle: $('#descriptionToggle'),
+        $productOptions: $('.product-options-block'),
         gallery: {
             $mainImageBlock: $('#mainImageBlock'),
             $thumbBlock: $('#productThumbs')
@@ -87,9 +88,9 @@ timber.init = function () {
         timber.productPage();
     }
     
-    // if (timber.cache.collectionLookbook.$body.length !== 0){
-    //     timber.lookbookPage();
-    // }
+    if (timber.cache.collectionLookbook.$body.length !== 0){
+        timber.lookbookPage();
+    }
     
     // shop collection pages
     if (timber.cache.collectionShop.$body.length !== 0){
@@ -109,79 +110,79 @@ timber.lookbookPage = function(){
         $modalContentBlocks = $('.modal-content-block');
 
     // wire the open modal handlers for the initial set of objects.
-    $openModalLinks.click(openModal);
+    // $openModalLinks.click(openModal);
     
     // open modals
-    function openModal(event) {
-        event.preventDefault();
+    // function openModal(event) {
+    //     event.preventDefault();
 
-        var $this = $(this),
-            modalContentSelector = $this.attr('href');
+    //     var $this = $(this),
+    //         modalContentSelector = $this.attr('href');
 
-        vex.open({
-            showCloseButton: true,
-            escapeButtonCloses: true,
-            content: $(modalContentSelector).html(),
-            className: 'vex-theme-wireframe',
+    //     vex.open({
+    //         showCloseButton: true,
+    //         escapeButtonCloses: true,
+    //         content: $(modalContentSelector).html(),
+    //         className: 'vex-theme-wireframe',
 
-            afterOpen: wireImageGallery
-        });
-    }
+    //         afterOpen: wireImageGallery
+    //     });
+    // }
     
-    function wireImageGallery(){
-        console.log('wiring click events for: ', this);
+    // function wireImageGallery(){
+    //     console.log('wiring click events for: ', this);
 
-        var $content = this.$vexContent;
+    //     var $content = this.$vexContent;
 
-        $content.find('.product-photo-thumb').on('click', function(e) {
-            e.preventDefault();
+    //     $content.find('.product-photo-thumb').on('click', function(e) {
+    //         e.preventDefault();
             
-            var $clickedLink = $(this),
-                newImageUrl = $clickedLink.attr('href');
+    //         var $clickedLink = $(this),
+    //             newImageUrl = $clickedLink.attr('href');
             
-            $content.find('.product-gallery-image-block img').attr('src', newImageUrl);
+    //         $content.find('.product-gallery-image-block img').attr('src', newImageUrl);
             
-            // // change the background image in the zoom window
-            // if ($(window).width() >= 1024){
-            //     $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
-            // }
-        });
-        
-    }
+    //         // // change the background image in the zoom window
+    //         // if ($(window).width() >= 1024){
+    //         //     $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
+    //         // }
+    //     });
+    // }
     
-    function changeImage(){
+    // function changeImage(){
         
-    }
+    // }
     
-    $modalContentBlocks.each(function(index){
-        return;
+    // $modalContentBlocks.each(function(index){
+    //     return;
         
-        var $this = $(this);
+    //     var $this = $(this);
         
-        console.log('wiring click events for: ', $this);
+    //     console.log('wiring click events for: ', $this);
         
-        $this.find('.product-photo-thumb').on('click', function(e) {
-            e.preventDefault();
+    //     $this.find('.product-photo-thumb').on('click', function(e) {
+    //         e.preventDefault();
             
-            console.log('thumb clicked');
+    //         console.log('thumb clicked');
             
-            var newImageUrl = $this.addr('href');
-            $this.find('.product-gallery-image-block').attr('src', newImageUrl);
+    //         var newImageUrl = $this.addr('href');
+    //         $this.find('.product-gallery-image-block').attr('src', newImageUrl);
             
-            // // change the background image in the zoom window
-            // if ($(window).width() >= 1024){
-            //     $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
-            // }
-        });
+    //         // // change the background image in the zoom window
+    //         // if ($(window).width() >= 1024){
+    //         //     $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
+    //         // }
+    //     });
 
         
-    });
+    // });
     
     
     // function wireOpenModalHandler(){
     //     var 
     // }
-    // timber.infiniteScroll();
+    
+    timber.infiniteScroll();
 };
 
 timber.contactForm = function(){
@@ -628,10 +629,12 @@ timber.accessibleNav = function () {
 timber.productPage = function(){
     var pageData = timber.pageData.productPage;
     
-    new Shopify.OptionSelectors('productSelect', {
-        product: pageData.product,
-        onVariantSelected: timber.productSelectCallback
-    });
+    if (timber.cache.productPage.$productOptions.length !== 0){
+        new Shopify.OptionSelectors('productSelect', {
+            product: pageData.product,
+            onVariantSelected: timber.productSelectCallback
+        });
+    }
     
     // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
     if (pageData.addSingleOptionLabel){
