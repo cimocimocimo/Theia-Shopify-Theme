@@ -834,6 +834,7 @@ var ajaxifyShopify = (function(module, $) {
 
                 return true;
             });
+
             /* Hack to get product image thumbnail
              *   - Remove file extension, add _small, and re-add extension
              *   - Create server relative link

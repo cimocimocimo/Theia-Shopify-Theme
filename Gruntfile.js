@@ -5,7 +5,6 @@ module.exports = function(grunt) {
     // Private variables
     var private = grunt.file.readJSON('private.json');
 
-    // Private variables
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         // development settings
