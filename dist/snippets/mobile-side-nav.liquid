@@ -1,0 +1,29 @@
+<div id="mobileSideNav" class="mobile-side-nav">
+
+  <div class="search-bar-row">
+    {% include 'search-bar' %}
+  </div>
+
+  <div class="main-block">
+
+    <div class="main-menu-row">
+      {% assign show_home_link = true %}
+      {% include 'main-menu', location: 'side-nav' %}
+      {% assign show_home_link = false %}
+    </div>
+
+    <div class="customer-profile-login-link-row">
+      {% include 'customer-profile-login-link' %}
+    </div>
+
+    {% if customer %}
+
+      <div class="customer-account-menu-row">
+        {% include 'customer-account-menu' %}
+      </div>
+
+    {% endif %}
+
+  </div>
+
+</div>

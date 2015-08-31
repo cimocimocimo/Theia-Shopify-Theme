@@ -1,206 +1,79 @@
-{% comment %}
+{% layout 'full-viewport' %}
 
-  This is the homepage of your site.
-
-  More info on global variables (available on all templates):
-    - http://docs.shopify.com/themes/liquid-variables/global
-{% endcomment %}
-
-{% if linklists.featured-collections.links.size > 0 %}
-  <div class="collections-hero">
-    <div class="wrapper">
-
-      <div class="content">
-
-        <h2>
-          Theia, Let your
-          <br />
-          inner goddess shine.
-        </h2>
-
-        <a href="{{ linklists.featured-collections.links.first.url }}">View Latest Collection</a>
-
-      </div>
-
-      <div class="latest-collections-menu-row">
-
-        <nav class="latest-collections-menu" role="navigation">
-          <ul>
-            {% for link in linklists.featured-collections.links offset:1 %}
-
-              {% assign collection = link.object %}
-
-              {% comment %}
-              Use capture to put the collection title in a variable that is used in liquid filters
-              {% endcomment %}
-              {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
-
-              <li>
-                <style style="text/css" scoped>
-
-                  #collection-{{ collection.id }}:before {
-                    background-image: url('{{ collection.image.src | collection_img_url: 'large' }}');
-                  }
-
-                </style>
-                <a id="collection-{{ collection.id }}" class="latest-collections-link" href="{{ collection.url }}" title="Browse our {{ collection_title }} collection">
-                  {{ collection.image.src | collection_img_url: 'large' | img_tag: collection_title }}
-                  <div class="overlay"></div>
-                  <span>{{ collection_title }}</span>
-                </a>
-              </li>
-
-            {% endfor %}
-          </ul>
-        </nav>
-
-      </div>
-
-    </div>
-  </div>
-{% endif %}
-
-{% include 'featured-press-hero' %}
-
-<div class="celebrity-gallery-hero">
-  <div class="wrapper-14-col">
-    <div class="celebrity-gallery">
-      <div class="main">
-
-        <h2>Celebs in Theia</h2>
-
-        <div id="carrieUnderwood" class="slide active">
-          {{ 'carrie-underwood.jpg' | asset_url | img_tag }}
-          <div class="content">
-            <h3>Carrie Underwood</h3>
-            <p>Worn at the Grammy Awards</p>
-            <a href="#">Shop this look</a>
-          </div>
-        </div>
-
-        <div id="taylorSwift" class="slide">
-          {{ 'taylor-swift.jpg' | asset_url | img_tag }}
-          <div class="content">
-            <h3>Taylor Swift</h3>
-            <p>Worn at the MTV Awards</p>
-            <a href="#">Shop this look</a>
-          </div>
-        </div>
-
-        <div id="oprahWinfrey" class="slide">
-          {{ 'oprah-winfrey.jpg' | asset_url | img_tag }}
-          <div class="content">
-            <h3>Oprah Winfrey</h3>
-            <p>Worn on her show</p>
-            <a href="#">Shop this look</a>
-          </div>
-        </div>
-
-      </div>
-      <div class="thumbs-block">
-
-        <a href="#carrieUnderwood" class="thumb active">
-          {{ 'carrie-underwood-thumb.jpg' | asset_url | img_tag }}
-          <h3>Carrie Underwood</h3>
-        </a>
-
-        <a href="#taylorSwift" class="thumb">
-          {{ 'taylor-swift-thumb.jpg' | asset_url | img_tag }}
-          <h3>Taylor Swift</h3>
-        </a>
-
-        <a href="#oprahWinfrey" class="thumb">
-          {{ 'oprah-winfrey-thumb.jpg' | asset_url | img_tag }}
-          <h3>Oprah Winfrey</h3>
-        </a>
-
-      </div>
+<div id="homepage-hero" class="homepage-hero">
+  <div class="inner">
+    <div class="content">
+      <h2>Shop the latest from the Fall Collection.</h2>
+      <a href="/collections/shop">Start Shopping</a>
     </div>
   </div>
 </div>
 
-<div class="social-link-hero">
-  <div class="wrapper">
+<div class="block-navigation-hero">
 
-    <h2>Keep in touch:</h2>
+  <nav class="block-navigation-menu" role="navigation">
+    <div class="block-navigation-column">
+      <div class="inner">
+        <a class="block-navigation-link-shop" href="/collections/shop/new-arrivals">
+          <div class="image"></div>
+          <div class="overlay"></div>
+          <div class="content">
+            <h3>
+              Shop<br/>New Arrivals
+            </h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="block-navigation-column">
+      <div class="inner">
+        <a class="block-navigation-link-collection" href="/collections/evening-wear/">
+          <div class="image"></div>
+          <div class="overlay"></div>
+          <div class="content">
+            <h3>
+              Browse Our<br/>Evening Wear Collection
+            </h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+
+
+    {% comment %}
+
+    <div class="block-navigation-column">
+      <div class="inner">
+        <a class="block-navigation-link-press" href="http://press.theiacouture.com/">
+          <div class="image"></div>
+          <div class="overlay"></div>
+          <div class="content">
+            <h3>
+              Celebrity<br/>Fashion
+            </h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+{% endcomment %}
+  </nav>
+
+</div>
+
+<div class="social-link-newsletter-hero">
+  <div class="social-link-newsletter-column">
+
+    <h2>Keep in touch</h2>
 
     {% include 'social-link-block' %}
 
   </div>
-</div>
+  <div class="social-link-newsletter-column">
 
-    {% comment %}
-      **todo** add this post launch
-      <div class="social-media-feed-row">
-        {% include 'social-media-feed-block' %}
-      </div>
-    {% endcomment %}
+    {% include 'newsletter-signup-block' %}
 
-
-<div class="newsletter-signup-hero">
-
-  {% include 'newsletter-signup-block' %}
-
-</div>
-
-<div class="events-press-releases-hero">
-  <div class="wrapper">
-
-    <h2>Events and Press Releases</h2>
-
-    <div class="press-releases-column">
-      <div class="contact-block">
-        {% if settings.contact_events_full_name %}
-          <p>For any events enquiries, please contact {{ settings.contact_events_full_name }}</p>
-          <address>
-            <div class="email">
-              <a href="mailto:{{ settings.contact_events_email }}">{{ settings.contact_events_email }}</a>
-            </div>
-            <div class="address">
-              {{ settings.contact_events_address1 }}
-              {% if settings.contact_events_address2 %}
-                <br />
-                {{ settings.contact_events_address2 }}
-              {% endif %}
-            </div>
-            <div class="phone">
-              {{ settings.contact_events_phone }}
-            </div>
-          </address>
-         {% endif %}
-      </div>
-
-      {% comment %}
-      **todo** add this once the press section is done after launch.
-      {% include 'homepage-press-releases' %}
-      {% endcomment %}
-    </div>
-
-    <div class="media-events-contact-column">
-      <div class="media-events-contact-block">
-
-        <div class="contact-block">
-          {% if settings.contact_media_full_name %}
-            <p>For any media enquiries, please contact {{ settings.contact_media_full_name }}</p>
-            <address>
-              <div class="email">
-                <a href="mailto:{{ settings.contact_media_email }}">{{ settings.contact_media_email }}</a>
-              </div>
-              <div class="address">
-                {{ settings.contact_media_address1 }}
-                {% if settings.contact_media_address2 %}
-                  <br />
-                  {{ settings.contact_media_address2 }}
-                {% endif %}
-              </div>
-              <div class="phone">
-                {{ settings.contact_media_phone }}
-              </div>
-            </address>
-          {% endif %}
-        </div>
-
-      </div>
-    </div>
   </div>
 </div>

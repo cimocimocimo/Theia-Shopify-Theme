@@ -1,21 +1,45 @@
+<div id="top"></div>
 <header class="site-header" role="banner">
-  <div class="wrapper">
 
-    <div class="logo-column">
-      {% include 'site-logo' %}
+  <div class="site-header-top-row">
+    <div class="wrapper">
+
+      <div class="site-message-column">
+        <div class="site-message-block">
+          <p>Free shipping and returns available on every order!</p>
+        </div>
+      </div>
+
+      <div class="customer-secondary-menu-column">
+        {% include 'customer-menu' %}
+        {% include 'secondary-menu' %}
+      </div>
+
     </div>
+  </div>
 
-    <div class="main-menu-column">
-      {% include 'main-menu' %}
+  <div class="site-header-main-row">
+    <div class="wrapper">
+
+      <div class="logo-column">
+        {% include 'site-logo' %}
+      </div>
+
+      <div class="main-menu-column">
+        {% include 'main-menu', location: 'header' %}
+      </div>
+
+      <div class="search-column">
+        {% include 'search-bar' %}
+      </div>
+
+      <div class="mobile-ui-column">
+        {% include 'mobile-ui-controls' %}
+      </div>
+
     </div>
-
-    <div class="customer-menu-column">
-      {% include 'customer-menu' %}
-    </div>
-
-    <div class="search-column">
-      {% include 'search-bar' %}
-    </div>
-
+  </div>
+  <div class="site-header-sub-row">
+    {% include 'header-sub-menus' %}
   </div>
 </header>

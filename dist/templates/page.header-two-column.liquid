@@ -1,0 +1,32 @@
+{% capture left_column_handle %}{{ page.handle | append: '-left-column' }}{% endcapture %}
+{% capture right_column_handle %}{{ page.handle | append: '-right-column' }}{% endcapture %}
+
+<div class="page-hero">
+  <div class="wrapper">
+    <div class="content">
+
+      <h2>In the spotlight</h2>
+
+    </div>
+  </div>
+</div>
+
+<div class="content-hero">
+
+  <header class="wrapper-8-col">
+    <h2>{{ page.title }}</h2>
+    {{ page.content }}
+  </header>
+  <main class="wrapper-8-col">
+    <div class="row-2-col">
+      <div class="col">
+        {{ pages[left_column_handle].content }}
+      </div>
+      <div class="divider"></div>
+      <div class="col">
+        {{ pages[right_column_handle].content }}
+      </div>
+    </div>
+  </main>
+
+</div>

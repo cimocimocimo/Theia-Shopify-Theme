@@ -11,6 +11,7 @@ Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
 
   {% if option == swatch %}
     {% assign option_index = forloop.index0 %}
+    {% assign has_color_option = true %}
 
     <style>
       label[for="product-select-option-{{ option_index }}"] { display: none; }
@@ -23,42 +24,45 @@ Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
 
 {% endfor %}
 
-<fieldset class="swatch" data-option-index="{{ option_index }}">
-  <legend>{{ swatch }}: </legend>
+{% if has_color_option %}
 
-  {% assign values = '' %}
+  <fieldset class="swatch" data-option-index="{{ option_index }}">
+    <legend>{{ swatch }}: </legend>
 
-  {% for variant in product.variants %}
+    {% assign values = '' %}
 
-    {% assign value = variant.options[option_index] %}
-    {% unless values contains value %}
+    {% for variant in product.variants %}
 
-      {% assign values = values | join: ',' %}
-      {% assign values = values | append: ',' | append: value %} 
-      {% assign values = values | split: ',' %}
-      
-      <div data-value="{{ value | escape }}" class="swatch-element {% if is_color %}color {% endif %}{{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
+      {% assign value = variant.options[option_index] %}
+      {% unless values contains value %}
 
-        <div class="tooltip">{{ value }}</div>
+        {% assign values = values | join: ',' %}
+        {% assign values = values | append: ',' | append: value %} 
+        {% assign values = values | split: ',' %}
+        
+        <div data-value="{{ value | escape }}" class="swatch-element {% if is_color %}color {% endif %}{{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
 
-        <input id="swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} {% unless variant.available %}disabled{% endunless %} />
+          <div class="tooltip">{{ value }}</div>
 
-        <label for="swatch-{{ option_index }}-{{ value | handle }}" style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | asset_url }})">
-          <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
-        </label>
+          <input id="swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} {% unless variant.available %}disabled{% endunless %} />
 
-      </div>
+          <label for="swatch-{{ option_index }}-{{ value | handle }}" style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | asset_url }})">
+            <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
+          </label>
 
-      {% if variant.available %}
+        </div>
 
-        <script>
-            jQuery('.swatch[data-option-index="{{ option_index }}"] .{{ value | handle }}').removeClass('soldout').addClass('available').find(':radio').removeAttr('disabled');
-        </script>
+        {% if variant.available %}
 
-      {% endif %}
+          <script>
+              jQuery('.swatch[data-option-index="{{ option_index }}"] .{{ value | handle }}').removeClass('soldout').addClass('available').find(':radio').removeAttr('disabled');
+          </script>
 
-    {% endunless %}
-  {% endfor %}
-</fieldset>
+        {% endif %}
 
+      {% endunless %}
+    {% endfor %}
+  </fieldset>
+
+{% endif %}
 <!-- end swatch.liquid -->

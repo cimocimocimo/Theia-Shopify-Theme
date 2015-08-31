@@ -50,7 +50,6 @@
         See the snippet 'product-grid-item' for the layout.
       {% endcomment %}
       {% for product in collection.products %}
-
         {% include 'product-list-item' %}
 
       {% else %}
@@ -64,6 +63,7 @@
     </div>
 
     {% if paginate.pages > 1 %}
+
       <hr>
 
       <div class="text-center">

@@ -1,0 +1,35 @@
+{{ 'wishlist.js' | asset_url | script_tag }}
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        var currentProduct = {};
+        {% if product %}
+        currentProduct = {
+            id: {{ product.id }},
+            handle: '{{ product.handle }}'
+        };
+        {% endif %}
+
+        var customer = {};
+        {% if customer %}
+        customer = {
+            id: {{ customer.id }},
+            firstName: '{{ customer.first_name }}',
+            lastName: '{{ customer.last_name }}'
+        }
+        {% endif %}
+
+        var options = {
+            permanentDomain: '{{shop.permanent_domain}}',
+            redirectUser: '{{ shop.metafields.wishlist_settings.wishlist_redirect }}' != '0',
+            linkWishlist: '{{pages.wishlist.url}}',
+            addButton: '{{ shop.metafields.wishlist_settings.wishlist_add_button }}' != '0',
+            shopDomain: '{{shop.domain}}',
+            appDomain: '//wishlist.shopfrogs.com/wishlist/call/',
+            customerCheckout: '{{ shop.metafields.wishlist_settings.wishlist_customer_checkout }}' != '0',
+            currency: "{{shop.money_format | strip_html}}"
+        };
+
+        wishlist.init( options, customer, currentProduct );
+    });
+</script>

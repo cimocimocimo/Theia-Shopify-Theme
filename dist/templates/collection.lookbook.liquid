@@ -1,0 +1,155 @@
+{% comment %}
+
+For more information on collection tags:
+- http://docs.shopify.com/themes/liquid-variables/collection
+
+{% endcomment %}
+
+{% if collection.metafields.collection.type == 'exclusive' %}
+  {% assign is_exclusive = true %}
+{% endif %}
+
+<style>
+    {% if collection.metafields.other_images.desktop_hero != blank %}
+    {% assign other_images = collection.metafields.other_images %}
+
+    .collection-page-hero,
+    .shop-page-hero {
+        background-image: url('{{ other_images.desktop_hero }}');
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 1024px){
+        .collection-page-hero,
+        .shop-page-hero {
+            background-image: url('{{ other_images.tablet_hero }}');
+        }
+    }
+
+    @media screen and (max-width: 480px){
+        .collection-page-hero,
+        .shop-page-hero {
+            background-image: url('{{ other_images.mobile_hero }}');
+        }
+    }
+    {% endif %}
+    {% if collection.metafields.hero.headingColor != blank %}
+    .collection-page-hero h2,
+    .shop-page-hero h2 {
+        color: {{ collection.metafields.hero.headingColor }};
+    }
+    {% endif %}
+
+    {% if collection.metafields.hero.hideHeading == 'true' %}
+    .collection-page-hero .content,
+    .collection-page-hero .content {
+        display: none;
+    }
+    {% endif %}
+
+    {% if collection.metafields.hero.centerBackground == 'true' %}
+    .collection-page-hero,
+    .shop-page-hero {
+        background-position: top center !important;
+    }
+    {% endif %}
+</style>
+
+<div id="collectiontop" class="{% if collection.handle == 'shop' %}shop-page-hero{% else %}collection-page-hero{% endif %}">
+  <div class="wrapper">
+  </div>
+</div>
+
+<div class="product-grid-hero">
+  <div class="wrapper">
+
+    <h2>
+      {% if current_tags %}
+        {{ current_tags }}
+      {% else %}
+        {% if collection.handle == 'shop' %}
+          Shop THEIA
+        {% elsif collection.handle == 'collections' %}
+          THEIA Collections
+        {% else %}
+          {{ collection.title }} Collection
+        {% endif %}
+      {% endif %}
+    </h2>
+
+
+    {% paginate collection.products by 12 %}
+
+    {% comment %}
+    Use class grid-uniform to have evenly sized columns clear
+    each other properly at each breakpoint.
+    {% endcomment %}
+
+    {% comment %}
+    Loop through our products in the current collection.
+    See the snippet 'product-grid-item' for the layout.
+    {% endcomment %}
+
+    <div id="collection-matrix">
+      {% for product in collection.products %}
+
+        {% if forloop.last == true %}
+          {% assign lastClass = true %}
+
+        {% else %}
+          {% assign lastClass = false %}
+
+        {% endif %}
+
+        {% include 'lookbook-grid-item' %}
+
+    {% else %}
+
+        <div class="grid-item">
+          <p>Sorry, there are no products matching your search.</p>
+        </div>
+
+      {% endfor %}
+
+      {% if paginate.next %}
+        <ul class="js-hidden">
+          {% comment %}
+          li more class is used by infinite scroll to grab the url of next dresses
+          {% endcomment %}
+          <li class="more">&darr; <a href="{{ paginate.next.url }}">More</a></li>
+        </ul>
+      {% else %}
+        <div class="back-to-top-block">
+          <a data-scroll class="back-to-top-link" href="#collectiontop">Back to Top</a>
+        </div>
+        <div id="end"></div>
+      {% endif %}
+
+    </div>
+
+    <div class="js-hidden" class="pagination-row">
+      {% include 'pagination-block' %}
+    </div>
+
+    <div id="product-list-foot"></div>
+
+    {% endpaginate %}
+
+  </div>
+</div>
+
+<hr class="hr-4-col" />
+
+<div class="social-link-newsletter-hero">
+  <div class="social-link-newsletter-column">
+
+    <h2>Keep in touch</h2>
+
+    {% include 'social-link-block' %}
+
+  </div>
+  <div class="social-link-newsletter-column">
+
+    {% include 'newsletter-signup-block' %}
+
+  </div>
+</div>

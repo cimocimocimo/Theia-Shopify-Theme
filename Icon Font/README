@@ -1,0 +1,5 @@
+http://icomoon.io/app
+
+Source dir contains the source .ai files for the icons and the .svg exports.
+
+Export dir has the IcoMoon export .json file (Very important to make this) and the exported web font and associated css.

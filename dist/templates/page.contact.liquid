@@ -12,17 +12,21 @@
   <div class="wrapper">
     <div class="content">
 
-      <h2>Theia.</h2>
-      <h3>One click away.</h3>
+      <h2>One click away</h2>
 
     </div>
   </div>
 </div>
 
-<div class="content-hero">
-  <div class="wrapper-8-col">
-    <h2>{{ page.title }}</h2>
+<div class="contact-page-form-hero">
+  <header class="wrapper-8-col">
 
+    <h2>{{ page.title }}</h2>
+    <p id="styleNumberInquiryBlock" class="js-hidden">You are inquiring about style number: <span class="js-number"></span></p>
+
+  </header>
+  <div class="wrapper-8-col">
+    
     {% comment %}
     Contact form starts here
     {% endcomment %}
@@ -39,10 +43,13 @@
 
       {% include 'form-errors-custom' %}
 
+      <input type="hidden" id="contactFormStyleNumber" name="contact[styleNumber]" value="" />
+      
       <div class="row-2-col">
         <div class="col">
       
           <fieldset class="contact-form-title">
+            <legend>Title</legend>
             <input type="radio" id="contactFormTitleMr" name="contact[title]" value="Mr." {% if form.title == "Mr." %}checked="checked"{% endif %}>
             <label for="contactFormTitleMr">Mr.</label>
 
@@ -56,6 +63,26 @@
             <label for="contactFormTitleNone">None</label>
           </fieldset>
 
+        </div>
+        <div class="col">
+
+          <fieldset class="contact-form-sender-type">
+            <legend>Status</legend>
+            <input type="radio" id="contactFormSenderTypeCustomer" name="contact[senderType]" value="Customer" {% if form.senderType == "Customer" %}checked="checked"{% endif %}>
+            <label for="contactFormSenderTypeCustomer">Customer</label>
+
+            <input type="radio" id="contactFormSenderTypeRetailer" name="contact[senderType]" value="Retailer" {% if form.senderType == "Retailer" %}checked="checked"{% endif %}>
+            <label for="contactFormSenderTypeRetailer">Retailer</label>
+
+            <input type="radio" id="contactFormSenderTypeOther" name="contact[senderType]" value="Other" {% if form.senderType == "Other" %}checked="checked"{% endif %}>
+            <label for="contactFormSenderTypeOther">Other</label>
+          </fieldset>
+
+        </div>
+      </div>
+
+      <div class="row-2-col">
+        <div class="col">
 
           {% assign formFieldKey = 'firstName' %}
           {% assign formFieldLabel = 'First Name' %}
@@ -122,21 +149,8 @@
 
 
         </div>
-        <div class="vr"></div>
+        <div class="divider"></div>
         <div class="col">
-
-
-          <fieldset class="contact-form-sender-type">
-            <input type="radio" id="contactFormSenderTypeCustomer" name="contact[senderType]" value="Customer" {% if form.senderType == "Customer" %}checked="checked"{% endif %}>
-            <label for="contactFormSenderTypeCustomer">Customer</label>
-
-            <input type="radio" id="contactFormSenderTypeRetailer" name="contact[senderType]" value="Retailer" {% if form.senderType == "Retailer" %}checked="checked"{% endif %}>
-            <label for="contactFormSenderTypeRetailer">Retailer</label>
-
-            <input type="radio" id="contactFormSenderTypeOther" name="contact[senderType]" value="Other" {% if form.senderType == "Other" %}checked="checked"{% endif %}>
-            <label for="contactFormSenderTypeOther">Other</label>
-          </fieldset>
-
 
           {% assign formFieldKey = 'email' %}
           {% assign formFieldLabel = 'Email Address' %}
@@ -159,7 +173,7 @@
 
 
           <label for="contactFormMessage">Message</label>
-          <textarea rows="10" id="contactFormMessage" class="message" name="contact[body]" placeholder="Dear Theia,">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+          <textarea rows="10" id="contactFormMessage" class="message" name="contact[body]" placeholder="Dear THEIA,">{% if form.body %}{{ form.body }}{% endif %}</textarea>
 
         </div>
       </div>
@@ -182,7 +196,7 @@
 </div>
 <div class="other-enquires-hero">
   <div class="wrapper-9-col">
-    <h3>For other enquiries</h3>
+    <h3>For other inquiries</h3>
 
     <div class="row-3-col">
       <div class="col">
@@ -200,7 +214,7 @@
     </address>
 
       </div>
-      <div class="vr"></div>
+      <div class="divider"></div>
       <div class="col">
         
     <h4>THEIA Corporate</h4>
@@ -218,16 +232,16 @@
     </address>
 
       </div>
-      <div class="vr"></div>
+      <div class="divider"></div>
       <div class="col">
         
     <h4>Press</h4>
     <address>
       <div class="phone">
-        +1 234 567 89-88
+        212-354-4700 ext. 2325
       </div>
       <div class="email">
-        <a href="mailto:theia@jsgroup.com">theia@jsgroup.com</a>
+        <a href="mailto:melissa.veniero@gmail.com">melissa.veniero@gmail.com</a>
       </div>
     </address>
 

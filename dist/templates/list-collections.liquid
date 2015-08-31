@@ -12,8 +12,8 @@
   <div class="wrapper">
     <div class="content">
 
-      <h2>Theia Collections</h2>
-      <p>&ldquo;Any dress in any of Theia&rsquo;s collections are worthy of your attention. It&rsquo;s not just a dress, it&rsquo;s an attitude.&rdquo;</p>
+      <h2>THEIA Collections</h2>
+      <p>&ldquo;Any dress in any of THEIA&rsquo;s collections are worthy of your attention. It&rsquo;s not just a dress, it&rsquo;s an attitude&rdquo;</p>
 
     </div>
     <div class="logo">
@@ -30,11 +30,33 @@
 <div class="collection-grid-hero">
   <div class="wrapper">
 
-    <h2>Collections from Theia</h2>
+    <h2>Available Online</h2>
 
     {% for collection in collections %}
 
-      {% include 'collection-grid-item' %}
+      {% assign collection_type = collection.metafields.collection.type %}
+      {% if collection_type == 'available-online' %}
+        {% include 'collection-grid-item' %}
+      {% endif %}
+
+    {% endfor %}
+
+  </div>
+</div>
+
+<hr class="hr-4-col" />
+
+<div class="collection-grid-hero">
+  <div class="wrapper">
+
+    <h2>Exclusive Collections</h2>
+
+    {% for collection in collections %}
+
+      {% assign collection_type = collection.metafields.collection.type %}
+      {% if collection_type == 'exclusive' %}
+        {% include 'collection-grid-item' %}
+      {% endif %}
 
     {% endfor %}
     

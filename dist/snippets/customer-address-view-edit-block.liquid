@@ -1,0 +1,55 @@
+<div class="customer-address-view-edit-block">
+
+  <div id="view_address_{{address.id}}" class="customer-address-view-edit-row">
+    <div class="address-block">
+      {% if address.first_name != blank or address.last_name != blank %}
+        {{ address.first_name | capitalize }} {{address.last_name | capitalize }}
+      {% endif %}
+      {% if address.company != blank or address.street != blank or address.city != blank or address.province_code != blank %}
+        <br />
+        {% if address.company != blank %}
+          {{ address.company }},
+        {% endif %}
+        {% if address.street != blank %}
+          {{ address.street }},
+        {% endif %}
+        {% if address.city != blank %}
+          {{ address.city | capitalize }},
+        {% endif %}
+        {% if address.province_code != blank %}
+          {{ address.province_code | upcase }},
+        {% endif %}
+      {% endif %}
+      {% if address.country != blank or address.zip != blank %}
+        <br />
+        {% if address.country != blank %}
+          {{ address.country }}, 
+        {% endif %}
+        {% if address.zip != blank %}
+          {{ address.zip | upcase }}
+        {% endif %}
+      {% endif %}
+      {% if address.phone != blank %}
+        <br />
+        {{ address.phone }}
+      {% endif %}
+    </div>    
+    <div class="button-block">
+      {{ "Edit" | edit_customer_address_link: address.id }}
+      {{ "Delete" | delete_customer_address_link: address.id }}
+    </div>
+  </div>
+
+  <div id="edit_address_{{address.id}}" style="display:none;" class="address-edit-form-block">
+    
+    {% form 'customer_address', address %}
+
+      {% include 'customer-address-form-block' %}
+
+    {% endform %}
+
+  </div>
+
+
+
+</div>

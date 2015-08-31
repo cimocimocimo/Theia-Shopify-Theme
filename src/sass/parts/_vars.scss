@@ -1,0 +1,130 @@
+
+/*============================================================================
+  #Breakpoint and Grid Variables (from timber.scss.liquid)
+==============================================================================*/
+$viewportIncrement: 1px;
+
+$small: 480px;
+$medium: 768px;
+/*
+default device-width on iPad. This is used since there is no meta viewport tag
+on the mobile checkout page for tablets.
+*/
+$large: 980px;
+
+$postSmall: $small + $viewportIncrement;
+$preMedium: $medium - $viewportIncrement;
+$postMedium: $medium + $viewportIncrement;
+$preLarge: $large - $viewportIncrement;
+$postLarge: $large + $viewportIncrement;
+
+/*============================================================================
+  #General Variables
+  ==============================================================================*/
+
+
+// Font Stacks
+$helveticaFontStack: "HelveticaNeueLT", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$arialFontStack: Arial, sans-serif;
+$socialIconFontStack: 'theia-icons';
+
+// Header Font
+$headerFontStack: $helveticaFontStack;
+$headerFontWeight: 100;
+
+// Body Font
+$bodyFontStack: $helveticaFontStack;
+$baseFontSize: 100%; // Henseforth known as 1em (assumed at 16px)e
+
+// Icon font
+$socialIconFontStack: 'theia-icons';
+
+// Theia Colors
+$colorOffWhite: #fefefe;
+
+$colorPaleGray: #fafafa;
+$colorLightestGray: #f2f2f2;
+$colorLighterGray: #e5e5e5;
+$colorLightGray: #d8d8d8;
+$colorMidGray: #bcbbbb;
+$colorGray: #8d8d8d;
+$colorDarkGray: #616161;
+$colorDarkerGray: #2f2f2f;
+
+$colorWarmLighterGray: #f9f8f8;
+$colorWarmLightGray: #a5a2a4;
+$colorWarmGray: #797778;
+$colorWarmGrayDark: #4d4c4c;
+
+$colorLighterGold: #ddc28a;
+$colorLightGold: #c8a45a;
+$colorGold: #c19946;
+$colorDarkGold: #a98741;
+$colorDarkerGold: #896e35;
+
+$colorGreen: #29c050;
+
+/*============================================================================
+  Ajaxify Colours
+==============================================================================*/
+$ajaxifyGrey: #444;
+$ajaxifyGreyDark: #454545;
+
+/* Border colors from Timber */
+$borderColor: $colorLightGray;
+
+$drawerBackgroundColor: $colorWarmLighterGray;
+$drawerBorderColor: #454545;
+
+$modalBackgroundColor: #fff;
+$modalBorderColor: $borderColor;
+
+
+// Timber Colors
+/* $colorPrimary: {{ settings.color_primary }}; */
+/* $colorSecondary: {{ settings.color_secondary }}; */
+
+// 
+$colorPrimary: $colorWarmGrayDark;
+$colorSecondary: $colorGold;
+
+
+// Button colors
+$colorBtnPrimary: $colorPrimary;
+$colorBtnPrimaryHover: darken($colorBtnPrimary, 10%);
+$colorBtnPrimaryActive: darken($colorBtnPrimaryHover, 10%);
+
+$colorBtnSecondary: $colorSecondary;
+$colorBtnSecondaryHover: darken($colorBtnSecondary, 10%);
+$colorBtnSecondaryActive: darken($colorBtnSecondaryHover, 10%);
+
+// Text link colors
+$colorLink: $colorPrimary;
+$colorLinkHover: #333;
+
+// Text colors
+$colorBody: #fff;
+/* $colorTextBody: {{ settings.color_body_text }}; */
+$colorTextBody: $colorWarmGray;
+$colorHeaders: $colorWarmGray;
+
+// Nav and dropdown link background
+$colorNav: #f2f2f2;
+$colorNavText: #333;
+
+// Helper colors
+$disabledGrey: #f6f6f6;
+$disabledBorder: darken($disabledGrey, 25%);
+$errorRed: #dc0000;
+$errorRedBg: lighten($errorRed, 55%);
+$successGreen: #0a942a;
+
+// Width variables
+$siteWidth14col: 1344px;
+$siteWidth: 1152px; // 12 col width standard
+$siteWidth10Col: 960px;
+$siteWidth9Col: 864px;
+$siteWidth8Col: 768px;
+
+$gutter: 16px;
+$gridGutter: 32px; // can be a %, but nested grids will have smaller margins because of it

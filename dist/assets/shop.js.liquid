@@ -2,6 +2,7 @@ window.timber = window.timber || {};
 
 timber.cache = {
     // General
+    $window: $(window),
     $html: $('html'),
     $body: $('body'),
 
@@ -9,49 +10,451 @@ timber.cache = {
     $navigation: $('#accessibleNav'),
 
     // Product Page
-    $mainImage: $('#productPhotoImg'),
-    $thumbImages: $('#productThumbs').find('a.product-photo-thumb'),
-    $newImage: null,
+    productPage: {
+        $body: $('.template-product'),
+        $mobileHeaderLink: $('#mobileProductHeaderLink'),
+        $infoBlock: $('#productInfoBlock'),
+        $descriptionToggle: $('#descriptionToggle'),
+        $productOptions: $('.product-options-block'),
+        gallery: {
+            $mainImageBlock: $('#mainImageBlock'),
+            $thumbBlock: $('#productThumbs')
+        }
+    },
 
-    // Celebrity Gallery
-    $celebrityGallery: $('.celebrity-gallery'),
-    $celebritySlides: $('.celebrity-gallery .slide'),
-    $celebrityThumbs: $('.celebrity-gallery .thumb')
+    // Mobile Slide Out Navigation
+    mobileSideNav: {
+        $bodyContainer: $('#body-container'),
+        $headerContainer: $('#header-container'),
+        $bothContainers: $('#body-container, #header-container'),
+        $toggle: $('#sideNavToggle'),
+        $nav: $( '#mobileSideNav' ),
+        $subMenuLinks: $('#mobileSideNav .main-menu-link.js-has-sub-menu'),
+        $subMenus: $('.sub-menu-mobile')
+    },
 
+    // homepage
+    homepage: {
+        $body: $('body.template-index'),
+        $splashScroller: $('#homepage-splash-scroller'),
+        $hero: $('#homepage-hero'),
+        $splash: $('#homepage-splash'),
+        $headerWaypoint: $('.js-header-waypoint'),
+        $headerContainer: $('#header-container'),
+        $scrollBody: $('#body-container')
+    },
+
+    headerSubNav: {
+        $row: $('.site-header-sub-row'),
+        $subMenus: $('.js-header-sub-menu'),
+        $mainMenu: $('.site-header .main-menu')
+    },
+
+    contactForm: {
+        $form: $('.contact-form'),
+        $styleNumberInput: $('#contactFormStyleNumber'),
+        $styleNumberInquiryBlock: $('#styleNumberInquiryBlock'),
+        $styleNumberInquiryBlockNumber: $('#styleNumberInquiryBlock .js-number')
+    },
+
+    collectionShop: {
+        $body: $('body.template-collection-shop')
+    },
+    
+    collectionLookbook: {
+        $body: $('body.template-collection-lookbook')
+    }
+};
+
+// used for passing in data from local pages through script tags
+timber.pageData = {
+    productPage: {}
 };
 
 timber.init = function () {
 
     // Run on load
     timber.accessibleNav();
-    timber.productImageSwitch();
     timber.carouselInit();
     timber.loginFormInit();
-    timber.celebrityGallery();
-
+    timber.mobileSideNav();
+    timber.loader.init();
+    timber.homepageInit();
+    timber.headerSubNav();
+    timber.contactForm();
+    
+    // product page
+    if (timber.cache.productPage.$body.length !== 0){
+        timber.productPage();
+    }
+    
+    if (timber.cache.collectionLookbook.$body.length !== 0){
+        timber.lookbookPage();
+    }
+    
+    // shop collection pages
+    if (timber.cache.collectionShop.$body.length !== 0){
+        timber.shopPage();
+    }
+    
+    // initialize smooth scroll
+    smoothScroll.init();
 };
 
-timber.celebrityGallery = function(){
+timber.shopPage = function(){
+    timber.infiniteScroll();
+}
 
-    // get elements
-    var $gallery = timber.cache.$celebrityGallery,
-        $slides = timber.cache.$celebritySlides,
-        $thumbs = timber.cache.$celebrityThumbs;
+timber.lookbookPage = function(){
+    var $openModalLinks = $('.js-open-modal'),
+        $modalContentBlocks = $('.modal-content-block');
 
-    // wire click actions
-    $thumbs.click(function(e){
-        e.preventDefault();
+    // wire the open modal handlers for the initial set of objects.
+    // $openModalLinks.click(openModal);
+    
+    // open modals
+    // function openModal(event) {
+    //     event.preventDefault();
 
-        var $this = $(this),
-            $targetSlide = $( $this.attr('href') );
+    //     var $this = $(this),
+    //         modalContentSelector = $this.attr('href');
 
-        $thumbs.removeClass('active');
-        $slides.removeClass('active');
+    //     vex.open({
+    //         showCloseButton: true,
+    //         escapeButtonCloses: true,
+    //         content: $(modalContentSelector).html(),
+    //         className: 'vex-theme-wireframe',
 
-        $this.addClass('active');
-        $targetSlide.addClass('active');
+    //         afterOpen: wireImageGallery
+    //     });
+    // }
+    
+    // function wireImageGallery(){
+    //     console.log('wiring click events for: ', this);
 
+    //     var $content = this.$vexContent;
+
+    //     $content.find('.product-photo-thumb').on('click', function(e) {
+    //         e.preventDefault();
+            
+    //         var $clickedLink = $(this),
+    //             newImageUrl = $clickedLink.attr('href');
+            
+    //         $content.find('.product-gallery-image-block img').attr('src', newImageUrl);
+            
+    //         // // change the background image in the zoom window
+    //         // if ($(window).width() >= 1024){
+    //         //     $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
+    //         // }
+    //     });
+    // }
+    
+    // function changeImage(){
+        
+    // }
+    
+    // $modalContentBlocks.each(function(index){
+    //     return;
+        
+    //     var $this = $(this);
+        
+    //     console.log('wiring click events for: ', $this);
+        
+    //     $this.find('.product-photo-thumb').on('click', function(e) {
+    //         e.preventDefault();
+            
+    //         console.log('thumb clicked');
+            
+    //         var newImageUrl = $this.addr('href');
+    //         $this.find('.product-gallery-image-block').attr('src', newImageUrl);
+            
+    //         // // change the background image in the zoom window
+    //         // if ($(window).width() >= 1024){
+    //         //     $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
+    //         // }
+    //     });
+
+        
+    // });
+    
+    
+    // function wireOpenModalHandler(){
+    //     var 
+    // }
+    
+    timber.infiniteScroll();
+};
+
+timber.contactForm = function(){
+    var styleNumber = timber.getUrlVars()['style_number'],
+        $block = timber.cache.contactForm.$styleNumberInquiryBlock,
+        $blockNumber = timber.cache.contactForm.$styleNumberInquiryBlockNumber,
+        $styleNumberInput = timber.cache.contactForm.$styleNumberInput;
+    
+    if (styleNumber){
+        $styleNumberInput.val(styleNumber);
+        console.log($blockNumber);
+        $blockNumber.text(styleNumber);
+        $block.removeClass('js-hidden');
+    }
+};
+
+timber.getUrlVars = function () {
+    var result = {};
+    var location = window.location.href.split('#');
+    var parts = location[0].replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        result [key] = value;
     });
+    return result ;
+};
+
+timber.homepageInit = function(){
+    // if not on the homepage, return
+    if (timber.cache.homepage.$body.length === 0){
+        return;
+    }
+    
+    timber.homepageSplash();
+    timber.homepageHeader();
+};
+
+timber.homepageHeader = function(){
+    // on the home page we want to activate headroom.js when
+    // scrolling up and the header hits the top of the screen.
+    // then deactivate it at the same point on scroll down.
+    // this allows the header to sit below the homepage splash but still
+    // use headroom.js for showing hiding in the main body of the
+    // page.
+    
+    var $container = timber.cache.homepage.$headerContainer, // headroom.js is applied to this element
+        $waypoint = timber.cache.homepage.$headerWaypoint,
+        // used as the context/scroller element for waypoints and headroom, needed to get around the full-viewport
+        // css hacks used.
+        $scrollBody = timber.cache.homepage.$scrollBody,
+        headroomInstance = {}; // closure to hold the headroom instance between waypoint handler calls
+    
+    // create the waypoint for the header
+    var headerWaypoint = $waypoint.waypoint({
+        context: $scrollBody[0],
+        handler: function(direction){
+            console.log(direction);
+            
+            if (direction === 'down'){
+                headroomInstance = new Headroom($container[0], {
+                    scroller: $scrollBody[0]
+                });
+                headroomInstance.init();
+                $waypoint.addClass('js-headroom-active');
+            } else {
+                headroomInstance.destroy();
+                $waypoint.removeClass('js-headroom-active');
+            }
+        },
+        offset: function(){
+            return - $(this.element).height();
+        }
+    });
+};
+
+timber.homepageSplash = function(){
+    
+    var $splash = timber.cache.homepage.$splash,
+        $scroll = timber.cache.homepage.$splashScroller,
+        $body = timber.cache.homepage.$body;
+    
+    $scroll.click(function(event){
+        event.preventDefault();
+        
+        $('#body-container').animate({scrollTop: $splash.height()});
+    });
+    
+};
+
+timber.switchClass = function( $el, c1, c2){
+    if ( $el.hasClass(c1) ) {
+        $el.removeClass(c1);
+        $el.addClass(c2);
+    } else {
+        $el.removeClass(c2);
+        $el.addClass(c1);
+    }
+};
+
+timber.mobileSideNav = function(){
+
+    var $body = timber.cache.$body,
+        $bodyContainer = timber.cache.mobileSideNav.$bodyContainer,
+        $headerContainer = timber.cache.mobileSideNav.$headerContainer,
+        $bothContainers = timber.cache.mobileSideNav.$bothContainers,
+        $toggle = timber.cache.mobileSideNav.$toggle,
+        $nav = timber.cache.mobileSideNav.$nav,
+        $subMenuLinks = timber.cache.mobileSideNav.$subMenuLinks,
+        $subMenus = timber.cache.mobileSideNav.$subMenus,
+        isOpen = false;
+
+    $toggle.click(function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (isOpen){
+            timber.mobileSideNav.close();
+        } else {
+            timber.mobileSideNav.open();
+        }
+    });
+
+    // close the side menu when user clicks on the body or the header when open.
+    $bothContainers.click(function(e){
+        if ( isOpen ){
+            timber.mobileSideNav.close();
+        }
+    });
+
+    this.mobileSideNav.open = function(){
+        $bothContainers.addClass( 'menu-open' );
+        $body.addClass('js-no-scroll');
+        $nav.addClass( 'open' );
+        isOpen = true;
+    };
+
+    this.mobileSideNav.close = function(){
+        $bothContainers.removeClass( 'menu-open' );
+        $body.removeClass('js-no-scroll');
+        $nav.removeClass( 'open' );
+        isOpen = false;
+    };
+
+    // side nav sub menus
+
+    // get the natural hight of the sub menus to allow for the transition animations to work.
+
+    // open the submenus.
+    openSubMenus();
+    $subMenus.each(function(i){
+        var $currMenu = $(this),
+            height = $currMenu.height();
+
+        $currMenu.attr('data-height', height);
+    });
+    closeSubMenus();
+
+    $subMenuLinks.click(function(event){
+        event.preventDefault();
+
+        // get the target name, format the id, get the element
+        var $this = $(this),
+            target = $this.data('target'),
+            targetIdSelector = '#sub-menu-mobile-' + target,
+            $targetMenu = $(targetIdSelector);
+
+        if (isSubMenuOpen($targetMenu)){
+            // close the menu and any others
+            closeSubMenus();
+        } else {
+            // close any menus and open the menu
+            closeSubMenus();
+            openSubMenu($this, $targetMenu);
+        }
+    });
+
+    function isSubMenuOpen($menu){
+        return $menu.hasClass('js-open');
+    }
+
+    function closeSubMenus(){
+        $subMenuLinks.removeClass('active');
+        $subMenus.removeClass('js-open');
+        $subMenus.css('height', 0);
+    }
+
+    function openSubMenu($link, $subMenu){
+        $subMenu.addClass('js-open');
+        $subMenu.css('height', $subMenu.data('height'));
+        $link.addClass('active');
+    }
+
+    function openSubMenus(){
+        $subMenuLinks.addClass('active');
+        $subMenus.addClass('js-open');
+    }
+};
+
+timber.headerSubNav = function(){
+    
+    // get elements
+    var $mainMenu = timber.cache.headerSubNav.$mainMenu,
+        $subNavRow = timber.cache.headerSubNav.$row,
+        $subMenus = timber.cache.headerSubNav.$subMenus,
+        $subMenuLinks = $mainMenu.find('.js-has-sub-menu'),
+        $nonSubMenuLinks = $mainMenu.find('a:not(.js-has-sub-menu)'),
+        menuClosetimeoutId;
+
+    // set the sub menu left offset to be the same as the link
+    function setMenuHorizontalPositions(){
+        var $currentLink,
+            currentOffset,
+            currentTarget,
+            $currentMenu;
+        
+        for (var i = 0; i<$subMenuLinks.length; i++){
+            $currentLink = $subMenuLinks.eq(i);
+            currentOffset = $currentLink.offset().left;
+            currentTarget = $currentLink.attr('data-target');
+            $currentMenu = $('#sub-menu-desktop-' + currentTarget);
+            $currentMenu.css('left', currentOffset);
+        }
+    }
+    setMenuHorizontalPositions();
+
+    // and set them anytime the window is resized.
+    $(window).resize(function(event){
+        setMenuHorizontalPositions();
+    });
+
+    // when the user mouses over a sub menu link
+    $subMenuLinks.mouseenter(function(event){
+
+        // get the target name, format the id, get the element
+        var $this = $(this),
+            target = $this.data('target'),
+            targetIdSelector = '#sub-menu-desktop-' + target,
+            $targetMenu = $(targetIdSelector);
+
+        // if another menu is open
+        if ($subMenus.hasClass('js-open') && !$targetMenu.hasClass('js-open')){
+            $subMenus.removeClass('js-open');
+            $subMenuLinks.removeClass('active');
+            $targetMenu.addClass('js-open');
+            $this.addClass('active');
+            
+        } else if (!$subMenus.hasClass('js-open')) {
+            // no menus are open, so open the target
+            $targetMenu.addClass('js-open');
+            $this.addClass('active');
+        }
+    });
+
+    // when the user mouses away from the main nav or the open sub nav menu start a timeout
+    // when the time out finishes
+    $mainMenu.mouseleave(function(event){
+        menuClosetimeoutId = window.setTimeout(closeSubMenus, 600);
+    });
+    $subMenus.mouseleave(function(event){
+        menuClosetimeoutId = window.setTimeout(closeSubMenus, 600);
+    });
+    $mainMenu.mouseenter(function(event){
+        window.clearTimeout(menuClosetimeoutId);
+    });
+    $subMenus.mouseenter(function(event){
+        window.clearTimeout(menuClosetimeoutId);
+    });
+    
+    $nonSubMenuLinks.mouseenter(closeSubMenus);
+    
+    function closeSubMenus(){
+        $subMenus.removeClass('js-open');
+        $subMenuLinks.removeClass('active');
+    }
 };
 
 timber.loginFormInit = function(){
@@ -79,8 +482,6 @@ timber.loginFormInit = function(){
 
     // Allow deep linking to the recover password form
     if (window.location.hash == '#recover') {
-        console.log( 'forgot' );
-
         showRecoverPasswordForm();
     }
 
@@ -94,10 +495,50 @@ timber.loginFormInit = function(){
 };
 
 
+timber.infiniteScroll = function() {
+    // add a way point to the last item currently shown on the page.
+    $('.last-item').last().waypoint(function() {
+
+        var waypoint = this;
+        // you're at the end of the page, stop assigning waypoints.
+        if (typeof $('#end')[0] != 'undefined') {
+            waypoint.disable();
+            return;
+        }
+
+        var loadingImage,
+            pInfScrNode = $('.more').last(),
+            pInfScrURL = $('.more a').last().attr("href");
+
+        $.ajax({
+            type: 'GET',
+            url: pInfScrURL,
+            beforeSend: function() {
+                loadingImage = pInfScrNode.clone().empty().append('<img src=\"http://cdn.shopify.com/s/files/1/0068/2162/assets/loading.gif?105791\" />');
+                loadingImage.insertAfter(pInfScrNode);
+                pInfScrNode.hide();
+            },
+            success: function(data) {
+                var filteredData = $(data).find("#collection-matrix");
+                
+                // remove loading feedback
+                pInfScrNode.next().remove();
+                filteredData.insertBefore( $("#product-list-foot") );
+                loadingImage.remove();
+                waypoint.disable();
+                // recursively call yourself to attach another waypoint to the last item we just received
+                timber.infiniteScroll();
+            },
+            dataType: "html"
+        });
+    }, {
+        offset: 'bottom-in-view'
+    });
+};
+
 timber.carouselInit = function () {
     $('.carousel').slick({
         dots: true,
-        appendArrows: '.carousel-nav',
         prevArrow: '<a href="#" class="slick-prev"></a>',
         nextArrow: '<a href="#" class="slick-next"></a>',
         customPaging: function(slider, i) {
@@ -183,21 +624,239 @@ timber.accessibleNav = function () {
     function removeFocus ($el) {
         $el.removeClass(focusClass);
     }
+};
+
+timber.productPage = function(){
+    var pageData = timber.pageData.productPage;
+    
+    if (timber.cache.productPage.$productOptions.length !== 0){
+        new Shopify.OptionSelectors('productSelect', {
+            product: pageData.product,
+            onVariantSelected: timber.productSelectCallback
+        });
+    }
+    
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    if (pageData.addSingleOptionLabel){
+        $('.selector-wrapper:eq(0)').prepend('<label>' + pageData.singleOptionLabelText + '</label>');
+    }
+    
+    // Hide selectors if we only have 1 variant and its title contains 'Default'.
+    if (pageData.hasSingleDefaultVariant){
+        $('.selector-wrapper').hide();
+    }
+    
+    // Auto-select first available variant on page load. Otherwise the product looks sold out.
+    var foundVariantInStock = false;
+    var currentVariant = null;
+    for (var i=0; i<pageData.product.variants.length; i++){
+        currentVariant = pageData.product.variants[i];
+        if (currentVariant.available && !foundVariantInStock){
+            foundVariantInStock = true;
+            var currentOption = null;
+            for (var j=0; j<pageData.product.options.length; j++){
+                currentOption = pageData.product.options[j];
+                $('.single-option-selector:eq(' + j + ')').val(currentVariant.options[j]).trigger('change');
+            }
+            break;
+        }
+    }
+    
+    // dress sizes popup link
+    currentOption = null;
+    for (var k=0; k<pageData.product.options.length; k++){
+        currentOption = pageData.product.options[k];
+        
+        if (currentOption === 'Size'){
+            $('.selector-wrapper:eq(' + k + ')').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">Size Chart</a>');
+        }
+    }
+    
+    // wire the modal popup
+    $('.js-open-modal').click(function(event) {
+        event.preventDefault();
+
+        var $this = $(this),
+            modalContentSelector = $this.attr('href');
+
+        vex.open({
+            // default is no close button
+            showCloseButton: true,
+            escapeButtonCloses: true,
+            // default is two buttons, we don't want that.
+            // you need the padding at the top else your close button infringes on the content.
+            // dump the table into the modal
+            // content: $('#modal-content-dress-size').html(),
+            content: $(modalContentSelector).html(),
+            className: 'vex-theme-wireframe'
+        });
+    });
+    
+    timber.productImageGallery();
+    timber.mobileProductInfoBlock();
+    timber.productDescriptionBlock();
 }
 
-timber.productImageSwitch = function () {
-    if ( !timber.cache.$thumbImages.length ) {
-        return;
-    }
+timber.productSelectCallback = function(variant, selector) {
 
-    // Switch the main image with one of the thumbnails
-    // Note: this does not change the variant selected, just the image
-    timber.cache.$thumbImages.on('click', function(e) {
-        e.preventDefault();
-        timber.cache.$newImage = $(this).attr('href');
-        timber.cache.$mainImage.attr({ src: timber.cache.$newImage });
+    var $body = $('body'),
+        addToCart = $('#addToCart'),
+        productPrice = $('#productPrice'),
+        comparePrice = $('#comparePrice'),
+        showProductWaitlist = timber.pageData.productPage.showProductWaitlist;
+
+    if (showProductWaitlist) {
+        addToCart.addClass('disabled').prop('disabled', true);
+        addToCart.find('.label').text('Coming Soon');
+    } else if (variant) {
+        if (variant.available) {
+            // We have a valid product variant, so enable the submit button
+            addToCart.removeClass('disabled').prop('disabled', false);
+            addToCart.find('.label').text('Add to Cart');
+
+        } else {
+            // Variant is sold out, disable the submit button
+            addToCart.addClass('disabled').prop('disabled', true);
+            addToCart.find('.label').text('Sold Out');
+        }
+
+        // Regardless of stock, update the product price
+        productPrice.html(Shopify.formatMoney(variant.price, "{{ shop.money_format }}"));
+
+    } else {
+        // The variant doesn't exist, disable submit button.
+        // This may be an error or notice that a specific variant is not available.
+        // To only show available variants, implement linked product options:
+        //   - http://docs.shopify.com/manual/configuration/store-customization/advanced-navigation/linked-product-options
+        addToCart.val('Unavailable').addClass('disabled').prop('disabled', true);
+    }
+    
+    // trigger event for selected color
+    var currentSelector = {};
+    for (var i = 1; i < selector.selectors.length; i++){
+        currentSelector = selector.selectors[i];
+
+        if (currentSelector.name === 'Color'){
+            $body.trigger('colorChanged.productPage', {color: currentSelector.element.value});
+        }
+    }
+};
+
+timber.productImageGallery = function(){
+    /*
+     image gallery
+
+     specs
+     - only show photos of the color currently selected in the color dropdown.
+     - preload the images so they switch faster
+     - clicking on a thumb shows the image in the main area
+     */
+    
+    var $mainBlock = timber.cache.productPage.gallery.$mainImageBlock,
+        $thumbBlock = timber.cache.productPage.gallery.$thumbBlock,
+        $mainImages = $mainBlock.find('img'),
+        $thumbLinks = $thumbBlock.find('a');
+    
+    $('body').on('colorChanged.productPage', function(event, data){
+        $thumbLinks.removeClass('js-hidden');
+        $thumbLinks.filter(':not([data-image-color="' + data.color + '"])').addClass('js-hidden');
+
+        $mainImages.addClass('js-hidden');
+        $mainImages.each(function(index){
+            var $this = $(this),
+                attachedToVariant = ($this.attr('data-attached-to-variant') === 'true'),
+                imageColor = $this.attr('data-image-color');
+            
+            if (attachedToVariant && imageColor === data.color){
+                $this.removeClass('js-hidden');
+                return;
+            }
+        });
+    });
+    
+    $thumbLinks.click(function(event){
+        event.preventDefault();
+
+        var imageId = $(this).attr('data-target-image-id');
+
+        $('#' + imageId).removeClass('js-hidden');
+        $mainImages.filter(':not(#' + imageId + ')').addClass('js-hidden');
     });
 }
+
+timber.productDescriptionBlock = function(){
+
+    var $toggle = timber.cache.productPage.$descriptionToggle,
+        $infoBlock = timber.cache.productPage.$infoBlock,
+        $icon = $toggle.find('.icon'),
+        $content = $infoBlock.find('.content');
+
+    $toggle.click(function(e){
+        e.preventDefault();
+
+        $content.scrollTop(0);
+        $infoBlock.toggleClass('description-expanded');
+        timber.switchClass( $icon, 'up', 'down' );
+    });
+};
+
+timber.mobileProductInfoBlock = function(){
+
+    var $toggle = timber.cache.productPage.$mobileHeaderLink,
+        $icon = $toggle.find('.icon'),
+        $infoBlock = timber.cache.productPage.$infoBlock;
+
+    $toggle.click(function(e){
+        e.preventDefault();
+
+        // flip the arrow icon
+        timber.switchClass( $icon, 'up', 'down' );
+
+        $infoBlock.toggleClass('expanded');
+    });
+};
+
+
+
+timber.loader = {
+    element: '',
+    selector: '.spinner',
+
+    init: function(){
+        // get loader template
+        timber.loader.element = $('#loaderAnimationTemplate').html();
+    },
+
+    show: function( target ){
+        // append the loader element to the target element and show it
+
+        if ( typeof target === 'undefined' ) {
+            return;
+        }
+
+        $( target ).append( timber.loader.element );
+    },
+
+    hide: function( target ){
+        // hide the loader element in the target
+
+        if ( typeof target === 'undefined' ) {
+            return;
+        } else {
+            $( target ).hide();
+        }
+    },
+
+    destroy: function( target ){
+        if( typeof target === 'undefined' ){
+            // no target element, hide and destroy all loader animations
+            return;
+        } else {
+            // hide and destroy the loader in the target element
+            $( target ).remove();
+        }
+    }
+};
 
 // Initialize Timber's JS on docready
 $(function() {

@@ -64,13 +64,13 @@ For info on test orders:
             {% endcomment %}
             <button type="submit" name="update" class="update-cart-button">Update cart</button>
 
-            <a href="#">or continue shopping</a>
+            <a href="#" id="cartContinueShoppingLink">or continue shopping</a>
 
           </div>
 
           <div class="order-info-row">
             
-            <div class="free-shipping{% if cart.total_price <= 1000 %} hidden{% endif %}">
+            <div class="free-shipping">
               <span class="icon"></span>
               <span class="label">Free shipping</span>
             </div>
@@ -100,7 +100,7 @@ For info on test orders:
             {{ 'visa-logo-small.png' | asset_url | img_tag }}
             {{ 'american-express-logo-small.png' | asset_url | img_tag }}
             {{ 'mastercard-logo-small.png' | asset_url | img_tag }}
-            {{ 'paypal-logo-small.png' | asset_url | img_tag }}
+            <!-- {{ 'paypal-logo-small.png' | asset_url | img_tag }} -->
             
           </div>
 

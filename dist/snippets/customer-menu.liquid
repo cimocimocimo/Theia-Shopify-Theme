@@ -1,31 +1,9 @@
-{% comment %} There is no urlencoding provided in shopify liquid. This is a hack to simply relplace the characters {% endcomment %}
-{% capture default_profile_url %}
-{{ 'cara-profile.jpg' | asset_url | replace: ' ', '%20' | replace: '&', '%26' | replace: '?', '%3F' | replace: '!', '%21' | replace: ',', '%2C' | replace: "'", "%27" | replace: '/', '%2F' }}
-{% endcapture %}
 <nav class="customer-menu" role="navigation">
   <ul>
     <li class="profile-login-links-block">
-      {% if shop.customer_accounts_enabled %}
-        {% if customer %}
 
-          <a class="customer-menu-link customer-profile-link" href="/account">
+      {% include 'customer-profile-login-link' %}
 
-            {% comment %} https://en.gravatar.com/site/implement/images/ {% endcomment %}
-            <img alt="{{ customer.first_name }}s gravitar" src="//www.gravatar.com/avatar/{{ customer.email | remove: ' ' | strip_newlines | downcase | md5 }}?s=44&d={{ default_profile_url }}" />
-
-            <span class="label">{{ customer.first_name }} {{ customer.last_name }}</span>
-          </a>
-          <!-- {{ 'Log out' | customer_logout_link }} -->
-
-        {% else %}
-
-          <a class="customer-menu-link customer-login-link" href="/account/login">
-            <span class="icon-safe"></span>
-            <span class="label">Login</span>
-          </a>
-
-        {% endif %}
-      {% endif %}
     </li>
     <li>
 
@@ -33,17 +11,10 @@
       Documentation:  http://shopify.com/timber#ajax-cart
       {% endcomment %}
       <a id="cartToggle" class="customer-menu-link cart-count-link" href="/cart">
-        <span class="icon-store">
-          <span id="cartCount" class="count">{{ cart.item_count }}</span>          
+        <span class="icon-shopping-bag">
+          <span id="cartCount" class="count{% if cart.item_count > 0 %} positive-count{% endif %}">{{ cart.item_count }}</span>
         </span>
         <span class="label">Cart</span>
-      </a>
-
-    </li>
-    <li class="side-menu-toggle-block">
-
-      <a id="sideNavToggle" class="customer-menu-link side-menu-toggle-link" href="#">
-        <span class="icon-menu"></span>
       </a>
 
     </li>

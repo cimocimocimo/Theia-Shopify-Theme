@@ -1,7 +1,7 @@
-{% assign top-level-layout = 'customer-account' %}<!doctype html>
-<!--[if lt IE 9]><html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+{% assign top-level-layouts = 'customer-account,main' | split: ',' %}<!doctype html>
+<!--[if lt IE 9]><html class="no-js lt-ie9{% if template contains 'index' %} full-viewport-height{% endif %}" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js{% if template contains 'index' %} full-viewport-height{% endif %}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js{% if template contains 'index' %} full-viewport-height{% endif %}"> <!--<![endif]-->
   <head>
 
     {% include 'html-head-common' %}
@@ -18,27 +18,39 @@
   {% endcomment %}
   <body {% include 'html-body-attributes' %}>
 
-    {% include 'header' %}
+    {% include 'html-body-top-scripts' %}
 
-    <main class="main-content" role="main">
+    {% include 'mobile-side-nav' %}
 
-      {% include 'customer-account-page-hero' %}
+    <div data-headroom data-offset="160" id="header-container" class="header-container">
 
-      <div class="customer-account-nav-row">
-        <div class="wrapper">
+      {% include 'header' %}
 
-          <div class="customer-account-menu-block">
-            {% include 'customer-account-menu' %}
+    </div>
+
+    <div class="body-container">
+
+      <main class="main-content" role="main">
+
+        {% include 'customer-account-page-hero' %}
+
+        <div class="customer-account-nav-row">
+          <div class="wrapper">
+
+            <div class="customer-account-menu-block">
+              {% include 'customer-account-menu' %}
+            </div>
+
           </div>
-
         </div>
-      </div>
 
-      {{ content_for_layout }}
+        {{ content_for_layout }}
 
-    </main>
+      </main>
 
-    {% include 'footer' %}
+      {% include 'footer' %}
+
+    </div>
 
     {% include 'html-footer-scripts' %}
 

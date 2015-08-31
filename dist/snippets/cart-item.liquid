@@ -24,7 +24,20 @@
         {{ item.product.title }} &ndash; {{ item.product.price | money }}
         {% unless item.variant.title contains 'Default' %}
           <br>
-          <small>{{ item.variant.title }}</small>
+          <small>
+            {% for option in item.product.options %}
+              {% if forloop.index > 1 %} / {% endif %}
+              {{ option }}:
+              {% case forloop.index %}
+              {% when 1 %}
+              {{ item.variant.option1 }}
+              {% when 2 %}
+              {{ item.variant.option2 }}
+              {% when 3 %}
+              {{ item.variant.option3 }}
+              {% endcase %}
+            {% endfor %}
+          </small>            
         {% endunless %}
       </h4>
 

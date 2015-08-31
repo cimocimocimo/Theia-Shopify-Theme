@@ -1,4 +1,4 @@
-{% assign top-level-layout = 'simplified' %}<!doctype html>
+{% assign top-level-layouts = 'simplified' %}<!doctype html>
 <!--[if lt IE 9]><html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
@@ -23,7 +23,6 @@
       {% include 'site-logo' %}
 
     </header>
-
     <main class="site-content" role="main">
 
       {{ content_for_layout }}
@@ -34,7 +33,7 @@
     <footer class="site-footer wrapper" role="contentinfo">
 
       <div class="first-column">
-        {% include 'main-menu' %}
+        {% include 'main-menu', location: 'footer' %}
       </div>
 
       <div class="last-column">

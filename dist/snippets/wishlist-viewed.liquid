@@ -1,0 +1,80 @@
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+<p id="add-to-cart-msg-wishlist"></p>
+
+<div class="wishlist-block">
+  <div class="spinner-wrapper"></div>
+  <div id="wishlist-viewed-products"></div>
+</div>
+
+<script id="wishlist-viewed-product-template"  type="text/template">
+  {% raw %}
+  <div id="product-{{id}}" class="wishlist-item">
+    <div class="image-column">
+      <div class="wishlist-item-image">
+        <a href="{{url}}">
+          <img src="{{imageSrc}}" />
+        </a>
+      </div>
+    </div>
+    <div class="info-options-column">
+      <div class="header-row">
+        <h4>
+          <a href="{{url}}">
+            {{title}} &ndash; <span class="price">{{currency}}</span>
+          </a>
+        </h4>
+      </div>
+
+      <div class="options-row">
+        <div class="info-column">
+
+          {{#if hasStyleNumber}}
+          <div class="style-number">
+            <span class="icon"></span>
+            <span class="label">Style #: {{styleNumber}}</span>
+          </div>
+          {{/if}}
+
+          <a class="remove-item-link" data-product-id="{{id}}" title="Delete item" href="#">
+            <span class="icon"></span>
+            <span class="label">Remove from my wishlist</span>
+          </a>
+
+        </div>
+
+        <form method="post" action="/cart/add">
+          <input type="hidden" name="quantity" value="1" />
+
+          <div class="option-column">
+
+            <select name="id" id="productSelect-{{id}}" class="product-variants">
+              {{#each variants}}
+              <option value="{{this.id}}">
+                {{this.title}} - {{this.currency}}
+              </option>
+              {{/each}}
+            </select>
+
+          </div>
+          <div class="button-column">
+            
+            <div class="button-label-row">
+              <div class="button-label">
+
+              </div>
+            </div>
+
+            <button name="add" class="add-to-cart-button">
+              <span class="label">Add to cart</span>
+              <span class="icon"></span>
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+  {% endraw %}
+</script>

@@ -1,0 +1,6 @@
+<!-- Shop - available-online -->
+{% for coll in collections %}
+<div id="sub-menu-desktop-{{ coll.handle }}" class="js-header-sub-menu sub-menu-desktop">
+  {% include 'header-sub-menu' %}
+</div>
+{% endfor %}

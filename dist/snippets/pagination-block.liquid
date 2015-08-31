@@ -24,7 +24,7 @@
   {% if paginate.previous %}
     <li><a href="{{ paginate.previous.url }}" title="{{ paginate.previous.title }}">Previous</a></li>
   {% else %}
-    <li class="disabled"><span>Previous</span></li>
+    <li class="disabled"><span>Prev<span class="hide-on-small">ious</span></span></li>
   {% endif %}
 
   {% for part in paginate.parts %}
@@ -42,7 +42,7 @@
   {% endfor %}
 
   {% if paginate.next %}
-    <li><a href="{{ paginate.next.url }}" title="{{ paginate.next.title }}">Next</a></li>
+    <li class='more'><a href="{{ paginate.next.url }}" title="{{ paginate.next.title }}">Next</a></li>
   {% else %}
     <li class="disabled"><span>Next</span></li>
   {% endif %}

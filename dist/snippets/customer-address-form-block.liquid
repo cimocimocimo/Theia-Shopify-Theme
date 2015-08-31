@@ -1,0 +1,62 @@
+<div class="row-2-col">
+  
+  <div class="col">
+
+    <label for="address_first_name_{{form.id}}">First Name</label>
+    <input type="text" id="address_first_name_{{form.id}}" class="address_form" name="address[first_name]" value="{{form.first_name}}" autocapitalize="words">
+
+    <label for="address_last_name_{{form.id}}">Last Name</label>
+    <input type="text" id="address_last_name_{{form.id}}" class="address_form" name="address[last_name]" value="{{form.last_name}}" autocapitalize="words">
+    
+    <label for="address_company_{{form.id}}">Company</label>
+    <input type="text" id="address_company_{{form.id}}" class="address_form" name="address[company]" value="{{form.company}}" autocapitalize="words">
+
+    <label for="address_address1_{{form.id}}">Address 1</label>
+    <input type="text" id="address_address1_{{form.id}}" class="address_form" name="address[address1]" value="{{form.address1}}" autocapitalize="words">
+
+    <label for="address_address2_{{form.id}}">Address 2</label>
+    <input type="text" id="address_address2_{{form.id}}" class="address_form" name="address[address2]" value="{{form.address2}}" autocapitalize="words">
+
+
+  </div>
+  <div class="col">
+
+    <label for="address_city_{{form.id}}">City</label>
+    <input type="text" id="address_city_{{form.id}}" class="address_form" name="address[city]" value="{{form.city}}" autocapitalize="words">
+
+
+
+    <label for="address_country_{{form.id}}">Country</label>
+    <select id="address_country_{{form.id}}" name="address[country]" data-default="{{form.country}}">{{ country_option_tags }}</select>
+
+    <div id="address_province_container_{{form.id}}" style="display:none">
+      <label for="address_province_{{form.id}}">Province</label>
+      <select id="address_province_{{form.id}}" class="address_form" name="address[province]" data-default="{{form.province}}"></select>
+    </div>
+    
+    <label for="address_zip_{{form.id}}">Postal/Zip Code</label>
+    <input type="text" id="address_zip_{{form.id}}" class="address_form" name="address[zip]" value="{{form.zip}}" autocapitalize="characters">
+
+    <label for="address_phone_{{form.id}}">Phone</label>
+    <input type="tel" id="address_phone_{{form.id}}" class="address_form" name="address[phone]" value="{{form.phone}}" placeholder="555-555-1234">
+    
+  </div>
+
+</div>
+
+<div class="default-address-row">
+  {{ form.set_as_default_checkbox }}
+  <label for="address_default_address_new">Set as Default Address?</label>
+</div>
+
+<div class="submit-cancel-row">
+  <button type="submit">{{ submit_button_text }}</button>
+  <div class="or-divider">
+    or
+  </div>
+  {% if is_new_address_form %}
+    <a href="#" onclick="Shopify.CustomerAddress.toggleNewForm(); return false;" class="cancel-button">Cancel</a>
+  {% else %}
+    <a href="#" onclick="Shopify.CustomerAddress.toggleForm({{form.id}}); return false;" class="cancel-button">Cancel</a>
+  {% endif %}
+</div>

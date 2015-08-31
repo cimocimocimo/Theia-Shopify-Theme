@@ -1,0 +1,30 @@
+{% comment %}
+Checks for and unpacks image alt data if found.
+if '%DATA%' is found in the image alt then we have data.
+'%DATA%' is used as the seperator. Everything before is the data, everything after is the image alt text
+'%ITEM%' is optionally used to split the items in data. These are further broken down into name value pairs, split by '%PAIR%'
+example alt text with extra data: 'color%PAIR%blue%ITEM%some%PAIR%thing%DATA%This is the alt text'
+contains this data:
+alt text: This is the alt text
+and these pairs
+color: blue
+some: thing
+{% endcomment %}
+{% assign data_separator = '%DATA%' %}
+{% assign item_separator = '%ITEM%' %}
+{% assign pair_separator = '%PAIR%' %}
+{% if raw_alt_text contains data_separator %}
+  {% assign parts = raw_alt_text | split: data_separator %}
+  {% assign raw_data = parts.first %}
+  {% assign image_alt_text = parts.last %}
+  {% if raw_data contains item_separator %}
+    {% assign items = raw_data | split: item_separator %}
+    {% for item in items %}
+      {% include 'check_unpack_process_pair_data' %}
+    {% endfor %}
+  {% else %}
+    {% include 'check_unpack_process_pair_data', item: raw_data %}
+  {% endif %}
+{% else %}
+  {% assign image_alt_text = raw_alt_text %}
+{% endif %}
