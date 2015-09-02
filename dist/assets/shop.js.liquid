@@ -110,44 +110,41 @@ timber.lookbookPage = function(){
         $modalContentBlocks = $('.modal-content-block');
 
     // wire the open modal handlers for the initial set of objects.
-    // $openModalLinks.click(openModal);
+    $openModalLinks.click(openModal);
     
     // open modals
-    // function openModal(event) {
-    //     event.preventDefault();
+    function openModal(event) {
+        event.preventDefault();
 
-    //     var $this = $(this),
-    //         modalContentSelector = $this.attr('href');
+        var $this = $(this),
+            modalContentSelector = $this.attr('href'),
+            modalContent = $(modalContentSelector).html(),
+            modalThemeClass = 'vex-theme-fullscreen',
+            modalCloseClassName = 'lookbook-modal-close';
 
-    //     vex.open({
-    //         showCloseButton: true,
-    //         escapeButtonCloses: true,
-    //         content: $(modalContentSelector).html(),
-    //         className: 'vex-theme-wireframe',
-
-    //         afterOpen: wireImageGallery
-    //     });
-    // }
+        vex.open({
+            showCloseButton: true,
+            escapeButtonCloses: true,
+            content: modalContent,
+            className: modalThemeClass,
+            afterOpen: wireImageCarousel,
+            closeClassName: modalCloseClassName
+        });
+    }
     
-    // function wireImageGallery(){
-    //     console.log('wiring click events for: ', this);
+    function wireImageCarousel(){
+        
+        var $carousel = this.$vexContent.find('.lookbook-modal-image-carousel');
+        
+        $carousel.slick({
+            prevArrow: '<a href="#" class="slick-prev"></a>',
+            nextArrow: '<a href="#" class="slick-next"></a>'
+        });
+        
+        // this.$vexContent.find('.product-galllery-image-block').slick();
+    }
 
-    //     var $content = this.$vexContent;
-
-    //     $content.find('.product-photo-thumb').on('click', function(e) {
-    //         e.preventDefault();
-            
-    //         var $clickedLink = $(this),
-    //             newImageUrl = $clickedLink.attr('href');
-            
-    //         $content.find('.product-gallery-image-block img').attr('src', newImageUrl);
-            
-    //         // // change the background image in the zoom window
-    //         // if ($(window).width() >= 1024){
-    //         //     $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
-    //         // }
-    //     });
-    // }
+    
     
     // function changeImage(){
         
