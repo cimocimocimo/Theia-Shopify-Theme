@@ -110,79 +110,40 @@ timber.lookbookPage = function(){
         $modalContentBlocks = $('.modal-content-block');
 
     // wire the open modal handlers for the initial set of objects.
-    // $openModalLinks.click(openModal);
+    $openModalLinks.click(openModal);
     
     // open modals
-    // function openModal(event) {
-    //     event.preventDefault();
+    function openModal(event) {
+        event.preventDefault();
 
-    //     var $this = $(this),
-    //         modalContentSelector = $this.attr('href');
-
-    //     vex.open({
-    //         showCloseButton: true,
-    //         escapeButtonCloses: true,
-    //         content: $(modalContentSelector).html(),
-    //         className: 'vex-theme-wireframe',
-
-    //         afterOpen: wireImageGallery
-    //     });
-    // }
-    
-    // function wireImageGallery(){
-    //     console.log('wiring click events for: ', this);
-
-    //     var $content = this.$vexContent;
-
-    //     $content.find('.product-photo-thumb').on('click', function(e) {
-    //         e.preventDefault();
-            
-    //         var $clickedLink = $(this),
-    //             newImageUrl = $clickedLink.attr('href');
-            
-    //         $content.find('.product-gallery-image-block img').attr('src', newImageUrl);
-            
-    //         // // change the background image in the zoom window
-    //         // if ($(window).width() >= 1024){
-    //         //     $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
-    //         // }
-    //     });
-    // }
-    
-    // function changeImage(){
+        var $this = $(this),
+            modalContentSelector = $this.attr('href'),
+            modalContent = $(modalContentSelector).html();
         
-    // }
+        vex.open({
+            showCloseButton: true,
+            escapeButtonCloses: true,
+            content: modalContent,
+            className: 'vex-lookbook-modal',
+            afterOpen: wireImageCarousel,
+            closeClassName: 'lookbook-modal-close'
+        });
+    }
     
-    // $modalContentBlocks.each(function(index){
-    //     return;
+    function wireImageCarousel(){
+        var $carousel = this.$vexContent.find('.lookbook-modal-image-carousel');
         
-    //     var $this = $(this);
-        
-    //     console.log('wiring click events for: ', $this);
-        
-    //     $this.find('.product-photo-thumb').on('click', function(e) {
-    //         e.preventDefault();
-            
-    //         console.log('thumb clicked');
-            
-    //         var newImageUrl = $this.addr('href');
-    //         $this.find('.product-gallery-image-block').attr('src', newImageUrl);
-            
-    //         // // change the background image in the zoom window
-    //         // if ($(window).width() >= 1024){
-    //         //     $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
-    //         // }
-    //     });
-
-        
-    // });
+        $carousel.slick({
+            prevArrow: '<a href="#" class="slick-prev"></a>',
+            nextArrow: '<a href="#" class="slick-next"></a>'
+        });
+    }
     
-    
-    // function wireOpenModalHandler(){
-    //     var 
-    // }
-    
-    timber.infiniteScroll();
+    timber.infiniteScroll({
+        processFilteredData: function($data){
+            return $data.find('.js-open-modal').click(openModal);
+        }
+    });
 };
 
 timber.contactForm = function(){
@@ -495,7 +456,21 @@ timber.loginFormInit = function(){
 };
 
 
-timber.infiniteScroll = function() {
+timber.infiniteScroll = function(settings) {
+    
+    var defaults = {
+        processFilteredData: function(data){
+            return data;
+        }
+    },
+        options = $.extend({}, defaults, settings);
+    
+    function processFilteredData(data){
+        if (options.processFilteredData){
+            return options.processFilteredData(data);
+        }
+    }
+    
     // add a way point to the last item currently shown on the page.
     $('.last-item').last().waypoint(function() {
 
@@ -519,15 +494,18 @@ timber.infiniteScroll = function() {
                 pInfScrNode.hide();
             },
             success: function(data) {
-                var filteredData = $(data).find("#collection-matrix");
+                var $filteredData = $(data).find("#collection-matrix");
+                
+                $filteredData = processFilteredData($filteredData);
                 
                 // remove loading feedback
                 pInfScrNode.next().remove();
-                filteredData.insertBefore( $("#product-list-foot") );
+                $filteredData.insertBefore( $("#product-list-foot") );
                 loadingImage.remove();
                 waypoint.disable();
+                
                 // recursively call yourself to attach another waypoint to the last item we just received
-                timber.infiniteScroll();
+                timber.infiniteScroll(settings);
             },
             dataType: "html"
         });
