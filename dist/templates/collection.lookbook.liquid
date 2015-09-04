@@ -93,13 +93,15 @@ For more information on collection tags:
 
         {% if forloop.last == true %}
           {% assign lastClass = true %}
+
         {% else %}
           {% assign lastClass = false %}
+
         {% endif %}
 
         {% include 'lookbook-grid-item' %}
 
-    {% else %}
+      {% else %}{% comment %}for loops in liquid may have an else statement if the collection is empty{% endcomment %}
 
         <div class="grid-item">
           <p>Sorry, there are no products matching your search.</p>

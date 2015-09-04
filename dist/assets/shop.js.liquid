@@ -141,7 +141,9 @@ timber.lookbookPage = function(){
     
     timber.infiniteScroll({
         processFilteredData: function($data){
-            return $data.find('.js-open-modal').click(openModal);
+            $data.find('.js-open-modal').click(openModal);
+
+            return $data;
         }
     });
 };
@@ -454,7 +456,6 @@ timber.loginFormInit = function(){
     document.getElementById('resetSuccess').style.display = 'block';
     {% endif %}
 };
-
 
 timber.infiniteScroll = function(settings) {
     
