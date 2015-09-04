@@ -76,7 +76,6 @@ For more information on collection tags:
       {% endif %}
     </h2>
 
-
     {% paginate collection.products by 12 %}
 
     {% comment %}
@@ -94,10 +93,8 @@ For more information on collection tags:
 
         {% if forloop.last == true %}
           {% assign lastClass = true %}
-
         {% else %}
           {% assign lastClass = false %}
-
         {% endif %}
 
         {% include 'lookbook-grid-item' %}

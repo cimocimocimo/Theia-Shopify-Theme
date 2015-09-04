@@ -8325,7 +8325,8 @@
 					"grid": 14,
 					"attrs": []
 				}
-			]
+			],
+			"invisible": false
 		},
 		{
 			"selection": [
@@ -8832,7 +8833,11 @@
 				},
 				{
 					"id": 117,
-					"order": 0
+					"order": 46,
+					"prevSize": 24,
+					"code": 57623,
+					"name": "cross2",
+					"tempChar": ""
 				},
 				{
 					"id": 118,
@@ -28584,7 +28589,7 @@
 			"showMetadata": true,
 			"autoHost": true,
 			"includeMetadata": false,
-			"embed": true,
+			"embed": false,
 			"showVersion": false,
 			"ie7": false,
 			"ligaReset": "tags",
