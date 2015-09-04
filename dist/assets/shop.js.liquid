@@ -118,68 +118,32 @@ timber.lookbookPage = function(){
 
         var $this = $(this),
             modalContentSelector = $this.attr('href'),
-            modalContent = $(modalContentSelector).html(),
-            modalThemeClass = 'vex-theme-fullscreen',
-            modalCloseClassName = 'lookbook-modal-close';
-
+            modalContent = $(modalContentSelector).html();
+        
         vex.open({
             showCloseButton: true,
             escapeButtonCloses: true,
             content: modalContent,
-            className: modalThemeClass,
+            className: 'vex-lookbook-modal',
             afterOpen: wireImageCarousel,
-            closeClassName: modalCloseClassName
+            closeClassName: 'lookbook-modal-close'
         });
     }
     
     function wireImageCarousel(){
-        
         var $carousel = this.$vexContent.find('.lookbook-modal-image-carousel');
         
         $carousel.slick({
             prevArrow: '<a href="#" class="slick-prev"></a>',
             nextArrow: '<a href="#" class="slick-next"></a>'
         });
-        
-        // this.$vexContent.find('.product-galllery-image-block').slick();
     }
-
     
-    
-    // function changeImage(){
-        
-    // }
-    
-    // $modalContentBlocks.each(function(index){
-    //     return;
-        
-    //     var $this = $(this);
-        
-    //     console.log('wiring click events for: ', $this);
-        
-    //     $this.find('.product-photo-thumb').on('click', function(e) {
-    //         e.preventDefault();
-            
-    //         console.log('thumb clicked');
-            
-    //         var newImageUrl = $this.addr('href');
-    //         $this.find('.product-gallery-image-block').attr('src', newImageUrl);
-            
-    //         // // change the background image in the zoom window
-    //         // if ($(window).width() >= 1024){
-    //         //     $('.zoomWindow').css({ backgroundImage: 'url(' + timber.cache.productPage.$newImage + ')' });
-    //         // }
-    //     });
-
-        
-    // });
-    
-    
-    // function wireOpenModalHandler(){
-    //     var 
-    // }
-    
-    timber.infiniteScroll();
+    timber.infiniteScroll({
+        processFilteredData: function($data){
+            return $data.find('.js-open-modal').click(openModal);
+        }
+    });
 };
 
 timber.contactForm = function(){
@@ -492,7 +456,21 @@ timber.loginFormInit = function(){
 };
 
 
-timber.infiniteScroll = function() {
+timber.infiniteScroll = function(settings) {
+    
+    var defaults = {
+        processFilteredData: function(data){
+            return data;
+        }
+    },
+        options = $.extend({}, defaults, settings);
+    
+    function processFilteredData(data){
+        if (options.processFilteredData){
+            return options.processFilteredData(data);
+        }
+    }
+    
     // add a way point to the last item currently shown on the page.
     $('.last-item').last().waypoint(function() {
 
@@ -516,15 +494,18 @@ timber.infiniteScroll = function() {
                 pInfScrNode.hide();
             },
             success: function(data) {
-                var filteredData = $(data).find("#collection-matrix");
+                var $filteredData = $(data).find("#collection-matrix");
+                
+                $filteredData = processFilteredData($filteredData);
                 
                 // remove loading feedback
                 pInfScrNode.next().remove();
-                filteredData.insertBefore( $("#product-list-foot") );
+                $filteredData.insertBefore( $("#product-list-foot") );
                 loadingImage.remove();
                 waypoint.disable();
+                
                 // recursively call yourself to attach another waypoint to the last item we just received
-                timber.infiniteScroll();
+                timber.infiniteScroll(settings);
             },
             dataType: "html"
         });

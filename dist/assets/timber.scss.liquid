@@ -25,14 +25,15 @@ Some things to know about this file:
 #Helper Classes
 #Typography
 #Rich Text Editor
+#Icons
 #Links and Buttons
 #Lists
 #Tables
 #OOCSS Media Object
 #Images and Iframes
 #Forms
-#Icons
 #Pagination
+#Vex Modal
 #Site Header
 #Site Nav and Dropdowns
 #Site Footer
@@ -1261,7 +1262,6 @@ body {
     vertical-align: middle;
 }
 
-
 /*============================================================================
   #Typography
   ==============================================================================*/
@@ -1533,6 +1533,312 @@ hr {
     li {
         margin-bottom: 0.4em;
     }
+}
+
+/*============================================================================
+  #Icons
+  ==============================================================================*/
+/*============================================================================
+  A generic way to visually hide content while
+  remaining accessible to screen readers (h5bp.com)
+  ==============================================================================*/
+.supports-fontface .icon-fallback-text .fallback-text {
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+    position: absolute;
+    height: 1px;
+    width: 1px;
+}
+
+%icon-pseudo-element-base {
+    /* show the icon if modernizer detected support */
+    display: inline;
+    font-family: $socialIconFontStack;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+%icon-font-base {
+    display: inline-block;
+}
+
+$iconSelector: '[class^="icon-"], [class*=" icon-"]';
+#{$iconSelector},
+%icon-base {
+    @extend %icon-font-base;
+    
+    &:before {
+        @extend %icon-pseudo-element-base;
+    }
+}
+
+%icon-suffix-base {
+    @extend %icon-font-base;
+    
+    &:after {
+        @extend %icon-pseudo-element-base;
+    }
+}
+
+.icon-shopping-bag:before {
+    content: "\e60d";
+}
+.icon-box-checked:before {
+    content: "\f046";
+}
+
+.icon-box-unchecked:before {
+    content: "\f096";
+}
+
+.icon-menu:before {
+    content: "\e60c";
+}
+
+.icon-telephone-handset:before {
+    content: "\e600";
+}
+
+.icon-map-pin:before {
+    content: "\e601";
+}
+
+.icon-stamp:before {
+    content: "\e602";
+}
+
+.icon-arrow-right-solid:before {
+    content: "\e603";
+}
+
+.icon-arrow-right-solid-suffix:after {
+    content: "\e603";
+}
+
+.icon-facebook-f:before {
+    content: "\e604";
+}
+
+.icon-instagram:before {
+    content: "\e605";
+}
+
+.icon-pinterest-p:before {
+    content: "\e606";
+}
+
+.icon-arrow-right-xlarge:before {
+    content: "\e607";
+}
+
+.icon-arrow-left-xlarge:before {
+    content: "\e608";
+}
+
+.icon-search:before {
+    content: "\e609";
+}
+
+.icon-store:before {
+    content: "\e60a";
+}
+
+.icon-safe:before {
+    content: "\e60b";
+}
+
+.icon-fancy:before {
+    content: "\46";
+}
+
+.icon-twitter:before {
+    content: "\54";
+}
+
+.icon-facebook:before {
+    content: "\66";
+}
+
+.icon-pinterest:before {
+    content: "\70";
+}
+
+.icon-tumblr:before {
+    content: "\74";
+}
+
+.icon-vimeo:before {
+    content: "\76";
+}
+
+.icon-youtube:before {
+    content: "\79";
+}
+
+.icon-gift:before {
+    content: "\e60e";
+}
+
+.icon-calendar:before {
+    content: "\e60f";
+}
+
+.icon-arrow-left-curved:before {
+    content: "\e610";
+}
+
+.icon-arrow-right-curved:before {
+    content: "\e611";
+}
+
+.icon-cross:before {
+    content: "\e612";
+}
+
+.icon-cross-circle:before {
+    content: "\e613";
+}
+
+.icon-info:before {
+    content: "\e614";
+}
+
+.icon-info-circle:before {
+    content: "\e615";
+}
+
+.icon-arrow-left:before {
+    content: "\e616";
+}
+
+.icon-arrow-down:before {
+    content: "\e617";
+}
+
+.icon-arrow-up:before {
+    content: "\e618";
+}
+
+.icon-arrow-up-suffix:after {
+    content: "\e618";
+}
+
+.icon-arrow-right:before {
+    content: "\e619";
+}
+
+.icon-arrow-left-small:before {
+    content: "\e61a";
+}
+
+.icon-arrow-down-small:before {
+    content: "\e61b";
+}
+
+.icon-arrow-up-small:before {
+    content: "\e61c";
+}
+
+.icon-arrow-right-small:before {
+    content: "\e61d";
+}
+
+.icon-arrow-left-large:before {
+    content: "\e61e";
+}
+
+.icon-arrow-down-large:before {
+    content: "\e61f";
+}
+
+.icon-arrow-up-large:before {
+    content: "\e620";
+}
+
+.icon-arrow-right-large:before {
+    content: "\e621";
+}
+
+.icon-cross2:before {
+	content: "\e117";
+}
+
+$smallSocialIconRatio: (2.66/3.375);
+
+@mixin socialIconResponsiveSizes( $iconSize, $paddingTop, $paddingRight: false, $paddingLeft: false ){
+    @include at-query( $min, $postSmall ){
+        padding-top: $paddingTop;
+
+        @if $paddingRight {
+            padding-right: $paddingRight;
+        }
+
+        @if $paddingLeft {
+            padding-left: $paddingLeft;
+        }
+
+        &:before {
+            font-size: $iconSize
+        }
+    }
+
+    @include at-query( $max, $small ){
+        padding-top: $paddingTop * $smallSocialIconRatio;
+        @if $paddingRight {
+            padding-right: $paddingRight * $smallSocialIconRatio;
+        }
+
+        @if $paddingLeft {
+            padding-left: $paddingLeft * $smallSocialIconRatio;
+        }
+
+        &:before {
+            font-size: $iconSize * $smallSocialIconRatio;
+        }
+    }
+}
+
+.pinterest-icon {
+    @extend %social-icon-base;
+    @extend .icon-pinterest-p;
+
+    @include socialIconResponsiveSizes( $iconSize: 2.5em, $paddingTop: 0.625em, $paddingRight: 0.125em );
+}
+
+.twitter-icon {
+    @extend %social-icon-base;
+    @extend .icon-twitter;
+
+    @include socialIconResponsiveSizes( $iconSize: 1.9375em, $paddingTop: 0.5em, $paddingLeft: 0.125em );
+}
+
+.instagram-icon {
+    @extend %social-icon-base;
+    @extend .icon-instagram;
+
+    @include socialIconResponsiveSizes( $iconSize: 1.5625em, $paddingTop: 0.75em );
+}
+
+.tumblr-icon {
+    @extend %social-icon-base;
+    @extend .icon-tumblr;
+
+    @include socialIconResponsiveSizes( $iconSize: 2.0625em, $paddingTop: 0.375em, $paddingLeft: 0.0625em );
+}
+
+.facebook-icon {
+    @extend %social-icon-base;
+    @extend .icon-facebook-f;
+
+    @include socialIconResponsiveSizes( $iconSize: 2.125em, $paddingTop: 0.4375em, $paddingRight: 0.0625em );
 }
 
 /*============================================================================
@@ -2891,323 +3197,6 @@ label.error {
 }
 
 /*============================================================================
-  #Icons
-  ==============================================================================*/
-/*============================================================================
-  A generic way to visually hide content while
-  remaining accessible to screen readers (h5bp.com)
-  ==============================================================================*/
-.supports-fontface .icon-fallback-text .fallback-text {
-    clip: rect(0 0 0 0);
-    overflow: hidden;
-    position: absolute;
-    height: 1px;
-    width: 1px;
-}
-
-%icon-pseudo-element-base {
-    /* hide icon by default */
-    display: none;
-
-    .supports-fontface & {
-        /* show the icon if modernizer detected support */
-        display: inline;
-        font-family: $socialIconFontStack;
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-
-        /* Better Font Rendering =========== */
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-}
-
-%icon-font-base {
-    .icon-fallback-text & {
-        display: none;
-
-        .supports-fontface & {
-            display: inline-block;
-        }
-    }
-}
-
-$iconSelector: '[class^="icon-"], [class*=" icon-"]';
-#{$iconSelector},
-%icon-base {
-    @extend %icon-font-base;
-    
-    &:before {
-        @extend %icon-pseudo-element-base;
-    }
-}
-
-%icon-suffix-base {
-    @extend %icon-font-base;
-    
-    &:after {
-        @extend %icon-pseudo-element-base;
-    }
-}
-
-.icon-shopping-bag:before {
-    content: "\e60d";
-}
-.icon-box-checked:before {
-    content: "\f046";
-}
-
-.icon-box-unchecked:before {
-    content: "\f096";
-}
-
-.icon-menu:before {
-    content: "\e60c";
-}
-
-.icon-telephone-handset:before {
-    content: "\e600";
-}
-
-.icon-map-pin:before {
-    content: "\e601";
-}
-
-.icon-stamp:before {
-    content: "\e602";
-}
-
-.icon-arrow-right-solid:before {
-    content: "\e603";
-}
-
-.icon-arrow-right-solid-suffix:after {
-    content: "\e603";
-}
-
-.icon-facebook-f:before {
-    content: "\e604";
-}
-
-.icon-instagram:before {
-    content: "\e605";
-}
-
-.icon-pinterest-p:before {
-    content: "\e606";
-}
-
-.icon-arrow-right-xlarge:before {
-    content: "\e607";
-}
-
-.icon-arrow-left-xlarge:before {
-    content: "\e608";
-}
-
-.icon-search:before {
-    content: "\e609";
-}
-
-.icon-store:before {
-    content: "\e60a";
-}
-
-.icon-safe:before {
-    content: "\e60b";
-}
-
-.icon-fancy:before {
-    content: "\46";
-}
-
-.icon-twitter:before {
-    content: "\54";
-}
-
-.icon-facebook:before {
-    content: "\66";
-}
-
-.icon-pinterest:before {
-    content: "\70";
-}
-
-.icon-tumblr:before {
-    content: "\74";
-}
-
-.icon-vimeo:before {
-    content: "\76";
-}
-
-.icon-youtube:before {
-    content: "\79";
-}
-
-.icon-gift:before {
-    content: "\e60e";
-}
-
-.icon-calendar:before {
-    content: "\e60f";
-}
-
-.icon-arrow-left-curved:before {
-    content: "\e610";
-}
-
-.icon-arrow-right-curved:before {
-    content: "\e611";
-}
-
-.icon-cross:before {
-    content: "\e612";
-}
-
-.icon-cross-circle:before {
-    content: "\e613";
-}
-
-.icon-info:before {
-    content: "\e614";
-}
-
-.icon-info-circle:before {
-    content: "\e615";
-}
-
-.icon-arrow-left:before {
-    content: "\e616";
-}
-
-.icon-arrow-down:before {
-    content: "\e617";
-}
-
-.icon-arrow-up:before {
-    content: "\e618";
-}
-
-.icon-arrow-up-suffix:after {
-    content: "\e618";
-}
-
-.icon-arrow-right:before {
-    content: "\e619";
-}
-
-.icon-arrow-left-small:before {
-    content: "\e61a";
-}
-
-.icon-arrow-down-small:before {
-    content: "\e61b";
-}
-
-.icon-arrow-up-small:before {
-    content: "\e61c";
-}
-
-.icon-arrow-right-small:before {
-    content: "\e61d";
-}
-
-.icon-arrow-left-large:before {
-    content: "\e61e";
-}
-
-.icon-arrow-down-large:before {
-    content: "\e61f";
-}
-
-.icon-arrow-up-large:before {
-    content: "\e620";
-}
-
-.icon-arrow-right-large:before {
-    content: "\e621";
-}
-
-.icon-cross2:before {
-	content: "\e117";
-}
-
-$smallSocialIconRatio: (2.66/3.375);
-
-@mixin socialIconResponsiveSizes( $iconSize, $paddingTop, $paddingRight: false, $paddingLeft: false ){
-    @include at-query( $min, $postSmall ){
-        padding-top: $paddingTop;
-
-        @if $paddingRight {
-            padding-right: $paddingRight;
-        }
-
-        @if $paddingLeft {
-            padding-left: $paddingLeft;
-        }
-
-        &:before {
-            font-size: $iconSize
-        }
-    }
-
-    @include at-query( $max, $small ){
-        padding-top: $paddingTop * $smallSocialIconRatio;
-        @if $paddingRight {
-            padding-right: $paddingRight * $smallSocialIconRatio;
-        }
-
-        @if $paddingLeft {
-            padding-left: $paddingLeft * $smallSocialIconRatio;
-        }
-
-        &:before {
-            font-size: $iconSize * $smallSocialIconRatio;
-        }
-    }
-}
-
-.pinterest-icon {
-    @extend %social-icon-base;
-    @extend .icon-pinterest-p;
-
-    @include socialIconResponsiveSizes( $iconSize: 2.5em, $paddingTop: 0.625em, $paddingRight: 0.125em );
-}
-
-.twitter-icon {
-    @extend %social-icon-base;
-    @extend .icon-twitter;
-
-    @include socialIconResponsiveSizes( $iconSize: 1.9375em, $paddingTop: 0.5em, $paddingLeft: 0.125em );
-}
-
-.instagram-icon {
-    @extend %social-icon-base;
-    @extend .icon-instagram;
-
-    @include socialIconResponsiveSizes( $iconSize: 1.5625em, $paddingTop: 0.75em );
-}
-
-.tumblr-icon {
-    @extend %social-icon-base;
-    @extend .icon-tumblr;
-
-    @include socialIconResponsiveSizes( $iconSize: 2.0625em, $paddingTop: 0.375em, $paddingLeft: 0.0625em );
-}
-
-.facebook-icon {
-    @extend %social-icon-base;
-    @extend .icon-facebook-f;
-
-    @include socialIconResponsiveSizes( $iconSize: 2.125em, $paddingTop: 0.4375em, $paddingRight: 0.0625em );
-}
-
-/*============================================================================
   #Pagination
   ==============================================================================*/
 .pagination-block {
@@ -3375,6 +3364,447 @@ $smallSocialIconRatio: (2.66/3.375);
     line-height: 38px;
     font-weight: 700;
 }
+
+/*============================================================================
+#Vex Modal  
+  ============================================================================*/
+
+// Overlay/content animations
+@mixin keyframes-vex-fadein {
+    @include keyframes-prefix("vex-fadein") {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+}
+
+@mixin keyframes-vex-fadeout {
+    @include keyframes-prefix("vex-fadeout") {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+}
+
+// Content animations
+
+@mixin keyframes-vex-flyin {
+    @include keyframes-prefix("vex-flyin") {
+        0% {
+            opacity: 0;
+            @include transform(translateY(-40px));
+        }
+        100% {
+            opacity: 1;
+            @include transform(translateY(0));
+        }
+    }
+}
+
+@mixin keyframes-vex-flyout {
+    @include keyframes-prefix("vex-flyout") {
+        0% {
+            opacity: 1;
+            @include transform(translateY(0));
+        }
+        100% {
+            opacity: 0;
+            @include transform(translateY(-40px));
+        }
+    }
+}
+
+@mixin keyframes-vex-dropin {
+    @include keyframes-prefix("vex-dropin") {
+        // We start at 0 first and, while hidden
+        // move to -800px, where the animation
+        // really begins. This was necessary because
+        // otherwise, when starting the animation
+        // at -800px, the browser scrolls up 800px
+        // to try to display this object positioned
+        // above the page.
+        // https://github.com/HubSpot/vex/issues/21
+        0% {
+            @include transform(translateY(0));
+            opacity: 0;
+        }
+        1% {
+            @include transform(translateY(-800px));
+            opacity: 0;
+        }
+        // Real animation begins here
+        2% {
+            @include transform(translateY(-800px));
+            opacity: 1;
+        }
+        100% {
+            @include transform(translateY(0));
+            opacity: 1;
+        }
+    }
+}
+
+@mixin keyframes-vex-dropout {
+    @include keyframes-prefix("vex-dropout") {
+        0% {
+            @include transform(translateY(0));
+        }
+        100% {
+            @include transform(translateY(-800px));
+        }
+    }
+}
+
+@mixin keyframes-vex-slideup {
+    @include keyframes-prefix("vex-slideup") {
+        // We start at 0 first and, while hidden
+        // move to -800px, where the animation
+        // really begins. This was necessary because
+        // otherwise, when starting the animation
+        // at -800px, the browser scrolls up 800px
+        // to try to display this object positioned
+        // above the page.
+        // https://github.com/HubSpot/vex/issues/21
+        0% {
+            @include transform(translateY(0));
+            opacity: 0;
+        }
+        1% {
+            @include transform(translateY(800px));
+            opacity: 0;
+        }
+        // Real animation begins here
+        2% {
+            @include transform(translateY(800px));
+            opacity: 1;
+        }
+        100% {
+            @include transform(translateY(0));
+            opacity: 1;
+        }
+    }
+}
+
+@mixin keyframes-vex-slidedown {
+    @include keyframes-prefix("vex-slidedown") {
+        0% {
+            @include transform(translateY(0));
+        }
+        100% {
+            @include transform(translateY(800px));
+        }
+    }
+}
+
+@mixin keyframes-vex-flipin-horizontal {
+    @include keyframes-prefix("vex-flipin-horizontal") {
+        0% {
+            opacity: 0;
+            @include transform(rotateY(-90deg));
+        }
+        100% {
+            opacity: 1;
+            @include transform(rotateY(0deg));
+        }
+    }
+}
+
+@mixin keyframes-vex-flipout-horizontal {
+    @include keyframes-prefix("vex-flipout-horizontal") {
+        0% {
+            opacity: 1;
+            @include transform(rotateY(0deg));
+        }
+        100% {
+            opacity: 0;
+            @include transform(rotateY(90deg));
+        }
+    }
+}
+
+// Spinner animations
+
+@mixin keyframes-vex-rotation {
+    @include keyframes-prefix("vex-rotation") {
+        0% {
+            @include transform(rotate(0deg));
+        }
+        100% {
+            @include transform(rotate(359deg));
+        }
+    }
+}
+
+// Button animations
+
+@mixin keyframes-vex-pulse {
+    @include keyframes-prefix("vex-pulse") {
+        0% {
+            @include box-shadow(inset 0 0 0 300px transparent);
+        }
+        70% {
+            @include box-shadow(inset 0 0 0 300px rgba(255, 255, 255, 0.25));
+        }
+        100% {
+            @include box-shadow(inset 0 0 0 300px transparent);
+        }
+    }
+}
+
+// default vex styles
+
+@include keyframes-vex-fadein;
+@include keyframes-vex-fadeout;
+@include keyframes-vex-rotation;
+
+.vex {
+    position: fixed;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: $zindexModal;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.vex-scrollbar-measure {
+    position: absolute;
+    top: -9999px;
+    width: 50px;
+    height: 50px;
+    overflow: scroll;
+}
+
+.vex-overlay {
+    @include animation-prefix(vex-fadein 0.5s);
+    position: fixed;
+    background: rgba(0, 0, 0, 0.4);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    .vex-closing & {
+        @include animation-prefix(vex-fadeout 0.5s);
+    }
+}
+
+.vex-content {
+    @include animation-prefix(vex-fadein 0.5s);
+    
+    background: #fff;
+    
+    .vex-closing & {
+        @include animation-prefix(vex-fadeout 0.5s);
+    }
+}
+
+.vex-close:before {
+    font-family: Arial, sans-serif;
+    content: "x";
+}
+
+.vex-dialog-form {
+    margin: 0;
+}
+
+.vex-dialog-button {
+    text-rendering: optimizeLegibility;
+    @include appearance(none);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.vex-loading-spinner {
+    @include animation-prefix(vex-rotation 0.7s linear infinite);
+    @include box-shadow(0 0 1em rgba(0, 0, 0, 0.1));
+    position: fixed;
+    z-index: 1112;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2em;
+    width: 2em;
+    background: #fff;
+}
+
+// Prevent background scrolling when vex is open
+// https://github.com/HubSpot/vex/issues/18
+body.vex-open {
+    overflow: hidden;
+}
+
+// vex-theme-wireframe.scss
+// edited to suit our needs.
+
+// Overlay/content animations
+@include keyframes-vex-pulse;
+
+.vex-theme-wireframe {
+    .vex-overlay {
+        background: rgba(255, 255, 255, 0.6);
+    }
+    
+    .vex-content {
+        font-family: "Helvetica Neue", sans-serif;
+        background: #fff;
+        color: #000;
+        border: 1px solid $colorGray;
+        padding: $gutter*4;
+        margin: auto;
+        
+        height: 80%;
+        width: 80%;
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        
+        font-size: 1.1em;
+        line-height: 1.5em;
+        
+        h1, h2, h3, h4, h5, h6, p, ul, li {
+            color: $colorDarkGray;
+        }
+    }
+
+    .vex-content-inner {
+        overflow-y: scroll;
+        height: 100%;
+        width: 100%;
+    }
+    
+    .vex-close {
+        @extend %icon-base;
+        @extend .icon-cross;
+        
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        
+        &:before {
+            font-size: 32px;
+            height: $gutter*4;
+            width: $gutter*4;
+            line-height: $gutter*4 !important;
+            text-align: center;
+            color: $colorDarkGold;
+            display: inline-block !important;
+        }
+        
+        &:hover:before,
+        &:active:before {
+            color: #000;
+        }
+    }
+    
+    @include at-query($max, $medium){
+        .vex-content {
+            padding: $gutter*2;
+            height: 90%;
+            width: 90%;
+        }
+        
+        .vex-close {
+            &:before {
+                font-size: 16px;
+                height: $gutter*2;
+                width: $gutter*2;
+                line-height: $gutter*2 !important;
+            }
+        }        
+    }
+    
+    .vex-dialog-form {
+        .vex-dialog-message {
+            margin-bottom: 0.5em;
+        }
+        
+        .vex-dialog-input {
+            margin-bottom: 1em;
+            textarea,
+            input[type="date"],
+            input[type="datetime"],
+            input[type="datetime-local"],
+            input[type="email"],
+            input[type="month"],
+            input[type="number"],
+            input[type="password"],
+            input[type="search"],
+            input[type="tel"],
+            input[type="text"],
+            input[type="time"],
+            input[type="url"],
+            input[type="week"] {
+                background: #fff;
+                width: 100%;
+                padding: 0.25em 0.67em;
+                font-family: inherit;
+                font-weight: inherit;
+                font-size: inherit;
+                min-height: 2.5em;
+                margin: 0 0 0.25em;
+                border: 2px solid #000;
+                &:focus {
+                    border-style: dashed;
+                    outline: none;
+                }
+            }
+        }
+        .vex-dialog-buttons {
+            @extend %clearfix;
+        }
+    }
+    .vex-dialog-button {
+        @include border-radius(0);
+        border: 0;
+        float: right;
+        margin: 0 0 0 0.5em;
+        font-family: inherit;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.8em;
+        line-height: 1em;
+        padding: 0.75em 2em;
+        &.vex-last {
+            margin-left: 0;
+        }
+        &:focus {
+            @include animation-prefix(vex-pulse 1.1s infinite);
+            outline: none;
+            // vex-pulse uses -webkit-filter which
+            // doesn't play so nice in mobile webkit
+            @media (max-width: 568px) {
+                @include animation-prefix(none);
+            }
+        }
+        &.vex-dialog-button-primary {
+            background: #000;
+            color: #fff;
+            border: 2px solid transparent;
+        }
+        &.vex-dialog-button-secondary {
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+        }
+    }
+}
+
+.vex-loading-spinner.vex-theme-wireframe {
+    height: 2.5em;
+    width: 2.5em;
+}
+// end vex
+
+
 
 /*============================================================================
   #Site Header
@@ -3669,6 +4099,91 @@ $smallSocialIconRatio: (2.66/3.375);
 
 $lookbookModalHeaderHeight: $gutter*8;
 
+// vex theme fullscreen
+// based off the wireframe theme
+.vex-lookbook-modal {
+    .vex-overlay {
+        background: $colorWhite;
+    }
+    
+    .vex-content {
+        font-family: $centuryGothicFontStack;
+        background: $colorWhite;
+        margin: 0;
+        
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        
+        h1, h2, h3, h4, h5, h6, p, ul, li {
+            color: $colorDarkGray;
+        }
+    }
+
+    .vex-content-inner {
+        overflow-y: scroll;
+        height: 100%;
+        width: 100%;
+    }
+    
+    .vex-close {
+        @extend %icon-base;
+        @extend .icon-cross;
+        
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        color: $colorLightGray;
+        
+        &:before {
+            @include transition(all 0.3s);
+            
+            text-align: center;
+	    content: "\e117";
+            display: inline-block;
+        }
+        
+        &:hover {
+            color: $colorGold;
+        }
+    }
+    
+    @include at-query($min, $postLarge){
+        .vex-close {
+            &:before {
+                height: $lookbookModalHeaderHeight;
+                width: $lookbookModalHeaderHeight;
+                font-size: $lookbookModalHeaderHeight/2;
+                line-height: $lookbookModalHeaderHeight;
+            }
+        }
+    }
+    
+    @include at-query(null, $postSmall, $large){
+        .vex-close {
+            &:before {
+                height: $lookbookModalHeaderHeight*0.75;
+                width: $lookbookModalHeaderHeight*0.75;
+                font-size: $lookbookModalHeaderHeight/2*0.75;
+                line-height: $lookbookModalHeaderHeight*0.75;
+            }
+        }
+    }
+    
+    @include at-query($max, $small){
+        .vex-close {
+            &:before {
+                height: $lookbookModalHeaderHeight*0.5;
+                width: $lookbookModalHeaderHeight*0.5;
+                font-size: $lookbookModalHeaderHeight/2*0.5;
+                line-height: $lookbookModalHeaderHeight*0.5;
+            }
+        }
+    }
+}
+
 .lookbook-modal {
     position: relative;
     
@@ -3683,47 +4198,86 @@ $lookbookModalHeaderHeight: $gutter*8;
         margin-top: -($height/2);
         height: $height;
         width: $width;
+        text-align: center;
         
-        a {
+        .desktop-button {
             @extend %large-2-line-gray-arrow-button;
             
             width: 100%;
         }
-    }
-}
 
-.vex.vex-theme-fullscreen .vex-content .lookbook-modal-close {
-    &:before {
-        @include transition(all 0.3s);
-        
-        color: $colorLightGray;
-	content: "\e117";
-        height: $lookbookModalHeaderHeight;
-        width: $lookbookModalHeaderHeight;
-        font-size: $lookbookModalHeaderHeight/2;
-        line-height: $lookbookModalHeaderHeight !important;
-        
+        .mobile-link {
+            @extend %warmGray-hover-gold-link;
+            @extend %medium-arial-text;
+            @extend %rsaquo;
+
+            display: none;
+            font-weight: 700;
+        }
     }
     
-    &:hover {
-        &:before {
-            color: $colorGold;
+    @include at-query($max, $preLarge){
+        .call-to-action-block {
+            top: auto;
+            bottom: $gutter * 2;
+            right: 0;
+            left: 0;
+            margin: 0 auto;
+            height: auto;
+            width: 100%;
+
+            .desktop-button {
+                display: none;
+            }
+
+            .mobile-link {
+                display: inline-block;
+            }
+        }
+    }
+    
+    @include at-query(null, $postSmall, $large){
+        .call-to-action-block {
+        }
+    }
+
+    @include at-query($max, $small){
+        .call-to-action-block {
         }
     }
 }
-
 
 .lookbook-modal-header {
     position: absolute;
     top: 0; left: 0; right: 0;
     width: 100%;
     height: $lookbookModalHeaderHeight;
+    padding: 38px $lookbookModalHeaderHeight; // to make room for the close button
     
     h3 {
         text-align: center;
         color: $colorDarkGray;
-        line-height: $lookbookModalHeaderHeight;
         margin: 0;
+        font-size: 36px;
+        line-height: 1.1;
+    }
+
+    @include at-query(null, $postSmall, $large){
+        height: $lookbookModalHeaderHeight*0.75;
+        padding: 38px*0.75 $lookbookModalHeaderHeight*0.75;
+        
+        h3 {
+            font-size: 36px*0.75;
+        }        
+    }
+    
+    @include at-query($max, $small){
+        height: $lookbookModalHeaderHeight*0.5;
+        padding: 38px*0.5 $lookbookModalHeaderHeight*0.5;
+        
+        h3 {
+            font-size: 36px*0.6;
+        }        
     }
 }
 
@@ -3746,27 +4300,39 @@ $lookbookModalHeaderHeight: $gutter*8;
     text-decoration: none;
     color: $colorLightGray;
     z-index: 1;
+    top: 50%;
 
     &:hover {
         outline: none;
         background: transparent;
         color: $colorGold !important;
     }
-
-    @include at-query($min, $postLarge){
-        $navWidth: 45px;
-        $navHeight: 88px;
+    
+    @mixin lookbook-modal-nav-sizing($height){
+        $ratio: (45/88);
+        $width: $height * $ratio;
         
-        width: $navWidth;
-        height: $navHeight;
-        top: 50%;
-        margin-top: -($navHeight/2);
+        height: $height;
+        width: $width;
+        margin-top: -($height/2);
 
         &:before {
-            font-size: $navHeight;
+            font-size: $height;
             /* correct for the whitespace on either side of the icon */
-            margin: 0 -($navWidth/2);
+            margin: 0 -($width/2);
         }
+    }
+    
+    @include at-query($min, $postLarge){
+        @include lookbook-modal-nav-sizing($height: 88px);
+    }
+
+    @include at-query(null, $postSmall, $large){
+        @include lookbook-modal-nav-sizing($height: 66px);
+    }
+
+    @include at-query($max, $small){
+        @include lookbook-modal-nav-sizing($height: 44px);
     }
 }
 
@@ -3805,20 +4371,38 @@ $lookbookModalHeaderHeight: $gutter*8;
             content: "\e621";
         }
     }
+
+    @include at-query($max, $preLarge){
+        padding-bottom: $gutter*5;
+    }
 }
 
 .lookbook-modal-image-block {
     position: relative;
     display: inline-block;
     height: 100%;
-
+    width: 100%;
+    overflow: hidden;
+    
+    // centers the image when the outer container is smaller than the width of the image.
+    // http://stackoverflow.com/questions/3300660/how-do-i-center-an-image-if-its-wider-than-its-container#answer-3302072
+    .block-inner {
+        position: relative;
+        float: right;
+        right: 50%;
+        height: 100%;
+    }
+    
     img {
+        display: inline-block;
+        text-align: center;
         height: 100%;
         widht: auto;
         margin: 0 auto;
+        position: relative;
+        right: -50%;
     }
 }
-
 
 %product-info-block-row {
     @extend .clearfix;
@@ -10651,503 +11235,6 @@ span#resultMessage {
     overflow: hidden;
 }
 
-// vex styles
-
-// Overlay/content animations
-@mixin keyframes-vex-fadein {
-    @include keyframes-prefix("vex-fadein") {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-}
-
-@mixin keyframes-vex-fadeout {
-    @include keyframes-prefix("vex-fadeout") {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-}
-
-// Content animations
-
-@mixin keyframes-vex-flyin {
-    @include keyframes-prefix("vex-flyin") {
-        0% {
-            opacity: 0;
-            @include transform(translateY(-40px));
-        }
-        100% {
-            opacity: 1;
-            @include transform(translateY(0));
-        }
-    }
-}
-
-@mixin keyframes-vex-flyout {
-    @include keyframes-prefix("vex-flyout") {
-        0% {
-            opacity: 1;
-            @include transform(translateY(0));
-        }
-        100% {
-            opacity: 0;
-            @include transform(translateY(-40px));
-        }
-    }
-}
-
-@mixin keyframes-vex-dropin {
-    @include keyframes-prefix("vex-dropin") {
-        // We start at 0 first and, while hidden
-        // move to -800px, where the animation
-        // really begins. This was necessary because
-        // otherwise, when starting the animation
-        // at -800px, the browser scrolls up 800px
-        // to try to display this object positioned
-        // above the page.
-        // https://github.com/HubSpot/vex/issues/21
-        0% {
-            @include transform(translateY(0));
-            opacity: 0;
-        }
-        1% {
-            @include transform(translateY(-800px));
-            opacity: 0;
-        }
-        // Real animation begins here
-        2% {
-            @include transform(translateY(-800px));
-            opacity: 1;
-        }
-        100% {
-            @include transform(translateY(0));
-            opacity: 1;
-        }
-    }
-}
-
-@mixin keyframes-vex-dropout {
-    @include keyframes-prefix("vex-dropout") {
-        0% {
-            @include transform(translateY(0));
-        }
-        100% {
-            @include transform(translateY(-800px));
-        }
-    }
-}
-
-@mixin keyframes-vex-slideup {
-    @include keyframes-prefix("vex-slideup") {
-        // We start at 0 first and, while hidden
-        // move to -800px, where the animation
-        // really begins. This was necessary because
-        // otherwise, when starting the animation
-        // at -800px, the browser scrolls up 800px
-        // to try to display this object positioned
-        // above the page.
-        // https://github.com/HubSpot/vex/issues/21
-        0% {
-            @include transform(translateY(0));
-            opacity: 0;
-        }
-        1% {
-            @include transform(translateY(800px));
-            opacity: 0;
-        }
-        // Real animation begins here
-        2% {
-            @include transform(translateY(800px));
-            opacity: 1;
-        }
-        100% {
-            @include transform(translateY(0));
-            opacity: 1;
-        }
-    }
-}
-
-@mixin keyframes-vex-slidedown {
-    @include keyframes-prefix("vex-slidedown") {
-        0% {
-            @include transform(translateY(0));
-        }
-        100% {
-            @include transform(translateY(800px));
-        }
-    }
-}
-
-@mixin keyframes-vex-flipin-horizontal {
-    @include keyframes-prefix("vex-flipin-horizontal") {
-        0% {
-            opacity: 0;
-            @include transform(rotateY(-90deg));
-        }
-        100% {
-            opacity: 1;
-            @include transform(rotateY(0deg));
-        }
-    }
-}
-
-@mixin keyframes-vex-flipout-horizontal {
-    @include keyframes-prefix("vex-flipout-horizontal") {
-        0% {
-            opacity: 1;
-            @include transform(rotateY(0deg));
-        }
-        100% {
-            opacity: 0;
-            @include transform(rotateY(90deg));
-        }
-    }
-}
-
-// Spinner animations
-
-@mixin keyframes-vex-rotation {
-    @include keyframes-prefix("vex-rotation") {
-        0% {
-            @include transform(rotate(0deg));
-        }
-        100% {
-            @include transform(rotate(359deg));
-        }
-    }
-}
-
-// Button animations
-
-@mixin keyframes-vex-pulse {
-    @include keyframes-prefix("vex-pulse") {
-        0% {
-            @include box-shadow(inset 0 0 0 300px transparent);
-        }
-        70% {
-            @include box-shadow(inset 0 0 0 300px rgba(255, 255, 255, 0.25));
-        }
-        100% {
-            @include box-shadow(inset 0 0 0 300px transparent);
-        }
-    }
-}
-
-// vex.scss
-
-@include keyframes-vex-fadein;
-@include keyframes-vex-fadeout;
-@include keyframes-vex-rotation;
-
-.vex {
-    position: fixed;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    z-index: $zindexModal;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-.vex-scrollbar-measure {
-    position: absolute;
-    top: -9999px;
-    width: 50px;
-    height: 50px;
-    overflow: scroll;
-}
-
-.vex-overlay {
-    @include animation-prefix(vex-fadein 0.5s);
-    position: fixed;
-    background: rgba(0, 0, 0, 0.4);
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    .vex.vex-closing & {
-        @include animation-prefix(vex-fadeout 0.5s);
-    }
-}
-
-.vex-content {
-    @include animation-prefix(vex-fadein 0.5s);
-    
-    background: #fff;
-    
-    .vex.vex-closing & {
-        @include animation-prefix(vex-fadeout 0.5s);
-    }
-}
-
-.vex-close:before {
-    font-family: Arial, sans-serif;
-    content: "x";
-}
-
-.vex-dialog-form {
-    margin: 0;
-}
-
-.vex-dialog-button {
-    text-rendering: optimizeLegibility;
-    @include appearance(none);
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.vex-loading-spinner {
-    @include animation-prefix(vex-rotation 0.7s linear infinite);
-    @include box-shadow(0 0 1em rgba(0, 0, 0, 0.1));
-    position: fixed;
-    z-index: 1112;
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 2em;
-    width: 2em;
-    background: #fff;
-}
-
-// Prevent background scrolling when vex is open
-// https://github.com/HubSpot/vex/issues/18
-body.vex-open {
-    overflow: hidden;
-}
-
-// vex-theme-wireframe.scss
-// edited to suit our needs.
-
-// Overlay/content animations
-@include keyframes-vex-pulse;
-
-.vex.vex-theme-wireframe {
-    .vex-overlay {
-        background: rgba(255, 255, 255, 0.6);
-    }
-    
-    .vex-content {
-        font-family: "Helvetica Neue", sans-serif;
-        background: #fff;
-        color: #000;
-        border: 1px solid $colorGray;
-        padding: $gutter*4;
-        margin: auto;
-        
-        height: 80%;
-        width: 80%;
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        
-        font-size: 1.1em;
-        line-height: 1.5em;
-        
-        h1, h2, h3, h4, h5, h6, p, ul, li {
-            color: $colorDarkGray;
-        }
-    }
-
-    .vex-content-inner {
-        overflow-y: scroll;
-        height: 100%;
-        width: 100%;
-    }
-    
-    .vex-close {
-        @extend %icon-base;
-        @extend .icon-cross;
-        
-        position: absolute;
-        top: 0;
-        right: 0;
-        cursor: pointer;
-        
-        &:before {
-            font-size: 32px;
-            height: $gutter*4;
-            width: $gutter*4;
-            line-height: $gutter*4 !important;
-            text-align: center;
-            color: $colorDarkGold;
-            display: inline-block !important;
-        }
-        
-        &:hover:before,
-        &:active:before {
-            color: #000;
-        }
-    }
-    
-    @include at-query($max, $medium){
-        .vex-content {
-            padding: $gutter*2;
-            height: 90%;
-            width: 90%;
-        }
-        
-        .vex-close {
-            &:before {
-                font-size: 16px;
-                height: $gutter*2;
-                width: $gutter*2;
-                line-height: $gutter*2 !important;
-            }
-        }        
-    }
-    
-    .vex-dialog-form {
-        .vex-dialog-message {
-            margin-bottom: 0.5em;
-        }
-        
-        .vex-dialog-input {
-            margin-bottom: 1em;
-            textarea,
-            input[type="date"],
-            input[type="datetime"],
-            input[type="datetime-local"],
-            input[type="email"],
-            input[type="month"],
-            input[type="number"],
-            input[type="password"],
-            input[type="search"],
-            input[type="tel"],
-            input[type="text"],
-            input[type="time"],
-            input[type="url"],
-            input[type="week"] {
-                background: #fff;
-                width: 100%;
-                padding: 0.25em 0.67em;
-                font-family: inherit;
-                font-weight: inherit;
-                font-size: inherit;
-                min-height: 2.5em;
-                margin: 0 0 0.25em;
-                border: 2px solid #000;
-                &:focus {
-                    border-style: dashed;
-                    outline: none;
-                }
-            }
-        }
-        .vex-dialog-buttons {
-            @extend %clearfix;
-        }
-    }
-    .vex-dialog-button {
-        @include border-radius(0);
-        border: 0;
-        float: right;
-        margin: 0 0 0 0.5em;
-        font-family: inherit;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        font-size: 0.8em;
-        line-height: 1em;
-        padding: 0.75em 2em;
-        &.vex-last {
-            margin-left: 0;
-        }
-        &:focus {
-            @include animation-prefix(vex-pulse 1.1s infinite);
-            outline: none;
-            // vex-pulse uses -webkit-filter which
-            // doesn't play so nice in mobile webkit
-            @media (max-width: 568px) {
-                @include animation-prefix(none);
-            }
-        }
-        &.vex-dialog-button-primary {
-            background: #000;
-            color: #fff;
-            border: 2px solid transparent;
-        }
-        &.vex-dialog-button-secondary {
-            background: #fff;
-            color: #000;
-            border: 2px solid #000;
-        }
-    }
-}
-
-.vex-loading-spinner.vex-theme-wireframe {
-    height: 2.5em;
-    width: 2.5em;
-}
-
-
-// vex theme fullscreen
-// based off the wireframe theme
-.vex.vex-theme-fullscreen {
-    .vex-overlay {
-        background: $colorWhite;
-    }
-    
-    .vex-content {
-        font-family: $centuryGothicFontStack;
-        background: $colorWhite;
-        margin: 0;
-        
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        
-        h1, h2, h3, h4, h5, h6, p, ul, li {
-            color: $colorDarkGray;
-        }
-    }
-
-    .vex-content-inner {
-        overflow-y: scroll;
-        height: 100%;
-        width: 100%;
-    }
-    
-    .vex-close {
-        @extend %icon-base;
-        @extend .icon-cross;
-        
-        position: absolute;
-        top: 0;
-        right: 0;
-        cursor: pointer;
-        
-        &:before {
-            font-size: 32px;
-            height: $gutter*4;
-            width: $gutter*4;
-            line-height: $gutter*4;
-            text-align: center;
-            color: $colorDarkGold;
-            display: inline-block !important;
-        }
-    }
-    
-    @include at-query($max, $medium){
-        .vex-close {
-            &:before {
-                font-size: 16px;
-                height: $gutter*2;
-                width: $gutter*2;
-                line-height: $gutter*2 !important;
-            }
-        }        
-    }
-}
-// end vex
 
 
 

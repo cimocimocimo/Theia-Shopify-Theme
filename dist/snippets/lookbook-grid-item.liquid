@@ -81,19 +81,18 @@
 
         {% for image in product.images %}
           <div class="lookbook-modal-image-block">
-            <img src="{{ image.src | product_img_url: '1024x1024' }}"
-                 alt="{{ image.alt | escape }}" id="lookbook-modal-main-image-{{ forloop.index }}"
-                 data-zoom-image="{{ product.featured_image.src | product_img_url: 'master' }}"
-                 class="lookbook-modal-main-image">
+            <div class="block-inner">
+              <img src="{{ image.src | product_img_url: '1024x1024' }}"
+                   alt="{{ image.alt | escape }}" id="lookbook-modal-main-image-{{ forloop.index }}"
+                   class="lookbook-modal-main-image">
+            </div>
           </div>
         {% endfor %}
 
       </div>
       <div class="call-to-action-block">
-        <a class="button" href="{{ pages.contact-us.url }}?style_number={{ style_number }}">
-          <span class="label">Contact a Shopping Specialist</span>
-          <span class="icon"></span>
-        </a>
+        {% include 'lookbook-modal-cta-link', link_class: 'desktop-button' %}
+        {% include 'lookbook-modal-cta-link', link_class: 'mobile-link' %}
       </div>
     </div>
   </div>
