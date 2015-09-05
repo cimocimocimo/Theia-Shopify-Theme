@@ -99,7 +99,14 @@ Ajaxify Cart Documentation:
           hasSingleDefaultVariant: false,
           {% endif %}
 
-          product: {{ product | json }}
+          product: {{ product | json }},
+          // used to pass the non-handle tag names with their associated handles/slugs
+          tags: [{% for tag in product.tags params %}
+                 {
+                     slug: '{{ tag | handle }}',
+                     name: '{{ tag }}'
+                 }{% unless forloop.last %},{% endunless %}{% endfor %}
+          ]
       };
 
   </script>
