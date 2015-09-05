@@ -19,7 +19,8 @@ timber.cache = {
         gallery: {
             $mainImageBlock: $('#mainImageBlock'),
             $thumbBlock: $('#productThumbs')
-        }
+        },
+        $backLink: $('.product-back-link')
     },
 
     // Mobile Slide Out Navigation
@@ -674,7 +675,30 @@ timber.productPage = function(){
     timber.productImageGallery();
     timber.mobileProductInfoBlock();
     timber.productDescriptionBlock();
+    timber.productBackLink();
 }
+
+timber.productBackLink = function(){
+    var currentTagSlug = timber.getUrlVars()['tag'],
+        $backLink = timber.cache.productPage.$backLink,
+        $targetLabel = $backLink.find('.link-target-label'),
+        href = $backLink.attr('href'),
+        productTags = timber.pageData.productPage.tags;
+    
+    if (typeof currentTagSlug === 'undefined' || typeof productTags === 'undefined'){
+        return;
+    }
+    
+    // get the current tag with it's unhandlized name, Could have
+    // passed this through the query string but wanted to keep
+    // the url clean.
+    var currentTag = $.grep(productTags, function(tag, index){
+        return tag.slug === currentTagSlug;
+    })[0];
+    
+    $backLink.attr('href', href + currentTagSlug);
+    $targetLabel.text(currentTag.name);
+};
 
 timber.productSelectCallback = function(variant, selector) {
 

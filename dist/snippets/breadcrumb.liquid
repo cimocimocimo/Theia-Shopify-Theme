@@ -4,22 +4,8 @@
 Only used on the product page. Code for other pages has been removed.
 {% endcomment %}
 <nav class="breadcrumb-block" role="navigation" aria-label="breadcrumbs">
-  <a href="/" title="Back to the frontpage">Home</a>
-
-  {% if template contains 'product' %}
-
-    {% if collection %}
-      {% if collection.handle %}
-        {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
-        {{ collection.title | link_to: url }}
-      {% endif %}
-    {% endif %}
-    <span>{{ product.title }}</span>
-
-  {% else %}
-
-   <span aria-hidden="true">&rsaquo;</span>
-   <span>{{ page_title }}</span>
-
-  {% endif %}
+  <a href="/collections/shop/" class="product-back-link" title="Back to collection">
+    Back to
+    <span class="link-target-label">the Shop</span>
+  </a>
 </nav>

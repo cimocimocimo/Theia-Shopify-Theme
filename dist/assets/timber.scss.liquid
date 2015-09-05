@@ -3844,21 +3844,13 @@ body.vex-open {
     background: $colorLightestGray;
     border-bottom: 1px solid $colorLightGray;
 
-    a,
-    span {
+    a {
+        @extend %lsaquo-prefix;
+        @extend %gold-hover-underline-link;
         @extend %smallish-arial-text;
 
         display: inline-block;
         font-weight: 700;
-    }
-
-    a {
-        @extend %rsaquo;
-        @extend %warmGray-hover-underline-link;
-    }
-
-    span {
-        color: $colorGold;
     }
 
     /* Desktop */
