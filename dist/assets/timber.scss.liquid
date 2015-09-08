@@ -5849,7 +5849,6 @@ address {
             height: $desktopHeaderMainRowHeight - $gridGutter;
         }
         
-        
         .logo-column {
             @extend %site-header-main-row-column-postLarge;
         }
@@ -5869,8 +5868,9 @@ address {
 
             width: 218px;
         }
-
-        .mobile-ui-column {
+        
+        .mobile-ui-block,
+        .mobile-cart-block {
             display: none;
         }
     }
@@ -5901,11 +5901,29 @@ address {
 
         .logo-column {
             @extend %site-header-main-row-column-large;
+            
+            text-align: center;
+            float: none;
+            z-index: 0;
         }
 
-        .mobile-ui-column {
-            @extend  %site-header-main-row-column-large;
-            float: right;
+        %site-header-main-row-max-large-mobile-block-base {
+            float: none;
+            position: absolute;
+            top: 0;
+            z-index: 2;
+        }
+        
+        .mobile-ui-block {
+            @extend %site-header-main-row-column-large;
+            @extend %site-header-main-row-max-large-mobile-block-base;
+            
+            right: 0;
+        }
+        
+        .mobile-cart-block {
+            @extend %site-header-main-row-column-large;
+            @extend %site-header-main-row-max-large-mobile-block-base;
         }
         
         .main-menu-column,
