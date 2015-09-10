@@ -25,17 +25,7 @@
            href="{{ link.url }}">{{ link.title }}</a>
       </li>
       {% when 'side-nav' %}
-      <li>
-        <a id="{{ link_id }}-side-nav-main-menu-link"
-           class="main-menu-link{% if menu_target %} js-has-sub-menu{% endif %}"
-           {% if menu_target %}data-target="{{ menu_target }}"{% endif %}
-           href="{{ link.url }}">{{ link.title }}</a>
-        <!-- mobile sub-nav -->
-        {% if menu_target %}
-          {% assign coll = link.object %}
-          {% include 'side-nav-sub-menu' %}
-        {% endif %}
-      </li>
+      {% comment %}showing these main menu links in the header now on mobile.{% endcomment %}
       {% else %}
       <li><a class="main-menu-link" href="{{ link.url }}">{{ link.title }}</a></li>
       {% endcase %}

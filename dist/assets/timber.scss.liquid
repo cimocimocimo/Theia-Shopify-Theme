@@ -191,9 +191,9 @@ $radius: 3px;
 
 
 // header heights
-$desktopHeaderTopRowHeight: 32px;
+$headerTopRowHeight: 32px;
 $desktopHeaderMainRowHeight: 85px;
-$mobileHeaderMainRowHeight: 44px;
+$mobileHeaderMainRowHeight: 88px;
 
 
 // moblie side nav
@@ -5760,7 +5760,7 @@ address {
         @extend %clearfix;
     }
     
-    @include at-query ($min, $large) {
+    @include at-query ($min, $postMedium) {
         .wrapper {
             position: relative;
         }
@@ -5770,7 +5770,7 @@ address {
         }
     }
 
-    @include at-query ($max, $large) {
+    @include at-query ($max, $medium) {
         .wrapper {
             position: relative;
             margin: 0 $gutter;
@@ -5783,43 +5783,38 @@ address {
     @include box-shadow(inset 0 -4px 3px -3px rgba(0,0,0,0.05));
     
     background: $colorLightestGray;
+    height: $headerTopRowHeight;
+    padding: $gutter/4 0;
     
-    @include at-query ($min, $postLarge) {
-        height: $desktopHeaderTopRowHeight;
-        padding: $gutter/4 0;
-
-        %site-header-main-row-column-postLarge {
-            @include site-header-column();
-
-            height: $desktopHeaderTopRowHeight - $gutter/2;
-        }
-
-        .site-message-column {
-            @extend %site-header-main-row-column-postLarge;
-            
-            width: 544px;
-        }
-
-        .customer-secondary-menu-column {
-            @extend %site-header-main-row-column-postLarge;
-
-            width: 544px;
-            text-align: right;
-        }
+    .site-message-column,
+    .customer-secondary-menu-column {
+        @include site-header-column();
+        
+        height: $headerTopRowHeight - $gutter/2;
+        margin: 0 !important;
+        box-sizing: border-box;
+        padding: 0 $gutter;
     }
     
-    @include at-query(null, $postLarge, $preXLarge){
+    .site-message-column {
+        width: 60%;
+    }
+    
+    .customer-secondary-menu-column {
+        text-align: right;
+        width: 40%;
+    }
+    
+    @include at-query($max, $medium){
         .site-message-column {
-            width: 480px;
+            float: none;
+            text-align: center;
+            width: auto;
         }
         
         .customer-secondary-menu-column {
-            width: 480px;
+            display: none;
         }
-    }
-    
-    @include at-query($max, $large){
-        display: none;
     }
 }
 
@@ -5831,6 +5826,18 @@ address {
         font-weight: 700;
         text-transform: uppercase;
     }
+    
+    @include at-query(null, $postSmall, $large){
+        p {
+            font-size: 12px;
+        }
+    }
+    
+    @include at-query($max, $small){
+        p {
+            font-size: 10px;
+        }
+    }
 }
 
 .site-header-main-row {
@@ -5839,7 +5846,7 @@ address {
 
     background: $colorWhite;
     
-    @include at-query ($min, $postLarge) {
+    @include at-query ($min, $postMedium) {
         height: $desktopHeaderMainRowHeight;
         padding: $gutter 0;
 
@@ -5889,14 +5896,39 @@ address {
         }
     }
 
-    @include at-query ($max, $large) {
+    @include at-query(null, $postMedium, $large) {
+        .logo-column {
+            position: absolute;
+            left: 0;
+        }
+        
+        .main-menu-column {
+            width: 100%;
+            text-align: center;
+            margin: 0 !important;
+            padding: 0 190px+$gutter*2 0 154px+$gutter*2;
+            box-sizing: border-box;
+        }
+        
+        .customer-menu-column {
+            width: 190px;
+        }
+
+        .search-column {
+            position: absolute;
+            right: 0;
+            width: 190px;
+        }
+    }
+
+    @include at-query ($max, $medium) {
         padding: $gutter/2 0;
         height: $mobileHeaderMainRowHeight;
 
         %site-header-main-row-column-large {
             @include site-header-column();
 
-            height: $mobileHeaderMainRowHeight - $gridGutter/2;
+            height: $mobileHeaderMainRowHeight/2 - $gridGutter/2;
         }
 
         .logo-column {
@@ -5905,8 +5937,16 @@ address {
             text-align: center;
             float: none;
             z-index: 0;
+            margin-bottom: $gutter;
         }
 
+        .main-menu-column {
+            @extend %site-header-main-row-column-large;
+            text-align: center;
+            float: none;
+            z-index: 0;
+        }
+        
         %site-header-main-row-max-large-mobile-block-base {
             float: none;
             position: absolute;
@@ -5926,7 +5966,6 @@ address {
             @extend %site-header-main-row-max-large-mobile-block-base;
         }
         
-        .main-menu-column,
         .search-column {
             display: none;
         }
@@ -5937,7 +5976,7 @@ address {
     position: relative;
     z-index: 0;
 
-    .sub-menu-desktop {
+    .header-sub-menu {
         @extend %clearfix;
         @include transform(translateY(0%));
 
@@ -5962,8 +6001,11 @@ address {
         }
 
         /* Mobile */
-        @include at-query ($max, $preLarge) {
-            display: none;
+        @include at-query ($max, $large) {
+            left: 0;
+            right: 0;
+            width: 100%;
+            text-align: center;
         }
     }
 
@@ -6012,6 +6054,14 @@ address {
 
     .mobile-side-nav & {
         padding: 4px 4px 4px 16px;
+    }
+
+    @include at-query($max, $large){
+        .header-sub-menu & {
+            display: inline-block;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
     }
 }
 
@@ -6188,7 +6238,7 @@ address {
         height: 40px;
         width: 154px;
 
-        @include at-query ( $max, $large ) {
+        @include at-query ( $max, $medium ) {
             height: 22px;
             width: 84px;
         }
@@ -8380,16 +8430,19 @@ html.full-viewport {
             padding: $gutter/4 $gutter * 1.25;
         }
 
-        @include at-query(null, $postLarge, $xLarge){
+        @include at-query(null, $postMedium, $large){
             padding-left: $gutter * (2/3);
             padding-right: $gutter * (2/3);
         }
         
         @include at-query ($max, $small) {
             padding: $gutter/2 0;
+            margin: 0 $gutter/2;
+            font-size: 12px;
         }
-    }
 
+    }
+    
     .mobile-side-nav & {
         @extend %small-bold-arial-text;
         @extend %icon-base;
@@ -8422,7 +8475,7 @@ html.full-viewport {
     @extend %inline-list-base;
 
     /* Desktop */
-    @include at-query ($min, $postLarge) {
+    @include at-query ($min, $postMedium) {
         @include verticalCenterChildElements();
 
         height: 24px;
@@ -8439,7 +8492,7 @@ html.full-viewport {
     }
 
     /* Mobile */
-    @include at-query ($max, $large) {
+    @include at-query ($max, $medium) {
 
         &, ul, li {
             height: 22px;
@@ -8523,7 +8576,7 @@ html.full-viewport {
         }
 
         /* Desktop */
-        @include at-query ($min, $postLarge) {
+        @include at-query ($min, $postMedium) {
             @include customerLoginLink();
 
             padding: 3px $gutter/2 2px;
@@ -8544,11 +8597,12 @@ html.full-viewport {
         }
 
         /* Mobile */
-        @include at-query ($max, $large) {
+        @include at-query ($max, $medium) {
+            @include prefix(border-radius, 2px);
+            
             height: 22px;
             width: 22px;
             border: 1px solid $colorGray;
-            @include prefix(border-radius, 2px);
             text-align: center;
 
             #{$iconSelector} {
@@ -8642,7 +8696,7 @@ html.full-viewport {
         }
     }
 
-    @include at-query($min, $postLarge){
+    @include at-query($min, $postMedium){
         #{$iconSelector}{
             &:before {
                 top: -4px;
@@ -8652,7 +8706,7 @@ html.full-viewport {
         }
     }
 
-    @include at-query($max, $large){
+    @include at-query($max, $medium){
         #{$iconSelector}{
             &:before {
                 top: -2px;
@@ -10743,12 +10797,12 @@ $opacity-not-active: .25;
     .layout-theme &,
     .layout-customer-account & {
         // add padding to get the page content right
-        @include at-query($max, $preLarge){
-            padding-top: 44px;
+        @include at-query($min, $postMedium){
+            padding-top: $desktopHeaderMainRowHeight + $headerTopRowHeight;
         }
-
-        @include at-query($min, $large){
-            padding-top: 117px;
+        
+        @include at-query($max, $medium){
+            padding-top: $mobileHeaderMainRowHeight + $headerTopRowHeight;
         }
     }
 }
@@ -10773,7 +10827,7 @@ $opacity-not-active: .25;
     background: $colorPaleGray;
 
     .search-bar-row {
-        height: $mobileHeaderMainRowHeight;
+        height: $mobileHeaderMainRowHeight/2;
         background: #fff;
         padding: 9px $gutter;
 
