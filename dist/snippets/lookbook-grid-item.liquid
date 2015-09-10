@@ -37,13 +37,6 @@
 
   {% endcomment %}
 
-  <div class="header-row">
-
-    <h4>
-      <a href="#{{ lookbook_modal_id }}" class="js-open-modal">{{ product.title }}</a>
-    </h4>
-
-  </div>
   <div class="image-row">
 
     <a href="#{{ lookbook_modal_id }}" class="js-open-modal">
@@ -51,22 +44,6 @@
     </a>
 
   </div>
-
-  <div class="meta-row">
-    <div class="info-block">
-      <div>
-        US {{ product.price | money }}
-      </div>
-    </div>
-
-    <div class="button-block">
-      <a class="js-open-modal button" href="#{{ lookbook_modal_id }}">
-        <span class="label">View Dress</span>
-        <span class="icon"></span>
-      </a>
-    </div>
-  </div>
-
 </div>
 
 {% comment %}add the data for the modal{% endcomment %}
