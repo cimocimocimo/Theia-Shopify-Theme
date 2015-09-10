@@ -712,7 +712,10 @@ timber.productBackLink = function(){
         $backLink = timber.cache.productPage.$backLink,
         $targetLabel = $backLink.find('.link-target-label'),
         href = $backLink.attr('href'),
-        productTags = timber.pageData.productPage.tags;
+        productTags = timber.pageData.productPage.tags,
+        currentTag,
+        queryStringIndex,
+        newHref;
     
     if (typeof currentTagSlug === 'undefined' || typeof productTags === 'undefined'){
         return;
@@ -721,11 +724,15 @@ timber.productBackLink = function(){
     // get the current tag with it's unhandlized name, Could have
     // passed this through the query string but wanted to keep
     // the url clean.
-    var currentTag = $.grep(productTags, function(tag, index){
+    currentTag = $.grep(productTags, function(tag, index){
         return tag.slug === currentTagSlug;
     })[0];
+
+    // split the query string off
+    queryStringIndex= href.indexOf('?');
+    newHref = href.substring(0, queryStringIndex) + currentTagSlug + '/' + href.substring(queryStringIndex);
     
-    $backLink.attr('href', href + currentTagSlug);
+    $backLink.attr('href', newHref);
     $targetLabel.text(currentTag.name);
 };
 

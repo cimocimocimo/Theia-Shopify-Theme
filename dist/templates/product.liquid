@@ -42,9 +42,14 @@ For more information on these Scheme.org tags, visit:
 
     <div id="productInfoBlock" class="product-info-block" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 
-      <div class="breadcrumb-row">
+      <div class="product-back-link-row">
 
-        {% include 'breadcrumb' %}
+        <nav class="product-back-link-block" role="navigation">
+          <a href="/collections/shop/?scroll_to={{ style_number }}" class="product-back-link" title="Back to collection">
+            Back to
+            <span class="link-target-label">the Shop</span>
+          </a>
+        </nav>
 
       </div>
 
