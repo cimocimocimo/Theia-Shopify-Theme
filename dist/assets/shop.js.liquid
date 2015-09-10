@@ -19,7 +19,8 @@ timber.cache = {
         gallery: {
             $mainImageBlock: $('#mainImageBlock'),
             $thumbBlock: $('#productThumbs')
-        }
+        },
+        $backLink: $('.product-back-link')
     },
 
     // Mobile Slide Out Navigation
@@ -350,7 +351,10 @@ timber.headerSubNav = function(){
         $subMenus = timber.cache.headerSubNav.$subMenus,
         $subMenuLinks = $mainMenu.find('.js-has-sub-menu'),
         $nonSubMenuLinks = $mainMenu.find('a:not(.js-has-sub-menu)'),
-        menuClosetimeoutId;
+        menuClosetimeoutId,
+        subMenuSelectorPrefix = '#header-sub-menu-',
+        breakPointLarge = 1024,
+        windowWidth = $(window).width();
 
     // set the sub menu left offset to be the same as the link
     function setMenuHorizontalPositions(){
@@ -359,44 +363,50 @@ timber.headerSubNav = function(){
             currentTarget,
             $currentMenu;
         
-        for (var i = 0; i<$subMenuLinks.length; i++){
-            $currentLink = $subMenuLinks.eq(i);
-            currentOffset = $currentLink.offset().left;
-            currentTarget = $currentLink.attr('data-target');
-            $currentMenu = $('#sub-menu-desktop-' + currentTarget);
-            $currentMenu.css('left', currentOffset);
+        if (windowWidth > breakPointLarge){
+            for (var i = 0; i<$subMenuLinks.length; i++){
+                $currentLink = $subMenuLinks.eq(i);
+                currentOffset = $currentLink.offset().left;
+                currentTarget = $currentLink.attr('data-target');
+                $currentMenu = $(subMenuSelectorPrefix + currentTarget);
+                $currentMenu.css('left', currentOffset);
+            }
+        } else {
+            for (var j = 0; j<$subMenuLinks.length; j++){
+                $subMenus.css('left', 'auto');
+            }
         }
     }
     setMenuHorizontalPositions();
 
     // and set them anytime the window is resized.
     $(window).resize(function(event){
+        windowWidth = $(window).width();
         setMenuHorizontalPositions();
     });
 
     // when the user mouses over a sub menu link
     $subMenuLinks.mouseenter(function(event){
+        // if we are at breakpoint large or bigger
+        if (windowWidth > breakPointLarge){
+            // get the target name, format the id, get the element
+            var $menuLink = $(this);
 
-        // get the target name, format the id, get the element
-        var $this = $(this),
-            target = $this.data('target'),
-            targetIdSelector = '#sub-menu-desktop-' + target,
-            $targetMenu = $(targetIdSelector);
-
-        // if another menu is open
-        if ($subMenus.hasClass('js-open') && !$targetMenu.hasClass('js-open')){
-            $subMenus.removeClass('js-open');
-            $subMenuLinks.removeClass('active');
-            $targetMenu.addClass('js-open');
-            $this.addClass('active');
-            
-        } else if (!$subMenus.hasClass('js-open')) {
-            // no menus are open, so open the target
-            $targetMenu.addClass('js-open');
-            $this.addClass('active');
+            openSubMenu($menuLink);
         }
     });
+    
+    // when the user clicks on a sub menu link
+    $subMenuLinks.click(function(event){
+        var $menuLink = $(this);
 
+        // if we are at breakpoint large or bigger
+        if (windowWidth <= breakPointLarge){
+            event.preventDefault();
+            openSubMenu($menuLink);
+        }
+    });
+    
     // when the user mouses away from the main nav or the open sub nav menu start a timeout
     // when the time out finishes
     $mainMenu.mouseleave(function(event){
@@ -413,6 +423,26 @@ timber.headerSubNav = function(){
     });
     
     $nonSubMenuLinks.mouseenter(closeSubMenus);
+    
+    function openSubMenu($link){
+        // get the target name, format the id, get the element
+        var target = $link.data('target'),
+            targetIdSelector = subMenuSelectorPrefix + target,
+            $targetMenu = $(targetIdSelector);
+        
+        // if another menu is open
+        if ($subMenus.hasClass('js-open') && !$targetMenu.hasClass('js-open')){
+            $subMenus.removeClass('js-open');
+            $subMenuLinks.removeClass('active');
+            $targetMenu.addClass('js-open');
+            $link.addClass('active');
+            
+        } else if (!$subMenus.hasClass('js-open')) {
+            // no menus are open, so open the target
+            $targetMenu.addClass('js-open');
+            $link.addClass('active');
+        }
+    }
     
     function closeSubMenus(){
         $subMenus.removeClass('js-open');
@@ -674,7 +704,30 @@ timber.productPage = function(){
     timber.productImageGallery();
     timber.mobileProductInfoBlock();
     timber.productDescriptionBlock();
+    timber.productBackLink();
 }
+
+timber.productBackLink = function(){
+    var currentTagSlug = timber.getUrlVars()['tag'],
+        $backLink = timber.cache.productPage.$backLink,
+        $targetLabel = $backLink.find('.link-target-label'),
+        href = $backLink.attr('href'),
+        productTags = timber.pageData.productPage.tags;
+    
+    if (typeof currentTagSlug === 'undefined' || typeof productTags === 'undefined'){
+        return;
+    }
+    
+    // get the current tag with it's unhandlized name, Could have
+    // passed this through the query string but wanted to keep
+    // the url clean.
+    var currentTag = $.grep(productTags, function(tag, index){
+        return tag.slug === currentTagSlug;
+    })[0];
+    
+    $backLink.attr('href', href + currentTagSlug);
+    $targetLabel.text(currentTag.name);
+};
 
 timber.productSelectCallback = function(variant, selector) {
 

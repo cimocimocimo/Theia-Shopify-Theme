@@ -1,7 +1,7 @@
-{% include 'sub-menu-categories' %}
 <div class="sub-menu-column">
   <!-- these are the tags that are present in this collection -->
   {% for c in sub-menu-categories %}{% assign cat = c | strip %}{% if coll.tags contains cat %}
-    <a class="sub-menu-link" href="{{ coll_url }}/{{ cat | handle }}">{{ cat }}</a>
+    <a class="sub-menu-link" href="{{ coll.url }}/{{ cat | handle }}">{{ cat }}</a>
   {% endif %}{% endfor %}
+  <a class="sub-menu-link mobile-view-all-link" href="{{ coll.url }}">View All</a>
 </div>

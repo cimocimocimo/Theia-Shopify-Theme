@@ -1,6 +1,9 @@
 <!-- Shop - available-online -->
 {% for coll in collections %}
-<div id="sub-menu-desktop-{{ coll.handle }}" class="js-header-sub-menu sub-menu-desktop">
-  {% include 'header-sub-menu' %}
-</div>
+  {% include 'sub-menu-categories' %}
+  {% if sub-menu-categories %}
+    <div id="header-sub-menu-{{ coll.handle }}" class="js-header-sub-menu header-sub-menu">
+      {% include 'header-sub-menu' %}
+    </div>
+  {% endif %}
 {% endfor %}

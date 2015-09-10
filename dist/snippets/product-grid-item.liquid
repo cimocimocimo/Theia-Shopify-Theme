@@ -31,6 +31,10 @@
 
 {% include 'capture-style-number' %}
 
+{% capture product_href %}
+  {{ product.url | within: collection }}{% if current_tags.first %}?tag={{ current_tags.first | handle }}{% endif %}
+{% endcapture %}
+
 {% comment %}
   Set a class for sold-out and on-sale items
   add css class for last item, used to determine when to grab new dresses as user scrolls...
@@ -53,13 +57,13 @@
   <div class="header-row">
 
     <h4>
-      <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+      <a href="{{ product_href }}">{{ product.title }}</a>
     </h4>
 
   </div>
   <div class="image-row">
 
-    <a href="{{ product.url | within: collection }}">
+    <a href="{{ product_href }}">
       <img src="{{ product.featured_image.src | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
     </a>
 
@@ -78,7 +82,7 @@
     </div>
 
     <div class="button-block">
-      <a class="button" href="{{ product.url | within: collection }}">
+      <a class="button" href="{{ product_href }}">
         <span class="label">View Dress</span>
         <span class="icon"></span>
       </a>
