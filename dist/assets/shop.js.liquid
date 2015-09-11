@@ -64,6 +64,11 @@ timber.cache = {
     
     collectionLookbook: {
         $body: $('body.template-collection-lookbook')
+    },
+
+    collectionPage: {
+        $body: $('body.template-collection'),
+        $itemContainer: $('#collection-items')
     }
 };
 
@@ -89,24 +94,68 @@ timber.init = function () {
         timber.productPage();
     }
     
-    if (timber.cache.collectionLookbook.$body.length !== 0){
-        timber.lookbookPage();
-    }
-    
-    // shop collection pages
-    if (timber.cache.collectionShop.$body.length !== 0){
-        timber.shopPage();
+    // collection pages (both lookbook and shop)
+    if (timber.cache.collectionPage.$body.length !== 0){
+        timber.collectionPage();
     }
     
     // initialize smooth scroll
     smoothScroll.init();
 };
 
-timber.shopPage = function(){
-    timber.infiniteScroll();
+timber.collectionPage = function(){
+    var $itemContainer = timber.cache.collectionPage.$itemContainer,
+        scrollToTargetSelector = window.location.hash,
+        scrollToElement = $itemContainer.find(scrollToTargetSelector),
+        myPager = new timber.infiniteScroll(),
+        hasFoundScrollTarget = false;
+    
+    function isScrollElementLoaded(){
+        return $itemContainer.find(scrollToTargetSelector).length !== 0;
+    }
+    
+    function scrollToTarget(selector){
+        smoothScroll.animateScroll(null, selector, {});
+    }
+    
+    function getPageUntillScrollElementLoaded(){
+        if (myPager.hasNextPage() && !isScrollElementLoaded()){
+            myPager.getNextPage().done(function(data){
+                getPageUntillScrollElementLoaded();
+            });
+        } else {
+            scrollToTarget(scrollToTargetSelector);
+        }
+    }
+
+    // if the element is on the page, use smoothScroll to scroll directly to it.
+    if (isScrollElementLoaded()){
+        scrollToTarget(scrollToTargetSelector);
+        hasFoundScrollTarget = true;
+        
+    } else if (scrollToTargetSelector !== '') {
+        getPageUntillScrollElementLoaded()
+    }
+    
+    // lookbook pages
+    if (timber.cache.collectionLookbook.$body.length !== 0){
+        timber.lookbookPage(myPager);
+    }
+    
+    // shop pages
+    if (timber.cache.collectionShop.$body.length !== 0){
+        timber.shopPage();
+    }
 }
 
-timber.lookbookPage = function(){
+timber.scrollToElementInCollection = function(){
+
+}
+
+timber.shopPage = function(){
+}
+
+timber.lookbookPage = function(pager){
     var $openModalLinks = $('.js-open-modal'),
         $modalContentBlocks = $('.modal-content-block');
 
@@ -140,7 +189,7 @@ timber.lookbookPage = function(){
         });
     }
     
-    timber.infiniteScroll({
+    pager.setOptions({
         processFilteredData: function($data){
             $data.find('.js-open-modal').click(openModal);
 
@@ -487,62 +536,101 @@ timber.loginFormInit = function(){
     {% endif %}
 };
 
-timber.infiniteScroll = function(settings) {
+timber.infiniteScroll = function(settings){
     
     var defaults = {
-        processFilteredData: function(data){
-            return data;
-        }
+        processFilteredData: false,
+        collectionBlockSelector: '#collection-items'
     },
-        options = $.extend({}, defaults, settings);
+        options = $.extend({}, defaults, settings),
+        self = this;
     
+    // public methods
+    this.setOptions = function(settings){
+        options = $.extend(options, settings);
+    }
+    
+    this.getNextPage = function(){
+        // disable the current waypoint so that it doesn't trigger when scrolled past.
+        self.waypoint.disable();
+        
+        // get next page
+        return getNextPage();
+    }
+    
+    this.hasNextPage = function(){
+        return this.pageData.hasNextPage;
+    }
+    
+    // private methods
     function processFilteredData(data){
         if (options.processFilteredData){
             return options.processFilteredData(data);
         }
+
+        return data;
     }
     
-    // add a way point to the last item currently shown on the page.
-    $('.last-item').last().waypoint(function() {
+    function getPageDataFromHtml($page){
+        self.pageData = {};
+        
+        self.pageData.hasNextPage = $page.attr('data-has-next-page') === 'true';
+        self.pageData.nextPageUrl = self.pageData.hasNextPage ? $page.attr('data-next-page-url') : null;
+        self.pageData.$items = $page.children();
+        self.pageData.$waypointElement = $page.find('.last-item').last();
+    }
+    
+    function wireWaypoint(){
+        // add a way point to the last item currently shown on the page.
+        self.waypoint = self.pageData.$waypointElement.waypoint({
+            handler: waypointCallback,
+            offset: 'bottom-in-view'
+        })[0];
+    }
+    
+    function waypointCallback() {
+        // disables current waypoint
+        this.disable();
+        
+        getNextPage();
+    }
 
-        var waypoint = this;
-        // you're at the end of the page, stop assigning waypoints.
-        if (typeof $('#end')[0] != 'undefined') {
-            waypoint.disable();
-            return;
+    function getNextPage(){
+        if (self.pageData.hasNextPage){
+            return getNextPagePromise()
+                .done(processNextPagePromise);
         }
-
-        var loadingImage,
-            pInfScrNode = $('.more').last(),
-            pInfScrURL = $('.more a').last().attr("href");
-
-        $.ajax({
+    }
+    
+    function getNextPagePromise(){
+        return $.ajax({
             type: 'GET',
-            url: pInfScrURL,
-            beforeSend: function() {
-                loadingImage = pInfScrNode.clone().empty().append('<img src=\"http://cdn.shopify.com/s/files/1/0068/2162/assets/loading.gif?105791\" />');
-                loadingImage.insertAfter(pInfScrNode);
-                pInfScrNode.hide();
-            },
-            success: function(data) {
-                var $filteredData = $(data).find("#collection-matrix");
-                
-                $filteredData = processFilteredData($filteredData);
-                
-                // remove loading feedback
-                pInfScrNode.next().remove();
-                $filteredData.insertBefore( $("#product-list-foot") );
-                loadingImage.remove();
-                waypoint.disable();
-                
-                // recursively call yourself to attach another waypoint to the last item we just received
-                timber.infiniteScroll(settings);
-            },
-            dataType: "html"
+            dataType: "html",
+            url: self.pageData.nextPageUrl
         });
-    }, {
-        offset: 'bottom-in-view'
-    });
+    }
+
+    function processNextPagePromise(data){
+        getPageDataFromHtml($(data).find(options.collectionBlockSelector));
+        
+        self.pageData.$items = processFilteredData(self.pageData.$items);
+        
+        // append the items to the container
+        self.$itemContainer.append(self.pageData.$items);
+        
+        if (self.pageData.hasNextPage){
+            wireWaypoint();
+        }
+    }
+    
+    // get the container and wire the waypoint if there is a next page.
+    self.$itemContainer = $(options.collectionBlockSelector);
+    $('.back-to-top-block').removeClass('js-hidden');
+    $('.pagination-block').addClass('js-hidden');
+    getPageDataFromHtml(self.$itemContainer);
+    if (self.pageData.hasNextPage){
+        wireWaypoint();
+    }
 };
 
 timber.carouselInit = function () {
@@ -712,7 +800,10 @@ timber.productBackLink = function(){
         $backLink = timber.cache.productPage.$backLink,
         $targetLabel = $backLink.find('.link-target-label'),
         href = $backLink.attr('href'),
-        productTags = timber.pageData.productPage.tags;
+        productTags = timber.pageData.productPage.tags,
+        currentTag,
+        hashIndex,
+        newHref;
     
     if (typeof currentTagSlug === 'undefined' || typeof productTags === 'undefined'){
         return;
@@ -721,11 +812,15 @@ timber.productBackLink = function(){
     // get the current tag with it's unhandlized name, Could have
     // passed this through the query string but wanted to keep
     // the url clean.
-    var currentTag = $.grep(productTags, function(tag, index){
+    currentTag = $.grep(productTags, function(tag, index){
         return tag.slug === currentTagSlug;
     })[0];
+
+    // split the query string off
+    hashIndex= href.indexOf('#');
+    newHref = href.substring(0, hashIndex) + currentTagSlug + '/' + href.substring(hashIndex);
     
-    $backLink.attr('href', href + currentTagSlug);
+    $backLink.attr('href', newHref);
     $targetLabel.text(currentTag.name);
 };
 
@@ -848,8 +943,6 @@ timber.mobileProductInfoBlock = function(){
     });
 };
 
-
-
 timber.loader = {
     element: '',
     selector: '.spinner',
@@ -889,6 +982,10 @@ timber.loader = {
         }
     }
 };
+
+timber.isDefined = function(testVar){
+    return typeof testVar !== 'undefined';
+}
 
 // Initialize Timber's JS on docready
 $(function() {

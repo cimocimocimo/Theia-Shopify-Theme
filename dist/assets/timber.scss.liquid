@@ -39,7 +39,6 @@ Some things to know about this file:
 #Site Footer
 #Product Grid and List Views
 #Collection Filters
-#Breadcrumbs
 #Product Page
 #Blogs and Comments
 #Notes and Form Feedback
@@ -3834,47 +3833,6 @@ body.vex-open {
     }
 }
 
-
-/*============================================================================
-  #Breadcrumbs
-  ==============================================================================*/
-.breadcrumb-block {
-    @include overflowEllipsis();
-
-    background: $colorLightestGray;
-    border-bottom: 1px solid $colorLightGray;
-
-    a {
-        @extend %lsaquo-prefix;
-        @extend %gold-hover-underline-link;
-        @extend %smallish-arial-text;
-
-        display: inline-block;
-        font-weight: 700;
-    }
-
-    /* Desktop */
-    @include at-query ($min, $postSmall) {
-        height: $gutter * 2.25;
-        padding: 2px ( $gutter * 1.25 ) 0;
-        line-height: $gutter * 2;
-    }
-
-    /* Mobile */
-    @include at-query ($max, $small) {
-        // border-top: 1px solid $colorLightGray;
-        height: 35px;
-        padding: 0 $gutter;
-
-        a,
-        span {
-            font-size: 0.625em;
-            line-height: 33px;
-        }
-    }
-}
-
-
 /*============================================================================
   #Product Page
   ==============================================================================*/
@@ -3924,6 +3882,41 @@ body.vex-open {
             right: 278px;
         }
 
+    }
+}
+
+.product-back-link-block {
+    @include overflowEllipsis();
+
+    background: $colorLightestGray;
+    border-bottom: 1px solid $colorLightGray;
+
+    a {
+        @extend %lsaquo-prefix;
+        @extend %gold-hover-underline-link;
+        @extend %smallish-arial-text;
+
+        display: inline-block;
+        font-weight: 700;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        height: $gutter * 2.25;
+        padding: 2px ( $gutter * 1.25 ) 0;
+        line-height: $gutter * 2;
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        // border-top: 1px solid $colorLightGray;
+        height: 35px;
+        padding: 0 $gutter;
+
+        a {
+            font-size: 0.625em;
+            line-height: 33px;
+        }
     }
 }
 
@@ -7619,9 +7612,15 @@ html.full-viewport {
 
 .product-grid-hero {
     @extend %grid-block-base;
+    
+    .hero-header {
+        h2 {
+            @extend .h3;
+        }
+    }
+    
+    .hero-body {
 
-    h2 {
-        @extend .h3;
     }
 }
 
