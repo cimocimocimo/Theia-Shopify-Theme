@@ -87,7 +87,7 @@
           {% assign formFieldKey = 'firstName' %}
           {% assign formFieldLabel = 'First Name' %}
           {% assign formFieldAutocapitalize = 'words' %}
-          {% assign formFieldPlaceholder = 'Dorian' %}
+          {% assign formFieldPlaceholder = '' %}
           {% capture formFieldValue %}{% if form.firstName %}{{ form.firstName }}{% elsif customer %}{{ customer.firstName }}{% endif %}{% endcapture %}
           {% assign formFieldClass = false %}
           {% include 'form-input-text' %}
@@ -95,7 +95,7 @@
           {% assign formFieldKey = 'lastName' %}
           {% assign formFieldLabel = 'Last Name' %}
           {% assign formFieldAutocapitalize = 'words' %}
-          {% assign formFieldPlaceholder = 'Leigh' %}
+          {% assign formFieldPlaceholder = '' %}
           {% capture formFieldValue %}{% if form.lastName %}{{ form.lastName }}{% elsif customer %}{{ customer.lastName }}{% endif %}{% endcapture %}
           {% assign formFieldClass = false %}
           {% include 'form-input-text' %}
@@ -103,7 +103,7 @@
           {% assign formFieldKey = 'address' %}
           {% assign formFieldLabel = 'Address' %}
           {% assign formFieldAutocapitalize = 'words' %}
-          {% assign formFieldPlaceholder = '5th Ave.' %}
+          {% assign formFieldPlaceholder = '' %}
           {% assign formFieldOptional = true %}
           {% capture formFieldValue %}{% if form.address %}{{ form.address }}{% elsif customer %}{{ customer.address }}{% endif %}{% endcapture %}
           {% assign formFieldClass = false %}
@@ -112,7 +112,7 @@
           {% assign formFieldKey = 'city' %}
           {% assign formFieldLabel = 'City' %}
           {% assign formFieldAutocapitalize = 'words' %}
-          {% assign formFieldPlaceholder = 'New York' %}
+          {% assign formFieldPlaceholder = '' %}
           {% assign formFieldOptional = true %}
           {% capture formFieldValue %}{% if form.city %}{{ form.city }}{% elsif customer %}{{ customer.city }}{% endif %}{% endcapture %}
           {% assign formFieldClass = false %}
@@ -122,7 +122,7 @@
           {% assign formFieldKey = 'stateProvince' %}
           {% assign formFieldLabel = 'State or Province / Zip Code' %}
           {% assign formFieldAutocapitalize = 'characters' %}
-          {% assign formFieldPlaceholder = 'NY' %}
+          {% assign formFieldPlaceholder = '' %}
           {% assign formFieldOptional = true %}
           {% capture formFieldValue %}{% if form.stateProvince %}{{ form.stateProvince }}{% elsif customer %}{{ customer.stateProvince }}{% endif %}{% endcapture %}
           {% assign formFieldClass = 'half' %}
@@ -131,7 +131,7 @@
           {% assign formFieldKey = 'postalCode' %}
           {% assign formFieldLabel = false %}
           {% assign formFieldAutocapitalize = 'characters' %}
-          {% assign formFieldPlaceholder = '10018' %}
+          {% assign formFieldPlaceholder = '' %}
           {% assign formFieldOptional = true %}
           {% capture formFieldValue %}{% if form.postalCode %}{{ form.postalCode }}{% elsif customer %}{{ customer.postalCode }}{% endif %}{% endcapture %}
           {% assign formFieldClass = 'half' %}
@@ -141,7 +141,7 @@
           {% assign formFieldKey = 'country' %}
           {% assign formFieldLabel = 'Country' %}
           {% assign formFieldAutocapitalize = 'words' %}
-          {% assign formFieldPlaceholder = 'United States' %}
+          {% assign formFieldPlaceholder = '' %}
           {% assign formFieldOptional = true %}
           {% capture formFieldValue %}{% if form.country %}{{ form.country }}{% elsif customer %}{{ customer.country }}{% endif %}{% endcapture %}
           {% assign formFieldClass = false %}
@@ -155,7 +155,7 @@
           {% assign formFieldKey = 'email' %}
           {% assign formFieldLabel = 'Email Address' %}
           {% assign formFieldAutocapitalize = false %}
-          {% assign formFieldPlaceholder = 'dorthy@theia.com' %}
+          {% assign formFieldPlaceholder = '' %}
           {% assign formFieldOptional = false %}
           {% capture formFieldValue %}{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}{% endcapture %}
           {% assign formFieldClass = false %}
@@ -165,7 +165,7 @@
           {% assign formFieldKey = 'phone' %}
           {% assign formFieldLabel = 'Telephone Number' %}
           {% assign formFieldAutocapitalize = false %}
-          {% assign formFieldPlaceholder = '+1 555 564 3829' %}
+          {% assign formFieldPlaceholder = '' %}
           {% assign formFieldOptional = true %}
           {% capture formFieldValue %}{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}{% endcapture %}
           {% assign formFieldClass = false %}
@@ -209,7 +209,7 @@
         New York, New York 10018
       </div>
       <div class="email">
-        <a href="mailto:theia@jsgroup.com">theia@jsgroup.com</a>
+        <a href="mailto:info@theiacouture.com">info@theiacouture.com</a>
       </div>
     </address>
 
@@ -217,7 +217,7 @@
       <div class="divider"></div>
       <div class="col">
         
-    <h4>THEIA Corporate</h4>
+    <h4>JS Group International</h4>
     <address>
       <div class="address">
         225 Rue Chabanel Street West
@@ -227,7 +227,7 @@
         H2N 2C9 &ndash; Canada
       </div>
       <div class="email">
-        <a href="mailto:theia@jsgroup.com">theia@jsgroup.com</a>
+        <a href="mailto:theia@jsgroup.com">info@jsgroup.com</a>
       </div>
     </address>
 
@@ -237,11 +237,8 @@
         
     <h4>Press</h4>
     <address>
-      <div class="phone">
-        212-354-4700 ext. 2325
-      </div>
       <div class="email">
-        <a href="mailto:melissa.veniero@gmail.com">melissa.veniero@gmail.com</a>
+        <a href="mailto:press@theiacouture.com">press@theiacouture.com</a>
       </div>
     </address>
 

@@ -64,6 +64,11 @@ timber.cache = {
     
     collectionLookbook: {
         $body: $('body.template-collection-lookbook')
+    },
+
+    collectionPage: {
+        $body: $('body.template-collection'),
+        $itemContainer: $('#collection-matrix')
     }
 };
 
@@ -89,13 +94,19 @@ timber.init = function () {
         timber.productPage();
     }
     
+    // lookbook pages
     if (timber.cache.collectionLookbook.$body.length !== 0){
         timber.lookbookPage();
     }
     
-    // shop collection pages
+    // shop pages
     if (timber.cache.collectionShop.$body.length !== 0){
         timber.shopPage();
+    }
+    
+    // collection pages (both lookbook and shop)
+    if (timber.cache.collectionPage.$body.length !== 0){
+        timber.collectionPage();
     }
     
     // initialize smooth scroll
@@ -103,7 +114,8 @@ timber.init = function () {
 };
 
 timber.shopPage = function(){
-    timber.infiniteScroll();
+    // timber.infiniteScroll();
+    var myPager = new timber.betterInfiniteScroll();
 }
 
 timber.lookbookPage = function(){
@@ -140,7 +152,7 @@ timber.lookbookPage = function(){
         });
     }
     
-    timber.infiniteScroll({
+    timber.betterInfiniteScroll({
         processFilteredData: function($data){
             $data.find('.js-open-modal').click(openModal);
 
@@ -148,6 +160,26 @@ timber.lookbookPage = function(){
         }
     });
 };
+
+timber.collectionPage = function(){
+    var $itemContainer = timber.cache.collectionPage.$itemContainer,
+        scrollToTarget = window.location.hash,
+        scrollToElement = $itemContainer.find(scrollToTarget);
+    
+    // check for scroll_to
+    if (typeof scrollToTarget === 'undefined'){
+        return;
+    }
+
+    if (scrollToElement.length !== 0){
+
+        smoothScroll.animateScroll(null, scrollToTarget, {});
+        console.log(scrollToTarget);
+
+        // is the scroll target on the page?
+        console.log($('body').find(scrollToTarget));
+    }
+}
 
 timber.contactForm = function(){
     var styleNumber = timber.getUrlVars()['style_number'],
@@ -490,9 +522,7 @@ timber.loginFormInit = function(){
 timber.infiniteScroll = function(settings) {
     
     var defaults = {
-        processFilteredData: function(data){
-            return data;
-        }
+        processFilteredData: false
     },
         options = $.extend({}, defaults, settings);
     
@@ -500,6 +530,8 @@ timber.infiniteScroll = function(settings) {
         if (options.processFilteredData){
             return options.processFilteredData(data);
         }
+
+        return data;
     }
     
     // add a way point to the last item currently shown on the page.
@@ -543,6 +575,82 @@ timber.infiniteScroll = function(settings) {
     }, {
         offset: 'bottom-in-view'
     });
+};
+
+timber.betterInfiniteScroll = function(settings){
+    
+    var defaults = {
+        processFilteredData: false,
+        collectionBlockSelector: '#collection-items'
+    },
+        options = $.extend({}, defaults, settings),
+        self = this;
+    
+    // private methods
+    function processFilteredData(data){
+        if (options.processFilteredData){
+            return options.processFilteredData(data);
+        }
+
+        return data;
+    }
+    
+    function getPageDataFromHtml($page){
+        self.pageData = {};
+        
+        self.pageData.hasNextPage = $page.attr('data-has-next-page') === 'true';
+        self.pageData.nextPageUrl = self.pageData.hasNextPage ? $page.attr('data-next-page-url') : null;
+        self.pageData.$items = $page.children();
+        self.pageData.$waypointElement = $page.find('.last-item').last();
+    }
+    
+    function wireWaypoint(){
+        // add a way point to the last item currently shown on the page.
+        self.waypoint = self.pageData.$waypointElement.waypoint({
+            handler: waypointCallback,
+            offset: 'bottom-in-view'
+        })[0];
+    }
+    
+    function waypointCallback() {
+        // disables current waypoint
+        this.disable();
+        
+        if (self.pageData.hasNextPage){
+            getNextPagePromise()
+                .done(processNextPagePromise);
+        }
+    }
+
+    function getNextPagePromise(){
+        return $.ajax({
+            type: 'GET',
+            dataType: "html",
+            url: self.pageData.nextPageUrl
+        });
+    }
+
+    function processNextPagePromise(data){
+        getPageDataFromHtml($(data).find(options.collectionBlockSelector));
+        
+        self.pageData.$items = processFilteredData(self.pageData.$items);
+        
+        // append the items to the container
+        self.$itemContainer.append(self.pageData.$items);
+        
+        if (self.pageData.hasNextPage){
+            wireWaypoint();
+        }
+    }
+    
+    // get the container and wire the waypoint if there is a next page.
+    self.$itemContainer = $(options.collectionBlockSelector);
+    $('.back-to-top-block').removeClass('js-hidden');
+    $('.pagination-block').addClass('js-hidden');
+    getPageDataFromHtml(self.$itemContainer);
+    if (self.pageData.hasNextPage){
+        wireWaypoint();
+    }
 };
 
 timber.carouselInit = function () {
@@ -712,7 +820,10 @@ timber.productBackLink = function(){
         $backLink = timber.cache.productPage.$backLink,
         $targetLabel = $backLink.find('.link-target-label'),
         href = $backLink.attr('href'),
-        productTags = timber.pageData.productPage.tags;
+        productTags = timber.pageData.productPage.tags,
+        currentTag,
+        hashIndex,
+        newHref;
     
     if (typeof currentTagSlug === 'undefined' || typeof productTags === 'undefined'){
         return;
@@ -721,11 +832,15 @@ timber.productBackLink = function(){
     // get the current tag with it's unhandlized name, Could have
     // passed this through the query string but wanted to keep
     // the url clean.
-    var currentTag = $.grep(productTags, function(tag, index){
+    currentTag = $.grep(productTags, function(tag, index){
         return tag.slug === currentTagSlug;
     })[0];
+
+    // split the query string off
+    hashIndex= href.indexOf('#');
+    newHref = href.substring(0, hashIndex) + currentTagSlug + '/' + href.substring(hashIndex);
     
-    $backLink.attr('href', href + currentTagSlug);
+    $backLink.attr('href', newHref);
     $targetLabel.text(currentTag.name);
 };
 

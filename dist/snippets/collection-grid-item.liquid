@@ -4,8 +4,9 @@
   'for product in collection.products' in list-collections.liquid.
 
 {% endcomment %}
+{% include 'capture-style-number' %}
 
-<div class="collection-grid-item">
+<div id="style-{{ style_number }}" class="collection-grid-item">
 
   {% comment %}
     Use capture to put the collection title in a variable that is used in liquid filters
