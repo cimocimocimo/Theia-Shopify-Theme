@@ -68,7 +68,7 @@ timber.cache = {
 
     collectionPage: {
         $body: $('body.template-collection'),
-        $itemContainer: $('#collection-matrix')
+        $itemContainer: $('#collection-items')
     }
 };
 
@@ -94,16 +94,6 @@ timber.init = function () {
         timber.productPage();
     }
     
-    // lookbook pages
-    if (timber.cache.collectionLookbook.$body.length !== 0){
-        timber.lookbookPage();
-    }
-    
-    // shop pages
-    if (timber.cache.collectionShop.$body.length !== 0){
-        timber.shopPage();
-    }
-    
     // collection pages (both lookbook and shop)
     if (timber.cache.collectionPage.$body.length !== 0){
         timber.collectionPage();
@@ -113,12 +103,59 @@ timber.init = function () {
     smoothScroll.init();
 };
 
-timber.shopPage = function(){
-    // timber.infiniteScroll();
-    var myPager = new timber.betterInfiniteScroll();
+timber.collectionPage = function(){
+    var $itemContainer = timber.cache.collectionPage.$itemContainer,
+        scrollToTargetSelector = window.location.hash,
+        scrollToElement = $itemContainer.find(scrollToTargetSelector),
+        myPager = new timber.infiniteScroll(),
+        hasFoundScrollTarget = false;
+    
+    function isScrollElementLoaded(){
+        return $itemContainer.find(scrollToTargetSelector).length !== 0;
+    }
+    
+    function scrollToTarget(selector){
+        smoothScroll.animateScroll(null, selector, {});
+    }
+    
+    function getPageUntillScrollElementLoaded(){
+        if (myPager.hasNextPage() && !isScrollElementLoaded()){
+            myPager.getNextPage().done(function(data){
+                getPageUntillScrollElementLoaded();
+            });
+        } else {
+            scrollToTarget(scrollToTargetSelector);
+        }
+    }
+
+    // if the element is on the page, use smoothScroll to scroll directly to it.
+    if (isScrollElementLoaded()){
+        scrollToTarget(scrollToTargetSelector);
+        hasFoundScrollTarget = true;
+        
+    } else if (scrollToTargetSelector !== '') {
+        getPageUntillScrollElementLoaded()
+    }
+    
+    // lookbook pages
+    if (timber.cache.collectionLookbook.$body.length !== 0){
+        timber.lookbookPage(myPager);
+    }
+    
+    // shop pages
+    if (timber.cache.collectionShop.$body.length !== 0){
+        timber.shopPage();
+    }
 }
 
-timber.lookbookPage = function(){
+timber.scrollToElementInCollection = function(){
+
+}
+
+timber.shopPage = function(){
+}
+
+timber.lookbookPage = function(pager){
     var $openModalLinks = $('.js-open-modal'),
         $modalContentBlocks = $('.modal-content-block');
 
@@ -152,7 +189,7 @@ timber.lookbookPage = function(){
         });
     }
     
-    timber.betterInfiniteScroll({
+    pager.setOptions({
         processFilteredData: function($data){
             $data.find('.js-open-modal').click(openModal);
 
@@ -160,26 +197,6 @@ timber.lookbookPage = function(){
         }
     });
 };
-
-timber.collectionPage = function(){
-    var $itemContainer = timber.cache.collectionPage.$itemContainer,
-        scrollToTarget = window.location.hash,
-        scrollToElement = $itemContainer.find(scrollToTarget);
-    
-    // check for scroll_to
-    if (typeof scrollToTarget === 'undefined'){
-        return;
-    }
-
-    if (scrollToElement.length !== 0){
-
-        smoothScroll.animateScroll(null, scrollToTarget, {});
-        console.log(scrollToTarget);
-
-        // is the scroll target on the page?
-        console.log($('body').find(scrollToTarget));
-    }
-}
 
 timber.contactForm = function(){
     var styleNumber = timber.getUrlVars()['style_number'],
@@ -519,65 +536,7 @@ timber.loginFormInit = function(){
     {% endif %}
 };
 
-timber.infiniteScroll = function(settings) {
-    
-    var defaults = {
-        processFilteredData: false
-    },
-        options = $.extend({}, defaults, settings);
-    
-    function processFilteredData(data){
-        if (options.processFilteredData){
-            return options.processFilteredData(data);
-        }
-
-        return data;
-    }
-    
-    // add a way point to the last item currently shown on the page.
-    $('.last-item').last().waypoint(function() {
-
-        var waypoint = this;
-        // you're at the end of the page, stop assigning waypoints.
-        if (typeof $('#end')[0] != 'undefined') {
-            waypoint.disable();
-            return;
-        }
-
-        var loadingImage,
-            pInfScrNode = $('.more').last(),
-            pInfScrURL = $('.more a').last().attr("href");
-
-        $.ajax({
-            type: 'GET',
-            url: pInfScrURL,
-            beforeSend: function() {
-                loadingImage = pInfScrNode.clone().empty().append('<img src=\"http://cdn.shopify.com/s/files/1/0068/2162/assets/loading.gif?105791\" />');
-                loadingImage.insertAfter(pInfScrNode);
-                pInfScrNode.hide();
-            },
-            success: function(data) {
-                var $filteredData = $(data).find("#collection-matrix");
-                
-                $filteredData = processFilteredData($filteredData);
-                
-                // remove loading feedback
-                pInfScrNode.next().remove();
-                $filteredData.insertBefore( $("#product-list-foot") );
-                loadingImage.remove();
-                waypoint.disable();
-                
-                // recursively call yourself to attach another waypoint to the last item we just received
-                timber.infiniteScroll(settings);
-            },
-            dataType: "html"
-        });
-    }, {
-        offset: 'bottom-in-view'
-    });
-};
-
-timber.betterInfiniteScroll = function(settings){
+timber.infiniteScroll = function(settings){
     
     var defaults = {
         processFilteredData: false,
@@ -585,6 +544,23 @@ timber.betterInfiniteScroll = function(settings){
     },
         options = $.extend({}, defaults, settings),
         self = this;
+    
+    // public methods
+    this.setOptions = function(settings){
+        options = $.extend(options, settings);
+    }
+    
+    this.getNextPage = function(){
+        // disable the current waypoint so that it doesn't trigger when scrolled past.
+        self.waypoint.disable();
+        
+        // get next page
+        return getNextPage();
+    }
+    
+    this.hasNextPage = function(){
+        return this.pageData.hasNextPage;
+    }
     
     // private methods
     function processFilteredData(data){
@@ -616,12 +592,16 @@ timber.betterInfiniteScroll = function(settings){
         // disables current waypoint
         this.disable();
         
+        getNextPage();
+    }
+
+    function getNextPage(){
         if (self.pageData.hasNextPage){
-            getNextPagePromise()
+            return getNextPagePromise()
                 .done(processNextPagePromise);
         }
     }
-
+    
     function getNextPagePromise(){
         return $.ajax({
             type: 'GET',
@@ -963,8 +943,6 @@ timber.mobileProductInfoBlock = function(){
     });
 };
 
-
-
 timber.loader = {
     element: '',
     selector: '.spinner',
@@ -1004,6 +982,10 @@ timber.loader = {
         }
     }
 };
+
+timber.isDefined = function(testVar){
+    return typeof testVar !== 'undefined';
+}
 
 // Initialize Timber's JS on docready
 $(function() {
