@@ -61,77 +61,66 @@ For more information on collection tags:
 
 <div class="product-grid-hero">
   <div class="wrapper">
-
-    <h2>
-      {% if current_tags %}
-        {{ current_tags }}
-      {% else %}
-        {% if collection.handle == 'shop' %}
-          Shop THEIA
-        {% elsif collection.handle == 'collections' %}
-          THEIA Collections
+    <header class="hero-header">
+      <h2>
+        {% if current_tags %}
+          {{ current_tags }}
         {% else %}
-          {{ collection.title }} Collection
+          {% if collection.handle == 'shop' %}
+            Shop THEIA
+          {% elsif collection.handle == 'collections' %}
+            THEIA Collections
+          {% else %}
+            {{ collection.title }} Collection
+          {% endif %}
         {% endif %}
-      {% endif %}
-    </h2>
+      </h2>
+    </header>
 
-    {% paginate collection.products by 12 %}
+    <div class="hero-body">
+      {% paginate collection.products by 12 %}
 
-    {% comment %}
-    Use class grid-uniform to have evenly sized columns clear
-    each other properly at each breakpoint.
-    {% endcomment %}
+      {% comment %}
+      Use class grid-uniform to have evenly sized columns clear
+      each other properly at each breakpoint.
+      {% endcomment %}
 
-    {% comment %}
-    Loop through our products in the current collection.
-    See the snippet 'product-grid-item' for the layout.
-    {% endcomment %}
+      {% comment %}
+      Loop through our products in the current collection.
+      See the snippet 'product-grid-item' for the layout.
+      {% endcomment %}
 
-    <div id="collection-matrix">
-      {% for product in collection.products %}
+      <div id="collection-items"
+           data-has-next-page="{% if paginate.next %}true{% else %}false{% endif %}"
+           {% if paginate.next %}
+           data-next-page-url="{{ paginate.next.url }}"
+           {% endif %}
+           >
+        {% for product in collection.products %}
 
-        {% if forloop.last == true %}
-          {% assign lastClass = true %}
+          {% include 'lookbook-grid-item' %}
 
-        {% else %}
-          {% assign lastClass = false %}
+        {% else %}{% comment %}for loops in liquid may have an else statement if the collection is empty{% endcomment %}
 
-        {% endif %}
+          <div class="grid-item">
+            <p>Sorry, there are no products matching your search.</p>
+          </div>
 
-        {% include 'lookbook-grid-item' %}
+        {% endfor %}
+      </div>
 
-      {% else %}{% comment %}for loops in liquid may have an else statement if the collection is empty{% endcomment %}
+      <div class="loading-image-block js-hidden">
+        <img src="{{ 'loading.gif' | asset_url }}" />
+      </div>
 
-        <div class="grid-item">
-          <p>Sorry, there are no products matching your search.</p>
-        </div>
-
-      {% endfor %}
-
-      {% if paginate.next %}
-        <ul class="js-hidden">
-          {% comment %}
-          li more class is used by infinite scroll to grab the url of next dresses
-          {% endcomment %}
-          <li class="more">&darr; <a href="{{ paginate.next.url }}">More</a></li>
-        </ul>
-      {% else %}
-        <div class="back-to-top-block">
-          <a data-scroll class="back-to-top-link" href="#collectiontop">Back to Top</a>
-        </div>
-        <div id="end"></div>
-      {% endif %}
-
-    </div>
-
-    <div class="js-hidden" class="pagination-row">
       {% include 'pagination-block' %}
-    </div>
 
-    <div id="product-list-foot"></div>
+      <div class="back-to-top-block js-hidden">
+        <a data-scroll class="back-to-top-link" href="#collectiontop">Back to Top</a>
+      </div>
 
     {% endpaginate %}
+    </div>
 
   </div>
 </div>

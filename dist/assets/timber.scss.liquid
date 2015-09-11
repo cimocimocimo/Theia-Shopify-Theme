@@ -7613,9 +7613,15 @@ html.full-viewport {
 
 .product-grid-hero {
     @extend %grid-block-base;
+    
+    .hero-header {
+        h2 {
+            @extend .h3;
+        }
+    }
+    
+    .hero-body {
 
-    h2 {
-        @extend .h3;
     }
 }
 

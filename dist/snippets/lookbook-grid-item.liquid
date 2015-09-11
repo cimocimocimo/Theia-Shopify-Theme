@@ -22,7 +22,7 @@
   Set a class for sold-out and on-sale items
   add css class for last item, used to determine when to grab new dresses as user scrolls...
 {% endcomment %}
-<div class="product-grid-item {% if lastClass %} last-item{% endif %}">
+<div class="product-grid-item{% if forloop.last %} last-item{% endif %}">
 
   {% comment %}
     Link to your product with the 'within: collection' filter for the link to be aware of the collection.
