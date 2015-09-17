@@ -2,7 +2,7 @@
   <ul>
     {% for link in linklists.secondary-menu.links %}
       <li>
-        <a class="secondary-menu-link"
+        <a class="{% if location == 'side-nav' %}main-menu-link{% else %}secondary-menu-link{% endif %}"
            href="{{ link.url }}">{{ link.title }}</a>
       </li>
     {% endfor %}
