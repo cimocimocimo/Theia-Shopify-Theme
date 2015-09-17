@@ -7843,6 +7843,18 @@ html.full-viewport {
         }
     }
     
+    .has-back-image {
+        .featured-image {
+            @include transition(opacity 0.3s);
+            
+            opacity: 1;
+            
+            &:hover {
+                opacity: 0;
+            }
+        }
+    }
+    
     .info-block {
         @extend %smallish-arial-text;
 
