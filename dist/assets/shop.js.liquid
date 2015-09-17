@@ -881,7 +881,7 @@ timber.productImageGallery = function(){
     
     var $mainBlock = timber.cache.productPage.gallery.$mainImageBlock,
         $thumbBlock = timber.cache.productPage.gallery.$thumbBlock,
-        $mainImages = $mainBlock.find('img'),
+        $mainImages = $mainBlock.find('.image-zoom-container'),
         $thumbLinks = $thumbBlock.find('a');
     
     $('body').on('colorChanged.productPage', function(event, data){
@@ -908,6 +908,17 @@ timber.productImageGallery = function(){
 
         $('#' + imageId).removeClass('js-hidden');
         $mainImages.filter(':not(#' + imageId + ')').addClass('js-hidden');
+    });
+
+    $mainImages.each(function(index){
+        var $image = $(this),
+            width = $(window).width();
+
+        if (width > 768){
+            $image.zoom({
+                touch: false
+            });
+        }
     });
 }
 

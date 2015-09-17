@@ -200,13 +200,14 @@ For more information on these Scheme.org tags, visit:
 
         {% for image in product.images %}
           {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-          <img src="{{ image.src | product_img_url: 'master' }}"
-               alt="{{ image_alt_text | escape }}"
-               data-zoom-image="{{ product.featured_image.src | product_img_url: 'master' }}"
+          <div class="image-zoom-container{% if forloop.first != true %} js-hidden{% endif %}"
                {% if image_color %}data-image-color="{{ image_color }}"{% endif %}
                data-attached-to-variant="{{ image.attached_to_variant? }}"
-               id="image-{{ image.id }}"
-               class="product-gallery-main-image{% if forloop.first != true %} js-hidden{% endif %}">
+               id="image-{{ image.id }}">
+            <img src="{{ image.src | product_img_url: 'master' }}"
+                 alt="{{ image_alt_text | escape }}"
+                 class="product-gallery-main-image">
+          </div>
         {% endfor %}
 
       </div>
