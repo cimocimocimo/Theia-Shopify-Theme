@@ -3841,6 +3841,7 @@ body.vex-open {
     background: white;
     border-bottom: 1px solid $colorLighterGray;
     border-top: 1px solid $colorLighterGray;
+    overflow: hidden; // clip the product image zoom
 
     .wrapper {
         height: 100%;
@@ -4004,11 +4005,18 @@ body.vex-open {
 .product-gallery-image-block {
     height: 100%;
     width: 100%;
-
+    
+    .image-zoom-container {
+        height: 100%;
+        width: 100%;
+        overflow: visible !important; // override overflow: hidden on the zoom container
+    }
+    
     img {
         display: block;
         margin: 0 auto;
         height: 100%;
+        width: auto;
     }
 }
 
