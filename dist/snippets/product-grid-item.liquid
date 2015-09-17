@@ -35,8 +35,13 @@
   {{ product.url | within: collection }}{% if current_tags.first %}?tag={{ current_tags.first | handle }}{% endif %}
 {% endcapture %}
 
+{% include 'unpack_image_alt_data', raw_alt_text: product.featured_image.alt %}
+{% assign featured_image_color = image_color %}
+{% assign has_back_image = false %}
+{% assign back_image = false %}
 {% for image in product.images %}
-  {% if image.alt contains 'back' %}
+  {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+  {% if image.alt contains 'back' and image_color == featured_image_color %}
     {% assign has_back_image = true %}
     {% assign back_image = image %}
   {% endif %}
