@@ -1,76 +1,14 @@
-{% comment %} **todo** adapt this to get the product image data for the dress {% endcomment %}
-{% comment %}
-
-  This snippet is used to showcase each product during the loop,
-  'for product in collection.products' in collection.liquid.
-
-  A liquid variable (grid_item_width) is set just before the this
-  snippet is included to change the size of the container.
-  Once the variable is set on a page, all future instances of this
-  snippet will use that width. Overwrite the variable to adjust this.
-
-  Example
-    - assign grid_item_width = 'large--one-quarter medium--one-half'
-
-{% endcomment %}
-
 {% include 'capture-style-number' %}
 
-{% capture lookbook_modal_id %}lookbook-style-{{ style_number }}-modal{% endcapture %}
-
-{% comment %}
-  Set a class for sold-out and on-sale items
-  add css class for last item, used to determine when to grab new dresses as user scrolls...
-{% endcomment %}
-<div class="product-grid-item{% if forloop.last %} last-item{% endif %}">
-
-  {% comment %}
-    Link to your product with the 'within: collection' filter for the link to be aware of the collection.
-    This allows you to create collection-based navigation on the product page.
-
-    Results of using 'within: collection':
-    - Instead of a URL with /products/product-handle
-      you would get /collections/collection-handle/products/product-handle
-
-    For more info on navigation within a collection
-      - http://docs.shopify.com/support/your-store/collections/how-to-navigate-within-a-collection
-
-  {% endcomment %}
+<a href="#"
+   id="lookbook-style-{{ style_number }}"
+   class="lookbook-grid-item{% if forloop.last %} last-item{% endif %}"
+   data-item-index="{{ paginate.current_offset | plus: forloop.index0 }}"
+   data-style-number="{{ style_number }}"
+   data-title="{{ product.title }}"
+   data-image-url="{{ product.featured_image.src | product_img_url: '1024x1024' }}">
 
   <div class="image-row">
-
-    <a href="#{{ lookbook_modal_id }}" class="js-open-modal">
-      <img src="{{ product.featured_image.src | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
-    </a>
-
+    <img src="{{ product.featured_image.src | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
   </div>
-</div>
-
-{% comment %}add the data for the modal{% endcomment %}
-
-<div class="modal-content-block js-hidden" id="{{ lookbook_modal_id }}">
-  <div class="vex-content-inner lookbook-modal">
-    <div class="lookbook-modal-header">
-      <h3>{{ product.title }}</h3>
-    </div>
-    <div class="lookbook-modal-body">
-      <div class="lookbook-modal-image-carousel">
-
-        {% for image in product.images %}
-          <div class="lookbook-modal-image-block">
-            <div class="block-inner">
-              <img src="{{ image.src | product_img_url: '1024x1024' }}"
-                   alt="{{ image.alt | escape }}" id="lookbook-modal-main-image-{{ forloop.index }}"
-                   class="lookbook-modal-main-image">
-            </div>
-          </div>
-        {% endfor %}
-
-      </div>
-      <div class="call-to-action-block">
-        {% include 'lookbook-modal-cta-link', link_class: 'desktop-button' %}
-        {% include 'lookbook-modal-cta-link', link_class: 'mobile-link' %}
-      </div>
-    </div>
-  </div>
-</div>
+</a>

@@ -104,71 +104,271 @@ timber.init = function () {
 };
 
 timber.collectionPage = function(){
-    var $itemContainer = timber.cache.collectionPage.$itemContainer,
-        scrollToTargetSelector = window.location.hash,
-        scrollToElement = $itemContainer.find(scrollToTargetSelector),
-        myPager = new timber.infiniteScroll(),
-        hasFoundScrollTarget = false;
-    
-    function isScrollElementLoaded(){
-        return $itemContainer.find(scrollToTargetSelector).length !== 0;
-    }
-    
-    function scrollToTarget(selector){
-        smoothScroll.animateScroll(null, selector, {});
-    }
-    
-    function getPageUntillScrollElementLoaded(){
-        if (myPager.hasNextPage() && !isScrollElementLoaded()){
-            myPager.getNextPage().done(function(data){
-                getPageUntillScrollElementLoaded();
-            });
-        } else {
-            scrollToTarget(scrollToTargetSelector);
-        }
-    }
-
-    // if the element is on the page, use smoothScroll to scroll directly to it.
-    if (isScrollElementLoaded()){
-        scrollToTarget(scrollToTargetSelector);
-        hasFoundScrollTarget = true;
-        
-    } else if (scrollToTargetSelector !== '') {
-        getPageUntillScrollElementLoaded()
-    }
+    var pager = new timber.infiniteScroll();
     
     // lookbook pages
     if (timber.cache.collectionLookbook.$body.length !== 0){
-        timber.lookbookPage(myPager);
+        timber.lookbookPageNew(pager);
     }
     
     // shop pages
     if (timber.cache.collectionShop.$body.length !== 0){
-        timber.shopPage();
+        timber.shopPage(pager);
     }
 }
 
-timber.scrollToElementInCollection = function(){
+timber.lookbookPageNew = function(pager){
+    var pageElementSelector = '#collection-items',
+        itemElementSelector = '.lookbook-grid-item',
+        carouselTemplate = Handlebars.compile(
+            $('#lookbook-modal-carousel-template').html()
+        ),
+        slideTemplate = Handlebars.compile(
+            $('#lookbook-carousel-slide-template').html()
+        ),
+        $itemContainer = $(pageElementSelector),
+        $items = $itemContainer.find(itemElementSelector),
+        $currentItem = null,
+        $modal = null,
+        pageSize = getAttrInt($itemContainer, 'data-page-size'),
+        totalPages = getAttrInt($itemContainer, 'data-total-pages'),
+        totalItems = getAttrInt($itemContainer, 'data-total-items');
+    
+    // wire the initial modal callbacks
+    $items.click(openModal);
+    
+    // set callback to wire modals opening on page load
+    pager.setOptions({
+        processFilteredData: function($items){
+            return $items.click(openModal);
+        }
+    })
+    
+    $itemContainer.on('pageLoadDone.infiniteScroll', function(event){
+        console.log('page loaded');
+        refresh$items();
+    });
+    
+    function openModal(event){
+        event.preventDefault();
+        
+        // get the item index
+        var $clickedItem = $(this),
+            clickedItemIndex = getAttrInt($clickedItem, 'data-item-index');
 
-}
+        vex.open({
+            showCloseButton: true,
+            escapeButtonCloses: true,
+            className: 'vex-lookbook-modal',
+            closeClassName: 'lookbook-modal-close',
+            // events
+            afterOpen: function($vexContent){
+                $vexContent.append(carouselTemplate({}));
+                
+                $modal = $vexContent;
+                
+                initCarousel(clickedItemIndex);
+            },
+            beforeClose: function($vexContent){
+                // scroll to the current item on the page behind hte modal
+                // and have it vertically centered on the page.
+                $('body').scrollTop($currentItem.offset().top - (($(window).height() - $currentItem.height())/2));
+            },
+            afterClose: function($vexContent){
+                $modal = null;
+            }
+        });
+    }
 
-timber.shopPage = function(){
+    function initCarousel(selectedIndex){
+        
+        // gather the needed slide data from the page items
+        var slidesHtml = '',
+            numberFlanking = 2, // number of slides ahead and behind the current slide
+            numberFlankingBehind = numberFlanking,
+            numberFlankingAhead = numberFlanking + 1,
+            currentIndex = selectedIndex,
+            startIndex = selectedIndex - numberFlankingBehind,
+            endIndex = selectedIndex + numberFlankingAhead, // .slice() works with the indexes between the elements
+            $carousel = $modal.find('.lookbook-carousel');
+        
+        if (startIndex < 0){
+            startIndex = 0;
+        }
+        
+        if (endIndex >= $items.length){
+            endIndex = $items.length; // .slice() works with indexes beteen elements.
+        }
+        
+        // load another page of items if needed
+        
+        // create the first set of slides for the carousel
+        $items
+            .slice(startIndex, endIndex)
+            .each(function(index){
+                var $item = $(this);
+                
+                slidesHtml += getSlideHtml($item);
+            });
+
+        // add the slides html
+        $carousel.html(slidesHtml);
+        
+        // init the carousel
+        $carousel.slick({
+            prevArrow: '<a href="#" class="slick-prev"></a>',
+            nextArrow: '<a href="#" class="slick-next"></a>',
+            infinite: false,
+            initialSlide: selectedIndex - startIndex,
+            lazyLoad: 'ondemand'
+        }).on('afterChange', function(event, slick, currentSlide){
+            var currentSlideIndex = $carousel.slick('slickCurrentSlide'),
+                $currentSlide = slick.$slides.eq(currentSlideIndex),
+                currentItemIndex = getAttrInt($currentSlide, 'data-item-index');
+
+            // save the current item
+            $currentItem = $items.eq(currentItemIndex);
+            
+            // if we pass the item waypoint in the carousel
+            // get next page
+            if ($currentItem.is(pager.waypoint.element)){
+                pager.getNextPage();
+            }
+            
+            // add slides if needed
+            if (slick.$slides.length - currentSlideIndex < numberFlankingAhead
+                   && currentItemIndex + numberFlankingAhead <= $items.length){
+                // add slide
+                var slideHtmlAhead = getSlideHtml($items.eq(currentItemIndex + numberFlanking));
+                $carousel.slick('slickAdd', slideHtmlAhead);
+            }
+            
+            // if current Slide index is less than the number of flanking slides
+            // we should add a slide to the beginning of the carousel
+            // and only if the item index (of items on the page) is greater than the flanking number
+            // since we are at the beginning of the items in the collection
+            if (currentSlideIndex < numberFlankingBehind
+                   && currentItemIndex - numberFlankingBehind >= 0){
+                var slideHtmlBehind = getSlideHtml($items.eq(currentItemIndex - numberFlanking));
+                $carousel.slick('slickAdd', slideHtmlBehind, true);
+                // After the new item has been added to the beginning,
+                // the currentSlide index should remain the same.
+                slick.currentSlide++;
+            }
+
+        });
+        
+        function getSlideHtml($item){
+            return slideTemplate({
+                title: $item.attr('data-title'),
+                styleNumber: $item.attr('data-style-number'),
+                imageUrl: $item.attr('data-image-url'),
+                itemIndex: $item.attr('data-item-index')
+            });            
+        }
+    }
+    
+    function refresh$items(){
+        $items = $itemContainer.find(itemElementSelector);
+    }
+
+    function getAttrInt($item, attr){
+        return parseInt($item.attr(attr), 10);
+    }
 }
 
 timber.lookbookPage = function(pager){
     var $openModalLinks = $('.js-open-modal'),
-        $modalContentBlocks = $('.modal-content-block');
-
+        $modalContentBlock = $('#lookbook-gallery-modal'),
+        $collectionItemsBlock = $('#collection-items'),
+        $collectionItems = $collectionItemsBlock.find('.lookbook-grid-item');
+    
+    // init page objects
+    var collection = new Collection(
+        $collectionItemsBlock.attr('data-total-items'),
+        $collectionItemsBlock.attr('data-total-pages'),
+        $collectionItemsBlock.attr('data-page-size')
+    );
+    
+    gatherPageData($collectionItemsBlock);
+    
+    function gatherPageData($page){
+        var $items = $page.find('.lookbook-grid-item'),
+            currentPage = new Page(
+                $page.attr('data-has-next-page'),
+                $page.attr('data-next-page-url') || null,
+                $page.html()
+            );
+        
+        collection.currentPage = currentPage;
+        collection.pages.push(currentPage);
+        
+        $items.each(function(index){
+            var $item = $(this);
+            collection.items.push(
+                new Item(
+                    $item.attr('id'),
+                    $item.attr('data-index'),
+                    $item.attr('data-title'),
+                    $item.attr('data-style-number'),
+                    $item.attr('data-image-url')
+                )
+            );
+        });
+    }
+    
     // wire the open modal handlers for the initial set of objects.
     $openModalLinks.click(openModal);
+    
+    function initModalCarousel(){
+        
+    }
     
     // open modals
     function openModal(event) {
         event.preventDefault();
-
+        
+        // gather data for this modal
+        // gather data for the gallery
+        // gather data for the current element
         var $this = $(this),
-            modalContentSelector = $this.attr('href'),
-            modalContent = $(modalContentSelector).html();
+            itemIndex = parseInt($this.attr('data-item-index'), 10),
+            modalContent = $modalContentBlock.html();
+        
+        // gather data for the prev/next 2 items in the lookbook
+        var start = itemIndex - 2 >= 0 ? itemIndex - 2 : 0,
+            end = itemIndex + 2 < collection.items.length ? itemIndex + 2 : collection.items.length - 1;
+        
+        start = itemIndex - 2;
+        end = itemIndex + 2;
+
+        if (start < 0){
+            start = 0;
+        }
+        
+        if (end >= collection.items.length){
+            // is there another page after this?
+            if (pager.hasNextPage()){
+                // get the next page
+                pager.getNextPage().done(function(data){
+
+                });
+            } else {
+                end = collection.itmes.length - 1;
+            }
+        }
+        
+        // get gallery mustache template
+        // create context object 
+        // render template and insert into the vex modal
+        // wire the carousel
+        // on click next add the 3rd item ahead to the carousel
+        // on click previous add the 3rd item behind to the carousel
+        // if the 3rd item is not found
+        // if looking ahead, is there another page
+        // if so load it
+        // if not then loop around to the first item on the page
+        // if looking behind do nothing end of carousel
         
         vex.open({
             showCloseButton: true,
@@ -185,18 +385,84 @@ timber.lookbookPage = function(pager){
         
         $carousel.slick({
             prevArrow: '<a href="#" class="slick-prev"></a>',
-            nextArrow: '<a href="#" class="slick-next"></a>'
+            nextArrow: '<a href="#" class="slick-next"></a>',
+            infinite: false
         });
     }
     
+    // this wires the open modal click callbacks on pages loaded
+    // through ajax.
     pager.setOptions({
         processFilteredData: function($data){
             $data.find('.js-open-modal').click(openModal);
-
+            
             return $data;
+        },
+        processPage: function($page){
+            gatherPageData($page);
+            
+            return $page;
         }
     });
+    
+    // Models
+    function Collection(totalItems, totalPages, pageSize){
+        this.totalItems = totalItems;
+        this.totalPages = totalPages;
+        this.pageSize = pageSize;
+        this.currentPage = null;
+        this.pages = [];
+        this.items = [];
+    }
+    
+    function Page(hasNextPage, nextPageUrl, html){
+        this.hasNextPage = hasNextPage;
+        this.nextPageUrl = nextPageUrl;
+        this.html = html;
+    }
+    
+    function Item(id, index, title, styleNumber, imageUrl){
+        this.id = id;
+        this.index = index;
+        this.title = title;
+        this.styleNumber = styleNumber;
+        this.imageUrl = imageUrl;
+    }
 };
+
+timber.shopPage = function(pager){
+    var $itemContainer = timber.cache.collectionPage.$itemContainer,
+        scrollToTargetSelector = window.location.hash,
+        scrollToElement = $itemContainer.find(scrollToTargetSelector),
+        hasFoundScrollTarget = false;
+    
+    function isScrollElementLoaded(){
+        return $itemContainer.find(scrollToTargetSelector).length !== 0;
+    }
+    
+    function scrollToTarget(selector){
+        smoothScroll.animateScroll(null, selector, {});
+    }
+    
+    function getPageUntillScrollElementLoaded(){
+        if (pager.hasNextPage() && !isScrollElementLoaded()){
+            pager.getNextPage().done(function(data){
+                getPageUntillScrollElementLoaded();
+            });
+        } else {
+            scrollToTarget(scrollToTargetSelector);
+        }
+    }
+
+    // if the element is on the page, use smoothScroll to scroll directly to it.
+    if (isScrollElementLoaded()){
+        scrollToTarget(scrollToTargetSelector);
+        hasFoundScrollTarget = true;
+        
+    } else if (scrollToTargetSelector !== '') {
+        getPageUntillScrollElementLoaded()
+    }
+}
 
 timber.contactForm = function(){
     var styleNumber = timber.getUrlVars()['style_number'],
@@ -206,7 +472,6 @@ timber.contactForm = function(){
     
     if (styleNumber){
         $styleNumberInput.val(styleNumber);
-        console.log($blockNumber);
         $blockNumber.text(styleNumber);
         $block.removeClass('js-hidden');
     }
@@ -250,8 +515,6 @@ timber.homepageHeader = function(){
     var headerWaypoint = $waypoint.waypoint({
         context: $scrollBody[0],
         handler: function(direction){
-            console.log(direction);
-            
             if (direction === 'down'){
                 headroomInstance = new Headroom($container[0], {
                     scroller: $scrollBody[0]
@@ -269,8 +532,8 @@ timber.homepageHeader = function(){
     });
 };
 
+// currently not used on the site. Perhaps get rid of this code later.
 timber.homepageSplash = function(){
-    
     var $splash = timber.cache.homepage.$splash,
         $scroll = timber.cache.homepage.$splashScroller,
         $body = timber.cache.homepage.$body;
@@ -280,7 +543,6 @@ timber.homepageSplash = function(){
         
         $('#body-container').animate({scrollTop: $splash.height()});
     });
-    
 };
 
 timber.switchClass = function( $el, c1, c2){
@@ -537,9 +799,9 @@ timber.loginFormInit = function(){
 };
 
 timber.infiniteScroll = function(settings){
-    
     var defaults = {
         processFilteredData: false,
+        processPage: false,
         collectionBlockSelector: '#collection-items'
     },
         options = $.extend({}, defaults, settings),
@@ -563,28 +825,28 @@ timber.infiniteScroll = function(settings){
     }
     
     // private methods
-    function processFilteredData(data){
-        if (options.processFilteredData){
-            return options.processFilteredData(data);
+    function getPageDataFromHtml($page){
+        // run callback
+        if (typeof options.processPage === 'function'){
+            $page = options.processPage($page);
         }
 
-        return data;
-    }
-    
-    function getPageDataFromHtml($page){
         self.pageData = {};
         
         self.pageData.hasNextPage = $page.attr('data-has-next-page') === 'true';
         self.pageData.nextPageUrl = self.pageData.hasNextPage ? $page.attr('data-next-page-url') : null;
         self.pageData.$items = $page.children();
-        self.pageData.$waypointElement = $page.find('.last-item').last();
+        self.pageData.$waypointElement = $page.children().first();
     }
     
     function wireWaypoint(){
         // add a way point to the last item currently shown on the page.
         self.waypoint = self.pageData.$waypointElement.waypoint({
             handler: waypointCallback,
-            offset: 'bottom-in-view'
+            // IMPORTANT: if the waypoint offset is anywhere on the visible page
+            // the user will be able to click on items ahead of the waypoint
+            // this causes loading bugs with the slides of the carousel
+            offset: '100%'
         })[0];
     }
     
@@ -613,7 +875,10 @@ timber.infiniteScroll = function(settings){
     function processNextPagePromise(data){
         getPageDataFromHtml($(data).find(options.collectionBlockSelector));
         
-        self.pageData.$items = processFilteredData(self.pageData.$items);
+        // run callback
+        if (typeof options.processFilteredData === 'function'){ 
+            self.pageData.$items = options.processFilteredData(self.pageData.$items);
+        }
         
         // append the items to the container
         self.$itemContainer.append(self.pageData.$items);
@@ -621,6 +886,8 @@ timber.infiniteScroll = function(settings){
         if (self.pageData.hasNextPage){
             wireWaypoint();
         }
+
+        self.$itemContainer.trigger('pageLoadDone.infiniteScroll');
     }
     
     // get the container and wire the waypoint if there is a next page.

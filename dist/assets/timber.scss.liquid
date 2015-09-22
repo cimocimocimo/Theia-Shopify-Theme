@@ -4129,6 +4129,7 @@ $lookbookModalHeaderHeight: $gutter*8;
         right: 0;
         cursor: pointer;
         color: $colorLightGray;
+        z-index: 1000;
         
         &:before {
             @include transition(all 0.3s);
@@ -7815,8 +7816,7 @@ html.full-viewport {
     }
 }
 
-// **todo** add a style for the .lookbook-grid-item based on this.
-.product-grid-item {
+%product-lookbook-grid-item-base {
     @extend %grid-item-3-col;
 
     .image-row {
@@ -7854,7 +7854,19 @@ html.full-viewport {
             }
         }
     }
-    
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        .image-row {
+            min-height: 218px;
+        }
+    }
+}
+
+// **todo** add a style for the .lookbook-grid-item based on this.
+.product-grid-item {
+    @extend %product-lookbook-grid-item-base;
+
     .info-block {
         @extend %smallish-arial-text;
 
@@ -7893,16 +7905,16 @@ html.full-viewport {
             margin-bottom: 0;
         }
 
-        .image-row {
-            min-height: 218px;
-        }
-        
         .info-block {
             height: 24px;
             font-size: 9px;
             margin-bottom: $gutter / 2;
         }
     }
+}
+
+.lookbook-grid-item {
+    @extend %product-lookbook-grid-item-base;
 }
 
 .order-grid-item {
