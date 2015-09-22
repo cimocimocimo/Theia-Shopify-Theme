@@ -4241,46 +4241,6 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
 }
 
-.lookbook-modal-header {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    width: 100%;
-    height: $lookbookModalHeaderHeight;
-    padding: 38px $lookbookModalHeaderHeight; // to make room for the close button
-    
-    h3 {
-        text-align: center;
-        color: $colorDarkGray;
-        margin: 0;
-        font-size: 36px;
-        line-height: 1.1;
-    }
-
-    @include at-query(null, $postSmall, $large){
-        height: $lookbookModalHeaderHeight*0.75;
-        padding: 38px*0.75 $lookbookModalHeaderHeight*0.75;
-        
-        h3 {
-            font-size: 36px*0.75;
-        }        
-    }
-    
-    @include at-query($max, $small){
-        height: $lookbookModalHeaderHeight*0.5;
-        padding: 38px*0.5 $lookbookModalHeaderHeight*0.5;
-        
-        h3 {
-            font-size: 36px*0.6;
-        }        
-    }
-}
-
-.lookbook-modal-body {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%;
-}
-
 %lookbook-carousel-nav-base {
     @extend %icon-base;
     @include transition(all 0.3s);
@@ -4330,17 +4290,14 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
 }
 
-.lookbook-modal-image-carousel {
+.lookbook-carousel {
     position: relative;
-    height: 100%;
     width: 100%;
-    padding-top: $lookbookModalHeaderHeight;
-
-    .slick-list {
-        height: 100%;
-    }
-
-    .slick-track {
+    
+    .slick-list,
+    .slick-track,
+    .slick-slide,
+    & {
         height: 100%;
     }
 
@@ -4365,36 +4322,83 @@ $lookbookModalHeaderHeight: $gutter*8;
             content: "\e621";
         }
     }
+}
 
-    @include at-query($max, $preLarge){
-        padding-bottom: $gutter*5;
+.lookbook-carousel-slide {
+    position: relative;
+    outline: none;
+}
+
+.lookbook-slide-header {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    width: 100%;
+    height: $lookbookModalHeaderHeight;
+    padding: 38px $lookbookModalHeaderHeight; // to make room for the close button
+    
+    h3 {
+        text-align: center;
+        color: $colorDarkGray;
+        margin: 0;
+        font-size: 36px;
+        line-height: 1.1;
+    }
+
+    @include at-query(null, $postSmall, $large){
+        height: $lookbookModalHeaderHeight*0.75;
+        padding: 38px*0.75 $lookbookModalHeaderHeight*0.75;
+        
+        h3 {
+            font-size: 36px*0.75;
+        }        
+    }
+    
+    @include at-query($max, $small){
+        height: $lookbookModalHeaderHeight*0.5;
+        padding: 38px*0.5 $lookbookModalHeaderHeight*0.5;
+        
+        h3 {
+            font-size: 36px*0.6;
+        }        
     }
 }
 
-.lookbook-modal-image-block {
-    position: relative;
-    display: inline-block;
-    height: 100%;
+.lookbook-slide-body {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
     width: 100%;
-    overflow: hidden;
-    
-    // centers the image when the outer container is smaller than the width of the image.
-    // http://stackoverflow.com/questions/3300660/how-do-i-center-an-image-if-its-wider-than-its-container#answer-3302072
-    .block-inner {
+    height: 100%;
+    padding-top: $lookbookModalHeaderHeight;
+
+    .image-block {
         position: relative;
-        float: right;
-        right: 50%;
-        height: 100%;
-    }
-    
-    img {
         display: inline-block;
-        text-align: center;
         height: 100%;
-        widht: auto;
-        margin: 0 auto;
-        position: relative;
-        right: -50%;
+        width: 100%;
+        overflow: hidden;
+        
+        // centers the image when the outer container is smaller than the width of the image.
+        // http://stackoverflow.com/questions/3300660/how-do-i-center-an-image-if-its-wider-than-its-container#answer-3302072
+        .block-inner {
+            position: relative;
+            float: right;
+            right: 50%;
+            height: 100%;
+        }
+        
+        img {
+            display: inline-block;
+            text-align: center;
+            height: 100%;
+            widht: auto;
+            margin: 0 auto;
+            position: relative;
+            right: -50%;
+        }
+    }
+
+    @include at-query($max, $preLarge){
+        padding-bottom: $gutter*5;
     }
 }
 

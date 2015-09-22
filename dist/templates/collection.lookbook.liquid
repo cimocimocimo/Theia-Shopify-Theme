@@ -92,14 +92,23 @@ For more information on collection tags:
 
 <script id="lookbook-carousel-slide-template" type="text/x-handlebars-template">
   <div class="lookbook-carousel-slide" data-item-index="{% raw %}{{itemIndex}}{% endraw %}">
-    <h3>{% raw %}{{title}}{% endraw %}</h3>
 
-    <img src="{% raw %}{{imageUrl}}{% endraw %}"
-         class="lookbook-carousel-slide-image">
+    <div class="lookbook-slide-header">
+      <h3>{% raw %}{{title}}{% endraw %}</h3>
+    </div>
+    <div class="lookbook-slide-body">
 
-    <div class="call-to-action-block">
-      {% include 'lookbook-modal-cta-link', link_class: 'desktop-button' %}
-      {% include 'lookbook-modal-cta-link', link_class: 'mobile-link' %}
+      <div class="image-block">
+        <div class="block-inner">
+          <img src="{% raw %}{{imageUrl}}{% endraw %}"
+               class="lookbook-carousel-slide-image">
+        </div>
+      </div>
+
+      <div class="call-to-action-block">
+        {% include 'lookbook-modal-cta-link', link_class: 'desktop-button' %}
+        {% include 'lookbook-modal-cta-link', link_class: 'mobile-link' %}
+      </div>
     </div>
 
   </div>
