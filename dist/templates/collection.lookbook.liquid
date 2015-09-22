@@ -23,7 +23,7 @@ For more information on collection tags:
     </header>
 
     <div class="hero-body">
-      {% paginate collection.products by 12 %}
+      {% paginate collection.products by 4 %}
 
       {% comment %}
       Use class grid-uniform to have evenly sized columns clear
@@ -36,6 +36,11 @@ For more information on collection tags:
       {% endcomment %}
 
       <div id="collection-items"
+           data-page-number="{{ paginate.current_page }}"
+           data-current-page-offset="{{ paginate.current_offset }}"
+           data-page-size="{{ paginate.page_size }}"
+           data-total-pages="{{ paginate.pages }}"
+           data-total-items="{{ paginate.items }}"
            data-has-next-page="{% if paginate.next %}true{% else %}false{% endif %}"
            {% if paginate.next %}
            data-next-page-url="{{ paginate.next.url }}"
@@ -61,7 +66,15 @@ For more information on collection tags:
       {% include 'pagination-block' %}
 
       <div class="back-to-top-block js-hidden">
-        <a data-scroll class="back-to-top-link" href="#collectiontop">Back to Top</a>
+        <a data-scroll class="back-to-top-link" href="#top">Back to Top</a>
+      </div>
+
+      <div class="modal-content-block js-hidden" id="lookbook-gallery-modal">
+        <div class="vex-content-inner lookbook-modal">
+          <div class="lookbook-carousel">
+
+          </div>
+        </div>
       </div>
 
     {% endpaginate %}
@@ -69,6 +82,37 @@ For more information on collection tags:
 
   </div>
 </div>
+
+<script id="lookbook-modal-carousel-template" type="text/x-handlebars-template">
+  <div class="vex-content-inner lookbook-modal">
+    <div class="lookbook-carousel">
+    </div>
+  </div>
+</script>
+
+<script id="lookbook-carousel-slide-template" type="text/x-handlebars-template">
+  <div class="lookbook-carousel-slide" data-item-index="{% raw %}{{itemIndex}}{% endraw %}">
+
+    <div class="lookbook-slide-header">
+      <h3>{% raw %}{{title}}{% endraw %}</h3>
+    </div>
+    <div class="lookbook-slide-body">
+
+      <div class="image-block">
+        <div class="block-inner">
+          <img src="{% raw %}{{imageUrl}}{% endraw %}"
+               class="lookbook-carousel-slide-image">
+        </div>
+      </div>
+
+      <div class="call-to-action-block">
+        {% include 'lookbook-modal-cta-link', link_class: 'desktop-button' %}
+        {% include 'lookbook-modal-cta-link', link_class: 'mobile-link' %}
+      </div>
+    </div>
+
+  </div>
+</script>
 
 <hr class="hr-4-col" />
 

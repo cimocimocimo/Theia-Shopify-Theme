@@ -4129,6 +4129,7 @@ $lookbookModalHeaderHeight: $gutter*8;
         right: 0;
         cursor: pointer;
         color: $colorLightGray;
+        z-index: 1000;
         
         &:before {
             @include transition(all 0.3s);
@@ -4240,46 +4241,6 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
 }
 
-.lookbook-modal-header {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    width: 100%;
-    height: $lookbookModalHeaderHeight;
-    padding: 38px $lookbookModalHeaderHeight; // to make room for the close button
-    
-    h3 {
-        text-align: center;
-        color: $colorDarkGray;
-        margin: 0;
-        font-size: 36px;
-        line-height: 1.1;
-    }
-
-    @include at-query(null, $postSmall, $large){
-        height: $lookbookModalHeaderHeight*0.75;
-        padding: 38px*0.75 $lookbookModalHeaderHeight*0.75;
-        
-        h3 {
-            font-size: 36px*0.75;
-        }        
-    }
-    
-    @include at-query($max, $small){
-        height: $lookbookModalHeaderHeight*0.5;
-        padding: 38px*0.5 $lookbookModalHeaderHeight*0.5;
-        
-        h3 {
-            font-size: 36px*0.6;
-        }        
-    }
-}
-
-.lookbook-modal-body {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%;
-}
-
 %lookbook-carousel-nav-base {
     @extend %icon-base;
     @include transition(all 0.3s);
@@ -4329,17 +4290,14 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
 }
 
-.lookbook-modal-image-carousel {
+.lookbook-carousel {
     position: relative;
-    height: 100%;
     width: 100%;
-    padding-top: $lookbookModalHeaderHeight;
-
-    .slick-list {
-        height: 100%;
-    }
-
-    .slick-track {
+    
+    .slick-list,
+    .slick-track,
+    .slick-slide,
+    & {
         height: 100%;
     }
 
@@ -4364,36 +4322,83 @@ $lookbookModalHeaderHeight: $gutter*8;
             content: "\e621";
         }
     }
+}
 
-    @include at-query($max, $preLarge){
-        padding-bottom: $gutter*5;
+.lookbook-carousel-slide {
+    position: relative;
+    outline: none;
+}
+
+.lookbook-slide-header {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    width: 100%;
+    height: $lookbookModalHeaderHeight;
+    padding: 38px $lookbookModalHeaderHeight; // to make room for the close button
+    
+    h3 {
+        text-align: center;
+        color: $colorDarkGray;
+        margin: 0;
+        font-size: 36px;
+        line-height: 1.1;
+    }
+
+    @include at-query(null, $postSmall, $large){
+        height: $lookbookModalHeaderHeight*0.75;
+        padding: 38px*0.75 $lookbookModalHeaderHeight*0.75;
+        
+        h3 {
+            font-size: 36px*0.75;
+        }        
+    }
+    
+    @include at-query($max, $small){
+        height: $lookbookModalHeaderHeight*0.5;
+        padding: 38px*0.5 $lookbookModalHeaderHeight*0.5;
+        
+        h3 {
+            font-size: 36px*0.6;
+        }        
     }
 }
 
-.lookbook-modal-image-block {
-    position: relative;
-    display: inline-block;
-    height: 100%;
+.lookbook-slide-body {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
     width: 100%;
-    overflow: hidden;
-    
-    // centers the image when the outer container is smaller than the width of the image.
-    // http://stackoverflow.com/questions/3300660/how-do-i-center-an-image-if-its-wider-than-its-container#answer-3302072
-    .block-inner {
+    height: 100%;
+    padding-top: $lookbookModalHeaderHeight;
+
+    .image-block {
         position: relative;
-        float: right;
-        right: 50%;
-        height: 100%;
-    }
-    
-    img {
         display: inline-block;
-        text-align: center;
         height: 100%;
-        widht: auto;
-        margin: 0 auto;
-        position: relative;
-        right: -50%;
+        width: 100%;
+        overflow: hidden;
+        
+        // centers the image when the outer container is smaller than the width of the image.
+        // http://stackoverflow.com/questions/3300660/how-do-i-center-an-image-if-its-wider-than-its-container#answer-3302072
+        .block-inner {
+            position: relative;
+            float: right;
+            right: 50%;
+            height: 100%;
+        }
+        
+        img {
+            display: inline-block;
+            text-align: center;
+            height: 100%;
+            widht: auto;
+            margin: 0 auto;
+            position: relative;
+            right: -50%;
+        }
+    }
+
+    @include at-query($max, $preLarge){
+        padding-bottom: $gutter*5;
     }
 }
 
@@ -7815,8 +7820,7 @@ html.full-viewport {
     }
 }
 
-// **todo** add a style for the .lookbook-grid-item based on this.
-.product-grid-item {
+%product-lookbook-grid-item-base {
     @extend %grid-item-3-col;
 
     .image-row {
@@ -7843,6 +7847,30 @@ html.full-viewport {
         }
     }
     
+    .has-back-image {
+        .featured-image {
+            @include transition(opacity 0.3s);
+            
+            opacity: 1;
+            
+            &:hover {
+                opacity: 0;
+            }
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        .image-row {
+            min-height: 218px;
+        }
+    }
+}
+
+// **todo** add a style for the .lookbook-grid-item based on this.
+.product-grid-item {
+    @extend %product-lookbook-grid-item-base;
+
     .info-block {
         @extend %smallish-arial-text;
 
@@ -7881,16 +7909,16 @@ html.full-viewport {
             margin-bottom: 0;
         }
 
-        .image-row {
-            min-height: 218px;
-        }
-        
         .info-block {
             height: 24px;
             font-size: 9px;
             margin-bottom: $gutter / 2;
         }
     }
+}
+
+.lookbook-grid-item {
+    @extend %product-lookbook-grid-item-base;
 }
 
 .order-grid-item {
@@ -8516,10 +8544,9 @@ html.full-viewport {
 }
 
 .secondary-menu {
-    @extend %inline-list-base;
-
     /* Desktop */
-    @include at-query ($min, $postLarge) {
+    .site-header-top-row & {
+        @extend %inline-list-base;
         @include verticalCenterChildElements();
 
         height: 24px;
@@ -8532,6 +8559,21 @@ html.full-viewport {
 
         li {
             margin: 0 -2px; /* inline-block spacing fix */
+        }
+    }
+
+    .mobile-side-nav & {
+        ul {
+            margin: 0 $gutter;
+        }
+
+        li {
+            border-top: 1px solid $colorLightGray;
+            margin-bottom: 0;
+
+            &:first-child {
+                border-top-width: 0;
+            }
         }
     }
 }
@@ -10832,7 +10874,8 @@ $opacity-not-active: .25;
 
 .mobile-side-nav {
     background: $colorPaleGray;
-
+    border-left: 1px solid $colorLightGray;
+    
     .search-bar-row {
         height: $mobileHeaderMainRowHeight/2;
         background: #fff;
@@ -10846,10 +10889,12 @@ $opacity-not-active: .25;
     .main-block {
         height: 100%;
         border: 1px solid $colorLightGray;
+        border-left: 0;
         border-right-width: 0;
     }
 
-    .main-menu-row {
+    .main-menu-row,
+    .secondary-menu-row {
         border-bottom: 1px solid $colorLightGray;
     }
 
