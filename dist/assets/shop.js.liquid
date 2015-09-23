@@ -688,6 +688,12 @@ timber.headerSubNav = function(){
             }
         }
     }
+    // Safari is loading the page oddly. When the page first loads all the elements are to the left side
+    // then they slide to the right into position. This causes the initial posistions of the submenus
+    // to be too far to the left.
+    // this behaviour is related to the css transitions I belive. triggering the positioning function
+    // after the transition time value seems to position the menus correctly. - AC 09/23/2015
+    setTimeout(setMenuHorizontalPositions, 350);
     setMenuHorizontalPositions();
 
     // and set them anytime the window is resized.
