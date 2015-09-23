@@ -640,6 +640,13 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     font-size: 0.75em; /* ~12px */
 }
 
+%smallish-century-gothic-text {
+    font-family: $centuryGothicFontStack;
+    font-weight: 700;
+
+    font-size: 0.75em; /* ~12px */
+}
+
 %smaller-arial-text {
     font-family: $bodyFontStack;
     font-weight: 700;
@@ -1861,7 +1868,7 @@ $smallSocialIconRatio: (2.66/3.375);
 
     &:active,
     &:focus {
-
+        outline: none;
     }
 
     &[disabled],
@@ -1909,10 +1916,11 @@ $smallSocialIconRatio: (2.66/3.375);
 }
 
 %small-button-base {
-    @extend %smallish-arial-text;
+    @extend %smallish-century-gothic-text;
 
-    height: 30px;
-    padding: 7px 12px 0;
+    height: 31px;
+    line-height: 30px;
+    padding: 1px 12px 0;
     text-transform: uppercase;
     font-weight: 700;
 }
@@ -1934,9 +1942,9 @@ $smallSocialIconRatio: (2.66/3.375);
 }
 
 %gray-button-base {
-    @include transition(all 0.3s);
+    @include transition(background-color 0.3s);
     
-    background: $colorDarkerMidGray;
+    background-color: $colorDarkerMidGray;
     color: $colorWhite;
 
     &:hover {
@@ -1944,11 +1952,32 @@ $smallSocialIconRatio: (2.66/3.375);
     }
 }
 
+%small-gray-outline-button-base {
+    @extend %smallish-century-gothic-text;
+    @include transition(all 0.3s);
+    
+    // small outline base
+
+    height: 33px;
+    border: 2px solid $colorGray;
+    color: $colorGray;
+    line-height: 28px;
+    padding: 1px 12px 0;
+    text-transform: uppercase;
+    font-weight: 700;
+
+    &:hover {
+        border-color: $colorDarkGold;
+        background-color: $colorDarkGold;
+        // color: $colorDarkGold;
+        color: $colorWhite;
+    }
+}
+
 %icon-button-base {
     .icon {
         @extend %icon-base;
 
-        display: inline-block;
         position: relative;
     }
 }
@@ -2033,6 +2062,20 @@ $smallSocialIconRatio: (2.66/3.375);
         top: 1px;
     }
 }
+
+/* gray outline, small button with solid arrow icon */
+%small-gray-outline-arrow-button {
+    @extend %button-base;
+    @extend %small-gray-outline-button-base;
+    @extend %arrow-icon-button-base;
+
+    text-align: center;
+    
+    .icon {
+        top: 1px;
+    }
+}
+
 
 /* gold, medium button with rsaquo */
 %large-gold-rsaquo-button {
@@ -7781,17 +7824,21 @@ html.full-viewport {
 
 .product-grid-item,
 .collection-grid-item {
+    .button {
+        @extend %small-gray-outline-arrow-button;
+    }
+
     /* Mobile */
     @include at-query ($max, $small) {
         .button {
             width: 100%;
 
-            font-size: 10px;
-            height: 33px;
-            padding-top: 8px;
+            font-size: 11px;
+            height: 32px;
+            border-width: 1px;
 
             .icon {
-                font-size: 8px;
+                font-size: 10px;
                 top: 0;
             }
         }
@@ -7800,10 +7847,6 @@ html.full-viewport {
 
 .collection-grid-item {
     @extend %grid-item-4-col;
-
-    .button {
-        @extend %small-gray-arrow-button;
-    }
 
     /* **todo** some of the collection photos are not the correct aspect ratio. Fix this with either custome or better images. */
     img {
@@ -7867,7 +7910,6 @@ html.full-viewport {
     }
 }
 
-// **todo** add a style for the .lookbook-grid-item based on this.
 .product-grid-item {
     @extend %product-lookbook-grid-item-base;
 
@@ -7881,12 +7923,6 @@ html.full-viewport {
 
     .button-block {
         text-align: right;
-    }
-
-    .button {
-        @extend %small-gray-arrow-button;
-
-        text-align: center;
     }
 
     /* Desktop */
