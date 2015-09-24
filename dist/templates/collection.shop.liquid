@@ -58,21 +58,8 @@ For more information on collection tags:
 <div class="product-grid-hero">
   <div class="wrapper">
 
-    <header class="hero-header">
-      <h2>
-        {% if current_tags %}
-          {{ current_tags }}
-        {% else %}
-          {% if collection.handle == 'shop' %}
-            Shop THEIA
-          {% elsif collection.handle == 'collections' %}
-            THEIA Collections
-          {% else %}
-            {{ collection.title }} Collection
-          {% endif %}
-        {% endif %}
-      </h2>
-    </header>
+    {% assign all_items_label = 'All Styles' %}
+    {% include 'product-grid-filters' %}
 
     <div class="hero-body">
       {% paginate collection.products by 12 %}
