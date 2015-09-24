@@ -1,106 +1,31 @@
-<div class="product-grid-filter-block">
-  <div class="block-label">Filter By:</div>
-
-  <div class="filter">
-    {% assign tags = 'oyster, gold, nickel, black, blonde, silver, cerise, watermelon, coral, bottle green, indigo' | split: ',' %}
-    <label for="product-grid-filter-color">Color</label>
-    <select id="product-grid-filter-color" name="color">
-      <option selected="selected" disabled="disabled" value="none">Color</option>
-      <option value="">All</option>
-      {% for t in tags %}
-        {% assign tag = t | strip %}
-        {% if current_tags contains tag %}
-          <option value="{{ tag | handle }}" selected>{{ tag }}</option>
-        {% elsif collection.all_tags contains tag %}
-          <option value="{{ tag | handle }}">{{ tag }}</option>
-        {% endif %}
-      {% endfor %}
-    </select>
-  </div>
-  {% unless is_exclusive %}
-  <div class="filter">
-    {% assign tags = 'Small, Medium, Large' | split: ',' %}
-    <label for="product-grid-filter-price">Price</label>
-    <select id="product-grid-filter-price" name="price">
-      <option value="">All</option>
-      {% for t in tags %}
-        {% assign tag = t | strip %}
-        {% if current_tags contains tag %}
-          <option value="{{ tag | handle }}" selected>{{ tag }}</option>
-        {% elsif collection.all_tags contains tag %}
-          <option value="{{ tag | handle }}">{{ tag }}</option>
-        {% endif %}
-      {% endfor %}
-    </select>
-  </div>
-  {% endunless %}
-  <div class="clearfix filter">
-    {% assign tags = 'Cotton, Leather, Polyester' | split: ',' %}
-    <label for="product-grid-filter-material">Material</label>
-    <select id="product-grid-filter-material">
-      <option value="">All</option>
-      {% for t in tags %}
-        {% assign tag = t | strip %}
-        {% if current_tags contains tag %}
-          <option value="{{ tag | handle }}" selected>{{ tag }}</option>
-        {% elsif collection.all_tags contains tag %}
-          <option value="{{ tag | handle }}">{{ tag }}</option>
-        {% endif %}
-      {% endfor %}
-    </select>
-  </div>
-  
-</div>
-<script>
-    /* Product Tag Filters - Good for any number of filters on any type of collection page.
-       Give you product tag filter select element a class of coll-filter.
-       Give your collection select a class of coll-picker.
-       Brought to you by Caroline Schnapp. */
-    Shopify.queryParams = {};
-    if (location.search.length) {
-        for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
-            aKeyValue = aCouples[i].split('=');
-            if (aKeyValue.length > 1) {
-                Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
-            }
-        }
-    }
-    jQuery('.coll-picker').change(function() {
-        if (jQuery(this).val()) {
-            location.href = '/collections/' + jQuery(this).val();
-        }
-        else {
-            location.href = '/collections/all';
-        }
-    });
-    var collFilters = jQuery('.product-grid-filter-block select');
-    collFilters.change(function() {
-        console.log('hello');
-        delete Shopify.queryParams.page;
-        var newTags = [];
-        collFilters.each(function() {
-            if (jQuery(this).val()) {
-                newTags.push(jQuery(this).val());
-            }
-        });
-        {% if collection.handle %}
-        var newURL = '/collections/{{ collection.handle }}';
-        if (newTags.length) {
-            newURL += '/' + newTags.join('+');
-        }
-        var search = jQuery.param(Shopify.queryParams);
-        if (search.length) {
-            newURL += '?' + search;
-        }
-        location.href = newURL;
+{% include 'sub-menu-categories' %}
+<header class="product-grid-filter-header{% if sub-menu-categories %} has-filter{% endif %}">
+  <div class="heading-block">
+    <h2>
+      {% if current_tags %}
+        {{ current_tags }}
+      {% else %}
+        {% if collection.handle == 'shop' %}
+          Shop THEIA
+        {% elsif collection.handle == 'collections' %}
+          THEIA Collections
         {% else %}
-        if (newTags.length) {
-            Shopify.queryParams.constraint = newTags.join('+');
-        }
-        else {
-            delete Shopify.queryParams.constraint;
-        }
-        location.search = jQuery.param(Shopify.queryParams);
+          {{ collection.title }} Collection
         {% endif %}
-    });
-</script>
+      {% endif %}
+    </h2>
+  </div>
+  {% if sub-menu-categories %}
+    <div class="filter-block">
+      <select id="product-tag-filter">
+        <option value="{{ coll.url }}/">{% if all_items_label %}{{ all_items_label }}{% else %}View All{% endif %}</option>
+        {% for c in sub-menu-categories %}{% assign cat = c | strip %}{% if coll.tags contains cat %}
+          <option value="{{ coll.url }}/{{ cat | handle }}"
+                  {% if current_tags contains cat %}selected="selected"{% endif %}>
+            {{ cat }}
+          </option>
+        {% endif %}{% endfor %}
+      </select>
+    </div>
+  {% endif %}
+</header>

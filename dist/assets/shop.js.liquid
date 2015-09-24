@@ -68,7 +68,8 @@ timber.cache = {
 
     collectionPage: {
         $body: $('body.template-collection'),
-        $itemContainer: $('#collection-items')
+        $itemContainer: $('#collection-items'),
+        $filterSelect: $('#product-tag-filter')
     }
 };
 
@@ -78,7 +79,6 @@ timber.pageData = {
 };
 
 timber.init = function () {
-
     // Run on load
     timber.accessibleNav();
     timber.carouselInit();
@@ -106,6 +106,10 @@ timber.init = function () {
 timber.collectionPage = function(){
     var pager = new timber.infiniteScroll();
     
+    if (timber.cache.collectionPage.$filterSelect.length !== 0){
+        timber.productTagFilter();
+    }
+    
     // lookbook pages
     if (timber.cache.collectionLookbook.$body.length !== 0){
         timber.lookbookPageNew(pager);
@@ -115,6 +119,17 @@ timber.collectionPage = function(){
     if (timber.cache.collectionShop.$body.length !== 0){
         timber.shopPage(pager);
     }
+}
+
+timber.productTagFilter = function(){
+    var $filterSelect = timber.cache.collectionPage.$filterSelect;
+
+    $filterSelect.change(function(event){
+        var $select = $(this),
+            $selectedOption = $select.find(':selected');
+        
+        window.location.href = $selectedOption.val();
+    });
 }
 
 timber.lookbookPageNew = function(pager){
@@ -688,13 +703,15 @@ timber.headerSubNav = function(){
             }
         }
     }
+    setMenuHorizontalPositions();
+    
+    // **hack**
     // Safari is loading the page oddly. When the page first loads all the elements are to the left side
-    // then they slide to the right into position. This causes the initial posistions of the submenus
-    // to be too far to the left.
-    // this behaviour is related to the css transitions I belive. triggering the positioning function
+    // then they slide to the right into their correct positions. This causes the initial posistions of
+    // the submenus to be too far to the left.
+    // This behaviour is related to the css transitions I belive. Triggering the positioning function
     // after the transition time value seems to position the menus correctly. - AC 09/23/2015
     setTimeout(setMenuHorizontalPositions, 350);
-    setMenuHorizontalPositions();
 
     // and set them anytime the window is resized.
     $(window).resize(function(event){

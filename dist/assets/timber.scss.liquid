@@ -7680,6 +7680,42 @@ html.full-viewport {
     }
 }
 
+.product-grid-filter-header {
+    @extend %clearfix;
+    
+    position: relative;
+    padding: 0 $gutter;
+    
+    h2 {
+        @extend .h3;
+        text-align: center;
+    }
+    
+    &.has-filter {
+        margin-bottom: $gutter;
+
+        .heading-block,
+        .filter-block {
+            width: 50%;
+            float: left;
+        }
+
+        h2 {
+            margin-bottom: 0;
+        }
+
+        select {
+            max-width: 256px;
+            display: inline-block;
+
+            &:focus,
+            &:active {
+                outline: none;
+            }
+        }
+    }
+}
+
 %grid-item-base {
     display: inline-block;
     vertical-align: top;
