@@ -7694,12 +7694,6 @@ html.full-viewport {
     &.has-filter {
         margin-bottom: $gutter;
 
-        .heading-block,
-        .filter-block {
-            width: 50%;
-            float: left;
-        }
-
         h2 {
             margin-bottom: 0;
         }
@@ -7713,6 +7707,24 @@ html.full-viewport {
                 outline: none;
             }
         }
+    }
+
+    @include at-query($min, $postMedium){
+        &.has-filter {
+            .heading-block,
+            .filter-block {
+                width: 50%;
+                float: left;
+            }
+        }
+    }
+    
+    @include at-query($max, $medium){
+        &.has-filter {
+            .heading-block {
+                margin-bottom: $gutter*2;
+            }
+        }        
     }
 }
 
