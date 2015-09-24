@@ -7680,6 +7680,54 @@ html.full-viewport {
     }
 }
 
+.product-grid-filter-header {
+    @extend %clearfix;
+    
+    position: relative;
+    padding: 0 $gutter;
+    
+    h2 {
+        @extend .h3;
+        text-align: center;
+    }
+    
+    &.has-filter {
+        margin-bottom: $gutter;
+
+        h2 {
+            margin-bottom: 0;
+        }
+
+        select {
+            max-width: 256px;
+            display: inline-block;
+
+            &:focus,
+            &:active {
+                outline: none;
+            }
+        }
+    }
+
+    @include at-query($min, $postMedium){
+        &.has-filter {
+            .heading-block,
+            .filter-block {
+                width: 50%;
+                float: left;
+            }
+        }
+    }
+    
+    @include at-query($max, $medium){
+        &.has-filter {
+            .heading-block {
+                margin-bottom: $gutter*2;
+            }
+        }        
+    }
+}
+
 %grid-item-base {
     display: inline-block;
     vertical-align: top;

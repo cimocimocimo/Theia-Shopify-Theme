@@ -1,3 +1,20 @@
+{% unless coll %}
+  {% comment %}
+  if the current collection is filtered with a tag then the collection object
+  will not have all the tags for the entire collection, just the tags left
+  by the filter. To get around this we find the current collection in the
+  global collections object and then use that for the filter menu. The
+  collection object from the global collections does contain all the tags
+  for the collection, regardless of the current tag filter.
+  {% endcomment %}
+  {% if collection %}
+    {% for current_coll in collections %}
+      {% if collection.handle == current_coll.handle %}
+        {% assign coll = current_coll %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endunless %}
 {% if coll.handle == 'shop' %}
   {% assign sub-menu-categories = 'New Arrivals, Evening Gowns, Cocktail Dresses' | split: ', ' %}
   {% comment %}
