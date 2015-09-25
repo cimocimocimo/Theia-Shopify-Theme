@@ -7973,6 +7973,49 @@ html.full-viewport {
         text-align: right;
     }
 
+    &.on-sale {
+        .button {
+            border-color: $colorDarkGold;
+            color: $colorDarkGold;
+
+            &:hover {
+                color: $colorWhite;
+            }
+        }
+
+        .sale-price {
+            color: $colorDarkGold;
+        }
+
+        .compare-at-price {
+            > span {
+                position: relative;
+                display: inline-block;
+                
+                $crossout-line-angle: 15deg;
+                
+                &:before,
+                &:after {
+                    content: '';
+                    width: 110%;
+                    height: 1px;
+                    background-color: $colorGray;
+                    position: absolute;
+                    top: 45%;
+                    left: -5%;
+                }
+                
+                &:before {
+                    @include transform(rotate(-$crossout-line-angle));
+                }
+                
+                &:after {
+                    @include transform(rotate($crossout-line-angle));
+                }
+            }
+        }
+    }
+    
     /* Desktop */
     @include at-query ($min, $postSmall) {
         .meta-row {

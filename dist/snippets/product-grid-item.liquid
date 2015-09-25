@@ -17,7 +17,7 @@
   Check if the product is on sale and set a variable to be used below.
 {% endcomment %}
 {% assign on_sale = false %}
-{% if product.compare_at_price > product.price %}
+{% if product.compare_at_price > product.price and product.tags contains 'On Sale' %}
   {% assign on_sale = true %}
 {% endif %}
 
@@ -87,19 +87,34 @@
 
   <div class="meta-row">
     <div class="info-block">
-      <div>
-        US {{ product.price | money }}
-      </div>
-      {% if style_number != 0 %}
-        <div>
-          Style #: {{ style_number }}
+      {% if on_sale %}
+        <div class="sale-price">
+          Now: {{ product.price | money }}
         </div>
+        <div class="compare-at-price">
+          MRSP: <span>{{ product.compare_at_price | money }}</span>
+        </div>
+      {% else %}
+        <div>
+          US {{ product.price | money }}
+        </div>
+        {% if style_number != 0 %}
+          <div>
+            Style #: {{ style_number }}
+          </div>
+        {% endif %}
       {% endif %}
     </div>
 
     <div class="button-block">
       <a class="button" href="{{ product_href }}">
-        <span class="label">View Dress</span>
+        <span class="label">
+          {% if on_sale %}
+            On Sale
+          {% else %}
+            View Dress
+          {% endif %}
+        </span>
         <span class="icon"></span>
       </a>
     </div>
