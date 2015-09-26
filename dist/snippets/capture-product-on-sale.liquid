@@ -1,0 +1,4 @@
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price and product.tags contains 'On Sale' %}
+  {% assign on_sale = true %}
+{% endif %}

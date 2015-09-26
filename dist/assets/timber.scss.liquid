@@ -525,6 +525,29 @@ $socialIconFontStack: 'theia-icons';
     }
 }
 
+@mixin crossout-lines($angle: 15deg, $top: 45%){
+    position: relative;
+    display: inline-block;
+    
+    &:before,
+    &:after {
+        content: '';
+        width: 110%;
+        height: 1px;
+        background-color: $colorGray;
+        position: absolute;
+        top: $top;
+        left: -5%;
+    }
+    
+    &:before {
+        @include transform(rotate(-$angle));
+    }
+    
+    &:after {
+        @include transform(rotate($angle));
+    }
+}
 
 /*============================================================================
   Dependency-free breakpoint mixin
@@ -4558,7 +4581,13 @@ $lookbookModalHeaderHeight: $gutter*8;
         color: $colorWarmLightGray;
         line-height: 1;
     }
-
+    
+    .compare-at-price {
+        @include crossout-lines(15deg, 38%);
+        
+        font-size: 0.75em;
+    }
+    
     .product-style-number {
         @extend %smallish-arial-text;
 
@@ -7973,6 +8002,27 @@ html.full-viewport {
         text-align: right;
     }
 
+    &.on-sale {
+        .button {
+            border-color: $colorDarkGold;
+            color: $colorDarkGold;
+
+            &:hover {
+                color: $colorWhite;
+            }
+        }
+
+        .sale-price {
+            color: $colorDarkGold;
+        }
+
+        .compare-at-price {
+            > span {
+                @include crossout-lines(15deg);
+            }
+        }
+    }
+    
     /* Desktop */
     @include at-query ($min, $postSmall) {
         .meta-row {
@@ -8507,7 +8557,7 @@ html.full-viewport {
     .site-footer & {
         @extend %nav-menu-base;
 
-        @include at-query ($min, $postSmall) {
+        @mixin main-menu-separator(){
             li {
                 border-left: 1px solid $colorLightestGray;
 
@@ -8515,6 +8565,14 @@ html.full-viewport {
                     border-left-width: 0;
                 }
             }
+        }
+        
+        @include at-query (null, $postSmall, $medium) {
+            @include main-menu-separator;
+        }
+        
+        @include at-query ($min, $large) {
+            @include main-menu-separator;
         }
     }
 
@@ -8550,8 +8608,20 @@ html.full-viewport {
         }
 
         @include at-query(null, $postMedium, $large){
-            padding-left: $gutter * (2/3);
-            padding-right: $gutter * (2/3);
+            padding-left: $gutter/4*3;
+            padding-right: $gutter/4*3;
+        }
+        
+        // custom breakpoint to stop menu wrapping at sizes just above medium.
+        @include at-query(null, $postMedium, 850px){
+            padding-left: $gutter/2;
+            padding-right: $gutter/2;
+        }
+        
+        // custom breakpoint to stop menu wrapping at sizes just above small.
+        @include at-query(null, $postSmall, 525px){
+            padding-left: $gutter;
+            padding-right: $gutter;
         }
         
         @include at-query ($max, $small) {
@@ -8560,6 +8630,11 @@ html.full-viewport {
             font-size: 12px;
         }
 
+        // custom breakpoint to stop menu wrapping on 320px wide screens (iPhone 4/5)
+        @include at-query($max, 380px){
+            font-size: 11px;
+            margin: 0 5px;
+        }
     }
     
     .mobile-side-nav & {
@@ -8587,6 +8662,10 @@ html.full-viewport {
                 @include transform(rotate(-90deg));
             }
         }
+    }
+
+    &.on-sale-link {
+        color: $colorGold;
     }
 }
 
