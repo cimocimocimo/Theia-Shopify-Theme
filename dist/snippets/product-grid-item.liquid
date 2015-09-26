@@ -16,10 +16,7 @@
 {% comment %}
   Check if the product is on sale and set a variable to be used below.
 {% endcomment %}
-{% assign on_sale = false %}
-{% if product.compare_at_price > product.price and product.tags contains 'On Sale' %}
-  {% assign on_sale = true %}
-{% endif %}
+{% include 'capture-product-on-sale' %}
 
 {% comment %}
   Check if the product is sold out and set a variable to be used below.

@@ -525,6 +525,29 @@ $socialIconFontStack: 'theia-icons';
     }
 }
 
+@mixin crossout-lines($angle: 15deg, $top: 45%){
+    position: relative;
+    display: inline-block;
+    
+    &:before,
+    &:after {
+        content: '';
+        width: 110%;
+        height: 1px;
+        background-color: $colorGray;
+        position: absolute;
+        top: $top;
+        left: -5%;
+    }
+    
+    &:before {
+        @include transform(rotate(-$angle));
+    }
+    
+    &:after {
+        @include transform(rotate($angle));
+    }
+}
 
 /*============================================================================
   Dependency-free breakpoint mixin
@@ -4558,7 +4581,13 @@ $lookbookModalHeaderHeight: $gutter*8;
         color: $colorWarmLightGray;
         line-height: 1;
     }
-
+    
+    .compare-at-price {
+        @include crossout-lines(15deg, 38%);
+        
+        font-size: 0.75em;
+    }
+    
     .product-style-number {
         @extend %smallish-arial-text;
 
@@ -7989,29 +8018,7 @@ html.full-viewport {
 
         .compare-at-price {
             > span {
-                position: relative;
-                display: inline-block;
-                
-                $crossout-line-angle: 15deg;
-                
-                &:before,
-                &:after {
-                    content: '';
-                    width: 110%;
-                    height: 1px;
-                    background-color: $colorGray;
-                    position: absolute;
-                    top: 45%;
-                    left: -5%;
-                }
-                
-                &:before {
-                    @include transform(rotate(-$crossout-line-angle));
-                }
-                
-                &:after {
-                    @include transform(rotate($crossout-line-angle));
-                }
+                @include crossout-lines(15deg);
             }
         }
     }

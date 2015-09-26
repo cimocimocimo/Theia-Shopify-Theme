@@ -9,14 +9,14 @@ For more information on these Scheme.org tags, visit:
 {% endcomment %}
 
 {% include 'capture-style-number' %}
+{% include 'capture-product-on-sale' %}
 {% if product.type == 'Theia Shop' %}
     {% assign is_exclusive = false %}
 {% else %}
     {% assign is_exclusive = true %}
 {% endif %}
 
-
-<div class="product-detail-hero{% if is_exclusive %} product-is-exclusive{% endif %}" itemscope itemtype="http://schema.org/Product">
+<div class="product-detail-hero{% if is_exclusive %} product-is-exclusive{% endif %}{% if on_sale %} on-sale{% endif %}" itemscope itemtype="http://schema.org/Product">
 
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
   <meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'grande' }}">
@@ -60,8 +60,13 @@ For more information on these Scheme.org tags, visit:
 
             <h2 itemprop="name">{{ product.title }}</h2>
 
-            <div class="product-price" id="productPrice" itemprop="price">
-              US {{ product.price | money }}
+            <div class="product-price">
+              {% if on_sale %}
+                Now: <span id="productPrice" itemprop="price">{{ product.price | money }}</span>
+                <span class="compare-at-price">{{ product.compare_at_price | money }}</span>
+              {% else %}
+                <span id="productPrice" itemprop="price">{{ product.price | money }}</span>
+              {% endif %}
             </div>
 
             {% if style_number != 0 %}
