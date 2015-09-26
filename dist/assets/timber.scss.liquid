@@ -5924,6 +5924,7 @@ address {
 
     background: $colorWhite;
     
+    // landscape tablet and larger
     @include at-query ($min, $postMedium) {
         height: $desktopHeaderMainRowHeight;
         padding: $gutter 0;
@@ -5960,6 +5961,7 @@ address {
         }
     }
 
+    // smaller desktops only
     @include at-query(null, $postLarge, $preXLarge) {
         .main-menu-column {
             width: 584px;
@@ -5974,13 +5976,22 @@ address {
         }
     }
 
+    // landscape tablets
     @include at-query(null, $postMedium, $large) {
-        .logo-column {
+        %absolute-column-postMedium-large-base {
             position: absolute;
+            z-index: 10;
+        }
+        
+        .logo-column {
+            @extend %absolute-column-postMedium-large-base;
+            
             left: 0;
         }
         
         .main-menu-column {
+            position: relative;
+            z-index: 0;
             width: 100%;
             text-align: center;
             margin: 0 !important;
@@ -5988,17 +5999,15 @@ address {
             box-sizing: border-box;
         }
         
-        .customer-menu-column {
-            width: 190px;
-        }
-
         .search-column {
-            position: absolute;
+            @extend %absolute-column-postMedium-large-base;
+
             right: 0;
             width: 190px;
         }
     }
 
+    // mobile and portrait tablets
     @include at-query ($max, $medium) {
         padding: $gutter/2 0;
         height: $mobileHeaderMainRowHeight;
