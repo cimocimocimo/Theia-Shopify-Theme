@@ -1911,9 +1911,9 @@ $smallSocialIconRatio: (2.66/3.375);
 
 %large-button-base {
     height: 50px;
-    padding: 10px $gutter 0;
+    padding: 1px $gutter 0;
     font-size: 1.5625em;
-    line-height: 1px;
+    line-height: 48px;
     font-weight: 300;
     font-family: $helveticaFontStack;
 }
@@ -4295,16 +4295,6 @@ $lookbookModalHeaderHeight: $gutter*8;
             }
         }
     }
-    
-    @include at-query(null, $postSmall, $large){
-        .call-to-action-block {
-        }
-    }
-
-    @include at-query($max, $small){
-        .call-to-action-block {
-        }
-    }
 }
 
 %lookbook-carousel-nav-base {
@@ -4709,8 +4699,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     /* Style */
 
-    button,
-    .button {
+    button {
         @extend %large-gold-arrow-button;
     }
 
@@ -11175,7 +11164,6 @@ span#resultMessage {
     .add-to-cart-button {
         @extend %small-gold-arrow-button;
 
-        text-align: center;
         width: 160px;
         padding-top: 0;
     }
