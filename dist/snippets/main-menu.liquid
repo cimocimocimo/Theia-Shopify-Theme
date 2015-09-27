@@ -30,5 +30,8 @@
       <li><a class="main-menu-link" href="{{ link.url }}">{{ link.title }}</a></li>
       {% endcase %}
     {% endfor %}
+    {% if collections.shop.tags contains 'On Sale' %}
+      <li><a class="main-menu-link on-sale-link" href="{{ collections.shop.url }}/on-sale">On Sale</a></li>
+    {% endif %}
   </ul>
 </nav>
