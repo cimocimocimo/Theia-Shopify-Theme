@@ -1951,10 +1951,10 @@ $smallSocialIconRatio: (2.66/3.375);
 %mini-button-base {
     font-family: $helveticaFontStack;
     font-weight: 700;
-    font-size: 0.5625em;
-
+    font-size: 10px;
     height: 26px;
-    padding: 7px 12px 0;
+    line-height: 26px;
+    padding: 1px 12px 0;
     text-transform: uppercase;
     font-weight: 700;
 }
@@ -2181,11 +2181,10 @@ $smallSocialIconRatio: (2.66/3.375);
     @extend %gray-button-base;
 }
 
-%mini-gold-button {
+%mini-gray-button {
     @extend %button-base;
     @extend %mini-button-base;
     @extend %gray-button-base;
-    @extend %rsaquo-button-base;
 }
 
 /* custom buttons */
@@ -3988,7 +3987,6 @@ body.vex-open {
 }
 
 .product-mobile-header-block {
-    height: 44px;
     width: 100%;
     background: $colorPaleGray;
     border-bottom: 1px solid $colorLighterGray;
@@ -4001,20 +3999,12 @@ body.vex-open {
         position: relative;
         height: 100%;
         width: 100%;
-    }
-
-    .buy-now-button {
-        @extend %mini-gold-button;
-
-        position: absolute;
-        top: 0;
-        right: 0;
+        line-height: 26px;
     }
 
     .expand-detail-link-text {
         position: relative;
         color: $colorWarmDarkGray;
-        font-size: 0.9375em;
         font-weight: 300;
         font-family: $helveticaFontStack;
         line-height: 1;
@@ -4040,6 +4030,14 @@ body.vex-open {
         &.up {
             @extend .icon-arrow-up;
         }
+    }
+
+    .buy-now-button {
+        @extend %mini-gray-button;
+
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 
     /* Desktop */
