@@ -9171,6 +9171,7 @@ html.full-viewport {
 
 .social-link-newsletter-hero {
     @extend %clearfix;
+    @include verticalCenterChildElements();
     
     text-align: center;
     padding: $gutter * 3 0;
@@ -9204,13 +9205,11 @@ html.full-viewport {
 }
 
 .social-link-newsletter-column {
-    float: left;
     width: 50%;
     padding: $gutter * 3 $gutter;
     text-align: center;
     
     @include at-query($max, $medium){
-        float: none;
         width: auto;
     }
 }
