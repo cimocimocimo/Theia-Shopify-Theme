@@ -9041,7 +9041,9 @@ html.full-viewport {
     
     .image {
         @include prefix('transition', 'all 0.4s ease');
-
+        
+        $desaturation-value: 0.43;
+        
         height: 100%;
         width: 100%;
         background-size: 100%;
@@ -9049,11 +9051,9 @@ html.full-viewport {
         top: 0;
         left: 0;
         display: block;
-        filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'desaturate\'><feColorMatrix type=\'saturate\' values=\'0.43\'/></filter></svg>#desaturate"); /* Firefox 10+, Firefox on Android */
+        filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'desaturate\'><feColorMatrix type=\'saturate\' values=\'#{$desaturation-value}\'/></filter></svg>#desaturate"); /* Firefox 10+, Firefox on Android */
         filter: gray; /* IE6-9 */
-        -webkit-filter: grayscale(43%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
-
-        clip-path: inset(10px 10px 10px 10px);
+        -webkit-filter: grayscale(percentage($desaturation-value)); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
     }
 
     .overlay {
@@ -9104,6 +9104,7 @@ html.full-viewport {
             font-weight: 700;
             font-size: 34px;
             color: $colorWhite;
+            text-shadow: 0 0 $gutter rgba(0,0,0,0.4);
         }
     }
 
