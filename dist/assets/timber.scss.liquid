@@ -6484,25 +6484,28 @@ address {
 }
 
 .about-page-hero {
-    @extend %hero-medium;
+    @extend %hero-large;
 
     background: {
         color: #000;
-        image: url({{ 'about-page-hero-bg.jpg' | asset_url }});
         repeat: no-repeat;
     }
+    background-image: url({{ 'about-page-hero-desktop.jpg' | asset_url }});
+    background-size: cover;
+    background-position: top center;
 
     /* Desktop */
-    @include at-query ($min, $postSmall) {
-        background-position: top right;
-    }
+    @include at-query ($min, $large) {
 
+    }
+    
+    @include at-query(null, $postSmall, $large){
+        background-image: url({{ 'about-page-hero-tablet.jpg' | asset_url }});
+    }
+    
     /* Mobile */
     @include at-query ($max, $small) {
-        background: {
-        position: -27% 0;
-        size: auto 260px;
-    }
+        background-image: url({{ 'about-page-hero-mobile.jpg' | asset_url }});
     }
 }
 
