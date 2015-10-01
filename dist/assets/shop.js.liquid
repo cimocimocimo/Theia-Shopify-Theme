@@ -70,6 +70,10 @@ timber.cache = {
         $body: $('body.template-collection'),
         $itemContainer: $('#collection-items'),
         $filterSelect: $('#product-tag-filter')
+    },
+
+    heroCarousel: {
+        $carousel: $('.collection-hero-carousel')
     }
 };
 
@@ -99,8 +103,25 @@ timber.init = function () {
         timber.collectionPage();
     }
     
+    if (timber.cache.heroCarousel.$carousel.length !== 0){
+        timber.heroCarousel();
+    }
+    
     // initialize smooth scroll
     smoothScroll.init();
+};
+
+timber.heroCarousel = function(){
+    var $carousel = timber.cache.heroCarousel.$carousel;
+
+    $carousel.slick({
+        prevArrow: '<a href="#" class="slick-prev"></a>',
+        nextArrow: '<a href="#" class="slick-next"></a>',
+        autoplay: true,
+        fade: true,
+        autoplaySpeed: 5000,
+        speed: 1500
+    });
 };
 
 timber.collectionPage = function(){
