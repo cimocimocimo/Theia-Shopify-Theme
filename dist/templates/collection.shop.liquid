@@ -9,14 +9,9 @@ For more information on collection tags:
 
   {% comment %}These are the namespace keys for each of the slides in the collection metafields{% endcomment %}
     {% assign slide_names = 'slide1 slide2 slide3 slide4 slide5' | split: ' ' %}
-  {% comment %}These are the keys for the image urls stored in each of the namespaces{% endcomment %}
-    {% assign image_types = 'desktop tablet mobile' | split: ' ' %}
-
   {% comment %}Shortcut for the metafields{% endcomment %}
     {% assign meta = collection.metafields %}
-
     {% for slide_name in slide_names %}
-
     {% assign slide = collection.metafields[slide_name] %}
     {% unless slide.empty? %}
     .hero-{{ slide_name }} {
@@ -34,9 +29,7 @@ For more information on collection tags:
             background-image: url('{{ slide.mobile }}');
         }
     }
-    {% endunless %}
-
-    {% endfor %}
+    {% endunless %}{% endfor %}
 
     {% if collection.metafields.other_images.desktop_hero != blank %}
     {% assign other_images = collection.metafields.other_images %}
