@@ -6,6 +6,38 @@ For more information on collection tags:
 {% endcomment %}
 
 <style>
+
+  {% comment %}These are the namespace keys for each of the slides in the collection metafields{% endcomment %}
+    {% assign slide_names = 'slide1 slide2 slide3 slide4 slide5' | split: ' ' %}
+  {% comment %}These are the keys for the image urls stored in each of the namespaces{% endcomment %}
+    {% assign image_types = 'desktop tablet mobile' | split: ' ' %}
+
+  {% comment %}Shortcut for the metafields{% endcomment %}
+    {% assign meta = collection.metafields %}
+
+    {% for slide_name in slide_names %}
+
+    {% assign slide = collection.metafields[slide_name] %}
+    {% unless slide.empty? %}
+    .hero-{{ slide_name }} {
+        background-image: url('{{ slide.desktop }}');
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 1024px){
+        .hero-{{ slide_name }} {
+            background-image: url('{{ slide.tablet }}');
+        }
+    }
+
+    @media screen and (max-width: 480px){
+        .hero-{{ slide_name }} {
+            background-image: url('{{ slide.mobile }}');
+        }
+    }
+    {% endunless %}
+
+    {% endfor %}
+
     {% if collection.metafields.other_images.desktop_hero != blank %}
     {% assign other_images = collection.metafields.other_images %}
 
@@ -49,12 +81,26 @@ For more information on collection tags:
     }
     {% endif %}
 </style>
-<div id="collectiontop" class="{% if collection.handle == 'shop' %}shop-page-hero{% else %}collection-page-hero{% endif %}">
-  <div class="wrapper">
 
+{% if meta.other_images.desktop_hero != blank or meta.slide1.desktop != blank %}
+  <div id="top" class="{% if collection.handle == 'shop' %}shop-page-hero{% else %}collection-page-hero{% endif %}">
+    {% if meta.slide1.desktop != blank %}
+      <div class="collection-hero-carousel">
+        {% for slide_name in slide_names %}
+          {% unless meta[slide_name].desktop == blank %}
+            <div class="hero-slide hero-{{ slide_name }}">
+
+            </div>
+          {% endunless %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="wrapper">
+
+      </div>
+    {% endif %}
   </div>
-</div>
-
+{% endif %}
 <div class="product-grid-hero">
   <div class="wrapper">
 
@@ -100,7 +146,7 @@ For more information on collection tags:
       {% include 'pagination-block' %}
 
       <div class="back-to-top-block js-hidden">
-        <a data-scroll class="back-to-top-link" href="#collectiontop">Back to Top</a>
+        <a data-scroll class="back-to-top-link" href="#top">Back to Top</a>
       </div>
 
     {% endpaginate %}
