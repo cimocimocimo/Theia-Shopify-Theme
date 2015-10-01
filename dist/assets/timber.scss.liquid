@@ -1911,7 +1911,7 @@ $smallSocialIconRatio: (2.66/3.375);
 
 %large-button-base {
     height: 50px;
-    padding: 1px $gutter 0;
+    padding: 4px $gutter 0;
     font-size: 1.5625em;
     line-height: 48px;
     font-weight: 300;
@@ -4691,9 +4691,10 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
 
     /* Style */
-
-    button {
-        @extend %large-gold-arrow-button;
+    
+    button,
+    .button {
+        @extend %large-gray-arrow-button;
     }
 
     .add-to-wishlist-link,
@@ -6484,7 +6485,7 @@ address {
 }
 
 .about-page-hero {
-    @extend %hero-large;
+    @extend %hero-alarge;
 
     background: {
         color: #000;
