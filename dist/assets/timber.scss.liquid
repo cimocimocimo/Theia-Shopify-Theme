@@ -2357,6 +2357,8 @@ $smallSocialIconRatio: (2.66/3.375);
     }
 
     [class*='wrapper'] {
+        height: 100%;
+        
         > div {
             position: absolute;
             left: $gutter;
@@ -2365,13 +2367,11 @@ $smallSocialIconRatio: (2.66/3.375);
 
     /* Desktop */
     @include at-query ($min, $postSmall) {
+        height: 588px;
+        
         h2 {
             font-size: 5.625em;
             margin: 0 0 ( $gutter * 3.75 );
-        }
-
-        [class*='wrapper'] {
-            height: 588px;
         }
 
         .content {
@@ -2385,13 +2385,11 @@ $smallSocialIconRatio: (2.66/3.375);
     }
 
     @include at-query( null, $postMedium, $large ){
+        height: 532px;
+        
         h2 {
             font-size: 4.6875em;
             margin: 0 0 ( $gutter * 3.75 );
-        }
-
-        [class*='wrapper'] {
-            height: 532px;
         }
 
         .content {
@@ -2405,6 +2403,8 @@ $smallSocialIconRatio: (2.66/3.375);
     }
 
     @include at-query( null, $postSmall, $medium ){
+        height: 476px;
+        
         h2 {
             font-size: 3.75em;
         }
@@ -2412,23 +2412,16 @@ $smallSocialIconRatio: (2.66/3.375);
         .content {
             width: 466px;
         }
-
-        [class*='wrapper'] {
-            height: 476px;
-        }
     }
 
     /* Mobile */
     @include at-query ($max, $small) {
         background-position: 90% 0%;
+        height: 420px;
 
         h2 {
             font-size: 2.8125em;
             margin: 0;
-        }
-
-        [class*='wrapper'] {
-            height: 420px;
         }
 
         .content {
@@ -2538,16 +2531,17 @@ $smallSocialIconRatio: (2.66/3.375);
 }
 
 %hero-edge-fade-base {
-
     /* gradient fade at edges of image */
-    &:before, &:after {
-                  content: '';
-                  height: 100%;
-                  display: block;
-                  position: absolute;
-                  top: 0px;
-              }
+    &:before,
+    &:after {
+        content: '';
+        height: 100%;
+        display: block;
+        position: absolute;
+        top: 0px;
+    }
 }
+
 @mixin heroEdgeFade( $fadeColor, $width: 99px, $offset: $width ){
     @extend %hero-edge-fade-base;
 
@@ -6403,16 +6397,10 @@ address {
 }
 
 
-.pagination-block {
-
-}
-
-
 /* Heros */
 
 .page-header {
     text-align: center;
-
 }
 
 .list-collections-page-hero {
@@ -6424,24 +6412,15 @@ address {
         repeat: repeat-x;
     }
 
-    /* Desktop */
-    @include at-query ($min, $postSmall) {
-
-    }
-
     /* Mobile */
     @include at-query ($max, $small) {
-        background: {
-        size: auto 100%;
-        position: -64% 0;
-    }
+        background-size: auto 100%;
+        background-position: -64% 0;
     }
 }
 
 .collection-page-hero {
     @extend %hero-large;
-
-    background-image: url({{ 'collection-page-hero-bg-DELETE.jpg' | asset_url }});
 
     .content {
         top: $gutter * 3.75;
@@ -6455,6 +6434,52 @@ address {
 
     .content {
         top: $gutter * 3.75;
+    }
+}
+
+.collection-hero-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    
+    .slick-list,
+    .slick-track,
+    .hero-slide,
+    & {
+        height: 100%;
+    }
+    
+    .hero-slide {
+        width: 100%;
+        background-position: top center;
+        background-size: cover;
+    }
+
+    .slick-prev,
+    .slick-next {
+        color: $colorDarkGray;
+    }
+    
+    .slick-prev {
+        @extend %lookbook-carousel-nav-base;
+        
+        left: $gutter*2;
+        
+        &:before {
+            /* .icon-arrow-left-xlarge:before */
+            content: "\e608";
+        }
+    }
+    
+    .slick-next {
+        @extend %lookbook-carousel-nav-base;
+        
+        right: $gutter*2;
+        
+        &:before {
+            /* .icon-arrow-right-xlarge:before */
+            content: "\e607";
+        }
     }
 }
 
@@ -10560,15 +10585,16 @@ $opacity-not-active: .25;
     opacity: $opacity-default;
     z-index: 1;
 
-    &:hover, &:focus {
-                 outline: none;
-                 background: transparent;
-                 color: $colorGold;
+    &:hover,
+    &:focus {
+        outline: none;
+        background: transparent;
+        color: $colorGold;
 
-                 &:before {
-                     opacity: $opacity-on-hover;
-                 }
-             }
+        &:before {
+            opacity: $opacity-on-hover;
+        }
+    }
 
     &.slick-disabled:before {
         opacity: $opacity-not-active;
@@ -10617,10 +10643,11 @@ $opacity-not-active: .25;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
 
-            &:hover, &:focus {
-                         outline: none;
-                         opacity: $opacity-on-hover;
-                     }
+            &:hover,
+            &:focus {
+                outline: none;
+                opacity: $opacity-on-hover;
+            }
         }
 
         &.slick-active a {
