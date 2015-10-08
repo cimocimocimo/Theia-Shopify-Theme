@@ -3,5 +3,7 @@
   {% for c in sub-menu-categories %}{% assign cat = c | strip %}{% if coll.tags contains cat %}
     <a class="sub-menu-link" href="{{ coll.url }}/{{ cat | handle }}">{{ cat }}</a>
   {% endif %}{% endfor %}
-  <a class="sub-menu-link mobile-view-all-link" href="{{ coll.url }}">View All</a>
+  {% unless coll.handle == 'bridal' %}
+    <a class="sub-menu-link mobile-view-all-link" href="{{ coll.url }}">View All</a>
+  {% endunless %}
 </div>

@@ -16,7 +16,11 @@ For more information on these Scheme.org tags, visit:
     {% assign is_exclusive = true %}
 {% endif %}
 
-<div class="product-detail-hero{% if is_exclusive %} product-is-exclusive{% endif %}{% if on_sale %} on-sale{% endif %}" itemscope itemtype="http://schema.org/Product">
+{% if product.tags contains 'Bridal' %}
+  {% assign is_bridal = true %}
+{% endif %}
+
+<div class="product-detail-hero {% if is_bridal %}bridal-collection{% endif %}{% if is_exclusive %} product-is-exclusive{% endif %}{% if on_sale %} on-sale{% endif %}" itemscope itemtype="http://schema.org/Product">
 
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
   <meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'grande' }}">

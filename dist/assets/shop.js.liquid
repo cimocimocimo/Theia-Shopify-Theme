@@ -756,7 +756,7 @@ timber.headerSubNav = function(){
         var $menuLink = $(this);
 
         // if we are at breakpoint large or bigger
-        if (windowWidth <= breakPointLarge){
+        if (windowWidth <= breakPointLarge || $menuLink.hasClass('js-disabled')){
             event.preventDefault();
             openSubMenu($menuLink);
         }
