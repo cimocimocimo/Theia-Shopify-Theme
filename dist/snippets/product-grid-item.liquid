@@ -92,9 +92,11 @@
           MRSP: <span>{{ product.compare_at_price | money }}</span>
         </div>
       {% else %}
-        <div>
-          US {{ product.price | money }}
-        </div>
+        {% if product.price > 0 %}
+          <div>
+            US {{ product.price | money }}
+          </div>
+        {% endif %}
         {% if style_number != 0 %}
           <div>
             Style #: {{ style_number }}

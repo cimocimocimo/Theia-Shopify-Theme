@@ -64,14 +64,16 @@ For more information on these Scheme.org tags, visit:
 
             <h2 itemprop="name">{{ product.title }}</h2>
 
-            <div class="product-price">
-              {% if on_sale %}
-                Now: <span id="productPrice" itemprop="price">{{ product.price | money }}</span>
-                <span class="compare-at-price">{{ product.compare_at_price | money }}</span>
-              {% else %}
-                <span id="productPrice" itemprop="price">{{ product.price | money }}</span>
-              {% endif %}
-            </div>
+            {% if product.price > 0 %}
+              <div class="product-price">
+                {% if on_sale %}
+                  Now: <span id="productPrice" itemprop="price">{{ product.price | money }}</span>
+                  <span class="compare-at-price">{{ product.compare_at_price | money }}</span>
+                {% else %}
+                  <span id="productPrice" itemprop="price">{{ product.price | money }}</span>
+                {% endif %}
+              </div>
+            {% endif %}
 
             {% if style_number != 0 %}
               <div class="product-style-number">

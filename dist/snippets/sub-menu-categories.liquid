@@ -17,7 +17,7 @@
 {% endunless %}
 {% if coll.handle == 'shop' %}
   {% assign sub-menu-categories = 'New Arrivals, Evening Gowns, Cocktail Dresses, Sale' | split: ', ' %}
-{% elsif coll.handle == 'bridal' %}
+{% elsif coll.handle contains 'bridal' %}
   {% assign sub-menu-categories = 'Runway, Lookbook' | split: ', ' %}
 {% elsif coll.handle == 'collections' %}
   {% assign sub-menu-categories = 'Resort 2016, Spring 2015, Fall 2015, Pre-Fall 2015' | split: ', ' %}
