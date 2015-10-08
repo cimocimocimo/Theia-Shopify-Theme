@@ -1911,7 +1911,7 @@ $smallSocialIconRatio: (2.66/3.375);
 
 %large-button-base {
     height: 50px;
-    padding: 1px $gutter 0;
+    padding: 4px $gutter 0;
     font-size: 1.5625em;
     line-height: 48px;
     font-weight: 300;
@@ -3902,6 +3902,10 @@ body.vex-open {
     border-top: 1px solid $colorLighterGray;
     overflow: hidden; // clip the product image zoom
 
+    &.bridal-collection {
+        background-color: #a4acb7;
+    }
+        
     .wrapper {
         height: 100%;
     }
@@ -4691,9 +4695,10 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
 
     /* Style */
-
-    button {
-        @extend %large-gold-arrow-button;
+    
+    button,
+    .button {
+        @extend %large-gray-arrow-button;
     }
 
     .add-to-wishlist-link,
@@ -6484,7 +6489,7 @@ address {
 }
 
 .about-page-hero {
-    @extend %hero-large;
+    @extend %hero-alarge;
 
     background: {
         color: #000;
@@ -7980,7 +7985,6 @@ html.full-viewport {
             left: 0;
             right: 0;
             height: 100%;
-            width: 100%;
         }
 
         img {
@@ -7988,7 +7992,6 @@ html.full-viewport {
             height: auto;
             position: absolute;
             left: 0;
-            bottom: 0;
         }
     }
     
@@ -7997,6 +8000,7 @@ html.full-viewport {
             @include transition(opacity 0.3s);
             
             opacity: 1;
+            top: -100%;
             
             &:hover {
                 opacity: 0;
@@ -8015,6 +8019,23 @@ html.full-viewport {
 .product-grid-item {
     @extend %product-lookbook-grid-item-base;
 
+    .image-row {
+        height: 384px;
+        text-align: center;
+        
+        a {
+            right: 50%;
+            left: auto;
+        }
+        
+        img {
+            position: relative;
+            left: 50%;
+            height: 100%;
+            width: auto;
+        }
+    }
+    
     .info-block {
         @extend %smallish-arial-text;
 
@@ -8064,6 +8085,10 @@ html.full-viewport {
 
     /* Mobile */
     @include at-query ($max, $small) {
+        .image-row {
+            height: 218px;
+        }
+
         .meta-row {
             margin-bottom: 0;
         }
