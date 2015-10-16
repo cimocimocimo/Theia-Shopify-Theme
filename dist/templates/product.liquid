@@ -49,9 +49,15 @@ For more information on these Scheme.org tags, visit:
       <div class="product-back-link-row">
 
         <nav class="product-back-link-block" role="navigation">
-          <a href="/collections/shop/#style-{{ style_number }}" class="product-back-link" title="Back to collection">
+          <a href="/collections/{{ collection.handle }}/#style-{{ style_number }}" class="product-back-link" title="Back to collection">
             Back to
-            <span class="link-target-label">the Shop</span>
+            <span class="link-target-label">
+              {% if collection.handle == 'shop' %}
+                the Shop
+              {% else %}
+                {{ collection.title }}
+              {% endif %}
+            </span>
           </a>
         </nav>
 
@@ -64,7 +70,7 @@ For more information on these Scheme.org tags, visit:
 
             <h2 itemprop="name">{{ product.title }}</h2>
 
-            {% if product.price > 0 %}
+            {% if product.price > 0 and collection.handle == 'shop' %}
               <div class="product-price">
                 {% if on_sale %}
                   Now: <span id="productPrice" itemprop="price">{{ product.price | money }}</span>
