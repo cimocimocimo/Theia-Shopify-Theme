@@ -262,7 +262,7 @@ For more information on these Scheme.org tags, visit:
 If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)
 in the URL, we can show next/previous links to other products in the collection.
 {% endcomment %}
-{% if collection %}
+{% if collection and collection.handle != 'bridal' %}
 
   <div class="related-products-hero">
 
