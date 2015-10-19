@@ -600,7 +600,6 @@ timber.homepageVideo = function(){
     // When the player is ready, add listeners for pause, finish, and playProgress
     player.addEvent('ready', function() {
         player.addEvent('pause', videoFinishPauseCallback);
-        player.addEvent('finish', onFinish);
         
         $playButton.click(playButtonCallback);
     });

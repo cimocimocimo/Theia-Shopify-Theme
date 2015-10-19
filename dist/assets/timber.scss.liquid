@@ -6884,24 +6884,18 @@ html.full-viewport {
 
     .content {
         position: relative;
-        width: 45%;
-        max-width: 640px;
         margin: 0 auto;
         text-align: center;
-        padding: $gutter $gutter*2;
     }
 
     h2 {
         font-family: $centuryGothicFontStack;
         font-size: 46px;
-        margin: 0 0 $gutter*2;
     }
 
     a {
         font-family: $centuryGothicFontStack;
         font-size: 30px;
-        font-style: italic;
-        font-weight: 700;
         text-decoration: none;
     }
 }
@@ -6923,7 +6917,6 @@ html.full-viewport {
     }
     
     .content {
-        padding: 0;
         display: inline-block;
         width: auto;
         max-width: none;
@@ -6962,6 +6955,36 @@ html.full-viewport {
         
         &:hover {
             color: $colorDarkGold;
+        }
+    }
+        
+    @include at-query(null, $postLarge, $xLarge){
+        h2 {
+            font-size: 46px;
+            line-height: 64px;
+        }
+    }
+    
+    @include at-query(null, $postMedium, $large){
+        h2 {
+            font-size: 46px;
+            line-height: 64px;
+        }
+        
+    }
+    
+    @include at-query(null, $postSmall, $medium){
+        h2 {
+            font-size: 46px;
+            line-height: 64px;
+        }
+        
+    }
+    
+    @include at-query($max, $small){
+        h2 {
+            font-size: 46px;
+            line-height: 64px;
         }
     }
 }
@@ -7011,16 +7034,16 @@ html.full-viewport {
     }
     
     .content {
-        position: relative;
         width: 45%;
         max-width: 640px;
-        margin: 0 auto;
+        padding: $gutter $gutter*2;
         background: rgba(255,255,255,0.60);
     }
     
     h2 {
         color: $colorWarmDarkGray;
         text-transform: uppercase;
+        margin: 0 0 $gutter*2;
     }
 
     a {
@@ -7028,6 +7051,8 @@ html.full-viewport {
         @extend .icon-arrow-right-solid-suffix;
         
         color: $colorGold;
+        font-style: italic;
+        font-weight: 700;
 
         &:after {
             font-size: 21px;
