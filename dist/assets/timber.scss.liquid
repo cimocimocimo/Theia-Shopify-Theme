@@ -6778,13 +6778,8 @@ html.full-viewport {
     
     background: url({{ 'homepage-splash-bg.jpg' | asset_url }}) center center no-repeat;
     background-size: cover;
-    
-    // position: fixed;
     position: relative;
     z-index: 13000;
-    /* top: 0; */
-    /* left: 0; */
-    /* width: 100%; */
     
     .eye-level-wide {
         position: absolute;
@@ -6798,7 +6793,6 @@ html.full-viewport {
             position: absolute;
             top: percentage(475/1709);
             height: 0;
-            background: red;
             width: 100%;
         }
     }
@@ -6826,7 +6820,6 @@ html.full-viewport {
             position: absolute;
             top: percentage(479/1709);
             height: 0;
-            background: blue;
             width: 100%;
         }
     }
@@ -6959,32 +6952,62 @@ html.full-viewport {
     }
         
     @include at-query(null, $postLarge, $xLarge){
+        padding-top: percentage(0.703125);
+        
         h2 {
-            font-size: 46px;
-            line-height: 64px;
+            font-size: 42px;
+            line-height: 58px;
+            padding: $gutter*3*7/8 $gutter*5*7/8;
+        }
+
+        a {
+            font-size: 26px;
+            padding: $gutter 0;
         }
     }
     
     @include at-query(null, $postMedium, $large){
+        padding-top: percentage(0.84375);
+        
         h2 {
-            font-size: 46px;
-            line-height: 64px;
+            font-size: 34px;
+            line-height: 47px;
+            padding: $gutter*3*3/4 $gutter*5*3/4;
         }
         
+        a {
+            font-size: 22px;
+            padding: $gutter 0;
+        }
     }
     
     @include at-query(null, $postSmall, $medium){
+        padding-top: percentage(0.934375);
+        
         h2 {
-            font-size: 46px;
-            line-height: 64px;
+            font-size: 29px;
+            line-height: 40px;
+            padding: $gutter*3*5/8 $gutter*5*5/8;
         }
         
+        a {
+            font-size: 19px;
+            padding: $gutter*3/4 0;
+        }
     }
     
     @include at-query($max, $small){
+        padding-top: percentage(1);
+
         h2 {
-            font-size: 46px;
-            line-height: 64px;
+            font-size: 23px;
+            line-height: 32px;
+            padding: $gutter*3/2 $gutter*5/2;
+        }
+
+        a {
+            font-size: 15px;
+            padding: $gutter*3/4 0;
         }
     }
 }
