@@ -6936,8 +6936,10 @@ html.full-viewport {
             padding-right: 1px;
         }
     }
-    
+
     a {
+        @include transition(all 0.3s);
+        
         background: rgba(255,255,255,0.75);
         display: block;
         color: $colorWarmDarkGray;
@@ -6947,7 +6949,8 @@ html.full-viewport {
         font-weight: 400;
         
         &:hover {
-            color: $colorDarkGold;
+            background: $colorDarkGold;
+            color: $colorWhite;
         }
     }
         
