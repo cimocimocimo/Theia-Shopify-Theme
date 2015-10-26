@@ -11576,3 +11576,76 @@ span#resultMessage {
         display: none !important;
     }
 }
+
+
+.video-summary-block,
+.video-detail-block {
+    .header-block {
+        a {
+            color: $colorWarmGray;
+            text-decoration: none;
+        }
+
+        h3 {
+            font-size: 48px;
+        }
+    }
+    
+    .video-block {
+        position: relative;
+        height: 0;
+        padding-top: percentage(1080/1920);
+        margin-bottom: $gutter;
+        
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .body-block {
+        margin: $gutter*2 0;
+        text-align: center;
+    }
+
+    .share-buttons {
+        margin-top: $gutter*2;
+    }
+    
+
+    @include at-query(null, $postSmall, $large){
+        .header-block {
+            h3 {
+                font-size: 42px;
+            }
+        }
+        
+        .body-block {
+            margin: $gutter*1.5 0;
+        }
+
+        .share-buttons {
+            margin-top: $gutter*1.5;
+        }
+    }
+    
+    @include at-query($max, $small){
+        .header-block{
+            h3 {
+                font-size: 25px;
+                line-height: 1.1;
+            }
+        }
+        
+        .body-block {
+            margin: $gutter 0;
+        }
+        
+        .share-buttons {
+            margin-top: $gutter;
+        }
+    }
+}
