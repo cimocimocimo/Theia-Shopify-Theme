@@ -117,6 +117,8 @@ $colorDarkerGold: #896e35;
 $colorGreen: #29c050;
 $colorRed: #cf5b31;
 
+$colorBlack: #000000;
+
 /*============================================================================
   Ajaxify Colours
   ==============================================================================*/
@@ -2141,7 +2143,8 @@ $smallSocialIconRatio: (2.66/3.375);
 }
 
 /* gray, medium button */
-%medium-gray-button {
+%medium-gray-button,
+.medium-gray-button {
     @extend %button-base;
     @extend %medium-button-base;
     @extend %gray-button-base;
@@ -6521,6 +6524,7 @@ address {
     $heroBgColor: #868d8a;
 
     background: $heroBgColor url({{ 'contact-page-hero-bg.jpg' | asset_url}}) top center no-repeat;
+    background-size: cover;
 
     .content {
         text-shadow: 0 1px rgba(0,0,0, 0.44);
@@ -6531,6 +6535,7 @@ address {
     .wrapper {
         @include heroEdgeFade( $heroBgColor, $width: 160px, $offset: 99px );
 
+        background-color: rgba($heroBgColor, 0.2);
         height: 100%;
     }
 }
@@ -8218,6 +8223,7 @@ html.full-viewport {
 }
 
 .content-hero {
+    margin: $gutter*3 auto;
     padding-bottom: $gutter * 3;
 
     h2 {
@@ -11646,6 +11652,67 @@ span#resultMessage {
         
         .share-buttons {
             margin-top: $gutter;
+        }
+    }
+}
+// page/item specific styles
+// these are matched based on the item handle or the handlized page title (in the case of the homepage)
+#fall-cocktail-giveaway {
+    .page-hero {
+        .content {
+            @include verticalCenterChildElements();
+            
+            text-align: center;
+            position: relative;
+            height: 100%;
+            width: 100%;
+            top: auto;
+            left: auto;
+            margin: 0;
+            width: auto;
+            
+            h2 {
+                text-shadow: 0px 2px 64px $colorBlack;
+                margin: 0 $gutter;
+                max-width: 544px;
+                font-size: 58px;
+            }        
+        }
+    }
+    
+    .content-hero {
+        p {
+            &:first-of-type {
+                font-size: 18px;
+            }
+        }
+    }
+    
+    @include at-query(null, $postSmall, $large){
+        .page-hero .content h2 {
+            font-size: 46px;
+            padding-top: 6px;
+        }
+        .content-hero {
+            p {
+                &:first-of-type {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+
+    @include at-query($max, $small){
+        .page-hero .content h2 {
+            font-size: 38px;
+            padding-top: 12px;
+        }
+        .content-hero {
+            p {
+                &:first-of-type {
+                    font-size: 14px;
+                }
+            }
         }
     }
 }
