@@ -3352,6 +3352,11 @@ label.error {
             > span {
                 padding: 11px 5px 9px;
                 font-size: 15px;
+                
+                /* hide the label in the nested span on mobile */
+                > span {
+                    display: none;
+                }
             }
 
             /* Previous Link */
@@ -3362,12 +3367,6 @@ label.error {
                 margin-left: 0;
                 padding-left: 0;
                 padding-right: $gutter;
-
-                /* hide the 2nd half of the word previous. */
-                > span {
-                    display: none;
-                }
-
             }
 
             /* Next Link */
