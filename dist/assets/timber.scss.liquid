@@ -3404,16 +3404,15 @@ label.error {
     }
 }
 
-.back-to-top-block {
+.back-to-top-block,
+.back-block {
     text-align: center;
     margin: $gutter * 4 0;
 }
 
-.back-to-top-link {
+%back-link-base {
     @extend %gray-hover-gold-link;
     @extend %small-mid-arial-text;
-    @extend %icon-suffix-base;
-    @extend .icon-arrow-up-suffix;
 
     display: inline-block;
     height: 40px;
@@ -3423,6 +3422,18 @@ label.error {
     text-transform: uppercase;
     line-height: 38px;
     font-weight: 700;
+}
+
+.back-to-top-link {
+    @extend %back-link-base;
+    @extend %icon-suffix-base;
+    @extend .icon-arrow-up-suffix;
+}
+
+.back-link {
+    @extend %back-link-base;
+    @extend %icon-base;
+    @extend .icon-arrow-left;
 }
 
 /*============================================================================
@@ -4869,25 +4880,6 @@ $lookbookModalHeaderHeight: $gutter*8;
         padding-top: 2px;
     }
 
-    .share-buttons {
-        height: 20px;
-        width: 354px;
-
-        > * {
-            display: inline-block !important;
-            vertical-align: top !important;
-        }
-
-        .twitter-share-button {
-            width: 80px !important;
-        }
-    }
-
-    /* Desktop */
-    @include at-query( $min, $postMedium ){
-
-    }
-
     @include at-query( null, $postMedium, $large ){
         display: none;
     }
@@ -4897,6 +4889,21 @@ $lookbookModalHeaderHeight: $gutter*8;
         .label {
             display: none;
         }
+    }
+}
+
+.share-buttons {
+    height: 20px;
+    width: auto;
+    line-height: 1;
+
+    > * {
+        display: inline-block !important;
+        vertical-align: top !important;
+    }
+
+    .twitter-share-button {
+        width: 80px !important;
     }
 }
 
@@ -11619,7 +11626,6 @@ span#resultMessage {
     .share-buttons {
         margin-top: $gutter*2;
     }
-    
 
     @include at-query(null, $postSmall, $large){
         .header-block {
@@ -11668,13 +11674,13 @@ span#resultMessage {
             color: $colorDarkerMidGray
         }
         
+        a {
+            color: $colorDarkerMidGray;
+        }
+        
         h2, h3 {
             font-weight: 700;
             margin: 10px 0 17px;
-            
-            a {
-                color: $colorDarkerMidGray;
-            }
         }
         
         h2 {
@@ -11764,14 +11770,72 @@ span#resultMessage {
     }
 }
 
+.blog-sidebar {
+    h4 {
+        margin: 0 0 $gutter/2;
+    }
+
+    @include at-query($max, $medium){
+        text-align: center;
+    }
+}
+
+%blog-sidebar-row-base {
+    margin: 0 0 $gutter;
+
+    @include at-query($max, $medium){
+        margin-bottom: $gutter*2;
+    }
+}
+
+.blog-sidebar-tags {
+    @extend %blog-sidebar-row-base;
+    
+    a,
+    span {
+        display: inline-block;
+        text-transform: uppercase;
+        font-size: 14px;
+        text-decoration: none;
+        font-weight: 700;
+        color: $colorGray;
+
+        &:hover {
+            color: $colorGold;
+        }
+    }
+    
+    .active a {
+        color: $colorGold;
+    }
+    
+    @include at-query($min, $postMedium){
+        border-right: 1px solid $colorLightGray;
+        text-align: right;
+        padding: $gutter $gutter*3 $gutter $gutter;
+    
+        a {
+            display: block;
+            margin: 0 0 $gutter/2;
+        }
+    }
+    
+    @include at-query($max, $medium){
+        a {
+            padding: $gutter/2 $gutter*1.25;
+        }
+    }
+}
+
 .blog-index {
-    @extend .wrapper-10-col;
+    @extend .wrapper-8-col;
+    @extend %clearfix;
     
     margin-top: $gutter*4;
     margin-bottom: $gutter*4;
     
     hr {
-        margin: $gutter*4 0;
+        margin: $gutter*3 0;
     }
     
     .pagination-row {
@@ -11779,6 +11843,24 @@ span#resultMessage {
         text-align: center;
     }
 
+    // position sidebar to left on desktop
+    @include at-query($min, $postMedium){
+        .blog-sidebar,
+        .blog-index-articles {
+            float: left;
+        }
+        
+        .blog-sidebar {
+            width: 33%;
+            padding-right: $gutter*1.5;
+        }
+        
+        .blog-index-articles {
+            width: 67%;
+            padding-left: $gutter*1.5;
+        }
+    }
+    
     @include at-query(null, $postMedium, $large){
         margin-top: $gutter*3;
         margin-bottom: $gutter*3;
@@ -11806,48 +11888,11 @@ span#resultMessage {
     }
 }
 
-.blog-index-article-block {
+.blog-index-article-block,
+.blog-index-featured-article {
     @extend %blog-article-base;
     @extend %clearfix;
     
-    &.featured-article {
-        .left-column {
-            display: none;
-
-            .image-block {
-                margin-bottom: 0;
-            }
-        }
-        
-        .right-column {
-            width: auto;
-            float: none;
-            padding-left: 0;
-
-            .image-block {
-                display: block;
-            }
-        }
-    }
-    
-    .left-column,
-    .right-column {
-        float: left;
-        width: 50%;
-    }
-
-    .left-column {
-        padding-right: $gutter;
-    }
-
-    .right-column {
-        padding-left: $gutter;
-
-        .image-block {
-            display: none;
-        }
-    }
-
     .button-row {
         text-align: center;
         
@@ -11878,12 +11923,63 @@ span#resultMessage {
 }
 
 .blog-article {
-    @extend .wrapper-10-col;
+    @extend .wrapper-8-col;
     @extend %blog-article-base;
+    @extend %clearfix;
 
     margin-top: $gutter*4;
+
+    .body-block {
+        img {
+            display: block;
+            margin: $gutter*2 auto;
+            max-width: 100%;
+            height: auto;
+        }
+    }
+    
+    .pagination-row {
+        margin-top: $gutter*3;
+        text-align: center;
+    }
 }
 
+.blog-share-block {
+    border-top: 1px solid $colorLightGray;
+    border-bottom: 1px solid $colorLightGray;
+    padding: 12px 0 14px;
+    margin: 0 auto;
+    max-width: $small;
+    text-align: center;
+
+    > div {
+        display: inline-block;
+        line-height: 1;
+        vertical-align: middle;
+
+    }
+
+    .share-buttons > * {
+        margin: 0 $gutter/4;
+    }
+    
+    .label {
+        @extend %smallish-arial-text;
+
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $colorWarmLightGray;
+        padding-top: 2px;
+        margin-right: 8px;
+    }
+
+    /* Mobile */
+    @include at-query ($max, $large) {
+        .label {
+            display: none;
+        }
+    }
+}
 
 // page/item specific styles
 // these are matched based on the item handle or the handlized page title (in the case of the homepage)

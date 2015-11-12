@@ -20,23 +20,55 @@ Don't forget to close the tag after your loop.
   For more info on article liquid tags:
   - http://docs.shopify.com/themes/liquid-variables/article
   {% endcomment %}
-
-  {% for article in blog.articles %}
-    
-    {% if forloop.first == false %}
-      <hr>
-    {% endif %}
-    
-    <div class="blog-index-article-block {% if forloop.first %}featured-article{% else %}two-column-article{% endif %}">
-      <div class="left-column">
-        <div class="image-block">
-          {{ article.image | img_url: '1024x1024' | img_tag }}
-        </div>
+  
+  {% assign first_article = blog.articles.first %}
+  
+  <div class="blog-index-featured-article">
+    <header class="header-block">
+      <div class="tags">
+        {{ first_article.tags | first | link_to_tag: first_article.tags.first }}
       </div>
-      <div class="right-column">
+      <h3><a href="{{ first_article.url }}">{{ first_article.title }}</a></h3>
+      <div class="article-meta">
+        By {{ first_article.author }}
+        <time pubdate datetime="{{ first_article.published_at | date: '%Y-%m-%d' }}">
+          {{ first_article.published_at | date: '%b %d, %Y' }}
+        </time>
+      </div>
+    </header>        
+    <div class="image-block">
+      {{ first_article.image | img_url: '1024x1024' | img_tag }}
+    </div>
+  </div>
+  
+  {% include 'blog-sidebar' %}
+  
+  <div class="blog-index-articles">
+    
+    <div class="blog-index-featured-article">
+      <div class="body-block">
+        {% if first_article.excerpt.size > 0 %}
+          {{ first_article.excerpt }}
+        {% else %}
+          <p>{{ first_article.content | strip_html | truncatewords: 100 }}</p>
+        {% endif %}
+      </div>
+      <div class="button-row">
+        <a href="{{ first_article.url }}" class="button">
+          <span class="label">Keep Reading</span>
+          <span class="icon"></span>
+        </a>
+      </div>
+    </div>
+    
+    {% for article in blog.articles offset:1 %}
+      
+      <hr>
+      
+      <div class="blog-index-article-block">
         <header class="header-block">
           <div class="tags">
-            {{ article.tags | first }}
+            {{ first_article.tags | first | link_to_tag: first_article.tags.first }}
           </div>
           <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
           <div class="article-meta">
@@ -63,16 +95,16 @@ Don't forget to close the tag after your loop.
           </a>
         </div>
       </div>
-
-    </div>
+      
+    {% endfor %}
     
-  {% endfor %}
+    {% if paginate.pages > 1 %}
+      <div class="pagination-row">
+        {% include 'pagination-block' %}
+      </div>
+    {% endif %}
 
-  {% if paginate.pages > 1 %}
-    <div class="pagination-row">
-      {% include 'pagination-block' %}
-    </div>
-  {% endif %}
+  </div>
 
   {% endpaginate %}
 
