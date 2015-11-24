@@ -70,7 +70,7 @@ For more information on these Scheme.org tags, visit:
 
             <h2 itemprop="name">{{ product.title }}</h2>
 
-            {% if product.price > 0 and collection.handle == 'shop' %}
+            {% if product.price > 0 and product.type == 'Theia Shop' %}
               <div class="product-price">
                 {% if on_sale %}
                   Now: <span id="productPrice" itemprop="price">{{ product.price | money }}</span>

@@ -117,6 +117,8 @@ $colorDarkerGold: #896e35;
 $colorGreen: #29c050;
 $colorRed: #cf5b31;
 
+$colorBlack: #000000;
+
 /*============================================================================
   Ajaxify Colours
   ==============================================================================*/
@@ -2141,7 +2143,8 @@ $smallSocialIconRatio: (2.66/3.375);
 }
 
 /* gray, medium button */
-%medium-gray-button {
+%medium-gray-button,
+.medium-gray-button {
     @extend %button-base;
     @extend %medium-button-base;
     @extend %gray-button-base;
@@ -3350,7 +3353,7 @@ label.error {
                 padding: 11px 5px 9px;
                 font-size: 15px;
             }
-
+                        
             /* Previous Link */
             &:first-child > a,
             &:first-child > span {
@@ -4712,7 +4715,8 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     /* Mobile */
     @include at-query ($max, $medium) {
-        button {
+        button,
+        .button {
             font-size: 1.25em;
             height: 44px;
 
@@ -6521,6 +6525,7 @@ address {
     $heroBgColor: #868d8a;
 
     background: $heroBgColor url({{ 'contact-page-hero-bg.jpg' | asset_url}}) top center no-repeat;
+    background-size: cover;
 
     .content {
         text-shadow: 0 1px rgba(0,0,0, 0.44);
@@ -6531,6 +6536,7 @@ address {
     .wrapper {
         @include heroEdgeFade( $heroBgColor, $width: 160px, $offset: 99px );
 
+        background-color: rgba($heroBgColor, 0.2);
         height: 100%;
     }
 }
@@ -6869,9 +6875,9 @@ html.full-viewport {
     text-align: center;
     
     @include at-query($max, $medium){
-        background: url({{ "homepage-hero-bg-mobile-768.jpg" | asset_url }}) top left no-repeat;
-        height: 640px;
-        padding-top: 0;
+        background-image: url({{ "homepage-hero-bg-mobile-768.jpg" | asset_url }});
+        background-position: top left;
+        padding-top: percentage(640/768);
     }
     
     @include at-query(null, $postMedium, $large){
@@ -6901,13 +6907,14 @@ html.full-viewport {
         bottom: 0;
         height: 100%;
         width: 100%;
+        padding-top: 10%;
     }
     
     .content {
-        position: relative;
+        position: absolute;
         width: 45%;
+        right: 15%;
         max-width: 640px;
-        margin: 0 auto;
         background: rgba(255,255,255,0.60);
         padding: $gutter $gutter*2;
         text-align: center;
@@ -6949,26 +6956,32 @@ html.full-viewport {
     /* @include at-query(); */
     @include at-query($max, $small){
         text-align: right;
-
+        
+        .inner {
+            padding-top: 16%;
+        }
+        
         .content {
-            margin: 0 2.5% 0 auto;
-            width: 55%;
+            width: 50%;
+            right: 0;
+            height: auto;
+            padding: $gutter;
         }
 
         h2 {
-            font-size: 26px;
+            font-size: 21px;
             margin: 0 0 $gutter;
         }
 
         p {
-            font-size: 12px;
+            font-size: 11px;
         }
 
         a {
-            font-size: 15px;
+            font-size: 13px;
 
             &:after {
-                font-size: 11px;
+                font-size: 9px;
                 margin-left: $gutter/4;
             }
         }        
@@ -6977,9 +6990,13 @@ html.full-viewport {
     @include at-query(null, $postSmall, $medium){
         text-align: right;
 
+        .inner {
+            padding-top: 20%;
+        }
+        
         .content {
-            margin: 0 5% 0 auto;
-            width: 61.666667%;
+            right: 5%;
+            width: 50%;
         }
 
         h2 {
@@ -7003,10 +7020,14 @@ html.full-viewport {
     
     @include at-query(null, $postMedium, $large){
         text-align: right;
-
+        
+        .inner {
+            padding-top: 15%;
+        }
+        
         .content {
-            margin: 0 5% 0 auto;
-            width: 61.666667%;
+            right: 10%;
+            width: 50%;
         }
 
         h2 {
@@ -7051,30 +7072,6 @@ html.full-viewport {
                 margin-left: $gutter/2 * $scalePostLargeXLarge;
             }
         }        
-    }
-    
-    .image {
-        @include transition(opacity 1s);
-
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        z-index: 1;
-        opacity: 1;
-
-        /* uploaded through the settings page. */
-        background: {
-            image: url({{ 'homepage-hero.jpg' | file_url }});
-            position: 0% 67%;
-            repeat: no-repeat;
-            size: cover;
-        }
-
-        @media screen and (max-aspect-ratio: 1400/945){
-            background-image: url({{ 'homepage-hero-1400x945.jpg' | asset_url }});
-        }
     }
 }
 
@@ -8218,6 +8215,7 @@ html.full-viewport {
 }
 
 .content-hero {
+    margin: $gutter*3 auto;
     padding-bottom: $gutter * 3;
 
     h2 {
@@ -11646,6 +11644,68 @@ span#resultMessage {
         
         .share-buttons {
             margin-top: $gutter;
+        }
+    }
+}
+
+// page/item specific styles
+// these are matched based on the item handle or the handlized page title (in the case of the homepage)
+#fall-cocktail-giveaway {
+    .page-hero {
+        .content {
+            @include verticalCenterChildElements();
+            
+            text-align: center;
+            position: relative;
+            height: 100%;
+            width: 100%;
+            top: auto;
+            left: auto;
+            margin: 0;
+            width: auto;
+            
+            h2 {
+                text-shadow: 0px 2px 64px $colorBlack;
+                margin: 0 $gutter;
+                max-width: 544px;
+                font-size: 58px;
+            }        
+        }
+    }
+    
+    .content-hero {
+        p {
+            &:first-of-type {
+                font-size: 18px;
+            }
+        }
+    }
+    
+    @include at-query(null, $postSmall, $large){
+        .page-hero .content h2 {
+            font-size: 46px;
+            padding-top: 6px;
+        }
+        .content-hero {
+            p {
+                &:first-of-type {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+
+    @include at-query($max, $small){
+        .page-hero .content h2 {
+            font-size: 38px;
+            padding-top: 12px;
+        }
+        .content-hero {
+            p {
+                &:first-of-type {
+                    font-size: 14px;
+                }
+            }
         }
     }
 }
