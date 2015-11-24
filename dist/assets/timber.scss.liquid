@@ -4921,13 +4921,22 @@ $lookbookModalHeaderHeight: $gutter*8;
         color: $colorWarmLightGray;
     }
 
-    p {
+    p, li {
         @extend %smaller-helvetica-text;
 
         line-height: (23/14);
         color: $colorWarmGray;
     }
-
+    
+    ul {
+        list-style-type: disc;
+        padding-left: $gutter * 1.5;
+    }
+    
+    li {
+        margin-bottom: 0;
+    }
+    
     .content {
         height: 64px; /* height of the header and 3 lines of text. */
         overflow-y: hidden;
