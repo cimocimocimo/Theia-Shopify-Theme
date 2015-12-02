@@ -10,7 +10,7 @@ For more information on these Scheme.org tags, visit:
 
 {% include 'capture-style-number' %}
 {% include 'capture-product-on-sale' %}
-{% if product.type == 'Theia Shop' %}
+{% if product.type contains 'Shop' %}
     {% assign is_exclusive = false %}
 {% else %}
     {% assign is_exclusive = true %}
