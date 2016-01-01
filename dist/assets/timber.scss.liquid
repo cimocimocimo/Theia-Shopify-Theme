@@ -3905,10 +3905,6 @@ body.vex-open {
     border-top: 1px solid $colorLighterGray;
     overflow: hidden; // clip the product image zoom
 
-    &.bridal-collection {
-        background-color: #a4acb7;
-    }
-        
     .wrapper {
         height: 100%;
     }
@@ -4921,13 +4917,26 @@ $lookbookModalHeaderHeight: $gutter*8;
         color: $colorWarmLightGray;
     }
 
-    p {
+    p, li {
         @extend %smaller-helvetica-text;
 
         line-height: (23/14);
         color: $colorWarmGray;
     }
-
+    
+    ul {
+        list-style-type: disc;
+        padding-left: $gutter * 1.5;
+    }
+    
+    li {
+        margin-bottom: 0;
+    }
+    
+    a {
+        @extend %warmGray-underline-hover-gold-link;
+    }
+    
     .content {
         height: 64px; /* height of the header and 3 lines of text. */
         overflow-y: hidden;
