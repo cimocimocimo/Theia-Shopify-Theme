@@ -11712,7 +11712,7 @@ span#resultMessage {
     }
 
     .body-block {
-        margin-bottom: $gutter * 2;
+        margin-bottom: $gutter * 4;
         
         p {
             margin: 0;
@@ -11722,14 +11722,7 @@ span#resultMessage {
         }
     }
 
-    @include at-query(null, $postMedium, $large){
-    }
-    
-    @include at-query(null, $postSmall, $medium){
-    }
-    
-    @include at-query($max, $small){
-        
+    @include at-query($max, $medium){
         .header-block {
             margin-bottom: 38px*0.85;
             
@@ -11757,12 +11750,16 @@ span#resultMessage {
         }
 
         .image-block {
-            margin-bottom: 38px*0.85;
+            margin-bottom: $gutter;
         }
 
         .body-block {
-            margin-bottom: $gutter * 2*0.85;
-            
+            margin-bottom: $gutter * 2;
+        }
+    }
+
+    @include at-query($max, $small){
+        .body-block {
             p {
                 font-size: 15px*0.85;
                 line-height: 23px*0.85;
@@ -11903,21 +11900,16 @@ span#resultMessage {
     }
 
     @include at-query($max, $medium){
-        .left-column,
-        .right-column {
-            float: none;
-            width: auto;
-        }
-        
-        .left-column {
-            display: none;
-        }
-        
-        .right-column {
-            padding-left: 0;
-            
-            .image-block {
-                display: block;
+        .button-row {
+            .button {
+                font-size: 1.25em;
+                height: 44px;
+                line-height: 42px;
+
+                .icon {
+                    font-size: 0.625em;
+                    top: -1px;
+                }
             }
         }
     }
@@ -11942,6 +11934,20 @@ span#resultMessage {
     .pagination-row {
         margin-top: $gutter*3;
         text-align: center;
+    }
+
+    @include at-query($max, $medium){
+        margin-top: $gutter*2;
+
+        .body-block {
+            img {
+                margin: $gutter auto;
+            }
+        }
+
+        .pagination-row {
+            margin-top: $gutter*2;
+        }
     }
 }
 

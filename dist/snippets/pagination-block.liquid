@@ -55,15 +55,13 @@
   {% if has_previous %}
     <li>
       <a href="{{ previous_url }}" title="{{ previous_title }}">
-        {{ previous_label }}
-        <span>{{ previous_label_desktop }}</span>
+        {{ previous_label }}<span>{{ previous_label_desktop }}</span>
       </a>
     </li>
   {% else %}
     <li class="disabled">
       <span>
-        {{ previous_label }}
-        <span>{{ previous_label_desktop }}</span>
+        {{ previous_label }}<span>{{ previous_label_desktop }}</span>
       </span>
     </li>
   {% endif %}
@@ -85,15 +83,13 @@
   {% if has_next %}
     <li>
       <a href="{{ next_url }}" title="{{ next_title }}">
-        {{ next_label }}
-        <span>{{ next_label_desktop }}</span>
+        {{ next_label }}<span>{{ next_label_desktop }}</span>
       </a>
     </li>
   {% else %}
     <li class="disabled">
       <span>
-        {{ next_label }}
-        <span>{{ next_label_desktop }}</span>
+        {{ next_label }}<span>{{ next_label_desktop }}</span>
       </span>
     </li>
   {% endif %}
