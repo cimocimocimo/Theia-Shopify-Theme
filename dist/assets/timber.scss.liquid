@@ -3358,7 +3358,7 @@ label.error {
                     display: none;
                 }
             }
-
+                        
             /* Previous Link */
             &:first-child > a,
             &:first-child > span {
@@ -3915,10 +3915,6 @@ body.vex-open {
     border-top: 1px solid $colorLighterGray;
     overflow: hidden; // clip the product image zoom
 
-    &.bridal-collection {
-        background-color: #a4acb7;
-    }
-        
     .wrapper {
         height: 100%;
     }
@@ -4725,7 +4721,8 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     /* Mobile */
     @include at-query ($max, $medium) {
-        button {
+        button,
+        .button {
             font-size: 1.25em;
             height: 44px;
 
@@ -4926,13 +4923,26 @@ $lookbookModalHeaderHeight: $gutter*8;
         color: $colorWarmLightGray;
     }
 
-    p {
+    p, li {
         @extend %smaller-helvetica-text;
 
         line-height: (23/14);
         color: $colorWarmGray;
     }
-
+    
+    ul {
+        list-style-type: disc;
+        padding-left: $gutter * 1.5;
+    }
+    
+    li {
+        margin-bottom: 0;
+    }
+    
+    a {
+        @extend %warmGray-underline-hover-gold-link;
+    }
+    
     .content {
         height: 64px; /* height of the header and 3 lines of text. */
         overflow-y: hidden;
@@ -6880,9 +6890,9 @@ html.full-viewport {
     text-align: center;
     
     @include at-query($max, $medium){
-        background: url({{ "homepage-hero-bg-mobile-768.jpg" | asset_url }}) top left no-repeat;
-        height: 640px;
-        padding-top: 0;
+        background-image: url({{ "homepage-hero-bg-mobile-768.jpg" | asset_url }});
+        background-position: top left;
+        padding-top: percentage(640/768);
     }
     
     @include at-query(null, $postMedium, $large){
@@ -6912,13 +6922,14 @@ html.full-viewport {
         bottom: 0;
         height: 100%;
         width: 100%;
+        padding-top: 10%;
     }
     
     .content {
-        position: relative;
+        position: absolute;
         width: 45%;
+        right: 15%;
         max-width: 640px;
-        margin: 0 auto;
         background: rgba(255,255,255,0.60);
         padding: $gutter $gutter*2;
         text-align: center;
@@ -6960,26 +6971,32 @@ html.full-viewport {
     /* @include at-query(); */
     @include at-query($max, $small){
         text-align: right;
-
+        
+        .inner {
+            padding-top: 16%;
+        }
+        
         .content {
-            margin: 0 2.5% 0 auto;
-            width: 55%;
+            width: 50%;
+            right: 0;
+            height: auto;
+            padding: $gutter;
         }
 
         h2 {
-            font-size: 26px;
+            font-size: 21px;
             margin: 0 0 $gutter;
         }
 
         p {
-            font-size: 12px;
+            font-size: 11px;
         }
 
         a {
-            font-size: 15px;
+            font-size: 13px;
 
             &:after {
-                font-size: 11px;
+                font-size: 9px;
                 margin-left: $gutter/4;
             }
         }        
@@ -6988,9 +7005,13 @@ html.full-viewport {
     @include at-query(null, $postSmall, $medium){
         text-align: right;
 
+        .inner {
+            padding-top: 20%;
+        }
+        
         .content {
-            margin: 0 5% 0 auto;
-            width: 61.666667%;
+            right: 5%;
+            width: 50%;
         }
 
         h2 {
@@ -7014,10 +7035,14 @@ html.full-viewport {
     
     @include at-query(null, $postMedium, $large){
         text-align: right;
-
+        
+        .inner {
+            padding-top: 15%;
+        }
+        
         .content {
-            margin: 0 5% 0 auto;
-            width: 61.666667%;
+            right: 10%;
+            width: 50%;
         }
 
         h2 {
@@ -7062,30 +7087,6 @@ html.full-viewport {
                 margin-left: $gutter/2 * $scalePostLargeXLarge;
             }
         }        
-    }
-    
-    .image {
-        @include transition(opacity 1s);
-
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        z-index: 1;
-        opacity: 1;
-
-        /* uploaded through the settings page. */
-        background: {
-            image: url({{ 'homepage-hero.jpg' | file_url }});
-            position: 0% 67%;
-            repeat: no-repeat;
-            size: cover;
-        }
-
-        @media screen and (max-aspect-ratio: 1400/945){
-            background-image: url({{ 'homepage-hero-1400x945.jpg' | asset_url }});
-        }
     }
 }
 
