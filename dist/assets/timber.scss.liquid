@@ -871,10 +871,6 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     }
 }
 
-
-
-
-
 /* gray, gold and underline on hover */
 %gray-hover-gold-underline-link {
     @extend %link-base;
@@ -920,6 +916,19 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     }
 }
 
+%darkerGray-hover-darkerGold-link {
+    @extend %link-base;
+
+    color: $colorDarkerGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        color: $colorDarkerGold;
+    }
+}
 
 /* gray underline, gold on hover */
 %gray-underline-hover-gold-link {
@@ -5428,6 +5437,10 @@ $lookbookModalHeaderHeight: $gutter*8;
         font-weight: 300;
         margin: 0;
         color: $colorDarkerGray;
+
+        a {
+            @extend %darkerGray-hover-darkerGold-link;
+        }
     }
 
     .line-price {
