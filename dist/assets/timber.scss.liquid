@@ -7099,60 +7099,45 @@ html.full-viewport {
     }
 }
 
-{% assign homepage-hero-image-name-base = 'golden-globes-feature' %}
-$golden-globes-image-width: 775;
-
-// based off of .homepage-hero above
 .golden-globes-feature-hero {
-    @extend .homepage-hero;
+    .wrapper {
+        padding: 0 $gutter;
+        position: relative;
+    }
+    
+    .image-block {
+        float: left;
+        position: relative;
+        background: white url({{ "jane-wu-73rd-golden-globes-496px.jpg" | asset_url }}) center center no-repeat;
+        background-size: cover;
+        width: percentage(496/1120);
+        height: 0;
+        padding-top: percentage(746/1120);
 
-    background-image: url({{ homepage-hero-image-name-base | append: "-bg-1366.jpg" | asset_url }});
-    
-    @include at-query($max, $medium){
-        background-image: url({{ homepage-hero-image-name-base | append: "-bg-768.jpg" | asset_url }});
+        @media
+        (-webkit-min-device-pixel-ratio: 1.5),
+        (min-resolution: 144dpi){
+            background-image: url({{ "jane-wu-73rd-golden-globes-496px-2x.jpg" | asset_url }});
+        }
     }
     
-    @include at-query(null, $postMedium, $large){
-        background-image: url({{ homepage-hero-image-name-base | append: "-bg-1024.jpg" | asset_url }});
-    }
-    
-    @include at-query(null, $postLarge, $huge){
-        background-image: url({{ homepage-hero-image-name-base | append: "-bg-1366.jpg" | asset_url }});
-    }
-    
-    @include at-query(null, $postHuge, $gigantic){
-        background-image: url({{ homepage-hero-image-name-base | append: "-bg-1920.jpg" | asset_url }});
-    }
-    
-    @include at-query($min, $postGigantic){
-        background-image: url({{ homepage-hero-image-name-base | append: "-bg-2560.jpg" | asset_url }});
-    }
-    
-    .inner {
-        padding-top: 0;
-    }
-    
-    .content {
-        position: absolute;
-        width: percentage($golden-globes-image-width/2560);
-        left: 50%;
-        height: 100%;
-        padding: $gutter*2;
-    }
-    
-    .content-border {
+    .content-block {
         @include verticalCenterChildElements;
         
-        Position: relative;
+        background: white;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: percentage(624/1120);
         height: 100%;
-        width: 100%;
-        padding: $gutter * 2;
     }
-    
-    .content-inner {
-        
+
+    .content-block-inner {
+        text-align: center;
+        padding: $gutter * 4;
     }
-    
+
     h2 {
         font-family: $centuryGothicFontStack;
         font-size: 46px;
@@ -7177,84 +7162,19 @@ $golden-globes-image-width: 775;
             margin-left: $gutter/2;
         }
     }
-    
-    @include at-query($max, $small){
-        .content {
-            width: 50%;
-            padding: $gutter/2;
-        }
-        
-        .content-border {
-            padding: $gutter/2;
-        }
-        
-        h2 {
-            font-size: 21px;
-            margin: 0 0 $gutter;
-        }
 
-        a {
-            font-size: 13px;
-
-            &:after {
-                font-size: 9px;
-                margin-left: $gutter/4;
-            }
-        }        
-    }
-    
-    @include at-query(null, $postSmall, $medium){
-        .content {
-            width: 50%;
-            padding: $gutter;
+    @include at-query($max, $large){
+        .wrapper {
+            padding: 0;
         }
-        
-        .content-border {
-            padding: $gutter;
-        }
-        
-        h2 {
-            font-size: 32px;
-            margin: 0 0 21px;
-        }
-
-        a {
-            font-size: 20px;
-
-            &:after {
-                font-size: 14;
-                margin-left: 6px;
-            }
-        }        
-    }
-    
-    @include at-query(null, $postMedium, $large){
-        .content {
-            padding: $gutter*1.5;
-            width: percentage(465/1024);
-        }
-
-        .content-border {
-            padding: $gutter*1.5;
-        }
-
-        h2 {
-            font-size: 46px * $scalePostMediumLarge;
-            margin: 0 0 $gutter*2 * $scalePostMediumLarge;
-        }
-
-        a {
-            font-size: 30px * $scalePostMediumLarge;
-
-            &:after {
-                font-size: 21px * $scalePostMediumLarge;
-                margin-left: $gutter/2 * $scalePostMediumLarge;
-            }
-        }        
     }
     
     @include at-query(null, $postLarge, $xLarge){
-        $scale: 0.68;
+        $scale: 0.85;
+        
+        .content-block-inner {
+            padding: $gutter * 4 * $scale;
+        }
         
         h2 {
             font-size: 46px * $scale;
@@ -7270,33 +7190,76 @@ $golden-globes-image-width: 775;
             }
         }        
     }
+    
+    @include at-query(null, $postMedium, $large){
+        $scale: 0.70;
 
-    @include at-query(null, $postXLarge, $huge){
-        h2 {
-            font-size: 46px * 0.8;
-        }        
+        .content-block-inner {
+            padding: $gutter * 4 * $scale;
+        }
         
+        h2 {
+            font-size: 46px * $scale;
+            margin: 0 0 $gutter*2 * $scale;
+        }
+
         a {
-            font-size: 30px * 0.8;
+            font-size: 30px * $scale;
 
             &:after {
-                font-size: 21px * 0.8;
-                margin-left: $gutter/2 * 0.8;
+                font-size: 21px * $scale;
+                margin-left: $gutter/2 * $scale;
             }
         }        
     }
+    
+    @include at-query ($max, $medium){
+        .image-block,
+        .content-block {
+            width: 50%;
+        }
+    }
+    
+    @include at-query(null, $postSmall, $medium){
+        $scale: 0.50;
 
-    @include at-query(null, $postHuge, $gigantic){
-        h2 {
-            font-size: 46px * 0.9;
+        .content-block-inner {
+            padding: $gutter * 4 * $scale;
         }
         
+        h2 {
+            font-size: 46px * $scale;
+            margin: 0 0 $gutter*2 * $scale;
+        }
+
         a {
-            font-size: 30px * 0.9;
+            font-size: 30px * $scale;
 
             &:after {
-                font-size: 21px * 0.9;
-                margin-left: $gutter/2 * 0.9;
+                font-size: 21px * $scale;
+                margin-left: $gutter/2 * $scale;
+            }
+        }        
+    }
+    
+    @include at-query($max, $small){
+        $scale: 0.40;
+
+        .content-block-inner {
+            padding: $gutter * 4 * $scale;
+        }
+        
+        h2 {
+            font-size: 46px * $scale;
+            margin: 0 0 $gutter*2 * $scale;
+        }
+
+        a {
+            font-size: 30px * $scale;
+
+            &:after {
+                font-size: 21px * $scale;
+                margin-left: $gutter/2 * $scale;
             }
         }        
     }
