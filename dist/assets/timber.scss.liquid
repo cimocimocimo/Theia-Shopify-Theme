@@ -9316,11 +9316,11 @@ html.full-viewport {
         @include verticalCenterChildElements();
         
         position: absolute;
-        top: 0;
+        top: 66%;
         left: 0;
         right: 0;
         bottom: 0;
-        height: 100%;
+        height: 34%;
         width: 100%;
         text-align: center;
         
@@ -9331,7 +9331,7 @@ html.full-viewport {
             white-space: normal;
             font-family: $centuryGothicFontStack;
             font-weight: 700;
-            font-size: 34px;
+            font-size: 34px*30/34;
             color: $colorWhite;
             text-shadow: 0 0 $gutter rgba(0,0,0,0.4);
         }
@@ -9340,7 +9340,7 @@ html.full-viewport {
     @include at-query(null, $postLarge, $huge){
         .content {
             h3 {
-                font-size: 30px;
+                font-size: 30px*30/34;
             }
         }
     }
@@ -9348,7 +9348,7 @@ html.full-viewport {
     @include at-query(null, $postMedium, $large){
         .content {
             h3 {
-                font-size: 24px;
+                font-size: 24px*30/34;
             }
         }
     }
@@ -9356,7 +9356,7 @@ html.full-viewport {
     @include at-query($max, $small){
         .content {
             h3 {
-                font-size: 24px;
+                font-size: 24px*30/34;
             }
         }
     }
@@ -9395,6 +9395,18 @@ html.full-viewport {
     
     .image {
         background-image: url({{'evening-wear-collection-block-bg.jpg' | asset_url}});
+    }
+}
+
+.block-navigation-link-bridal {
+    @extend %block-navigation-link-base;
+    
+    &:before {
+        background-image: url({{'bridal-collection-block-bg.jpg' | asset_url}});
+    }
+    
+    .image {
+        background-image: url({{'bridal-collection-block-bg.jpg' | asset_url}});
     }
 }
 
