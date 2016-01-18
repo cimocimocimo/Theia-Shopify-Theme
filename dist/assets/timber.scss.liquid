@@ -6887,36 +6887,38 @@ html.full-viewport {
     }
 }
 
+{% assign homepage-hero-image-name-base = 'homepage-hero' %}
+
 .homepage-hero {
     position: relative;
     width: 100%;
     height: 0;
     padding-top: percentage(1166/2560);
-    background: url({{ "homepage-hero-bg-1366.jpg" | asset_url }}) center center no-repeat;
+    background: url({{ homepage-hero-image-name-base | append: "-bg-1366.jpg" | asset_url }}) center center no-repeat;
     background-size: cover;
     text-align: center;
     
     @include at-query($max, $medium){
-        background-image: url({{ "homepage-hero-bg-mobile-768.jpg" | asset_url }});
+        background-image: url({{ homepage-hero-image-name-base | append: "-bg-768.jpg" | asset_url }});
         background-position: top left;
         padding-top: percentage(640/768);
     }
     
     @include at-query(null, $postMedium, $large){
-        background-image: url({{ "homepage-hero-bg-mobile-1024.jpg" | asset_url }});
+        background-image: url({{ homepage-hero-image-name-base | append: "-bg-1024.jpg" | asset_url }});
         padding-top: percentage(700/1024);
     }
     
     @include at-query(null, $postLarge, $huge){
-        background-image: url({{ "homepage-hero-bg-1366.jpg" | asset_url }});
+        background-image: url({{ homepage-hero-image-name-base | append: "-bg-1366.jpg" | asset_url }});
     }
     
     @include at-query(null, $postHuge, $gigantic){
-        background-image: url({{ "homepage-hero-bg-1920.jpg" | asset_url }});
+        background-image: url({{ homepage-hero-image-name-base | append: "-bg-1920.jpg" | asset_url }});
     }
     
     @include at-query($min, $postGigantic){
-        background-image: url({{ "homepage-hero-bg-2560.jpg" | asset_url }});
+        background-image: url({{ homepage-hero-image-name-base | append: "-bg-2560.jpg" | asset_url }});
     }
     
     .inner {
@@ -7092,6 +7094,172 @@ html.full-viewport {
             &:after {
                 font-size: 21px * $scalePostLargeXLarge;
                 margin-left: $gutter/2 * $scalePostLargeXLarge;
+            }
+        }        
+    }
+}
+
+.golden-globes-feature-hero {
+    .wrapper {
+        padding: 0 $gutter;
+        position: relative;
+    }
+    
+    .image-block {
+        float: left;
+        position: relative;
+        background: white url({{ "jane-wu-73rd-golden-globes-496px.jpg" | asset_url }}) center center no-repeat;
+        background-size: cover;
+        width: percentage(496/1120);
+        height: 0;
+        padding-top: percentage(746/1120);
+
+        @media
+        (-webkit-min-device-pixel-ratio: 1.5),
+        (min-resolution: 144dpi){
+            background-image: url({{ "jane-wu-73rd-golden-globes-496px-2x.jpg" | asset_url }});
+        }
+    }
+    
+    .content-block {
+        @include verticalCenterChildElements;
+        
+        background: white;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: percentage(624/1120);
+        height: 100%;
+    }
+
+    .content-block-inner {
+        text-align: center;
+        padding: $gutter * 4;
+    }
+
+    h2 {
+        font-family: $centuryGothicFontStack;
+        font-size: 46px;
+        color: $colorWarmDarkGray;
+        text-transform: uppercase;
+        margin: 0 0 $gutter*2;
+    }
+
+    a {
+        @extend %icon-suffix-base;
+        @extend .icon-arrow-right-solid-suffix;
+        
+        font-family: $centuryGothicFontStack;
+        font-size: 30px;
+        font-style: italic;
+        font-weight: 700;
+        text-decoration: none;
+        color: $colorGold;
+
+        &:after {
+            font-size: 21px;
+            margin-left: $gutter/2;
+        }
+    }
+
+    @include at-query($max, $large){
+        .wrapper {
+            padding: 0;
+        }
+    }
+    
+    @include at-query(null, $postLarge, $xLarge){
+        $scale: 0.85;
+        
+        .content-block-inner {
+            padding: $gutter * 4 * $scale;
+        }
+        
+        h2 {
+            font-size: 46px * $scale;
+            margin: 0 0 $gutter*2 * $scale;
+        }
+
+        a {
+            font-size: 30px * $scale;
+
+            &:after {
+                font-size: 21px * $scale;
+                margin-left: $gutter/2 * $scale;
+            }
+        }        
+    }
+    
+    @include at-query(null, $postMedium, $large){
+        $scale: 0.70;
+
+        .content-block-inner {
+            padding: $gutter * 4 * $scale;
+        }
+        
+        h2 {
+            font-size: 46px * $scale;
+            margin: 0 0 $gutter*2 * $scale;
+        }
+
+        a {
+            font-size: 30px * $scale;
+
+            &:after {
+                font-size: 21px * $scale;
+                margin-left: $gutter/2 * $scale;
+            }
+        }        
+    }
+    
+    @include at-query ($max, $medium){
+        .image-block,
+        .content-block {
+            width: 50%;
+        }
+    }
+    
+    @include at-query(null, $postSmall, $medium){
+        $scale: 0.50;
+
+        .content-block-inner {
+            padding: $gutter * 4 * $scale;
+        }
+        
+        h2 {
+            font-size: 46px * $scale;
+            margin: 0 0 $gutter*2 * $scale;
+        }
+
+        a {
+            font-size: 30px * $scale;
+
+            &:after {
+                font-size: 21px * $scale;
+                margin-left: $gutter/2 * $scale;
+            }
+        }        
+    }
+    
+    @include at-query($max, $small){
+        $scale: 0.40;
+
+        .content-block-inner {
+            padding: $gutter * 4 * $scale;
+        }
+        
+        h2 {
+            font-size: 46px * $scale;
+            margin: 0 0 $gutter*2 * $scale;
+        }
+
+        a {
+            font-size: 30px * $scale;
+
+            &:after {
+                font-size: 21px * $scale;
+                margin-left: $gutter/2 * $scale;
             }
         }        
     }
@@ -9148,11 +9316,11 @@ html.full-viewport {
         @include verticalCenterChildElements();
         
         position: absolute;
-        top: 0;
+        top: 66%;
         left: 0;
         right: 0;
         bottom: 0;
-        height: 100%;
+        height: 34%;
         width: 100%;
         text-align: center;
         
@@ -9163,7 +9331,7 @@ html.full-viewport {
             white-space: normal;
             font-family: $centuryGothicFontStack;
             font-weight: 700;
-            font-size: 34px;
+            font-size: 34px*30/34;
             color: $colorWhite;
             text-shadow: 0 0 $gutter rgba(0,0,0,0.4);
         }
@@ -9172,7 +9340,7 @@ html.full-viewport {
     @include at-query(null, $postLarge, $huge){
         .content {
             h3 {
-                font-size: 30px;
+                font-size: 30px*30/34;
             }
         }
     }
@@ -9180,7 +9348,7 @@ html.full-viewport {
     @include at-query(null, $postMedium, $large){
         .content {
             h3 {
-                font-size: 24px;
+                font-size: 24px*30/34;
             }
         }
     }
@@ -9188,7 +9356,7 @@ html.full-viewport {
     @include at-query($max, $small){
         .content {
             h3 {
-                font-size: 24px;
+                font-size: 24px*30/34;
             }
         }
     }
@@ -9227,6 +9395,18 @@ html.full-viewport {
     
     .image {
         background-image: url({{'evening-wear-collection-block-bg.jpg' | asset_url}});
+    }
+}
+
+.block-navigation-link-bridal {
+    @extend %block-navigation-link-base;
+    
+    &:before {
+        background-image: url({{'bridal-collection-block-bg.jpg' | asset_url}});
+    }
+    
+    .image {
+        background-image: url({{'bridal-collection-block-bg.jpg' | asset_url}});
     }
 }
 

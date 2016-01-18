@@ -11,6 +11,23 @@
   </div>
 </div>
 
+{% comment %}
+<!-- keep this as a template for other press headings -->
+<div id="homepage-hero" class="golden-globes-feature-hero">
+  <div class="wrapper">
+    <div class="image-block">
+      this is the image
+    </div>
+    <div class="content-block">
+      <div class="content-block-inner">
+        <h2>Jane Wu <br/> on the Red Carpet at the 73<sup>rd</sup> Golden Globe Awards.</h2>
+        <a href="/products/micro-beaded-gown">Shop This Look</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endcomment %}
+
 <div class="block-navigation-hero">
 
   <nav class="block-navigation-menu" role="navigation">
@@ -30,6 +47,8 @@
 
     <div class="block-navigation-column">
       <div class="inner">
+
+        {% comment %}
         <a class="block-navigation-link-collection" href="/collections/shop/evening-gowns/">
           <div class="image"></div>
           <div class="overlay"></div>
@@ -39,11 +58,22 @@
             </h3>
           </div>
         </a>
+        {% endcomment %}
+
+        <a class="block-navigation-link-bridal" href="/collections/bridal/lookbook/">
+          <div class="image"></div>
+          <div class="overlay"></div>
+          <div class="content">
+            <h3>
+              Browse Our<br/>Bridal Collection
+            </h3>
+          </div>
+        </a>
+
       </div>
     </div>
 
     {% comment %}
-
     <div class="block-navigation-column">
       <div class="inner">
         <a class="block-navigation-link-press" href="http://press.theiacouture.com/">
@@ -57,8 +87,8 @@
         </a>
       </div>
     </div>
+    {% endcomment %}
 
-{% endcomment %}
   </nav>
 
 </div>
