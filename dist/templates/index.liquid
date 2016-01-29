@@ -1,5 +1,23 @@
 {% layout 'theme' %}
 
+{% assign bg-video-path = 'DELETE-example-bg-video' | asset_url | split: '?' %}
+
+<div class="video-bg-hero">
+  <video poster="{{ bg-video-path[0] }}.jpeg"  autoplay="autoplay" loop="loop" muted="muted">
+    <source src="//cdn.shopify.com/s/files/1/0894/1412/t/1/assets/DELETE-example-bg-video.webm" type="video/webm">
+    <source src="//cdn.shopify.com/s/files/1/0894/1412/t/1/assets/DELETE-example-bg-video.mp4" type="video/mp4">
+    <source src="//cdn.shopify.com/s/files/1/0894/1412/t/1/assets/DELETE-example-bg-video.ogv" type="video/ogg">
+  </video>
+  <div class="inner">
+    <div class="content">
+      <h2>Discover the latest Spring Collection</h2>
+      <a href="/collections/shop/new-arrivals">Shop Spring 2016</a>
+    </div>
+  </div>
+</div>
+
+{% comment %}
+<!-- static hero -->
 <div id="homepage-hero" class="homepage-hero">
   <div class="inner">
     <div class="content">
@@ -10,6 +28,7 @@
     </div>
   </div>
 </div>
+{% endcomment %}
 
 {% comment %}
 <!-- keep this as a template for other press headings -->
