@@ -192,6 +192,9 @@ timber.lookbookPageNew = function(pager){
         var $clickedItem = $(this),
             clickedItemIndex = getAttrInt($clickedItem, 'data-item-index');
 
+        // set the $currentItem
+        $currentItem = $clickedItem;
+        
         vex.open({
             showCloseButton: true,
             escapeButtonCloses: true,
@@ -212,6 +215,7 @@ timber.lookbookPageNew = function(pager){
             },
             afterClose: function($vexContent){
                 $modal = null;
+                $currentItem = null;
             }
         });
     }
