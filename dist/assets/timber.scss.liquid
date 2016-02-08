@@ -11922,15 +11922,16 @@ span#resultMessage {
     padding: $gutter*3 0 $gutter*6;
 
     .sketch-heart-block {
-        @include animation-prefix(fade-in 2s ease-in-out 1s forwards);
-        
         margin-bottom: $gutter;
     }
 
     h2 {
-        @include animation-prefix(fade-in 2s ease-in-out 1s forwards);
+        html:not(.lt-ie10) & {
+            @include animation-prefix(fade-in 1s ease-in-out 0s forwards);
         
-        opacity: 0;
+            opacity: 0;
+        }
+
         font-size: 36px;
         line-height: 1.2;
         color: $colorWhite;
@@ -11942,9 +11943,12 @@ span#resultMessage {
     }
 
     hr {
-        @include animation-prefix(fade-in 2s ease-in-out 1s forwards);
+        html:not(.lt-ie10) & {
+            @include animation-prefix(fade-in 1s ease-in-out 0.5s forwards);
+            
+            opacity: 0;
+        }
         
-        opacity: 0;
         height: 3px;
         background: $colorWhite;
         width: 340px;
@@ -11952,9 +11956,12 @@ span#resultMessage {
     }
 
     p {
-        @include animation-prefix(fade-in 2s ease-in-out 1.5s forwards);
+        html:not(.lt-ie10) & {
+            @include animation-prefix(fade-in 1s ease-in-out 1s forwards);
         
-        opacity: 0;
+            opacity: 0;
+        }
+        
         font-size: 27px;
         line-height: 1.2;
         letter-spacing: (10/1000)*1em;
@@ -11971,9 +11978,12 @@ span#resultMessage {
     }
 
     .cta-block {
-        @include animation-prefix(fade-in 2s ease-in-out 2s forwards);
+        html:not(.lt-ie10) & {
+            @include animation-prefix(fade-in 1s ease-in-out 1.5s forwards);
 
-        opacity: 0;
+            opacity: 0;
+        }
+
         font-size: 25px;
         line-height: 2;
         font-weight: 700;
@@ -11982,6 +11992,10 @@ span#resultMessage {
         border: 1px solid $colorWhite;
         display: inline-block;
         padding: 0 $gutter*2;
+
+        br {
+            display: none;
+        }
     }
 
     @include at-query(null, $postMedium, $large){
@@ -12119,8 +12133,10 @@ span#resultMessage {
         height: auto;
     }
 
-    &:hover {
+    html:not(.lt-ie10) &:hover {
         @include animation-prefix(heartbeat 1.6s ease-in-out 0s infinite normal);
+
+        opacity: 1;
     }
 }
 
