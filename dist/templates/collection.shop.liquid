@@ -5,10 +5,10 @@ For more information on collection tags:
 
 {% endcomment %}
 
-{% assign current_tag = current_tags | first %}
+{% assign current_tag = current_tags | first | handle %}
 
 {% assign is_valentine_promo = false %}
-{% if current_tag | handle == 'valentines-day-shop' %}
+{% if current_tag == 'valentines-day-shop' %}
   {% assign is_valentine_promo = true %}
 {% endif %}
 
