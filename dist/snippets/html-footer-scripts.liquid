@@ -109,7 +109,7 @@ Ajaxify Cart Documentation:
           tags: [{% for tag in product.tags params %}
                  {
                      slug: '{{ tag | handle }}',
-                     name: '{{ tag }}'
+                     name: "{{ tag }}"
                  }{% unless forloop.last %},{% endunless %}{% endfor %}
           ]
       };

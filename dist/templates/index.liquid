@@ -27,14 +27,54 @@
   </div>
 </div>
 
-<div id="homepage-hero" class="homepage-hero">
+{% comment %}{% assign bg-video-path = 'DELETE-example-bg-video' | asset_url | split: '?' | first %}{% endcomment %}
+{% assign bg-video-path = 'spring-2016-hero-bg' | asset_url | split: '?' | first %}
+
+<div class="video-bg-hero">
+  {% comment %}
+  <video poster="{{ bg-video-path }}.jpeg"  autoplay="autoplay" loop="loop" muted="muted">
+    <source src="{{ bg-video-path }}.webm" type="video/webm">
+    <source src="{{ bg-video-path }}.mp4" type="video/mp4">
+  </video>
+  {% endcomment %}
   <div class="inner">
     <div class="content">
-      <h2>Shop the latest from the Fall Collection.</h2>
-      <a href="/collections/shop">Start Shopping</a>
+      <h2>Discover the Spring 2016 Collection</h2>
+      <a href="/collections/shop/new-arrivals">Shop New Arrivals</a>
     </div>
   </div>
 </div>
+
+{% comment %}
+<!-- static hero -->
+<div id="homepage-hero" class="homepage-hero">
+  <div class="inner">
+    <div class="content">
+      <!-- <h2>Boxing Week Sale on now! 40% off select items.</h2>
+           <a href="/collections/shop/sale">Start Shopping</a> -->
+      <h2>Discover the latest THEIA Resort Collection.</h2>
+      <a href="/collections/shop/new-arrivals">Shop Resort 2016</a>
+    </div>
+  </div>
+</div>
+{% endcomment %}
+
+{% comment %}
+<!-- keep this as a template for other press headings -->
+<div id="homepage-hero" class="golden-globes-feature-hero">
+  <div class="wrapper">
+    <div class="image-block">
+      this is the image
+    </div>
+    <div class="content-block">
+      <div class="content-block-inner">
+        <h2>Jane Wu <br/> on the Red Carpet at the 73<sup>rd</sup> Golden Globe Awards.</h2>
+        <a href="/products/micro-beaded-gown">Shop This Look</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endcomment %}
 
 <div class="block-navigation-hero">
 
@@ -55,6 +95,8 @@
 
     <div class="block-navigation-column">
       <div class="inner">
+
+        {% comment %}
         <a class="block-navigation-link-collection" href="/collections/shop/evening-gowns/">
           <div class="image"></div>
           <div class="overlay"></div>
@@ -64,11 +106,22 @@
             </h3>
           </div>
         </a>
+        {% endcomment %}
+
+        <a class="block-navigation-link-bridal" href="/collections/bridal/lookbook/">
+          <div class="image"></div>
+          <div class="overlay"></div>
+          <div class="content">
+            <h3>
+              Browse Our<br/>Bridal Collection
+            </h3>
+          </div>
+        </a>
+
       </div>
     </div>
 
     {% comment %}
-
     <div class="block-navigation-column">
       <div class="inner">
         <a class="block-navigation-link-press" href="http://press.theiacouture.com/">
@@ -82,8 +135,8 @@
         </a>
       </div>
     </div>
+    {% endcomment %}
 
-{% endcomment %}
   </nav>
 
 </div>

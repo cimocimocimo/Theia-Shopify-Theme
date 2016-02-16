@@ -1,5 +1,11 @@
+{% assign is_shop_item = false %}
+{% for collection in item.collections %}
+  {% if collection.handle == 'shop' %}
+    {% assign is_shop_item = true %}
+  {% endif %}
+{% endfor %}
 <div class="search-result-item">
-
+  
   <div class="image-column">
     <div class="search-result-item-image">
       <a href="{{ item.url | within: collections.all }}">
@@ -15,13 +21,18 @@
   </div>
   <div class="info-options-column">
     <div class="header-row">
-
       {% comment %}
       If you want the product title and any variants in one line, use {{ item.title }}.
       Below they've been separated for styling purposes.
       {% endcomment %}
       <h4>
-        {{ item.title }} &ndash; {{ item.price | money }}
+        <a href="{{ item.url | within: collections.all }}">
+          {{ item.title }}
+          {{ item.collection }}
+          {% if is_shop_item == true %}
+            &ndash; {{ item.price | money }}
+          {% endif %}
+        </a>
       </h4>
 
     </div>

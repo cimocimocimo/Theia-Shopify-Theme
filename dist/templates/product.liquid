@@ -10,7 +10,7 @@ For more information on these Scheme.org tags, visit:
 
 {% include 'capture-style-number' %}
 {% include 'capture-product-on-sale' %}
-{% if product.type == 'Theia Shop' %}
+{% if product.type contains 'Shop' %}
     {% assign is_exclusive = false %}
 {% else %}
     {% assign is_exclusive = true %}
@@ -49,9 +49,15 @@ For more information on these Scheme.org tags, visit:
       <div class="product-back-link-row">
 
         <nav class="product-back-link-block" role="navigation">
-          <a href="/collections/shop/#style-{{ style_number }}" class="product-back-link" title="Back to collection">
+          <a href="/collections/{{ collection.handle }}/#style-{{ style_number }}" class="product-back-link" title="Back to collection">
             Back to
-            <span class="link-target-label">the Shop</span>
+            <span class="link-target-label">
+              {% if collection.handle == 'shop' %}
+                the Shop
+              {% else %}
+                {{ collection.title }}
+              {% endif %}
+            </span>
           </a>
         </nav>
 
@@ -64,7 +70,7 @@ For more information on these Scheme.org tags, visit:
 
             <h2 itemprop="name">{{ product.title }}</h2>
 
-            {% if product.price > 0 %}
+            {% if product.price > 0 and product.type contains 'Shop' %}
               <div class="product-price">
                 {% if on_sale %}
                   Now: <span id="productPrice" itemprop="price">{{ product.price | money }}</span>
@@ -256,7 +262,7 @@ For more information on these Scheme.org tags, visit:
 If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)
 in the URL, we can show next/previous links to other products in the collection.
 {% endcomment %}
-{% if collection %}
+{% if collection and collection.handle != 'bridal' %}
 
   <div class="related-products-hero">
 

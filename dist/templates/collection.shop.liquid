@@ -5,75 +5,84 @@ For more information on collection tags:
 
 {% endcomment %}
 
-<style>
+{% assign current_tag = current_tags | first | handle %}
 
-  {% comment %}These are the namespace keys for each of the slides in the collection metafields{% endcomment %}
-    {% assign slide_names = 'slide1 slide2 slide3 slide4 slide5' | split: ' ' %}
-  {% comment %}Shortcut for the metafields{% endcomment %}
-    {% assign meta = collection.metafields %}
-    {% for slide_name in slide_names %}
-    {% assign slide = collection.metafields[slide_name] %}
-    {% unless slide.empty? %}
-    .hero-{{ slide_name }} {
-        background-image: url('{{ slide.desktop }}');
-    }
+{% assign is_valentine_promo = false %}
+{% if current_tag == 'valentines-day-shop' %}
+  {% assign is_valentine_promo = true %}
+{% endif %}
 
-    @media screen and (min-width: 481px) and (max-width: 1024px){
-        .hero-{{ slide_name }} {
-            background-image: url('{{ slide.tablet }}');
-        }
-    }
+{% if is_valentine_promo == false %}
+  <style>
 
-    @media screen and (max-width: 480px){
-        .hero-{{ slide_name }} {
-            background-image: url('{{ slide.mobile }}');
-        }
-    }
-    {% endunless %}{% endfor %}
+      {% comment %}These are the namespace keys for each of the slides in the collection metafields{% endcomment %}
+      {% assign slide_names = 'slide1 slide2 slide3 slide4 slide5' | split: ' ' %}
+    {% comment %}Shortcut for the metafields{% endcomment %}
+      {% assign meta = collection.metafields %}
+      {% for slide_name in slide_names %}
+      {% assign slide = collection.metafields[slide_name] %}
+      {% unless slide.empty? %}
+      .hero-{{ slide_name }} {
+          background-image: url('{{ slide.desktop }}');
+      }
 
-    {% if collection.metafields.other_images.desktop_hero != blank %}
-    {% assign other_images = collection.metafields.other_images %}
+      @media screen and (min-width: 481px) and (max-width: 1024px){
+          .hero-{{ slide_name }} {
+              background-image: url('{{ slide.tablet }}');
+          }
+      }
 
-    .collection-page-hero,
-    .shop-page-hero {
-        background-image: url('{{ other_images.desktop_hero }}');
-    }
+      @media screen and (max-width: 480px){
+          .hero-{{ slide_name }} {
+              background-image: url('{{ slide.mobile }}');
+          }
+      }
+      {% endunless %}{% endfor %}
 
-    @media screen and (min-width: 481px) and (max-width: 1024px){
-        .collection-page-hero,
-        .shop-page-hero {
-            background-image: url('{{ other_images.tablet_hero }}');
-        }
-    }
+      {% if collection.metafields.other_images.desktop_hero != blank %}
+      {% assign other_images = collection.metafields.other_images %}
 
-    @media screen and (max-width: 480px){
-        .collection-page-hero,
-        .shop-page-hero {
-            background-image: url('{{ other_images.mobile_hero }}');
-        }
-    }
-    {% endif %}
-    {% if collection.metafields.hero.headingColor != blank %}
-    .collection-page-hero h2,
-    .shop-page-hero h2 {
-        color: {{ collection.metafields.hero.headingColor }};
-    }
-    {% endif %}
+      .collection-page-hero,
+      .shop-page-hero {
+          background-image: url('{{ other_images.desktop_hero }}');
+      }
 
-    {% if collection.metafields.hero.hideHeading == 'true' %}
-    .collection-page-hero .content,
-    .collection-page-hero .content {
-        display: none;
-    }
-    {% endif %}
+      @media screen and (min-width: 481px) and (max-width: 1024px){
+          .collection-page-hero,
+          .shop-page-hero {
+              background-image: url('{{ other_images.tablet_hero }}');
+          }
+      }
 
-    {% if collection.metafields.hero.centerBackground == 'true' %}
-    .collection-page-hero,
-    .shop-page-hero {
-        background-position: top center !important;
-    }
-    {% endif %}
-</style>
+      @media screen and (max-width: 480px){
+          .collection-page-hero,
+          .shop-page-hero {
+              background-image: url('{{ other_images.mobile_hero }}');
+          }
+      }
+      {% endif %}
+      {% if collection.metafields.hero.headingColor != blank %}
+      .collection-page-hero h2,
+      .shop-page-hero h2 {
+          color: {{ collection.metafields.hero.headingColor }};
+      }
+      {% endif %}
+
+      {% if collection.metafields.hero.hideHeading == 'true' %}
+      .collection-page-hero .content,
+      .collection-page-hero .content {
+          display: none;
+      }
+      {% endif %}
+
+      {% if collection.metafields.hero.centerBackground == 'true' %}
+      .collection-page-hero,
+      .shop-page-hero {
+          background-position: top center !important;
+      }
+      {% endif %}
+  </style>
+{% endif %}
 
 {% if meta.other_images.desktop_hero != blank or meta.slide1.desktop != blank %}
   <div id="top" class="{% if collection.handle == 'shop' %}shop-page-hero{% else %}collection-page-hero{% endif %}">
@@ -94,11 +103,34 @@ For more information on collection tags:
     {% endif %}
   </div>
 {% endif %}
+
+{% if is_valentine_promo %}
+  <div id="top" class="{% if collection.handle == 'shop' %}shop-page-hero{% else %}collection-page-hero{% endif %} valentines-promo-hero">
+    <div class="wrapper">
+      <div class="sketch-heart-block">
+        <img src="{{ 'sketch-heart.svg' | asset_url }}" alt="Sketch Heart" height="85" width="85"/>
+      </div>
+      <h2>Dress like a goddess this<br /> Valentine’s Day</h2>
+      <hr />
+      <p>
+        We’ve hand selected some<br class="show-small-medium" /> amazing THEIA looks.
+        <br class="show-all" />
+        Yours this week for 10% off.
+      </p>
+      <div class="cta-block">
+        use coupon &ldquo;theiavalentine&rdquo;<br /> at checkout
+      </div>
+    </div>
+  </div>
+{% endif %}
+
 <div class="product-grid-hero">
   <div class="wrapper">
 
+    {% if is_valentine_promo == false %}
     {% assign all_items_label = 'All Styles' %}
     {% include 'product-grid-filters' %}
+    {% endif %}
 
     <div class="hero-body">
       {% paginate collection.products by 12 %}
