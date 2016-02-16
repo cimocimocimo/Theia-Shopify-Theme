@@ -7102,7 +7102,9 @@ html.full-viewport {
 .video-bg-hero {
     position: relative;
     width: 100%;
-    background: url({{ "DELETE-example-bg-video.jpeg" | asset_url }}) center center no-repeat;
+    padding-top: percentage(9/16);
+    
+    background: url({{ "spring-2016-hero-bg.jpg" | asset_url }}) center center no-repeat;
     background-size: cover;
     text-align: center;
     
@@ -7120,17 +7122,17 @@ html.full-viewport {
         position: absolute;
         top: 0;
         left: 0;
-        right: 0;
+        right: 40%;
         bottom: 0;
         height: 100%;
-        width: 100%;
+        width: 40%;
     }
     
     .content {
-        width: 45%;
+        width: 72%;
         max-width: 640px;
-        background: rgba(255,255,255,0.60);
-        padding: $gutter*2;
+        // background: rgba(255,255,255,0.60);
+        // padding: $gutter*2;
         text-align: center;
     }
     
@@ -7166,19 +7168,29 @@ html.full-viewport {
         }
     }
     
-    /* @include at-query(); */
+    @include at-query($max, $medium){
+        background-image: url({{ 'spring-2016-hero-bg-medium.jpg' }});
+        padding-top: 100%;
+        
+        .inner {
+            right: 60%;
+            width: 60%;
+        }
+        
+        .content {
+            padding: 0;
+        }
+    }
+    
     @include at-query($max, $small){
         text-align: right;
         
         .inner {
-            padding-top: 16%;
+
         }
         
         .content {
-            width: 50%;
-            right: 0;
-            height: auto;
-            padding: $gutter;
+
         }
 
         h2 {
@@ -7204,12 +7216,9 @@ html.full-viewport {
         text-align: right;
 
         .inner {
-            padding-top: 20%;
         }
         
         .content {
-            right: 5%;
-            width: 50%;
         }
 
         h2 {
@@ -7232,15 +7241,15 @@ html.full-viewport {
     }
     
     @include at-query(null, $postMedium, $large){
-        text-align: right;
+        background-image: url({{ 'spring-2016-hero-bg-medium-large.jpg' }});
+        padding-top: percentage(1365/2048);
         
         .inner {
-            padding-top: 15%;
+            right: 50%;
+            width: 50%;
         }
         
         .content {
-            right: 10%;
-            width: 50%;
         }
 
         h2 {
@@ -7264,8 +7273,6 @@ html.full-viewport {
     
     @include at-query(null, $postLarge, $xLarge){
         .content {
-            max-width: 640px * $scalePostLargeXLarge;
-            padding: $gutter*$scalePostLargeXLarge $gutter*2*$scalePostLargeXLarge;
         }
         
         h2 {
