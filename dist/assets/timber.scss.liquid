@@ -7102,6 +7102,202 @@ html.full-viewport {
     }
 }
 
+.video-bg-hero {
+    position: relative;
+    width: 100%;
+    padding-top: percentage(9/16);
+    
+    background: url({{ "spring-2016-hero-bg.jpg" | asset_url }}) center center no-repeat;
+    background-size: cover;
+    text-align: center;
+    
+    video {
+        min-width: 100%;
+        width: 100%;
+        height: auto;
+        transition: 1s opacity;        
+    }
+    
+    .inner {
+        @include verticalCenterChildElements();
+
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 40%;
+        bottom: 0;
+        height: 100%;
+        width: 40%;
+    }
+    
+    .content {
+        width: 72%;
+        max-width: 640px;
+        // background: rgba(255,255,255,0.60);
+        // padding: $gutter*2;
+        text-align: center;
+    }
+    
+    h2 {
+        font-family: $centuryGothicFontStack;
+        font-size: 46px;
+        color: $colorWarmDarkGray;
+        text-transform: uppercase;
+        margin: 0 0 $gutter*2;
+    }
+
+    p {
+        font-family: $centuryGothicFontStack;
+        font-size: 24px;
+        font-style: italic;
+        line-height: (29/24);
+        color: $colorWarmDarkGray;
+    }
+
+    a {
+        @extend %icon-suffix-base;
+        @extend .icon-arrow-right-solid-suffix;
+        
+        font-family: $centuryGothicFontStack;
+        font-size: 30px;
+        font-weight: 500;
+        text-decoration: none;
+        color: $colorWarmDarkGray;
+
+        &:after {
+            font-size: 21px;
+            margin-left: $gutter/2;
+        }
+    }
+    
+    @include at-query($max, $medium){
+        background-image: url({{ 'spring-2016-hero-bg-medium.jpg' }});
+        padding-top: 100%;
+        
+        .inner {
+            right: 60%;
+            width: 60%;
+        }
+        
+        .content {
+            padding: 0;
+        }
+    }
+    
+    @include at-query($max, $small){
+        text-align: right;
+        
+        .inner {
+
+        }
+        
+        .content {
+
+        }
+
+        h2 {
+            font-size: 21px;
+            margin: 0 0 $gutter;
+        }
+
+        p {
+            font-size: 11px;
+        }
+
+        a {
+            font-size: 13px;
+
+            &:after {
+                font-size: 9px;
+                margin-left: $gutter/4;
+            }
+        }        
+    }
+    
+    @include at-query(null, $postSmall, $medium){
+        text-align: right;
+
+        .inner {
+        }
+        
+        .content {
+        }
+
+        h2 {
+            font-size: 32px;
+            margin: 0 0 21px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        a {
+            font-size: 20px;
+
+            &:after {
+                font-size: 14;
+                margin-left: 6px;
+            }
+        }        
+    }
+    
+    @include at-query(null, $postMedium, $large){
+        background-image: url({{ 'spring-2016-hero-bg-medium-large.jpg' }});
+        padding-top: percentage(1365/2048);
+        
+        .inner {
+            right: 50%;
+            width: 50%;
+        }
+        
+        .content {
+        }
+
+        h2 {
+            font-size: 46px * $scalePostMediumLarge;
+            margin: 0 0 $gutter*2 * $scalePostMediumLarge;
+        }
+
+        p {
+            font-size: 24px * $scalePostMediumLarge;
+        }
+
+        a {
+            font-size: 30px * $scalePostMediumLarge;
+
+            &:after {
+                font-size: 21px * $scalePostMediumLarge;
+                margin-left: $gutter/2 * $scalePostMediumLarge;
+            }
+        }        
+    }
+    
+    @include at-query(null, $postLarge, $xLarge){
+        .content {
+        }
+        
+        h2 {
+            font-size: 46px * $scalePostLargeXLarge;
+            margin: 0 0 $gutter*2 * $scalePostLargeXLarge;
+        }
+
+        p {
+            font-size: 24px * $scalePostLargeXLarge;
+        }
+
+        a {
+            font-size: 30px * $scalePostLargeXLarge;
+
+            &:after {
+                font-size: 21px * $scalePostLargeXLarge;
+                margin-left: $gutter/2 * $scalePostLargeXLarge;
+            }
+        }        
+    }
+}
+
 .golden-globes-feature-hero {
     .wrapper {
         padding: 0 $gutter;
