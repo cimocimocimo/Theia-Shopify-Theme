@@ -34,12 +34,14 @@ timber.cache = {
         $subMenus: $('.sub-menu-mobile')
     },
 
-    // homepage
     homepage: {
         $body: $('body.template-index'),
-        $splashScroller: $('#homepage-splash-scroller'),
         $hero: $('#homepage-hero'),
+        $splashScroller: $('#homepage-splash-scroller'),
         $splash: $('#homepage-splash'),
+        $videoBlock: $('#block-navigation-video-player'),
+        $videoContainer: $('#homepage-video-container'),
+        $videoPlayer: $('#homepage-video-player'),
         $headerWaypoint: $('.js-header-waypoint'),
         $headerContainer: $('#header-container'),
         $scrollBody: $('#body-container')
@@ -532,11 +534,17 @@ timber.homepageInit = function(){
         return;
     }
     
-    timber.homepageSplash();
-    timber.homepageHeader();
+    if (timber.cache.homepage.$splash.length !== 0){
+        timber.homepageSplash();
+        timber.homepageOffsetHeader();
+    }
+    
+    if (timber.cache.homepage.$videoBlock.length !== 0){
+        timber.homepageVideo();
+    }
 };
 
-timber.homepageHeader = function(){
+timber.homepageOffsetHeader = function(){
     // on the home page we want to activate headroom.js when
     // scrolling up and the header hits the top of the screen.
     // then deactivate it at the same point on scroll down.
@@ -583,6 +591,46 @@ timber.homepageSplash = function(){
         
         $('#body-container').animate({scrollTop: $splash.height()});
     });
+};
+
+timber.homepageVideo = function(){
+    var $block = timber.cache.homepage.$videoBlock,
+        $blockInner = $block.find('.inner'),
+        $playButton = $block.find('.play-link'),
+        $videoContainer = timber.cache.homepage.$videoContainer,
+        $playerIframe = timber.cache.homepage.$videoPlayer,
+        player = $f($playerIframe[0]);
+    
+    // When the player is ready, add listeners for pause, finish, and playProgress
+    player.addEvent('ready', function() {
+        player.addEvent('pause', videoFinishPauseCallback);
+        
+        $playButton.click(playButtonCallback);
+    });
+    
+    function playButtonCallback(event){
+        event.preventDefault();
+
+        $block.addClass('active');
+        $videoContainer.addClass('active');
+        player.api('play');
+
+        transitionEnd($videoContainer[0]).bind(function(event){
+            $block.addClass('hide-inner');
+            transitionEnd($videoContainer[0]).unbind();
+        });
+    }
+    
+    function videoFinishPauseCallback(){
+        $block.removeClass('active');
+        $videoContainer.removeClass('active');
+        player.api('unload');
+
+        transitionEnd($videoContainer[0]).bind(function(event){
+            $block.removeClass('hide-inner');
+            transitionEnd($videoContainer[0]).unbind();
+        });
+    }
 };
 
 timber.switchClass = function( $el, c1, c2){

@@ -50,10 +50,43 @@
 {% endcomment %}
 
 <div class="block-navigation-hero">
-
   <nav class="block-navigation-menu" role="navigation">
+
+    {% comment %}
+    <div id="homepage-video-hero" class="homepage-video-hero">
+      <div class="inner active">
+        <div class="content">
+          <a href="#" class="play-link js-play-video">Play</a>
+        </div>
+      </div>
+    </div>
+    {% endcomment %}
+
     <div class="block-navigation-column">
       <div class="inner">
+
+        <div id="block-navigation-video-player" class="block-navigation-video-player">
+          <div id="homepage-video-container" class="homepage-video-container">
+            {% comment %}
+            if the player iframe has an id then you need to pass it in the url for the api to work.
+            http://stackoverflow.com/questions/6537415/vimeo-froogaloop-api-not-recognizing-an-event
+            {% endcomment %}
+            {% assign vimeo_player_id = "homepage-video-player" %}
+            <iframe src="https://player.vimeo.com/video/151066382?title=0&byline=0&portrait=0&player_id={{ vimeo_player_id }}"
+                    id="{{ vimeo_player_id }}"
+                    frameborder="0" width="100%" height="100%"
+                    webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          </div>
+
+          <div class="image"></div>
+          <div class="overlay"></div>
+          <div class="content">
+            <a href="#" class="play-link js-play-video"></a>
+          </div>
+        </div>
+
+
+        {% comment %}
         <a class="block-navigation-link-shop" href="/collections/shop/new-arrivals">
           <div class="image"></div>
           <div class="overlay"></div>
@@ -63,6 +96,8 @@
             </h3>
           </div>
         </a>
+        {% endcomment %}
+
       </div>
     </div>
 
