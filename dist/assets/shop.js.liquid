@@ -39,7 +39,7 @@ timber.cache = {
         $hero: $('#homepage-hero'),
         $splashScroller: $('#homepage-splash-scroller'),
         $splash: $('#homepage-splash'),
-        $videoHero: $('#homepage-video-hero'),
+        $videoBlock: $('#block-navigation-video-player'),
         $videoContainer: $('#homepage-video-container'),
         $videoPlayer: $('#homepage-video-player'),
         $headerWaypoint: $('.js-header-waypoint'),
@@ -539,7 +539,7 @@ timber.homepageInit = function(){
         timber.homepageOffsetHeader();
     }
     
-    if (timber.cache.homepage.$videoHero.length !== 0){
+    if (timber.cache.homepage.$videoBlock.length !== 0){
         timber.homepageVideo();
     }
 };
@@ -594,9 +594,9 @@ timber.homepageSplash = function(){
 };
 
 timber.homepageVideo = function(){
-    var $hero = timber.cache.homepage.$videoHero,
-        $heroInner = $hero.find('.inner'),
-        $playButton = $hero.find('.play-link'),
+    var $block = timber.cache.homepage.$videoBlock,
+        $blockInner = $block.find('.inner'),
+        $playButton = $block.find('.play-link'),
         $videoContainer = timber.cache.homepage.$videoContainer,
         $playerIframe = timber.cache.homepage.$videoPlayer,
         player = $f($playerIframe[0]);
@@ -611,23 +611,23 @@ timber.homepageVideo = function(){
     function playButtonCallback(event){
         event.preventDefault();
 
-        $heroInner.removeClass('active');
+        $block.addClass('active');
         $videoContainer.addClass('active');
+        player.api('play');
 
         transitionEnd($videoContainer[0]).bind(function(event){
-            $heroInner.addClass('hidden');
-            player.api('play');
+            $block.addClass('hide-inner');
             transitionEnd($videoContainer[0]).unbind();
         });
     }
     
     function videoFinishPauseCallback(){
-        player.api('unload');
-        $heroInner.addClass('active');
+        $block.removeClass('active');
         $videoContainer.removeClass('active');
+        player.api('unload');
 
         transitionEnd($videoContainer[0]).bind(function(event){
-            $heroInner.removeClass('hidden');
+            $block.removeClass('hide-inner');
             transitionEnd($videoContainer[0]).unbind();
         });
     }
