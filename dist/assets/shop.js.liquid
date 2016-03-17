@@ -1072,7 +1072,7 @@ timber.productPage = function(){
 			var currentOption = null;
 			for (var j=0; j<pageData.product.options.length; j++){
 				currentOption = pageData.product.options[j];
-				$('.single-option-selector:eq(' + j + ')').val(currentVariant.options[j]).trigger('change');
+				$('input[value="'+ currentVariant.options[j] +'"]').attr("checked","checked").trigger('change');
 			}
 			break;
 		}
@@ -1183,13 +1183,41 @@ timber.productSelectCallback = function(variant, selector) {
 	
 	// trigger event for selected color
 	var currentSelector = {};
-	for (var i = 1; i < selector.selectors.length; i++){
-		currentSelector = selector.selectors[i];
 
-		if (currentSelector.name === 'Color'){
-			$body.trigger('colorChanged.productPage', {color: currentSelector.element.value});
+	var $swatchChildren = $('.swatch').children('.swatch-element');					
+
+	$swatchChildren.each(function(){
+		var $input = $(this).find('input');
+
+		$input.change(function(event) {
+  			console.log( this, "has been fired:", event);
+		});
+
+		if($input.attr("checked")){
+			$body.trigger('colorChanged.productPage', {color: $input.attr("value")});
 		}
-	}
+	})
+
+
+	// if radio has been selectecd
+
+	// for (var i = 0; i < swatches.length; i++){
+
+	// 	currentSelector = swatches[i].input;
+
+
+	// 	if ( currentSelector.checked ){
+	// 		$body.trigger('colorChanged.productPage', {color: currentSelector.value});
+	// 	}
+	// }
+
+	// for (var i = 1; i < selector.selectors.length; i++){
+	// 	currentSelector = selector.selectors[i];
+
+	// 	if (currentSelector.name'colorChanged.productPage' === 'Color'){
+	// 		$body.trigger('colorChanged.productPage', {color: currentSelector.element.value});
+	// 	}
+	// }
 };
 
 timber.productImageGallery = function(){

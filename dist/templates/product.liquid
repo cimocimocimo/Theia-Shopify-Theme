@@ -129,6 +129,10 @@ For more information on these Scheme.org tags, visit:
                   {% if product.available and product.variants.size > 1 %}
                     {% include 'swatch' with 'Color' %}
                   {% endif %}
+
+{% comment %}                  {% if product.available and product.variants.size > 1 %}
+                    {% include 'swatch' with 'Size' %}
+                  {% endif %}{% endcomment %}
                   
 
                   <select name="id" id="productSelect" class="product-variants">
