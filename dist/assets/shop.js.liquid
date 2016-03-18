@@ -1044,15 +1044,12 @@ timber.productPage = function(){
 	var pageData = timber.pageData.productPage;
 	
 
-
-
-
-	 if (timber.cache.productPage.$productOptions.length !== 0){
-	// 	new Shopify.OptionSelectors('productSelect', {
-	// 		product: pageData.product,
-	// 		onVariantSelected: timber.productSelectCallback
-	// 	});
-	 }
+	 // if (timber.cache.productPage.$productOptions.length !== 0){
+	 // 	new Shopify.OptionSelectors('.colourSelect', {
+		// 	product: pageData.product,
+		// 	onVariantSelected: timber.productSelectCallback
+	 // 	});
+	 // }
 	
 	// // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
 	// if (pageData.addSingleOptionLabel){
@@ -1064,7 +1061,30 @@ timber.productPage = function(){
 	// 	$('.selector-wrapper').hide();
 	// }
 	
-  // Hide all the radio buttons for size
+ // Change dress colour and show/hide the size inputs
+
+
+	function hideSizeSwatches(){
+		var $sizeSwatches = $('.size-swatch');
+		$sizeSwatches.addClass('js-hidden-size');
+	}
+
+ 	function changeDress(arg){
+		$('body').trigger('colorChanged.productPage', {color: arg});
+	}
+
+	function showSizeSwatches(arg){
+
+	}
+ 
+ // Bind colour selection to change
+
+  var $colourInput = $('.colourSelect');
+
+	$colourInput.change(function() {
+		hideSizeSwatches();  
+    changeDress($(this).attr('data-colour'));
+	});
 
 
 
@@ -1082,16 +1102,18 @@ timber.productPage = function(){
 			var currentOption = null;
 			for (var j=0; j<pageData.product.options.length; j++){
 				currentOption = pageData.product.options[j];
-					console.log(currentOption);
-					console.log(currentVariant.options[j]);
+				
+				$('input[data-colour="'+ currentVariant.options[1] +'"]').attr("checked","checked").change();
 
-				$('input[value="'+ currentVariant.options[j] +'"]').attr("checked","checked").trigger('change');
 			}
 			break;
 		}
 	}
 
-	
+	// hide the swatches
+
+
+
 	// dress sizes popup link
 	currentOption = null;
 	for (var k=0; k<pageData.product.options.length; k++){
@@ -1195,21 +1217,6 @@ timber.productSelectCallback = function(variant, selector) {
 	}
 	
 	// trigger event for selected color
-	var currentSelector = {};
-
-	var $swatchChildren = $('.swatch').children('.swatch-element');					
-
-	$swatchChildren.each(function(){
-		var $input = $(this).find('input');
-
-		$input.change(function(event) {
-  			console.log( this, "has been fired:", event);
-		});
-
-		if($input.attr("checked")){
-			$body.trigger('colorChanged.productPage', {color: $input.attr("value")});
-		}
-	})
 
 
 	// if radio has been selectecd
