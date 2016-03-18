@@ -1043,23 +1043,33 @@ timber.accessibleNav = function () {
 timber.productPage = function(){
 	var pageData = timber.pageData.productPage;
 	
-	if (timber.cache.productPage.$productOptions.length !== 0){
-		new Shopify.OptionSelectors('productSelect', {
-			product: pageData.product,
-			onVariantSelected: timber.productSelectCallback
-		});
-	}
+
+
+
+
+	 if (timber.cache.productPage.$productOptions.length !== 0){
+	// 	new Shopify.OptionSelectors('productSelect', {
+	// 		product: pageData.product,
+	// 		onVariantSelected: timber.productSelectCallback
+	// 	});
+	 }
 	
-	// Add label if only one product option and it isn't 'Title'. Could be 'Size'.
-	if (pageData.addSingleOptionLabel){
-		$('.selector-wrapper:eq(0)').prepend('<label>' + pageData.singleOptionLabelText + '</label>');
-	}
+	// // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+	// if (pageData.addSingleOptionLabel){
+	// 	$('.selector-wrapper:eq(0)').prepend('<label>' + pageData.singleOptionLabelText + '</label>');
+	// }
 	
-	// Hide selectors if we only have 1 variant and its title contains 'Default'.
-	if (pageData.hasSingleDefaultVariant){
-		$('.selector-wrapper').hide();
-	}
+	// // Hide selectors if we only have 1 variant and its title contains 'Default'.
+	// if (pageData.hasSingleDefaultVariant){
+	// 	$('.selector-wrapper').hide();
+	// }
 	
+  // Hide all the radio buttons for size
+
+
+
+
+
 	// Auto-select first available variant on page load. Otherwise the product looks sold out.
 	var foundVariantInStock = false;
 	var currentVariant = null;
@@ -1072,6 +1082,9 @@ timber.productPage = function(){
 			var currentOption = null;
 			for (var j=0; j<pageData.product.options.length; j++){
 				currentOption = pageData.product.options[j];
+					console.log(currentOption);
+					console.log(currentVariant.options[j]);
+
 				$('input[value="'+ currentVariant.options[j] +'"]').attr("checked","checked").trigger('change');
 			}
 			break;
