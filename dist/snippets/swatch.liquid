@@ -74,16 +74,3 @@ Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
 {% endif %}
 <!-- end swatch.liquid -->
 
-{{ 'colours.js' | asset_url | script_tag }}
-
-<script type="text/javascript">
-
-
-  $('.swatch').children('.swatch-element').each(function(){
-      var colour = this.getAttribute('data-value');
-      var hex = findColourHexByName(colour);
-      $(this).css("background-color", hex);
-  })
-
-
-</script>

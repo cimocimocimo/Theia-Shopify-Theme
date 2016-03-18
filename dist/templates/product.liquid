@@ -138,7 +138,7 @@ For more information on these Scheme.org tags, visit:
                       {% for variant in product.variants %}
                         {% unless used contains variant.option2 %}
 
-                          <div class="swatch-element">
+                          <div class="swatch-element" data-colour="{{ variant.option2 }}">
                             
                             <input type="radio" class="colourSelect" name="colour" id="{{ variant.option2 }}-select" data-colour="{{ variant.option2 }}" />
 
@@ -406,3 +406,18 @@ in the URL, we can show next/previous links to other products in the collection.
 
   </div>
 </div>
+
+
+{{ 'colours.js' | asset_url | script_tag }}
+
+<script type="text/javascript">
+
+
+  $('.swatch').children('.swatch-element').each(function(){
+      var colour = this.getAttribute('data-colour');
+      var hex = findColourHexByName(colour);
+      $(this).css("background-color", hex);
+  })
+
+
+</script>
