@@ -1040,69 +1040,76 @@ timber.accessibleNav = function () {
 	}
 };
 
-timber.productPage = function(){
-	var pageData = timber.pageData.productPage;
-	
+timber.colourSwatch = function(){
 
-	 // if (timber.cache.productPage.$productOptions.length !== 0){
-	 // 	new Shopify.OptionSelectors('.colourSelect', {
-		// 	product: pageData.product,
-		// 	onVariantSelected: timber.productSelectCallback
-	 // 	});
-	 // }
-	
-	// // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
-	// if (pageData.addSingleOptionLabel){
-	// 	$('.selector-wrapper:eq(0)').prepend('<label>' + pageData.singleOptionLabelText + '</label>');
-	// }
-	
-	// // Hide selectors if we only have 1 variant and its title contains 'Default'.
-	// if (pageData.hasSingleDefaultVariant){
-	// 	$('.selector-wrapper').hide();
-	// }
-	
- // Change dress colour and show/hide the size inputs
-
+	 // Change dress colour and show/hide the size inputs
   function changeDress(arg){
 		$('body').trigger('colorChanged.productPage', {color: arg});
 	}
 
-	function hideSizeSwatch(el){
-	  el.addClass('js-hidden-size');
+	// show swatch
+	function showSwatch($el){
+	  $el.removeClass('js-hidden-size');
 	}
 
-	function showSizeSwatch(el){
-		el.removeClass('js-hidden-size');
+	// hide swatch
+	function hideSwatch($el){
+		$el.addClass('js-hidden-size');	 
 	}
 
-	function sizeShouldBeVisibile(colour){
-		var $sizeSwatches = $('.size-swatch-field').children('.swatch-element');
-
-		$sizeSwatches.each(function(){
-			var $this = $(this); 
-			var $input = $this.find('input');
-
-			if($input.attr( 'data-colour' ) === colour){
-				showSizeSwatch( $this );
-			}else if(!$this.hasClass( 'js-hidden-size' )){
-				hideSizeSwatch( $this );
-			}
-		})
-
+  // Test to see if dress size should be visible
+ 	function sizeShouldBeVisibile($input, $colour){
+		$input.attr('data-colour') === $colour ? showSwatch($input.parent()) : hideSwatch($input.parent());
 	}
- 
- // Bind colour selection to change
 
+	// run specifeid test on children and find each input
+	function testEachInput($children, test, arg){
+		$children.each(function(){
+			var $input = $(this).find('input');
+			test($input, arg);
+		});
+	}
+
+	// test to see if the radio has been checked
+	var currentActiveSwatchColour;
+
+	function colourSwatchIsActive($input, callback){
+		 	if( $input.attr( 'checked' )){
+		 		if(callback){
+		 			callback($input.attr( 'data-colour' ));
+		 			currentActiveSwatchColour = $input.attr( 'data-colour' );
+		 		}else{
+		 			currentActiveSwatchColour = $input.attr( 'data-colour' );
+		 		}
+	 		}
+	}
+
+
+	 // Bind the colour to dress and to sizes
+ 	var $sizeChildren = $('.js-size-swatch-field').children('.swatch-element');
   var $colourInput = $('.colourSelect');
 
 	$colourInput.change(function() {
 		var $colour = $(this).attr('data-colour');
-		sizeShouldBeVisibile($colour);
+		testEachInput($sizeChildren, sizeShouldBeVisibile, $colour);
     changeDress($colour);
 	});
 
 
+  // Initiate and auto select first dress
+	var $colourChildren = $('.js-colour-swatch-field').children('.swatch-element'); 
+	testEachInput($colourChildren, colourSwatchIsActive, changeDress);
 
+
+	// Show Only necesary sizes
+	testEachInput($sizeChildren, sizeShouldBeVisibile, currentActiveSwatchColour);
+
+
+};
+
+
+timber.productPage = function(){
+	var pageData = timber.pageData.productPage;
 
 
 	// Auto-select first available variant on page load. Otherwise the product looks sold out.
@@ -1163,6 +1170,7 @@ timber.productPage = function(){
 	timber.mobileProductInfoBlock();
 	timber.productDescriptionBlock();
 	timber.productBackLink();
+	timber.colourSwatch();
 }
 
 timber.productBackLink = function(){

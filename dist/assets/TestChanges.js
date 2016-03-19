@@ -67,7 +67,7 @@
  
   console.log(parent.children, 'parents and kids');
 
-  $('.swatch-element').find() 
+  var $colourInput = $('.colourSelect');
 
 	$colourInput.change(function() {
 		var $colour = $(this).attr('data-colour');
