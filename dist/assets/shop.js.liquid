@@ -1063,17 +1063,31 @@ timber.productPage = function(){
 	
  // Change dress colour and show/hide the size inputs
 
-
-	function hideSizeSwatches(){
-		var $sizeSwatches = $('.size-swatch');
-		$sizeSwatches.addClass('js-hidden-size');
-	}
-
- 	function changeDress(arg){
+  function changeDress(arg){
 		$('body').trigger('colorChanged.productPage', {color: arg});
 	}
 
-	function showSizeSwatches(arg){
+	function hideSizeSwatch(el){
+	  el.addClass('js-hidden-size');
+	}
+
+	function showSizeSwatch(el){
+		el.removeClass('js-hidden-size');
+	}
+
+	function sizeShouldBeVisibile(colour){
+		var $sizeSwatches = $('.size-swatch-field').children('.swatch-element');
+
+		$sizeSwatches.each(function(){
+			var $this = $(this); 
+			var $input = $this.find('input');
+
+			if($input.attr( 'data-colour' ) === colour){
+				showSizeSwatch( $this );
+			}else if(!$this.hasClass( 'js-hidden-size' )){
+				hideSizeSwatch( $this );
+			}
+		})
 
 	}
  
@@ -1082,8 +1096,9 @@ timber.productPage = function(){
   var $colourInput = $('.colourSelect');
 
 	$colourInput.change(function() {
-		hideSizeSwatches();  
-    changeDress($(this).attr('data-colour'));
+		var $colour = $(this).attr('data-colour');
+		sizeShouldBeVisibile($colour);
+    changeDress($colour);
 	});
 
 
@@ -1109,9 +1124,6 @@ timber.productPage = function(){
 			break;
 		}
 	}
-
-	// hide the swatches
-
 
 
 	// dress sizes popup link
@@ -1216,28 +1228,6 @@ timber.productSelectCallback = function(variant, selector) {
 		addToCart.val('Unavailable').addClass('disabled').prop('disabled', true);
 	}
 	
-	// trigger event for selected color
-
-
-	// if radio has been selectecd
-
-	// for (var i = 0; i < swatches.length; i++){
-
-	// 	currentSelector = swatches[i].input;
-
-
-	// 	if ( currentSelector.checked ){
-	// 		$body.trigger('colorChanged.productPage', {color: currentSelector.value});
-	// 	}
-	// }
-
-	// for (var i = 1; i < selector.selectors.length; i++){
-	// 	currentSelector = selector.selectors[i];
-
-	// 	if (currentSelector.name'colorChanged.productPage' === 'Color'){
-	// 		$body.trigger('colorChanged.productPage', {color: currentSelector.element.value});
-	// 	}
-	// }
 };
 
 timber.productImageGallery = function(){
