@@ -499,6 +499,7 @@ $socialIconFontStack: 'theia-icons';
 @mixin verticalCenterChildElements() {
     font-size: 0; /* set to remove the spacing from the :before element */
 
+    // shim
     &:before {
         content: '';
         display: inline-block;
@@ -506,6 +507,7 @@ $socialIconFontStack: 'theia-icons';
         vertical-align: middle;
     }
 
+    // child elements
     > * {
         font-size: 16px; /* ratchet up the font-size to the default base hight; */
         display: inline-block;
@@ -7065,6 +7067,7 @@ html.full-viewport {
 .homepage-hero {
     @extend %homepage-hero-base;
     
+    // sizing for the fliud background image.
     padding-top: percentage(1166/2560);
     background-image: url({{ "homepage-hero-bg-1366.jpg" | asset_url }});
     
