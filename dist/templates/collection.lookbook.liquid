@@ -79,7 +79,7 @@ For more information on collection tags:
 </script>
 
 <script id="lookbook-carousel-slide-template" type="text/x-handlebars-template">
-  <div class="lookbook-carousel-slide" data-item-index="{% raw %}{{itemIndex}}{% endraw %}">
+  <div class="lookbook-carousel-slide" id="{% raw %}{{itemId}}{% endraw %}" data-item-index="{% raw %}{{itemIndex}}{% endraw %}">
 
     <div class="lookbook-slide-header">
       <h3>{% raw %}{{title}}{% endraw %}</h3>
@@ -93,9 +93,31 @@ For more information on collection tags:
         </div>
       </div>
 
-      <div class="call-to-action-block">
-        {% include 'lookbook-modal-cta-link', link_class: 'desktop-button' %}
-        {% include 'lookbook-modal-cta-link', link_class: 'mobile-link' %}
+      <div class="lookbook-slide-meta">
+        <div class="call-to-action-row">
+          {% include 'lookbook-modal-cta-link', link_class: 'desktop-button' %}
+          {% include 'lookbook-modal-cta-link', link_class: 'mobile-link' %}
+        </div>
+        <div class="product-meta-row">
+          <div>
+            <strong>Style:</strong>
+            {% raw %}{{styleNumber}}{% endraw %}
+          </div>
+          <div>
+            {% comment %}
+            <!--
+            TODO It needs to be able to parse the pin it button after it gets added to the carousel
+            However when I do that it creates a bookmark pin that allows for pinning all the images on the page rather
+            thant the single image that is specified in the media query variable.
+            https://developers.pinterest.com/docs/widgets/pin-it/
+            -->
+            <a data-pin-do="buttonPin"
+               href="//www.pinterest.com/pin/create/button/?url={% raw %}{{pageUrlEncoded}}{% endraw %}&media={% raw %}{{imageUrlEncoded}}{% endraw %}&description={% raw %}{{descriptionEncoded}}{% endraw %}">
+              <img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" />
+            </a
+            {% endcomment %}
+          </div>
+        </div>
       </div>
     </div>
 
