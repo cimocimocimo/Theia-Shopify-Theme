@@ -232,7 +232,8 @@ timber.lookbookPageNew = function(pager){
             currentIndex = selectedIndex,
             startIndex = selectedIndex - numberFlankingBehind,
             endIndex = selectedIndex + numberFlankingAhead, // .slice() works with the indexes between the elements
-            $carousel = $modal.find('.lookbook-carousel');
+            $carousel = $modal.find('.lookbook-carousel'),
+            pageUrl = window.location.href;
         
         if (startIndex < 0){
             startIndex = 0;
@@ -250,11 +251,30 @@ timber.lookbookPageNew = function(pager){
             .each(function(index){
                 var $item = $(this);
                 
-                slidesHtml += getSlideHtml($item);
+                // add the slide html
+                $carousel.append(getSlideHtml($item));
             });
 
-        // add the slides html
-        $carousel.html(slidesHtml);
+        function getSlideHtml($item){
+            
+            var index = $item.attr('data-item-index'),
+                title = $item.attr('data-title'),
+                styleNumber = $item.attr('data-style-number'),
+                imageUrl = $item.attr('data-image-url'),
+                itemClass = $item.attr('class').split(' ')[0],
+                slideHtml = slideTemplate({
+                    title: title,
+                    styleNumber: styleNumber,
+                    imageUrl: imageUrl,
+                    imageUrlEncoded: window.encodeURIComponent(imageUrl),
+                    pageUrlEncoded: window.encodeURIComponent(pageUrl),
+                    descriptionEncoded: window.encodeURIComponent(title + ' - Style: ' + styleNumber),
+                    itemIndex: index,
+                    itemId: itemClass + '-' + index
+                });
+            
+            return slideHtml;
+        }
         
         // init the carousel
         $carousel.slick({
@@ -297,17 +317,8 @@ timber.lookbookPageNew = function(pager){
                 // the currentSlide index should remain the same.
                 slick.currentSlide++;
             }
-
         });
         
-        function getSlideHtml($item){
-            return slideTemplate({
-                title: $item.attr('data-title'),
-                styleNumber: $item.attr('data-style-number'),
-                imageUrl: $item.attr('data-image-url'),
-                itemIndex: $item.attr('data-item-index')
-            });            
-        }
     }
     
     function refresh$items(){
