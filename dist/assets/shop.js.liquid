@@ -1038,10 +1038,12 @@ timber.accessibleNav = function () {
 	function removeFocus ($el) {
 		$el.removeClass(focusClass);
 	}
+
+
 };
 
 timber.colourSwatch = function(){
-
+	var currentActiveSwatchColour;
 	 // Change dress colour and show/hide the size inputs
   function changeDress(arg){
 		$('body').trigger('colorChanged.productPage', {color: arg});
@@ -1057,7 +1059,7 @@ timber.colourSwatch = function(){
 		$el.addClass('js-hidden-size');	 
 	}
 
-  // Test to see if dress size should be visible
+  // Test to see if dress size should be visible then show or hide
  	function sizeShouldBeVisibile($input, $colour){
 		$input.attr('data-colour') === $colour ? showSwatch($input.parent()) : hideSwatch($input.parent());
 	}
@@ -1071,21 +1073,17 @@ timber.colourSwatch = function(){
 	}
 
 	// test to see if the radio has been checked
-	var currentActiveSwatchColour;
-
 	function colourSwatchIsActive($input, callback){
-		 	if( $input.attr( 'checked' )){
-		 		if(callback){
-		 			callback($input.attr( 'data-colour' ));
-		 			currentActiveSwatchColour = $input.attr( 'data-colour' );
-		 		}else{
-		 			currentActiveSwatchColour = $input.attr( 'data-colour' );
-		 		}
+	 	if( $input.attr( 'checked' ) ){
+	 		currentActiveSwatchColour = $input.attr( 'data-colour' );
+	 		if(callback){
+	 			callback($input.attr( 'data-colour' ));	
 	 		}
+ 		}
 	}
 
 
-	 // Bind the colour to dress and to sizes
+	 // Bind the colour to dress and to sizes of the radio input 
  	var $sizeChildren = $('.js-size-swatch-field').children('.swatch-element');
   var $colourInput = $('.colourSelect');
 

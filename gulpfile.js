@@ -7,7 +7,7 @@ var gulpShopify = require('gulp-shopify-upload');
 // load private data
 var private = require('./private.json');
 
-gulp.task('shopify:watch', function() {
+gulp.task('shopify', function() {
     return watch('./dist/+(assets|layout|config|snippets|templates|locales)/**')
         .pipe(gulpShopify(
             private.shopifyDevelop.api_key,
@@ -20,7 +20,9 @@ gulp.task('shopify:watch', function() {
         ));
 });
 
+
 // Default gulp action when gulp is run
 gulp.task('default', [
     'shopify:watch'
 ]);
+
