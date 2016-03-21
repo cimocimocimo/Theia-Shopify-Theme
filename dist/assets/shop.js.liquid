@@ -1060,6 +1060,7 @@ timber.colourSwatch = function(){
 	 // Change dress colour and show/hide the size inputs
   function changeDress(arg){
 		$('body').trigger('colorChanged.productPage', {color: arg});
+		$('.colour-name').html(arg);
 	}
 
 	// show swatch
