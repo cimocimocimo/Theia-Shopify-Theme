@@ -124,57 +124,15 @@ For more information on these Scheme.org tags, visit:
 
 
 
-                <div class="product-options-block">
+              <div class="product-options-block">
                   
-  {% comment %}   {% if product.available and product.variants.size > 1 %}
-                  {% include 'swatch' with 'Color' %}
-                  {% endif %}{% endcomment %}
 
                 {% if product.variants.size > 1 %}
-                  <fieldset class="swatch js-colour-swatch-field">
-                  {% if product.options[1] %} 
-                    {% assign used = '' %}
-                    <legend> {{ product.options[1] }}: </legend>
-                      {% for variant in product.variants %}
-                        {% unless used contains variant.option2 %}
-
-                          <div class="swatch-element" data-colour="{{ variant.option2 }}">
-                            
-                            <input type="radio" class="colourSelect" name="colour" id="{{ variant.option2 }}-select" data-colour="{{ variant.option2 }}" />
-
-                            <label for="{{ variant.option2 }}-select">{{ variant.option2 }}</label>
-
-                          </div>
-
-                          {% capture used %}{{ used }} {{ variant.option2 }}{% endcapture %}
-                        {% endunless %}                      
-                      {% endfor %}
-                      <label> color name </label>
-                  {% endif %}
-
-                  </fieldset>
-
-
-                  <fieldset>
-                  {% if product.options[0] %} 
-                    <fieldset class="swatch js-size-swatch-field">
-                     <legend> {{ product.options[0] }} </legend>
-                      {% for variant in product.variants %}
-                       
-                       <div class="swatch-element js-hidden-size">  
-
-                        <input type="radio" name="id" data-colour="{{ variant.option2 }}" id="{{ variant.option1 }}-{{ variant.option2 }}-select" value="{{ variant.id }}" /> 
-
-                        <label for="{{ variant.option1 }}-{{ variant.option2 }}-select">{{ variant.option1 }}</label>
-                         
-                      </div>
-                      {% endfor %}
-
-                  {% endif %}
-                  </fieldset>
+                 
+                  {% include 'variant-swatch' %}
 
                 {% endif %}
-                </div>
+              </div>
 
                 <div class="call-to-action-block">
 
@@ -373,23 +331,4 @@ in the URL, we can show next/previous links to other products in the collection.
 </div>
 
 
-{{ 'colours.js' | asset_url | script_tag }}
 
-<script type="text/javascript">
-
-$(document).ready(function(){
-
-  $('.js-colour-swatch-field').children('.swatch-element').each(function(){
-
-    var colour = this.getAttribute('data-colour');
-    var hex = findColourHexByName(colour);
-    var input = $(this).find('input');  
-
-    $(this).css("background-color", hex);
-
-  })
-
-});
-
-
-</script>
