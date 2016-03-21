@@ -15,4 +15,12 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 <!-- pinterest -->
-<script type="text/javascript" async src="//assets.pinterest.com/js/pinit.js"></script>
+<!--
+http://stackoverflow.com/questions/9352021/how-can-i-rerender-pinterests-pin-it-button
+Allows initialization of pin buttons after page load using pinterestParsePinButtons()
+Optially pass an element to only parse it and children for pin buttons.
+-->
+<script defer async
+        type="text/javascript"
+        src="//assets.pinterest.com/js/pinit.js"
+        data-pin-build="pinterestParsePinButtons"></script>
