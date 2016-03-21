@@ -1049,7 +1049,7 @@ timber.colourSwatch = function(){
 			"sand": "#DECEB0",
 			"nickel": "#C3C3BD",
 			"arctic blue": "#76beea",
-			"ivory/gold": "linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 44%, rgba(251,223,147,1) 57%, rgba(251,223,147,1) 100%)"
+			"ivory/gold": "linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 44%, rgba(251,223,147,1) 50%, rgba(251,223,147,1) 100%)"
 	};
 
   // set the colour of the swatch
@@ -1125,46 +1125,24 @@ timber.productPage = function(){
 	var currentVariant = null;
 	var variants = pageData.product.variants;
 
+
 	variants.forEach(function(i){
 		currentVariant = i;
 
 		if(!currentVariant.available){
-			$('input[value="'+ currentVariant.id +'"]').disabled = true;
-			
+			console.log(currentVariant, currentVariant.title);
 		}
-
+		// select the first available variant
 		if(currentVariant.available && !foundVariantInStock){
 			$('input[data-colour="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
 			return foundVariantInStock = true;
 		}
 	})
 
+  // if it none are available select the the last variant colour 
 	if(foundVariantInStock === false){
 		$('input[data-colour="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
 	}
-
-
-	// for (var i=0; i<pageData.product.variants.length; i++){
-	// 	currentVariant = pageData.product.variants[i];
-	// 	if (currentVariant.available && !foundVariantInStock){
-	// 		foundVariantInStock = true;
-	// 		var currentOption = null;
-	// 		for (var j=0; j<pageData.product.options.length; j++){
-	// 			currentOption = pageData.product.options[j];
-	// 			//console.log(currentOption);
-				
-	// 		}
-			
-	// 	}
-	// }
-
-
-
-
-
-
-
-
 
 
 	// dress sizes popup link

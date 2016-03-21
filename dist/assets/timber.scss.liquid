@@ -2954,6 +2954,9 @@ input[type="radio"] {
 
         &:not(:checked) + label {
             border: 3px solid white;
+            &.size-label{
+                border: 1px black solid; 
+            }
         }
 
         &:checked + label {
@@ -2962,23 +2965,53 @@ input[type="radio"] {
     }
 }
 
+.colour-name{
+    width: 10px;
+    float: left;
+    margin-top: 5px;
+}
+
+legend {
+    margin-top: 5px;
+    display: block;
+    margin: 0;
+    line-height: 32px;
+    float: left;
+
+}
+
 .swatch {
     @extend .clearfix;
-
-    $height: 32px;
-
+    height: 100%;
     padding: 0;
-    height: $height;
-
-    legend {
-        display: block;
-        margin: 0;
-        line-height: $height;
-    }
-
+    width: 200px;
+    
     .swatch-element {
+        position: relative;
         width: 32px;
-        margin: 0 2px 0 0;
+        margin: 1px 3px 8px 0;
+        overflow: hidden;
+        .soldOut{
+            width: 50px;
+            height: 50px;
+            border-bottom: 1px solid $colorWarmDarkGray;
+            -webkit-transform:
+                translateY(10px)
+                translateX(7px)
+                rotate(134deg); 
+            position: absolute;
+        }
+        .size-label{
+            text-align: center;
+            position: relative;
+
+            span{
+                color: black;
+                margin-top: 32%;
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
     }
 
     .swatch-element, legend {
@@ -3919,8 +3952,8 @@ body.vex-open {
 
 .product-detail-hero {
     background: white;
-    border-bottom: 1px solid $colorLighterGray;
-    border-top: 1px solid $colorLighterGray;
+    // border-bottom: 1px solid $colorLighterGray;
+    // border-top: 1px solid $colorLighterGray;
     overflow: hidden; // clip the product image zoom
 
     .wrapper {
