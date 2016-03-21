@@ -46,23 +46,6 @@ For more information on these Scheme.org tags, visit:
 
     <div id="productInfoBlock" class="product-info-block" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 
-      <div class="product-back-link-row">
-
-        <nav class="product-back-link-block" role="navigation">
-          <a href="/collections/{{ collection.handle }}/#style-{{ style_number }}" class="product-back-link" title="Back to collection">
-            Back to
-            <span class="link-target-label">
-              {% if collection.handle == 'shop' %}
-                the Shop
-              {% else %}
-                {{ collection.title }}
-              {% endif %}
-            </span>
-          </a>
-        </nav>
-
-      </div>
-
       <div class="tablet-column-row">
         <div class="tablet-column">
 
@@ -170,15 +153,9 @@ For more information on these Scheme.org tags, visit:
         </div>
         <div class="tablet-column">
 
-          <div class="product-share-block">
 
-            <div class="label">Share:</div>
 
-            {% include 'social-sharing-buttons' %}
-
-          </div>
-
-          <div class="product-description-block" itemprop="description">
+          <div class="product-description-block" style="position: relative;" itemprop="description">
             <h6>Details:</h6>
             <div class="content">
               {{ product.description }}
@@ -191,9 +168,37 @@ For more information on these Scheme.org tags, visit:
               </span><span class="icon up"></span>
             </a>
           </div>
+
+          <div class="product-share-block">
+            <div class="label">Share:</div>
+
+            {% include 'social-sharing-buttons' %}
+
+          </div>
+        </div>
+        
+        <div class="product-back-link-row">
+
+          <nav class="product-back-link-block" role="navigation">
+            <a href="/collections/{{ collection.handle }}/#style-{{ style_number }}" class="product-back-link" title="Back to collection">
+              Back to
+              <span class="link-target-label">
+                {% if collection.handle == 'shop' %}
+                  the Shop
+                {% else %}
+                  {{ collection.title }}
+                {% endif %}
+              </span>
+            </a>
+          </nav>
+
         </div>
       </div>
+
+
     </div>
+
+
 
     <div class="product-gallery-block">
 

@@ -2081,6 +2081,11 @@ $smallSocialIconRatio: (2.66/3.375);
     }
 }
 
+%small-black-outline-button {
+    @extend %button-base;
+    @extend %darkGray-outline-block-medium;
+}
+
 
 /* gold, small button with solid arrow icon */
 %small-gold-arrow-button {
@@ -2977,6 +2982,7 @@ legend {
     margin: 0;
     line-height: 32px;
     float: left;
+    color: black;
 
 }
 
@@ -2985,11 +2991,16 @@ legend {
     height: 100%;
     padding: 0;
     width: 200px;
-    
+    &.js-colour-swatch-field{
+        margin-top: 10px;
+    }
+    &.js-size-swatch-field{
+        margin-top: -5px;
+    }
     .swatch-element {
         position: relative;
         width: 32px;
-        margin: 1px 3px 8px 0;
+        margin: 0px 3px 8px 0;
         overflow: hidden;
         .soldOut{
             width: 50px;
@@ -4534,7 +4545,6 @@ $lookbookModalHeaderHeight: $gutter*8;
     @include at-query ($min, $postMedium) {
         background: #fff;
         height: 639px;
-        border: 1px solid $colorLightGray;
 
         .product-is-exclusive & {
             height: auto;
@@ -4561,6 +4571,7 @@ $lookbookModalHeaderHeight: $gutter*8;
             }
 
             .product-description-block {
+                position: relative;
                 .content {
                     height: 282px;
                     overflow-y: scroll;
@@ -4597,9 +4608,9 @@ $lookbookModalHeaderHeight: $gutter*8;
         display: none;
 
         background: $colorPaleGray;
-        border-bottom: 1px solid $colorLightGray;
     }
 }
+
 
 .product-meta-block {
     @extend %product-info-block-row;
@@ -4712,6 +4723,7 @@ $lookbookModalHeaderHeight: $gutter*8;
         margin-bottom: 22px;
 
         .product-options-block {
+            margin-top: 27px;
             margin-bottom: 27px;
         }
     }
@@ -11656,8 +11668,8 @@ span#resultMessage {
     }
 
     .add-to-cart-button {
-        @extend %small-gold-arrow-button;
 
+        @extend %small-black-outline-button;
         width: 160px;
         padding-top: 0;
     }
