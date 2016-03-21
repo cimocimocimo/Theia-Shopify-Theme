@@ -1898,6 +1898,11 @@ $smallSocialIconRatio: (2.66/3.375);
   #Links and Buttons
   ==============================================================================*/
 
+*:active,
+*:focus {
+    outline: none;
+}
+
 %button-base {
     display: inline-block;
     text-decoration: none;
@@ -1999,6 +2004,20 @@ $smallSocialIconRatio: (2.66/3.375);
     }
 }
 
+%gray-outline-button-base {
+    @include transition(background-color 0.3s);
+    
+    background-color: $colorWhite;
+    color: $colorBlack;
+    border: 2px solid $colorBlack;
+
+    &:hover {
+        background-color: $colorBlack;
+        color: $colorWhite;
+    }
+}
+
+
 %small-gray-outline-button-base {
     @extend %smallish-century-gothic-text;
     @include transition(all 0.3s);
@@ -2016,7 +2035,6 @@ $smallSocialIconRatio: (2.66/3.375);
     &:hover {
         border-color: $colorDarkGold;
         background-color: $colorDarkGold;
-        // color: $colorDarkGold;
         color: $colorWhite;
     }
 }
@@ -2210,6 +2228,12 @@ $smallSocialIconRatio: (2.66/3.375);
     @extend %button-base;
     @extend %mini-button-base;
     @extend %gray-button-base;
+}
+
+%large-black-outline-button {
+    @extend %button-base;
+    @extend %large-button-base;
+    @extend %gray-outline-button-base;
 }
 
 /* custom buttons */
@@ -4734,8 +4758,8 @@ $lookbookModalHeaderHeight: $gutter*8;
     /* Style */
     
     button,
-    .button {
-        @extend %large-gray-arrow-button;
+    .add-to-cart-button {
+        @extend %large-black-outline-button;
     }
 
     .add-to-wishlist-link,
