@@ -1060,7 +1060,7 @@ timber.colourSwatch = function(){
     }
 
      // Change dress colour and show/hide the size inputs
-  function changeDress(arg){
+    function changeDress(arg){
         $('body').trigger('colorChanged.productPage', {color: arg});
         $('.colour-name').html(arg);
     }
@@ -1102,7 +1102,7 @@ timber.colourSwatch = function(){
      // Bind the colour to dress and to sizes of the radio input 
     var $colourChildren = $('.js-colour-swatch-field').children('.swatch-element'); 
     var $sizeChildren = $('.js-size-swatch-field').children('.swatch-element');
-  var $colourInput = $('.colourSelect');
+    var $colourInput = $('.colourSelect');
 
     $colourInput.change(function() {
         var $colour = $(this).attr('data-colour');

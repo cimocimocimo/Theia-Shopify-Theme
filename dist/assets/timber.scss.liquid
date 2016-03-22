@@ -3999,18 +3999,32 @@ body.vex-open {
     background: white;
     // border-bottom: 1px solid $colorLighterGray;
     // border-top: 1px solid $colorLighterGray;
-    overflow: hidden; // clip the product image zoom
+    // overflow: hidden; // clip the product image zoom --- note: moved to block
+    height: auto;
 
     .wrapper {
-        height: 100%;
+        height: auto;
+        clear: both; // not sure if this is necesary
     }
 
     @include at-query( $min, $postMedium ){
-        height: 692px;
-
-        .product-gallery-block,
-        .product-info-block {
+    
+        .product-info-block{
+            height: auto;
+            position: relative;
+            float: right;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .product-gallery-overflow{
+            overflow: hidden;
+            width: 100%;
             position: absolute;
+            height: 730px;
+        }
+
+        .product-gallery-block{
         }
 
         .product-gallery-block {
@@ -4166,14 +4180,14 @@ body.vex-open {
     
     .image-zoom-container {
         height: 100%;
-        width: 100%;
+        width: 75%;
         overflow: visible !important; // override overflow: hidden on the zoom container
     }
     
     img {
         display: block;
-        margin: 0 auto;
         height: 100%;
+        margin-left: 15%;
         width: auto;
     }
 }

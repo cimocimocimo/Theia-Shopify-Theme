@@ -159,13 +159,6 @@ For more information on these Scheme.org tags, visit:
             <div class="content">
               {{ product.description }}
             </div>
-            <a id="descriptionToggle" class="product-description-expand-link" href="#">
-              <span class="label">
-                <span class="expand-text">More</span>
-                <span class="collapse-text">Hide</span>
-                 Details
-              </span><span class="icon up"></span>
-            </a>
           </div>
 
           <div class="product-share-block">
@@ -197,11 +190,11 @@ For more information on these Scheme.org tags, visit:
 
     </div>
 
+    <div class="product-gallery-overflow">
+    
+      <div class="product-gallery-block">
 
-
-    <div class="product-gallery-block">
-
-      <div class="product-gallery-image-block" id="mainImageBlock" style="position: relative;">
+      <div class="product-gallery-image-block" id="mainImageBlock">
 
         {% for image in product.images %}
           {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
@@ -241,7 +234,7 @@ For more information on these Scheme.org tags, visit:
         </div>
 
       {% endif %}
-
+      </div>
     </div>
   </div>
 </div>
