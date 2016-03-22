@@ -2987,20 +2987,24 @@ input[type="radio"] {
 
         & + label {
             margin: 0;
-            height: 32px;
-            width: 32px;
+            height: 100%;
+            width: 100%;
         }
 
-        &:not(:checked) + label {
+        &:not(:checked) + .colour-label {
             border: 3px solid white;
-            &.size-label{
-                border: 1px black solid; 
-            }
         }
 
-        &:checked + label {
+        &:checked + .colour-label {
             @extend %darkGray-outline-block-medium;
         }
+
+        &:checked + .size-label {
+            background-color: $colorLighterGold;
+            span{
+                color: $colorWhite;
+            }
+        } 
     }
 }
 
@@ -3029,28 +3033,46 @@ legend {
         margin-top: 10px;
     }
     &.js-size-swatch-field{
-        margin-top: -5px;
+        margin-top: 3px;
     }
     .swatch-element {
         position: relative;
-        width: 32px;
         margin: 0px 3px 8px 0;
         overflow: hidden;
+        &.colour-swatch{
+            width: 32px;
+            height: 32px;
+        }
+        &.size-swatch{
+            margin-left: 2px;
+            width: 29px;
+            height: 29px;
+            border: 1px solid $colorBlack;
+        }
+        &.size-available{
+            &:hover > label{
+                background-color: $colorBlack;
+                span{
+                  color: $colorWhite;  
+                }
+            }
+        }
         .soldOut{
             width: 50px;
             height: 50px;
             border-bottom: 1px solid $colorWarmDarkGray;
             -webkit-transform:
-                translateY(10px)
+                translateY(5px)
                 translateX(7px)
                 rotate(134deg); 
             position: absolute;
         }
         .size-label{
             text-align: center;
-            position: relative;
+            position: absolute;
 
             span{
+                font-size: 0.8em;
                 color: black;
                 margin-top: 32%;
                 display: inline-block;
@@ -3061,7 +3083,6 @@ legend {
 
     .swatch-element, legend {
         float: left;
-        height: 100%;
     }
 
     .tooltip {
@@ -4059,9 +4080,10 @@ body.vex-open {
 }
 
 .product-back-link-block {
+    @extend .icon-arrow-left-xlarge:before ;
     @include overflowEllipsis();
 
-    background: $colorLightestGray;
+    background: $colorWhite;
     border-bottom: 1px solid $colorLightGray;
 
     a {
@@ -4070,14 +4092,15 @@ body.vex-open {
         @extend %smallish-arial-text;
 
         display: inline-block;
-        font-weight: 700;
+        font-weight: 500;
+        font-size: 19px;
     }
 
     /* Desktop */
     @include at-query ($min, $postSmall) {
         height: $gutter * 2.25;
         padding: 2px ( $gutter * 1.25 ) 0;
-        line-height: $gutter * 2;
+        line-height: $gutter;
     }
 
     /* Mobile */
@@ -4189,6 +4212,10 @@ body.vex-open {
         height: 100%;
         margin-left: 15%;
         width: auto;
+        @include at-query ($max, $small){
+            width: 300px;
+            margin: 0 auto;
+        }
     }
 }
 
@@ -4307,7 +4334,7 @@ $lookbookModalHeaderHeight: $gutter*8;
             @include transition(all 0.3s);
             
             text-align: center;
-	    content: "\e117";
+	        content: "\e117";
             display: inline-block;
         }
         
@@ -4637,8 +4664,8 @@ $lookbookModalHeaderHeight: $gutter*8;
             .product-description-block {
                 position: relative;
                 .content {
-                    height: 282px;
-                    overflow-y: scroll;
+                    height: auto;
+                    //overflow-y: scroll;
                 }
             }
         }
@@ -4717,7 +4744,7 @@ $lookbookModalHeaderHeight: $gutter*8;
         .product-price {
             font-size: 1.8em;
             margin-bottom: 6px;
-            margin-top: 20px;
+            margin-top: 2;
         }
     }
 
@@ -4825,6 +4852,9 @@ $lookbookModalHeaderHeight: $gutter*8;
     
     button,
     .add-to-cart-button {
+        font-family: $centuryGothicFontStack;
+        padding-bottom: 25%;
+        width: 190px;
         @extend %large-black-outline-button;
     }
 
@@ -5029,7 +5059,6 @@ $lookbookModalHeaderHeight: $gutter*8;
 .product-description-block {
     @extend %product-info-block-row;
 
-    padding-bottom: 44px; /* room for the more details expand link */
     position: relative;
     margin-bottom: 23px;
     margin-top: 0;
@@ -5066,8 +5095,11 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
     
     .content {
-        height: 64px; /* height of the header and 3 lines of text. */
+        height: auto; /* height of the header and 3 lines of text. */
         overflow-y: hidden;
+        p{
+            margin-bottom: 33px;
+        }
     }
 
     /* Desktop */
@@ -8366,6 +8398,16 @@ html.full-viewport {
         }
     }
 }
+
+.related-products-hero{
+    .wrapper{
+        h2{
+            font-weight: 100;
+            font-family: $helveticaFontStack;
+        }
+    }
+}
+
 
 .related-products-hero,
 .collection-grid-hero,
@@ -11966,9 +12008,7 @@ span#resultMessage {
     }
 
     .add-to-cart-button {
-
         @extend %small-black-outline-button;
-        width: 160px;
         padding-top: 0;
     }
 
@@ -12037,7 +12077,7 @@ span#resultMessage {
         }
 
         .add-to-cart-button {
-            width: 168px;
+            width: 160px;
         }
     }
 

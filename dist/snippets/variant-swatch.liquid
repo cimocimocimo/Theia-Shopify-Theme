@@ -5,11 +5,11 @@
       {% for variant in product.variants %}
         {% unless used contains variant.option2 %}
   
-          <div class="swatch-element" data-colour="{{ variant.option2 }} ">
+          <div class="swatch-element colour-swatch" data-colour="{{ variant.option2 }} ">
             
             <input type="radio" class="colourSelect" name="colour" id="{{ variant.option2 }}-select" data-colour="{{ variant.option2 }}" />
 
-            <label for="{{ variant.option2 }}-select"></label>
+            <label class="colour-label" for="{{ variant.option2 }}-select"></label>
 
           </div>
 
@@ -26,7 +26,7 @@
       <fieldset class="swatch js-size-swatch-field">
         {% for variant in product.variants %}
          
-         <div class="swatch-element js-hidden-size">
+         <div class="swatch-element size-swatch {% if variant.available %}size-available{% endif %} js-hidden-size">
             {% if variant.available == false %}
               <div class="soldOut"></div>
             {% endif %}

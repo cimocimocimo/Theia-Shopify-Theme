@@ -194,21 +194,21 @@ For more information on these Scheme.org tags, visit:
     
       <div class="product-gallery-block">
 
-      <div class="product-gallery-image-block" id="mainImageBlock">
+        <div class="product-gallery-image-block" id="mainImageBlock">
 
-        {% for image in product.images %}
-          {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-          <div class="image-zoom-container{% if forloop.first != true %} js-hidden{% endif %}"
-               {% if image_color %}data-image-color="{{ image_color }}"{% endif %}
-               data-attached-to-variant="{{ image.attached_to_variant? }}"
-               id="image-{{ image.id }}">
-            <img src="{{ image.src | product_img_url: 'master' }}"
-                 alt="{{ image_alt_text | escape }}"
-                 class="product-gallery-main-image">
-          </div>
-        {% endfor %}
+          {% for image in product.images %}
+            {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+            <div class="image-zoom-container{% if forloop.first != true %} js-hidden{% endif %}"
+                 {% if image_color %}data-image-color="{{ image_color }}"{% endif %}
+                 data-attached-to-variant="{{ image.attached_to_variant? }}"
+                 id="image-{{ image.id }}">
+              <img src="{{ image.src | product_img_url: 'master' }}"
+                   alt="{{ image_alt_text | escape }}"
+                   class="product-gallery-main-image">
+            </div>
+          {% endfor %}
 
-      </div>
+        </div>
 
       {% if product.images.size > 1 %}
 
@@ -249,7 +249,7 @@ in the URL, we can show next/previous links to other products in the collection.
 
     <div class="wrapper">
 
-      <h2>Other styles you might like:</h2>
+      <h2>You may also like:</h2>
 
       <div class="carousel-block">
 
@@ -268,11 +268,11 @@ in the URL, we can show next/previous links to other products in the collection.
         {% endcomment %}
         {% assign this_product = product %}
 
-        {% for product in collection.products limit:4 %}
+        {% for product in collection.products limit:5 %}
 
           {% if product.id != this_product.id %}
 
-            {% include 'product-grid-item' %}
+            {% include 'carosel-grid-item' %}
 
           {% endif %}
 

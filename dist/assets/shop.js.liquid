@@ -1131,9 +1131,9 @@ timber.productPage = function(){
 
     variants.forEach(function(i){
         currentVariant = i;
-
+        // disable the radio button if the variant is not available
         if(!currentVariant.available){
-            console.log(currentVariant, currentVariant.title);
+            $('input[id="'+ currentVariant.option1 +'-'+ currentVariant.option2 +'-select'+'"]').attr("disabled", "disabled");
         }
         // select the first available variant
         if(currentVariant.available && !foundVariantInStock){
