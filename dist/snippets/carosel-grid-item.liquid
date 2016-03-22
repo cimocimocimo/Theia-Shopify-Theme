@@ -72,22 +72,14 @@
 
   </div>
   <div class="image-row{% if has_back_image %} has-back-image{% endif %}">
-
-    <a href="{{ product_href }}">
-    
-      <div class="image-container">
+    <div class="image-container">
+      <a href="{{ product_href }}">
+        {% if has_back_image %}
+          <img class="back-image" src="{{ back_image.src | product_img_url: 'large' }}" alt="{{ back_image.alt | escape }}">
+        {% endif %}
         <img class="featured-image" src="{{ product.featured_image.src | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
-      </div>
-
-    </a>
-
-{% comment %}    <a href="{{ product_href }}">
-      {% if has_back_image %}
-        <img class="back-image" src="{{ back_image.src | product_img_url: 'large' }}" alt="{{ back_image.alt | escape }}">
-      {% endif %}
-      <img class="featured-image" src="{{ product.featured_image.src | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
-    </a>
-{% endcomment %}
+      </a>
+    </div>
   </div>
 
   <div class="meta-row">

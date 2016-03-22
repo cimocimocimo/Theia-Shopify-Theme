@@ -197,7 +197,7 @@ $radius: 3px;
 
 
 // header heights
-$headerTopRowHeight: 32px;
+$headerTopRowHeight: 53px;
 $desktopHeaderMainRowHeight: 85px;
 $mobileHeaderMainRowHeight: 88px;
 
@@ -3009,7 +3009,7 @@ input[type="radio"] {
 }
 
 .colour-name{
-    width: 10px;
+    width: auto;
     float: left;
     margin-top: 5px;
 }
@@ -3029,6 +3029,9 @@ legend {
     height: 100%;
     padding: 0;
     width: 200px;
+    &.colour-field{
+        width: auto;
+    }
     &.js-colour-swatch-field{
         margin-top: 10px;
     }
@@ -4710,12 +4713,13 @@ $lookbookModalHeaderHeight: $gutter*8;
     h2 {
         font-size: 2.4em;
         font-weight: 300;
-        color: $colorBlack;
+        color: $colorDarkGray;
         line-height: 1;
         margin: 0 0 11px;
     }
 
     .product-price {
+        font-weight: 300;
         font-family: $helveticaFontStack;
         color: $colorWarmLightGray;
         line-height: 1;
@@ -4738,7 +4742,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     /* Desktop */
     @include at-query ($min, $postSmall) {
-        border-bottom: 1px solid $colorLightestGray;
+       // border-bottom: 1px solid $colorLightestGray;
         padding: 0 0 $gutter/2;
 
         .product-price {
@@ -6065,7 +6069,7 @@ address {
         margin: 0;
         font-size: 13px;
         font-family: $centuryGothicFontStack;
-        font-weight: 700;
+        font-weight: 200;
         text-transform: uppercase;
     }
     
@@ -9516,6 +9520,7 @@ html.full-viewport {
 }
 
 .customer-menu-link {
+    text-transform: uppercase;
     @extend %gray-hover-gold-link;
     @include clearfix();
 
@@ -9525,6 +9530,7 @@ html.full-viewport {
     .site-header & {
 
         .label {
+            font-weight: 200;
             @extend %small-bold-arial-text;
         }
 
@@ -9596,6 +9602,8 @@ html.full-viewport {
 }
 
 .secondary-menu-link {
+    font-weight: 200;
+    text-transform: uppercase;
     @extend %gray-hover-gold-link;
     @extend %small-bold-arial-text;
 

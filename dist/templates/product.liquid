@@ -55,11 +55,16 @@ For more information on these Scheme.org tags, visit:
 
             {% if product.price > 0 and product.type contains 'Shop' %}
               <div class="product-price">
-                {% if on_sale %}
-                  Now: <span id="productPrice" itemprop="price">{{ product.price | money }}</span>
-                  <span class="compare-at-price">{{ product.compare_at_price | money }}</span>
-                {% else %}
-                  <span id="productPrice" itemprop="price">{{ product.price | money }}</span>
+                {% if product.available != true %}
+                  <span class="productPrice"> {{ shop.currency }} {{ product.price | money }} Sold Out</span>
+                {% endif %}
+                {% if product.available == true %} 
+                  {% if on_sale %}
+                    Now: <span id="productPrice" itemprop="price"> {{ shop.currency }} {{ product.price | money }}</span>
+                    <span class="compare-at-price"> {{ product.compare_at_price | money }}</span>
+                  {% else %}
+                    <span id="productPrice" itemprop="price">{{ shop.currency }} {{ product.price | money }}</span>
+                  {% endif %}
                 {% endif %}
               </div>
             {% endif %}
@@ -120,7 +125,7 @@ For more information on these Scheme.org tags, visit:
                 <div class="call-to-action-block">
 
                   <button type="submit" name="add" class="add-to-cart-button" id="addToCart">
-                    <span class="label">Add to cart</span>
+                    <span class="label">Add to Cart</span>
                   </button>
 
                 </div>
@@ -268,7 +273,7 @@ in the URL, we can show next/previous links to other products in the collection.
         {% endcomment %}
         {% assign this_product = product %}
 
-        {% for product in collection.products limit:5 %}
+        {% for product in collection.products limit:4 %}
 
           {% if product.id != this_product.id %}
 
