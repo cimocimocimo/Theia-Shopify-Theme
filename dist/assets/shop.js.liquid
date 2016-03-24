@@ -1113,10 +1113,9 @@ timber.colourSwatch = function(){
         }
     }
 
-
      // Bind the colour to dress and to sizes of the radio input 
-    var $colourChildren = $('.js-colour-swatch-field').children('.swatch-element'); 
-    var $sizeChildren = $('.js-size-swatch-field').children('.swatch-element');
+    var $colourChildren = $('.js-colour-swatch-field').find('.swatch-element'); 
+    var $sizeChildren = $('.js-size-swatch-field').find('.swatch-element');
     var $colourInput = $('.colourSelect');
 
     $colourInput.change(function() {
