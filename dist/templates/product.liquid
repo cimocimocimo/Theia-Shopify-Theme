@@ -34,14 +34,56 @@ For more information on these Scheme.org tags, visit:
   <div class="wrapper">
 
     <div class="product-mobile-header-block">
-      <a href="#" id="mobileProductHeaderLink" class="expand-detail-link">
-        <span class="expand-detail-link-text">
-          {{ product.title }}
-          <span class="icon down"></span>
-        </span>
+       <h5> {{ product.title }} </h5>
 
-        <span class="buy-now-button">Buy now</span>
-      </a>
+ {% comment %}       <span class="buy-now-button">Buy now</span>{% endcomment %}
+    </div>
+
+    <div class="product-gallery-overflow">
+    
+      <div class="product-gallery-block">
+
+        <div class="product-gallery-image-block" id="mainImageBlock">
+
+          {% for image in product.images %}
+            {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+            <div class="image-zoom-container{% if forloop.first != true %} js-hidden{% endif %}"
+                 {% if image_color %}data-image-color="{{ image_color }}"{% endif %}
+                 data-attached-to-variant="{{ image.attached_to_variant? }}"
+                 id="image-{{ image.id }}">
+              <img src="{{ image.src | product_img_url: 'master' }}"
+                   alt="{{ image_alt_text | escape }}"
+                   class="product-gallery-main-image">
+            </div>
+          {% endfor %}
+
+        </div>
+
+      {% if product.images.size > 1 %}
+
+        <div class="product-image-thumbs-block">
+
+          <ul id="productThumbs">
+
+            {% for image in product.images %}
+              {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+              <li>
+                <a href="{{ image.src | product_img_url: 'master' }}"
+                   class="product-photo-thumb"
+                   {% if image_color %} data-image-color="{{ image_color }}"{% endif %}
+                   data-target-image-id="image-{{ image.id }}">
+                  <img src="{{ image.src | product_img_url: 'large' }}"
+                       alt="{{ image_alt | escape }}">
+                </a>
+              </li>
+            {% endfor %}
+
+          </ul>
+
+        </div>
+
+      {% endif %}
+      </div>
     </div>
 
     <div id="productInfoBlock" class="product-info-block" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
@@ -134,7 +176,7 @@ For more information on these Scheme.org tags, visit:
                   {% if product.tags contains 'waitlist' and product.available == false %}
                     <a href="#add-to-waitlist-modal" id="add-to-waitlist-link" class="js-open-modal add-to-waitlist-link">Notify When Available</a>
                   {% else %}
-                    <a href="/account" class="add-to-wishlist-link" id="add-to-wishlist-link" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">Add to wishlist</a>
+                    <a href="/account" class="add-to-wishlist-link" id="add-to-wishlist-link" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">Add To Favourites </a>
                   {% endif %}
                 </div>
 
@@ -195,52 +237,6 @@ For more information on these Scheme.org tags, visit:
 
     </div>
 
-    <div class="product-gallery-overflow">
-    
-      <div class="product-gallery-block">
-
-        <div class="product-gallery-image-block" id="mainImageBlock">
-
-          {% for image in product.images %}
-            {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-            <div class="image-zoom-container{% if forloop.first != true %} js-hidden{% endif %}"
-                 {% if image_color %}data-image-color="{{ image_color }}"{% endif %}
-                 data-attached-to-variant="{{ image.attached_to_variant? }}"
-                 id="image-{{ image.id }}">
-              <img src="{{ image.src | product_img_url: 'master' }}"
-                   alt="{{ image_alt_text | escape }}"
-                   class="product-gallery-main-image">
-            </div>
-          {% endfor %}
-
-        </div>
-
-      {% if product.images.size > 1 %}
-
-        <div class="product-image-thumbs-block">
-
-          <ul id="productThumbs">
-
-            {% for image in product.images %}
-              {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-              <li>
-                <a href="{{ image.src | product_img_url: 'master' }}"
-                   class="product-photo-thumb"
-                   {% if image_color %} data-image-color="{{ image_color }}"{% endif %}
-                   data-target-image-id="image-{{ image.id }}">
-                  <img src="{{ image.src | product_img_url: 'large' }}"
-                       alt="{{ image_alt | escape }}">
-                </a>
-              </li>
-            {% endfor %}
-
-          </ul>
-
-        </div>
-
-      {% endif %}
-      </div>
-    </div>
   </div>
 </div>
 

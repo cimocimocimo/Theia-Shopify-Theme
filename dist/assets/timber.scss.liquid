@@ -319,7 +319,8 @@ $baseFontSize: 100%; // Henseforth known as 1em (assumed at 16px)
 
 @font-face {
     font-family: 'theia-icons';
-    src: url(' {{ "theia-icons.eot" | asset_url }} ');
+    src: url(' {{ "theia-icons.eot" | asset_url }} '),
+        url(' {{ "theia-icons2.eot" | asset_url }} ');
 }
 @font-face {
     font-family: 'theia-icons';
@@ -327,6 +328,14 @@ $baseFontSize: 100%; // Henseforth known as 1em (assumed at 16px)
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'theia-icons';
+    src: url(' {{ "theia-icons2.eot" | asset_url }} ');
+}
+
+
+
 $socialIconFontStack: 'theia-icons';
 
 
@@ -1639,6 +1648,15 @@ $iconSelector: '[class^="icon-"], [class*=" icon-"]';
     &:after {
         @extend %icon-pseudo-element-base;
     }
+}
+
+
+.icon-arrow-long-left:before {
+    content: "\e929";
+}
+
+.icon-shop:before {
+    content: "\e424";
 }
 
 .icon-shopping-bag:before {
@@ -3015,6 +3033,7 @@ input[type="radio"] {
 }
 
 legend {
+    color: $colorBlack;
     margin-top: 5px;
     display: block;
     margin: 0;
@@ -3036,29 +3055,33 @@ legend {
         margin-top: 10px;
     }
     &.js-size-swatch-field{
-        margin-top: 3px;
+        margin-top: 1px;
+        width: 196px;
     }
     .swatch-element {
         position: relative;
-        margin: 0px 3px 8px 0;
+        margin: 0px 1.9px 7.5px 0;
         overflow: hidden;
         &.colour-swatch{
             width: 32px;
             height: 32px;
         }
         &.size-swatch{
-            margin-left: 2px;
+            margin: 0 3px 10px 2px;
             width: 29px;
             height: 29px;
             border: 1px solid $colorBlack;
         }
         &.size-available{
+
             &:hover > label{
+                @include transition(all 0.3s);
                 background-color: $colorBlack;
                 span{
                   color: $colorWhite;  
                 }
             }
+
         }
         .soldOut{
             width: 50px;
@@ -3249,7 +3272,7 @@ legend {
     margin: ($gutter / 2 ) 0 10px;
     font-weight: 700;
     text-transform: uppercase;
-    color: $colorWarmLightGray;
+    color: $colorBlack;
     line-height: 1;
 
     .meta {
@@ -4030,8 +4053,49 @@ body.vex-open {
         height: auto;
         clear: both; // not sure if this is necesary
     }
+    
+    @include at-query ($min, $small) {
+        .product-gallery-overflow{
+            position: relative;
+        }
+    }
+
+    @include at-query($max, $small){
+         .product-gallery-overflow{
+            overflow: hidden;
+            position: static;
+        }
+
+        .tablet-column{
+            float: left;
+            width: 100%;
+        }
+
+        .tablet-column-row{
+            width: 75%;
+            margin: 0 auto;
+        }
+
+    }
+
+
+    @include at-query( $max, $postMedium){
+        .product-gallery-overflow{
+            overflow: hidden;
+        }
+
+
+    }
 
     @include at-query( $min, $postMedium ){
+
+        .tablet-column-row{
+            width: 100%;
+        }
+
+        .tablet-column{
+            width: 100%;
+        }
     
         .product-info-block{
             height: auto;
@@ -4048,8 +4112,6 @@ body.vex-open {
             height: 100%;
         }
 
-        .product-gallery-block{
-        }
 
         .product-gallery-block {
             left: $gutter;
@@ -4699,9 +4761,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     /* Mobile */
     @include at-query ($max, $medium) {
-        display: none;
-
-        background: $colorPaleGray;
+        background: $colorWhite;
     }
 }
 
@@ -4719,6 +4779,7 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
 
     .product-price {
+        margin-top: 20px;
         font-weight: 300;
         font-family: $helveticaFontStack;
         color: $colorWarmLightGray;
@@ -4805,7 +4866,9 @@ $lookbookModalHeaderHeight: $gutter*8;
     @include at-query ($min, $postLarge) {
         .add-to-wishlist-link,
         .add-to-waitlist-link {
+            color: $colorBlack;
             line-height: 50px;
+            font-weight: 100
         }
 
         .call-to-action-block,
@@ -4819,8 +4882,8 @@ $lookbookModalHeaderHeight: $gutter*8;
         margin-bottom: 22px;
 
         .product-options-block {
-            margin-top: 27px;
-            margin-bottom: 27px;
+            margin-top: 22px;
+            margin-bottom: 22px;
         }
     }
 
@@ -4856,10 +4919,15 @@ $lookbookModalHeaderHeight: $gutter*8;
     
     button,
     .add-to-cart-button {
+        padding-top: 0px;
         font-family: $centuryGothicFontStack;
-        padding-bottom: 25%;
+        height: 50px;
         width: 190px;
         @extend %large-black-outline-button;
+        span{
+            letter-spacing: -1px;
+            line-height: 0;
+        }
     }
 
     .add-to-wishlist-link,
@@ -4875,7 +4943,7 @@ $lookbookModalHeaderHeight: $gutter*8;
     @include at-query ($max, $medium) {
         button,
         .button {
-            font-size: 1.25em;
+            font-size: 1.22em;
             height: 44px;
 
             .icon {
@@ -4985,7 +5053,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 }
 
 .product-offer-block {
-    color: $colorWarmLightGray;
+    color: $colorDarkGray;
 
     span {
         vertical-align: middle;
@@ -5001,7 +5069,7 @@ $lookbookModalHeaderHeight: $gutter*8;
     .text {
         @extend %smallish-arial-text;
 
-        font-weight: 700;
+        font-weight: 200;
         text-transform: uppercase;
     }
 }
@@ -5062,11 +5130,10 @@ $lookbookModalHeaderHeight: $gutter*8;
 
 .product-description-block {
     @extend %product-info-block-row;
-
     position: relative;
-    margin-bottom: 23px;
+    margin-bottom: 15px;
     margin-top: 0;
-    padding-top: 19px;
+    padding-top: 0;
 
     h6 {
         @extend %smallish-arial-text;
@@ -5075,23 +5142,30 @@ $lookbookModalHeaderHeight: $gutter*8;
         margin-top: 0;
         margin-bottom: 9px;
         font-weight: 700;
-        color: $colorWarmLightGray;
+        color: $colorBlack;
     }
 
     p, li {
         @extend %smaller-helvetica-text;
-
         line-height: (23/14);
-        color: $colorWarmGray;
+        color: $colorBlack;
     }
     
     ul {
-        list-style-type: disc;
+
         padding-left: $gutter * 1.5;
+    }
+    
+
+    li:before{
+        font-family: helvetica;
+        height: 1px;
+        font-size: 170%;
     }
     
     li {
         margin-bottom: 0;
+
     }
     
     a {
@@ -9297,14 +9371,25 @@ html.full-viewport {
 
 /* Naviation Menus */
 
+
+
+
 .main-menu {
+
+    li{
+        .main-menu-link{
+            font-weight: 200;
+    }
+
+    }
     .site-header &,
     .site-footer & {
         @extend %nav-menu-base;
 
         @mixin main-menu-separator(){
             li {
-                border-left: 1px solid $colorLightestGray;
+
+                font-size: 1.2em;
 
                 &:first-child {
                     border-left-width: 0;
@@ -9314,10 +9399,12 @@ html.full-viewport {
         
         @include at-query (null, $postSmall, $medium) {
             @include main-menu-separator;
+
         }
         
         @include at-query ($min, $large) {
             @include main-menu-separator;
+
         }
     }
 
@@ -9339,7 +9426,7 @@ html.full-viewport {
 
 .main-menu-link {
     @extend %gray-hover-gold-link;
-
+    font-weight: 100;
     display: block;
     text-transform: uppercase;
     line-height: 1;
@@ -9387,7 +9474,7 @@ html.full-viewport {
         @extend %icon-base;
         @extend .icon-arrow-left;
 
-        font-weight: 700;
+        font-weight: 200;
         position: relative;
         padding: $gutter 0 $gutter 20px;
 
@@ -12016,8 +12103,8 @@ span#resultMessage {
     }
 
     .add-to-cart-button {
+
         @extend %small-black-outline-button;
-        padding-top: 0;
     }
 
     /* Desktop */
