@@ -1071,8 +1071,22 @@ timber.colourSwatch = function(){
 
   // set the colour of the swatch
     function setColourOfSwatch($input){
-        $input.siblings('label').css( 'background', swatchColours[$input.attr( 'data-colour' )]); 
+        var colour = $input.attr( 'data-colour' ),
+            $label = $input.siblings('label');
+
+        // check to see if the swatch solour has a split
+        if(colour.indexOf('/') !== -1){
+            var $triangle = $label.find('.split-color-triangle');
+            $triangle.css('background', swatchColours[$triangle.attr('data-colour-one')]);
+            $triangle.find('div').css('background', swatchColours[$triangle.attr('data-colour-two')]);
+
+        }else{
+            $label.css( 'background', swatchColours[colour]); 
+        }
+
     }
+
+
 
      // Change dress colour and show/hide the size inputs
     function changeDress(arg){
@@ -1166,7 +1180,7 @@ timber.productPage = function(){
     currentOption = null;
     for (var k=0; k<pageData.product.options.length; k++){
         currentOption = pageData.product.options[k];
-        
+        console.log(currentOption);
         if (currentOption === 'Size'){
             $('.selector-wrapper:eq(' + k + ')').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">Size Chart</a>');
         }

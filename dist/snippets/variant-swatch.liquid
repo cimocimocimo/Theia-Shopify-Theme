@@ -9,8 +9,14 @@
           <div class="swatch-element colour-swatch" data-colour="{{ variant.option2 }} ">
             
             <input type="radio" class="colourSelect" name="colour" id="{{ variant.option2 }}-select" data-colour="{{ variant.option2 }}" />
-
-            <label class="colour-label" for="{{ variant.option2 }}-select"></label>
+            <label class="colour-label" for="{{ variant.option2 }}-select">
+              {% if variant.option2 contains "/" %}
+                {% assign colours = variant.option2 | split: '/' %}
+                <div class="split-color-triangle" data-colour-one="{{ colours[0] }}" data-colour-two="{{ colours[1] }}">
+                  <div></div>
+                </div>
+              {% endif %}
+            </label>
 
           </div>
 

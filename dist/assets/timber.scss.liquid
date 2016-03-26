@@ -3034,16 +3034,22 @@ legend {
         width: auto;
     }
     &.js-colour-swatch-field{
-        margin-top: 10px;
+        @include at-query(null, $postSmall, $medium){
+            max-width: 100%;
+            float: left;
+        }
     }
     &.js-size-swatch-field{
         margin-top: 1px;
+        @include at-query(null, $postSmall, $medium){
+            padding-left: 20px;
+        }
         
     }
     .swatch-container{
         float: left;
         max-width: 196px;
-        @include at-query($max, $postSmall){
+        @include at-query($max, $small){
             max-width: 100%;
             float: right;
         }
@@ -3112,6 +3118,31 @@ legend {
             display: inline-block;
             vertical-align: middle;
         }
+    }
+}
+
+.split-color-triangle{
+    $length: 100px;
+    position: relative;
+    height: $length;
+    width: $length;
+    overflow: hidden;
+    z-index: -3;
+    width: 100%;
+    height: 100%;
+
+    div {
+        width: 50px;
+        height: 50px;
+        top: 0;
+        left: 0;
+        position: absolute;
+        z-index: 0;
+        top: 10px;
+        z-index: -2;
+        transform: rotate(135deg);
+        -webkit-transform:
+            rotate(135deg);
     }
 }
 
@@ -4049,7 +4080,7 @@ body.vex-open {
     @include at-query( null, $small,  $postMedium){
         .product-gallery-overflow{
             overflow: hidden;
-            position: static;
+            position: relative;
         }
 
 
@@ -4113,7 +4144,7 @@ body.vex-open {
 }
 
 .product-back-link-block {
-    @extend .icon-arrow-left-xlarge:before ;
+    @extend .icon-arrow-left-tail;
     @include overflowEllipsis();
 
     background: $colorWhite;
@@ -4712,13 +4743,6 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     @include at-query( null, $postMedium, $large ){
         width: 326px;
-
-        /* expanded product description state */
-        &.description-expanded {
-            .product-description-block .content {
-                height: 358px;
-            }
-        }
     }
 
     @include at-query( null, $postSmall, $medium ){
@@ -4813,6 +4837,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 }
 
 .product-purchase-block {
+    margin-bottom: 10px;
     @extend %product-info-block-row;
 
     /* Layout */
@@ -4850,6 +4875,7 @@ $lookbookModalHeaderHeight: $gutter*8;
     /* Desktop and Portrait Tablets */
     @include at-query ($min, $postMedium) {
         margin-bottom: 22px;
+
 
         .product-options-block {
             margin-top: 22px;
@@ -5125,7 +5151,7 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
     
     ul {
-
+        list-style: disc;
         padding-left: $gutter * 1.5;
     }
     
