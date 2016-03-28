@@ -11366,6 +11366,36 @@ $opacity-not-active: .25;
         }
     }
 }
+.carousel-block{
+    .arrow-box{
+        width: 200px;
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        &.left{
+
+            left: 0;
+            .slick-left{
+                span{
+
+                }
+
+            }
+
+        }
+        &.right{
+            right: 0;
+            .slick-right{
+                span{
+
+                }
+ 
+            }
+
+        }
+    }
+    
+}
 
 .carousel-hero {
     @extend %hero-base;

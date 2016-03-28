@@ -1008,10 +1008,13 @@ timber.infiniteScroll = function(settings){
 };
 
 timber.carouselInit = function () {
-    $('.carousel').slick({
-        dots: true,
-        prevArrow: '<a href="#" class="slick-prev"></a>',
-        nextArrow: '<a href="#" class="slick-next"></a>',
+    $('.carousel-block').slick({
+        infinite: true,
+        slidesToShow: 4,
+        speed: 1000,
+        slidesToScroll: 4,
+        prevArrow: '<div class="arrow-box left"><a href="#"  class="slick-left"><span><</span></a></div>',
+        nextArrow: '<div class="arrow-box right"><a href="#"  class="slick-right"><span>></span></a></div>',
         customPaging: function(slider, i) {
             return '<a href="#">' + (i + 1) + '</a>';
         }
