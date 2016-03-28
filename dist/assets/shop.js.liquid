@@ -1087,7 +1087,6 @@ timber.colourSwatch = function(){
     }
 
 
-
      // Change dress colour and show/hide the size inputs
     function changeDress(arg){
         $('body').trigger('colorChanged.productPage', {color: arg});
@@ -1170,23 +1169,24 @@ timber.productPage = function(){
         }
     })
 
-  // if it none are available select the the last variant colour 
+  // if none are available select the the last variant colour 
     if(foundVariantInStock === false){
         $('input[data-colour="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
     }
 
+    $('.js-size-swatch-field').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">WHAT\'S MY SIZE </a>');
 
     // dress sizes popup link
-    currentOption = null;
-    for (var k=0; k<pageData.product.options.length; k++){
-        currentOption = pageData.product.options[k];
-        console.log(currentOption);
-        if (currentOption === 'Size'){
-            $('.selector-wrapper:eq(' + k + ')').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">Size Chart</a>');
-        }
+    // currentOption = null;
+    // for (var k=0; k<pageData.product.options.length; k++){
+    //     currentOption = pageData.product.options[k];
+        
+    //     if (currentOption === 'Size'){
+            
+    //     }
 
 
-    }
+    // }
 
     
     // wire the modal popup
