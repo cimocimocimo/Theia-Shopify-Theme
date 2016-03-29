@@ -63,6 +63,15 @@ Ajaxify Cart Documentation:
 
 {% if template contains 'product' %}
 
+
+
+  <script> 
+
+
+    
+
+  </script>
+
   {% comment %}
   To take advantage of a callback on the select dropdown, add option_selection.js
   and customize the JS below as you need. This is only needed on pages where
@@ -82,7 +91,31 @@ Ajaxify Cart Documentation:
   {{ 'option_selection.js' | shopify_asset_url | script_tag }}
   <script>
 
+
+      jQuery(function($){ 
+ 
+        $.cookie.json = true;
+        var currentCookies = $.cookie('theia-visit').products;
+
+        var cookieCheck = function(array, product){
+          var cookies = array
+          cookies.forEach(function(cookie){
+            if(cookie !== product){ 
+              cookies.push(product);
+            }
+          });
+          return cookies;
+        }
+        // set the new cookies 
+        $.cookie('theia-visit', { 'products': cookieCheck( currentCookies, '{{ product.title }}' ) }, { expires: 7 });
+        console.log( 'cookie after:', $.cookie('theia-visit').products );
+      
+      });
+
+
       timber.pageData.productPage = {
+       
+
           {% if product.tags contains 'waitlist' and product.available == false %}
           showProductWaitlist: true,
           {% else %}
