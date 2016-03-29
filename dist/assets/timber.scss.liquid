@@ -11367,34 +11367,47 @@ $opacity-not-active: .25;
     }
 }
 .carousel-block{
+    width: 100%;
     .arrow-box{
-        width: 200px;
+        min-width: 100px;
+        width: auto;
+        height: 100%;
         position: absolute;
         top: 0;
-        z-index: 1;
-        &.left{
+        z-index: 100;
+        @include verticalCenterChildElements();
 
-            left: 0;
-            .slick-left{
-                span{
-
-                }
-
-            }
-
+        .slick-link{
+            text-decoration: none;
+            color: $colorGold;
+            font-size: 110px;
+            font-family: "theia-icons";
         }
+
+        &.left{
+            left: 0;
+            @include at-query( $min, $postLarge){
+                margin-left: -50px;
+            }
+            .slick-left{
+                &:before{
+                    content: " \e608";
+                }
+            }
+        }
+
         &.right{
             right: 0;
-            .slick-right{
-                span{
-
-                }
- 
+            @include at-query( $min, $postLarge){
+                margin-right: -50px;
             }
-
+            .slick-right{
+                &:before{
+                    content: " \e607";
+                }
+            }
         }
     }
-    
 }
 
 .carousel-hero {
