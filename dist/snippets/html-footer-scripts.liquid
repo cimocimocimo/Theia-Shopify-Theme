@@ -10,6 +10,7 @@ JS Plugins
 {{ 'headroom.min.js' | asset_url | script_tag }}
 {{ 'jQuery.headroom.min.js' | asset_url | script_tag }}
 {{ 'jquery.cookie-1.4.1.min.js' | asset_url | script_tag }}
+{{ 'cookies.min.js' | asset_url | script_tag }}
 {{ 'vex.min.js' | asset_url | script_tag }}
 {{ 'noframework.waypoints.min.js' | asset_url | script_tag }}
 {{ 'jquery.waypoints.min.js' | asset_url | script_tag }}
@@ -90,28 +91,6 @@ Ajaxify Cart Documentation:
 
   {{ 'option_selection.js' | shopify_asset_url | script_tag }}
   <script>
-
-
-      jQuery(function($){ 
- 
-        $.cookie.json = true;
-        var currentCookies = $.cookie('theia-visit').products;
-
-        var cookieCheck = function(array, product){
-          var cookies = array
-          cookies.forEach(function(cookie){
-            if(cookie !== product){ 
-              cookies.push(product);
-            }
-          });
-          return cookies;
-        }
-        // set the new cookies 
-        $.cookie('theia-visit', { 'products': cookieCheck( currentCookies, '{{ product.title }}' ) }, { expires: 7 });
-        console.log( 'cookie after:', $.cookie('theia-visit').products );
-      
-      });
-
 
       timber.pageData.productPage = {
        

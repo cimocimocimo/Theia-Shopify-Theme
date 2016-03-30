@@ -1167,6 +1167,7 @@ timber.productPage = function(){
     timber.mobileProductInfoBlock();
     timber.productDescriptionBlock();
     timber.productBackLink();
+    timber.productRecentlyViewedBlock();
 }
 
 timber.productBackLink = function(){
@@ -1295,6 +1296,99 @@ timber.productImageGallery = function(){
         }
     });
 }
+
+timber.productRecentlyViewedBlock = function(){
+
+    var Dress = function(title, id, price, featured_image, images) {
+        this.title = title;
+        this.id = id;
+        this.price = price;
+        this.featured_image = featured_image;
+        this.images = images;
+    }
+
+    Dress.prototype.url = function(){
+        var hostName = window.location.hostname,
+            baseUrl = "http://"+hostName+"/";
+    }
+
+    var createDress = function(currentDress){
+        var thisDress = new Dress(currentDress.title, currentDress.id, currentDress.price, currentDress.featured_image, [currentDress.images[0], currentDress.images[1]]);
+        return thisDress;
+    }
+ 
+    function createCookies(array){
+        Cookies.set('theia-recent', { products: array } );
+    }
+
+    function firstCookie(dress){
+        if ( allTheCookies() ===  undefined ){
+            createCookies([dress]);             
+        }else{
+            return false;
+        }
+    }
+
+    function seentIt(cookie){ // expect the cookie not to be same as the product or the page has allready been viewed
+        if ( cookie.title === currentProduct.title ){ return pageViewed = true };
+    }
+
+    function cycleCookies(cookies, cb){
+        cookies.forEach(function(cookie){ 
+            cb(cookie);
+        });
+    }
+
+
+    // check to see if the argument is false before getting all the cookies // EX first COOKIE
+    var allTheCookies = function(){
+        var cookies = Cookies.getJSON('theia-recent');
+        return cookies === undefined ? cookies : cookies.products;
+    }
+
+
+    function byteCount(s) { 
+        return encodeURI(s).split(/%..|./).length - 1;
+    }
+
+    function cookieTooBig(cookie){
+        console.log(cookie);
+        var jsonCookie = JSON.stringify(cookie);
+        if(byteCount(jsonCookie) < 4096){
+            return cookie
+        }else{
+            cookie.shift();
+            return cookieTooBig(cookie); // recursively loop again
+        }
+    }
+
+    function setCookie(dress, cookies){
+        var newCookie = cookies;
+        // get all the cookies and then ... push the current product
+        newCookie.push(dress)
+        // check to see bye count
+        createCookies(cookieTooBig(newCookie))  
+    }
+
+
+    var currentProduct = timber.pageData.productPage.product;
+    var pageViewed = false;
+    var newDress = createDress(currentProduct);
+
+    firstCookie(newDress);
+
+    if(!firstCookie(newDress)){
+        cycleCookies(allTheCookies(), seentIt); 
+    }
+
+    // addthe dress to the array of coookies
+    if(pageViewed === false){
+        setCookie(newDress, allTheCookies())
+        console.log(allTheCookies());
+    }
+
+};
+
 
 timber.productDescriptionBlock = function(){
 
