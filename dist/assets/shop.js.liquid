@@ -1309,7 +1309,9 @@ timber.productRecentlyViewedBlock = function(){
         recentProductTemplate = Handlebars.compile(
             $('#recent-product-template').html()
         );
-    
+      
+     console.log(timber.pageData.productPage.product);   
+
     function Product(data){
         if (data === undefined){
             return;
@@ -1319,7 +1321,27 @@ timber.productRecentlyViewedBlock = function(){
         this.id = data.id;
         this.handle = data.handle;
         this.featured_image = data.featured_image;
-        this.price = Shopify.formatMoney(data.price);
+        this.images = data.images;
+        this.price = data.price;
+        this.compare_at_price = data.compare_at_price;
+        this.style_number = data.style_number;
+        this.back_image = data.back_image;
+        
+    }
+
+    Product.prototype.price_in_dollars = function(){
+        return Shopify.formatMoney( this.price );
+    }
+    Product.prototype.compare_in_dollars = function(){
+        return Shopify.formatMoney( this.compare_at_price );
+    }
+
+    Product.prototype.has_back_image = function(){
+       return (this.images > 1) ? true : false ;
+    }
+
+    Product.prototype.on_sale = function(){
+        return this.comape_at_price > this.price ? true : false;
     }
 
     Product.prototype.url = function(){
@@ -1327,7 +1349,7 @@ timber.productRecentlyViewedBlock = function(){
             baseUrl = "http://"+hostName+"/",
             collectionProducts = "collections/shop/products/";
 
-            return hostName + baseUrl + collectionProducts + this.handle;
+            return baseUrl + collectionProducts + this.handle;
 
     }
 

@@ -347,9 +347,10 @@ in the URL, we can show next/previous links to other products in the collection.
   </div>
 </div>
 
+
+
 <script id="recent-product-template" type="text/x-handlebars-template">
   <div class="recent-product-block">
-    <h3>{% raw %}{{ title }}{% endraw %}</h3>
-    <p>{% raw %}{{ price }}{% endraw %}</p>
+    {% include 'recently-viewed-grid-item' %}
   </div>
 </script>

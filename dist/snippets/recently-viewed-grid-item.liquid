@@ -1,0 +1,74 @@
+  {% comment %} 
+     This is all in handlebars because of liquid, the objects are being stored in a cookie 
+  {% endcomment %}
+
+
+  {% comment %}
+
+   I Can use one raw tag if i remove all of the liquid from the page
+
+
+  {% endcomment %}
+
+
+
+  <div class="header-row">
+
+    <h4>
+      {% raw %} 
+        <a href="{{ url }}">{{ title }}</a> 
+      {% endraw %}
+    </h4>
+
+  </div>
+  <div class="image-row{% raw %}{{# if has_back_image}} has-back-image {{/if}}{% endraw %}">
+
+    <a href="{% raw %}{{ url }}{% endraw %}">
+      {% raw %}{{# if has_back_image}}
+        <img class="back-image" src="{{ back_image.src }}" alt="{{ back_image.alt }}">
+      {{/ if }}{% endraw %}
+      <img class="featured-image" src="{% raw %}{{ featured_image }}{% endraw %}" alt="{% raw %}{{ featured_image_alt }}{% endraw %}">
+    </a>
+
+  </div>
+  
+  <div class="meta-row">
+    <div class="info-block">
+    {% raw %}
+      {{#if on_sale}} 
+        <div class="sale-price">
+          Now: {{price_in_dollars}}
+        </div>
+        <div class="compare-at-price">
+          MRSP: <span>{{compare_in_dollars}}</span>
+        </div>
+      {{ else }}
+        {{#if price > 0}}
+          <div>
+            US {{price_in_dollars}}
+          </div>
+        {{/if}}
+        {{#if style_number > 0}}
+          <div>
+            Style #: {{style_number}}
+          </div>
+        {{/if}}
+      {{/if}}
+    {% endraw %} 
+    </div>
+
+    <div class="button-block">
+      <a class="button" href="{% raw %}{{ url }}{% endraw %}">
+        <span class="label">
+          {% if on_sale %}
+            Sale
+          {% else %}
+            View Dress
+          {% endif %}
+        </span>
+        <span class="icon"></span>
+      </a>
+    </div>
+  </div>
+
+</div>

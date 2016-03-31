@@ -92,6 +92,8 @@ Ajaxify Cart Documentation:
   {{ 'option_selection.js' | shopify_asset_url | script_tag }}
   <script>
 
+
+
       timber.pageData.productPage = {
        
 
@@ -122,10 +124,24 @@ Ajaxify Cart Documentation:
                  {
                      slug: '{{ tag | handle }}',
                      name: "{{ tag }}"
-                 }{% unless forloop.last %},{% endunless %}{% endfor %}
-          ]
+                 }{% unless forloop.last %},{% endunless %}{% endfor %}]
       };
+  </script>
+
+  <script>
+
+    timber.pageData.productPage.product.featured_image_alt = "{{ product.featured_image.alt | escape }}"
+
+    timber.pageData.productPage.product.style_number = "{{ style_number }}";
+    
+    timber.pageData.productPage.product.back_image = {
+      src: "{{ back_image.src | product_img_url: 'large' }}",
+      alt: "{{ back_image.alt | escape }}"
+    };
+
+
 
   </script>
 
 {% endif %}
+
