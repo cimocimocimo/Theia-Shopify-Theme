@@ -1298,84 +1298,70 @@ timber.productImageGallery = function(){
 }
 
 timber.productRecentlyViewedBlock = function(){
-
-    var Dress = function(title, id, price, featured_image, images) {
-        this.title = title;
-        this.id = id;
-        this.price = price;
-        this.featured_image = featured_image;
-        this.images = images;
+    
+    var maxRecentProducts = 8,
+        cookieName = 'theia-recent-products',
+        recentProducts = [],
+        cookieData,
+        // create a Product object from current product
+        currentProduct = new Product(timber.pageData.productPage.product),
+        $recentProductsContainer = $('#recent-products-block'),
+        recentProductTemplate = Handlebars.compile(
+            $('#recent-product-template').html()
+        );
+    
+    function Product(data){
+        if (data === undefined){
+            return;
+        }
+        
+        this.title = data.title;
+        this.id = data.id;
+        this.handle = data.handle;
+        this.featured_image = data.featured_image;
+        this.price = Shopify.formatMoney(data.price);
     }
-
-    Dress.prototype.url = function(){
+    Product.prototype.url = function(){
         var hostName = window.location.hostname,
             baseUrl = "http://"+hostName+"/";
     }
 
-    var createDress = function(currentDress){
-        var thisDress = new Dress(currentDress.title, currentDress.id, currentDress.price, currentDress.featured_image, [currentDress.images[0], currentDress.images[1]]);
-        return thisDress;
-    }
- 
-    function createCookies(array){
-        Cookies.set('theia-recent', { products: array } );
-    }
+    // on page load
+    // check for for the cookie
+    if (Cookies.get(cookieName)){
+        // load products from cookie
+        cookieData = Cookies.getJSON(cookieName);
 
-    function seentIt(cookie){ // expect the cookie not to be same as the product or the page has allready been viewed
-        if ( cookie.title === currentProduct.title ){ return pageViewed = true };
+        // inistantiate Dresses from objects in array.
+        if (cookieData !== undefined && cookieData.constructor === Array && cookieData.length > 0){
+            for(var i = 0; i < cookieData.length; i++){
+                recentProducts.push(new Product(cookieData[i]));
+            }
+        }
     }
-
-    function cycleCookies(cookies, cb){
-        cookies.forEach(function(cookie){ 
-            cb(cookie);
-        });
+    
+    // add current Product to beginning of the recentProducts array
+    // if the first product isn't the current product
+    if (recentProducts[0] === undefined || recentProducts[0].id !== currentProduct.id){
+        recentProducts.unshift(currentProduct);
     }
-
-    // check to see if the argument is false before getting all the cookies // EX first COOKIE
-    var initCookies = function(dress){
-        var cookies = Cookies.getJSON('theia-recent');
-        return cookies === undefined ?  createCookies([dress]) : cookies.products;
+    
+    // check to see if array is greater than max recent products length, trim array if needed
+    if (recentProducts.length > maxRecentProducts){
+        recentProducts = recentProducts.slice(0, maxRecentProducts);
+    }
+    
+    // save data to cookie
+    Cookies.set(cookieName, recentProducts);
+    
+    // build the html for the block
+    for(var j = 0; j < recentProducts.length; j++){
+        $('.recently-viewed-products-block').append(recentProductTemplate(recentProducts[j]));
     }
 
     function byteCount(s) { 
         return encodeURI(s).split(/%..|./).length - 1;
     }
-
-    function cookieTooBig(cookie){
-        console.log(cookie);
-        var jsonCookie = JSON.stringify(cookie);
-        if(byteCount(jsonCookie) < 4096){
-            return cookie
-        }else{
-            cookie.shift();
-            return cookieTooBig(cookie); // recursively loop again
-        }
-    }
-
-    function setCookie(dress, cookies){
-        var newCookie = cookies; // i should probbly use array .map
-        // get all the cookies and then ... push the current product
-        newCookie.push(dress)
-        // check to see bye count
-        createCookies(cookieTooBig(newCookie))  
-    }
-
-    var currentProduct = timber.pageData.productPage.product;
-    var pageViewed = false;
-    var newDress = createDress(currentProduct);
-    var allTheCookies = initCookies(newDress); 
-
-    
-    if(allTheCookies === undefined){
-         pageViewed = true;
-    }else{
-        cycleCookies(allTheCookies, seentIt);
-    }
-    // addthe dress to the array of coookies
-    if(pageViewed === false){
-        setCookie(newDress, allTheCookies)
-    }
-
 };
 
 
