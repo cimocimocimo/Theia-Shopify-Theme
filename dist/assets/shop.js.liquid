@@ -1321,9 +1321,14 @@ timber.productRecentlyViewedBlock = function(){
         this.featured_image = data.featured_image;
         this.price = Shopify.formatMoney(data.price);
     }
+
     Product.prototype.url = function(){
         var hostName = window.location.hostname,
-            baseUrl = "http://"+hostName+"/";
+            baseUrl = "http://"+hostName+"/",
+            collectionProducts = "collections/shop/products/";
+
+            return hostName + baseUrl + collectionProducts + this.handle;
+
     }
 
     // on page load
