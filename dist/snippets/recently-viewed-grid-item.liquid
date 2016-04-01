@@ -9,18 +9,6 @@
 {% endcomment %} 
 
 
-{% for image in product.images %}
-  {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-  {% if image.alt contains 'back' and image_color == featured_image_color %}
-    {% assign has_back_image = true %}
-    {{ image }}
-    {% assign back_image = image %}
-  {% endif %}
-{% endfor %}
-
-
-
-
 {% raw %} 
   <div id="style-{{ style_number }}" class="product-grid-item {{#if sold_out}} sold-out {{/if}} {{#if on_sale}} on-sale {{/if}}">
 
@@ -33,14 +21,13 @@
       </h4>
 
     </div>
-    <div class="image-row{{#if has_back_image}} has-back-image {{/if}}">
+    <div class="image-row {{#if has_back_image}} has-back-image {{/if}}">
 
       <a href="{{ url }}">
         {{#if has_back_image}}
-          {{ back_image }}
-            <img class="back-image" src="{{ back_image }}" alt="{{ back_image_alt }}">
-          {{/if}}
-          <img class="featured-image" src="{{ featured_image }}" alt="{{ featured_image_alt }}">
+          <img class="back-image" src="{{ back_image }}" alt="{{ back_image_alt }}">
+        {{/if}}
+        <img class="featured-image" src="{{ featured_image }}" alt="{{ featured_image_alt }}">
       </a>
 
     </div>
@@ -86,10 +73,3 @@
     </div>
   </div>
 {% endraw %}
-<script>
-    var product = timber.pageData.productPage.product;
-    product.featured_image_alt = "{{ product.featured_image.alt }}";
-    product.style_number = "{{ style_number }}";
-    product.back_image = "{{ back_image.src | product_img_url: 'large' | escape }}"
-    product.back_image_alt = "{{ back_image.alt | escape }}";
-</script>

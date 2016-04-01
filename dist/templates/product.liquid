@@ -312,8 +312,14 @@ in the URL, we can show next/previous links to other products in the collection.
     </div>
 
   </div>
-  
-  <div class="recently-viewed-products-block"></div>
+  <div class="related-products-hero">
+    <div class="wrapper">
+        <div class="carousel-block recently-viewed-products-block">   
+          {% comment %} Recently Viewed Products gets appended intoo there  {% endcomment %}
+        </div>
+      </div>
+    </div>
+  </div>
   
   <hr class="hr-4-col" />
   
@@ -350,7 +356,8 @@ in the URL, we can show next/previous links to other products in the collection.
 
 
 <script id="recent-product-template" type="text/x-handlebars-template">
-  <div class="recent-product-block">
-    {% include 'recently-viewed-grid-item' %}
-  </div>
+  {% include 'recently-viewed-grid-item' %}
 </script>
+
+
+

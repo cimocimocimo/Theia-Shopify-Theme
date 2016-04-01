@@ -1330,15 +1330,11 @@ timber.productRecentlyViewedBlock = function(){
         this.has_style_number = this.style_number > 0;
         this.back_image = data.back_image;
         this.back_image_alt = data.back_image_alt;
+        this.has_back_image = data.has_back_image;
         this.sold_out = !data.available;
         
     }
-
-    Product.prototype.has_back_image = function(){
-        return true
-        // if this 
-    }
-
+    
     Product.prototype.price_in_dollars = function(){
         return Shopify.formatMoney( this.price );
     }
