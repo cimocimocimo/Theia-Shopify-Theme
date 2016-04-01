@@ -1323,10 +1323,20 @@ timber.productRecentlyViewedBlock = function(){
         this.featured_image = data.featured_image;
         this.images = data.images;
         this.price = data.price;
+        this.has_price = this.price > 0;
         this.compare_at_price = data.compare_at_price;
+        this.on_sale = this.comape_at_price > this.price;
         this.style_number = data.style_number;
+        this.has_style_number = this.style_number > 0;
         this.back_image = data.back_image;
+        this.back_image_alt = data.back_image_alt;
+        this.sold_out = !data.available;
         
+    }
+
+    Product.prototype.has_back_image = function(){
+        return true
+        // if this 
     }
 
     Product.prototype.price_in_dollars = function(){
@@ -1334,14 +1344,6 @@ timber.productRecentlyViewedBlock = function(){
     }
     Product.prototype.compare_in_dollars = function(){
         return Shopify.formatMoney( this.compare_at_price );
-    }
-
-    Product.prototype.has_back_image = function(){
-       return (this.images > 1) ? true : false ;
-    }
-
-    Product.prototype.on_sale = function(){
-        return this.comape_at_price > this.price ? true : false;
     }
 
     Product.prototype.url = function(){
@@ -1366,6 +1368,8 @@ timber.productRecentlyViewedBlock = function(){
             }
         }
     }
+
+
     
     // add current Product to beginning of the recentProducts array
     // if the first product isn't the current product
@@ -1382,7 +1386,7 @@ timber.productRecentlyViewedBlock = function(){
     Cookies.set(cookieName, recentProducts);
     
     // build the html for the block
-    for(var j = 0; j < recentProducts.length; j++){
+    for(var j = 1; j < recentProducts.length; j++){
         $('.recently-viewed-products-block').append(recentProductTemplate(recentProducts[j]));
     }
 

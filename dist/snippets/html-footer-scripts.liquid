@@ -128,20 +128,7 @@ Ajaxify Cart Documentation:
       };
   </script>
 
-  <script>
 
-    timber.pageData.productPage.product.featured_image_alt = "{{ product.featured_image.alt | escape }}"
-
-    timber.pageData.productPage.product.style_number = "{{ style_number }}";
-    
-    timber.pageData.productPage.product.back_image = {
-      src: "{{ back_image.src | product_img_url: 'large' }}",
-      alt: "{{ back_image.alt | escape }}"
-    };
-
-
-
-  </script>
 
 {% endif %}
 
