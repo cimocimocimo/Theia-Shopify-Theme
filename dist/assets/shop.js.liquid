@@ -1400,9 +1400,12 @@ timber.productRecentlyViewedBlock = function(){
     Cookies.set(cookieName, recentProducts);
     
     // build the html for the block
-    for(var j = 1; j < recentProducts.length; j++){
-        $('.recently-viewed-products-block').append(recentProductTemplate(recentProducts[j]));
+    if (recentProducts.length > 2){
+        for(var j = 1; j < recentProducts.length; j++){
+            $('.recently-viewed-products-block').append(recentProductTemplate(recentProducts[j]));
+        }
     }
+
 
     function byteCount(s) { 
         return encodeURI(s).split(/%..|./).length - 1;
