@@ -1377,6 +1377,24 @@ timber.productRecentlyViewedBlock = function(){
     if (recentProducts.length > maxRecentProducts){
         recentProducts = recentProducts.slice(0, maxRecentProducts);
     }
+
+    // remove any duplicates from the array
+
+    // for(var k = 1; j < recentProducts.length; j++){
+    //     // search the rest of the array for J
+    //    for(var l = j + 1; k < recentProducts.lengh; k++)
+    //         console.log(recentProducts[j].title, recentProducts[k].title);
+    //        if(recentProducts[j].title === recentProducts[k].title){
+    //             recentProducts.splice(k, 1, recentProducts[k]);
+    //        }
+    // }
+
+    for(var k = 1; j < recentProducts.length; k++){
+        if(currentProduct.title === recentProducts[k].title){
+            recentProducts.splice(k, 1, recentProducts[k]);
+       }
+    }
+
     
     // save data to cookie
     Cookies.set(cookieName, recentProducts);
