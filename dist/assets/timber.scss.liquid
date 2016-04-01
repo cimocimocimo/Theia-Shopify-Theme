@@ -8516,6 +8516,11 @@ html.full-viewport {
     .button {
         @extend %small-gray-outline-arrow-button;
     }
+    .meta-row{
+        margin: 0 auto;
+        max-width: 260px;
+        min-width: 260px;
+    }
 
     /* Mobile */
     @include at-query ($max, $small) {
@@ -8600,6 +8605,12 @@ html.full-viewport {
 
 .product-grid-item {
     @extend %product-lookbook-grid-item-base;
+
+    .header-row {
+        max-width: 260px;
+        min-width: 260px;
+        margin: 0 auto;
+    }
 
     .image-row {
         height: 384px;
