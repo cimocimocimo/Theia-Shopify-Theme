@@ -4274,6 +4274,10 @@ body.vex-open {
         height: 100%;
         width: 75%;
         overflow: visible !important; // override overflow: hidden on the zoom container
+
+        @include at-query ($max, $small) { /* Mobile */
+            width: 100%;
+        }
     }
     
     img {
