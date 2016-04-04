@@ -88,6 +88,7 @@ timber.init = function () {
     // Run on load
     timber.accessibleNav();
     timber.carouselInit();
+    timber.productCarouselInit();
     timber.loginFormInit();
     timber.mobileSideNav();
     timber.loader.init();
@@ -1006,6 +1007,46 @@ timber.infiniteScroll = function(settings){
         wireWaypoint();
     }
 };
+
+timber.productCarouselInit = function () {
+    $('.carousel-block').slick({
+        infinite: true,
+        slidesToShow: 4,
+        speed: 1000,
+        slidesToScroll: 4,
+        prevArrow: '<div class="arrow-box left"><a href="#/" onClick="preventDefault();"  class="slick-link slick-left"></a></div>',
+        nextArrow: '<div class="arrow-box right"><a href="#/" onClick="preventDefault();"  class="slick-link slick-right"></a></div>',
+        customPaging: function(slider, i) {
+            return '<a href="#">' + (i + 1) + '</a>';
+        },
+        responsive: [
+            {
+              breakpoint: 1150,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+              }
+            },
+            {
+              breakpoint: 935,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+              }
+            },
+            {
+              breakpoint: 580,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            }
+          ]
+
+    });
+};
+
 
 timber.carouselInit = function () {
     $('.carousel').slick({

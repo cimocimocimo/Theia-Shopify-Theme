@@ -8480,6 +8480,11 @@ html.full-viewport {
     .button {
         @extend %small-gray-outline-arrow-button;
     }
+    .meta-row{
+        margin: 0 auto;
+        max-width: 260px;
+        min-width: 260px;
+    }
 
     /* Mobile */
     @include at-query ($max, $small) {
@@ -8564,6 +8569,12 @@ html.full-viewport {
 
 .product-grid-item {
     @extend %product-lookbook-grid-item-base;
+
+    .header-row {
+        max-width: 260px;
+        min-width: 260px;
+        margin: 0 auto;
+    }
 
     .image-row {
         height: 384px;
@@ -11327,6 +11338,49 @@ $opacity-not-active: .25;
         &.slick-active a {
             color: $slick-dot-color-active;
             opacity: $opacity-default;
+        }
+    }
+}
+.carousel-block{
+    width: 100%;
+    .arrow-box{
+        min-width: 100px;
+        width: auto;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        z-index: 100;
+        @include verticalCenterChildElements();
+
+        .slick-link{
+            text-decoration: none;
+            color: $colorGold;
+            font-size: 110px;
+            font-family: "theia-icons";
+        }
+
+        &.left{
+            left: 0;
+            @include at-query( $min, $postLarge){
+                margin-left: -50px;
+            }
+            .slick-left{
+                &:before{
+                    content: " \e608";
+                }
+            }
+        }
+
+        &.right{
+            right: 0;
+            @include at-query( $min, $postLarge){
+                margin-right: -50px;
+            }
+            .slick-right{
+                &:before{
+                    content: " \e607";
+                }
+            }
         }
     }
 }
