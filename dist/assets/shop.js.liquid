@@ -1167,6 +1167,7 @@ timber.productPage = function(){
     timber.mobileProductInfoBlock();
     timber.productDescriptionBlock();
     timber.productBackLink();
+    timber.productRecentlyViewedBlock();
 }
 
 timber.productBackLink = function(){
@@ -1295,6 +1296,122 @@ timber.productImageGallery = function(){
         }
     });
 }
+
+timber.productRecentlyViewedBlock = function(){
+    
+    var maxRecentProducts = 8,
+        cookieName = 'theia-recent-products',
+        recentProducts = [],
+        cookieData,
+        // create a Product object from current product
+        currentProduct = new Product(timber.pageData.productPage.product),
+        $recentProductsContainer = $('#recent-products-block'),
+        recentProductTemplate = Handlebars.compile(
+            $('#recent-product-template').html()
+        );
+      
+     console.log(timber.pageData.productPage.product);   
+
+    function Product(data){
+        if (data === undefined){
+            return;
+        }
+        
+        this.title = data.title;
+        this.id = data.id;
+        this.handle = data.handle;
+        this.featured_image = data.featured_image;
+        this.images = data.images;
+        this.price = data.price;
+        this.has_price = this.price > 0;
+        this.compare_at_price = data.compare_at_price;
+        this.on_sale = this.comape_at_price > this.price;
+        this.style_number = data.style_number;
+        this.has_style_number = this.style_number > 0;
+        this.back_image = data.back_image;
+        this.back_image_alt = data.back_image_alt;
+        this.has_back_image = data.has_back_image;
+        this.sold_out = !data.available;
+        
+    }
+    
+    Product.prototype.price_in_dollars = function(){
+        return Shopify.formatMoney( this.price );
+    }
+    Product.prototype.compare_in_dollars = function(){
+        return Shopify.formatMoney( this.compare_at_price );
+    }
+
+    Product.prototype.url = function(){
+        var hostName = window.location.hostname,
+            baseUrl = "http://"+hostName+"/",
+            collectionProducts = "collections/shop/products/";
+
+            return baseUrl + collectionProducts + this.handle;
+
+    }
+
+    // on page load
+    // check for for the cookie
+    if (Cookies.get(cookieName)){
+        // load products from cookie
+        cookieData = Cookies.getJSON(cookieName);
+
+        // inistantiate Dresses from objects in array.
+        if (cookieData !== undefined && cookieData.constructor === Array && cookieData.length > 0){
+            for(var i = 0; i < cookieData.length; i++){
+                recentProducts.push(new Product(cookieData[i]));
+            }
+        }
+    }
+
+
+    
+    // add current Product to beginning of the recentProducts array
+    // if the first product isn't the current product
+    if (recentProducts[0] === undefined || recentProducts[0].id !== currentProduct.id){
+        recentProducts.unshift(currentProduct);
+    }
+    
+    // check to see if array is greater than max recent products length, trim array if needed
+    if (recentProducts.length > maxRecentProducts){
+        recentProducts = recentProducts.slice(0, maxRecentProducts);
+    }
+
+    // remove any duplicates from the array
+
+    // for(var k = 1; j < recentProducts.length; j++){
+    //     // search the rest of the array for J
+    //    for(var l = j + 1; k < recentProducts.lengh; k++)
+    //         console.log(recentProducts[j].title, recentProducts[k].title);
+    //        if(recentProducts[j].title === recentProducts[k].title){
+    //             recentProducts.splice(k, 1, recentProducts[k]);
+    //        }
+    // }
+
+    for(var k = 1; j < recentProducts.length; k++){
+        if(currentProduct.title === recentProducts[k].title){
+            recentProducts.splice(k, 1, recentProducts[k]);
+       }
+    }
+
+    
+    // save data to cookie
+    Cookies.set(cookieName, recentProducts);
+    
+    // build the html for the block
+    if (recentProducts.length > 2){
+        for(var j = 1; j < recentProducts.length; j++){
+            $('.recently-viewed-products-block').append(recentProductTemplate(recentProducts[j]));
+        }
+    }
+
+
+    function byteCount(s) { 
+        return encodeURI(s).split(/%..|./).length - 1;
+    }
+};
+
 
 timber.productDescriptionBlock = function(){
 
