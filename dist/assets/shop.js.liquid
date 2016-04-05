@@ -1370,8 +1370,36 @@ timber.productRecentlyViewedBlock = function(){
         this.sold_out = !data.available;
         
     }
-    
 
+    Product.prototype.has_style_number = function(){
+        return this.style_number > 0;
+    }
+
+    Product.prototype.has_price = function(){
+        return this.price > 0;
+    }
+
+    Product.prototype.on_sale = function(){
+        return this.comape_at_price > this.price;
+    }
+
+    Product.prototype.price_in_dollars = function(){
+        return Shopify.formatMoney( this.price );
+    }
+
+    Product.prototype.compare_in_dollars = function(){
+        return Shopify.formatMoney( this.compare_at_price );
+    }
+
+    Product.prototype.url = function(){
+        var hostName = window.location.hostname,
+            baseUrl = "http://"+hostName+"/",
+            collectionProducts = "collections/shop/products/";
+
+        return baseUrl + collectionProducts + this.handle;
+    }
+    
+    
     // on page load
     // check for for the cookie
     if (Cookies.get(cookieName)){
@@ -1413,7 +1441,6 @@ timber.productRecentlyViewedBlock = function(){
     // check the array for duplicates and remove them
     for(var p = 1; p < recentProducts.length; p++){
         if (recentProducts[p].title === recentProducts[0].title){
-            console.log(recentProducts[0].title);
             recentProducts.splice(p, 1);
         }
     }
@@ -1433,39 +1460,9 @@ timber.productRecentlyViewedBlock = function(){
         Cookies.set(cookieName, recentProducts);
     }
 
-    // Define prototype functiojns below saving to save bytes
-
-    Product.prototype.has_style_number = function(){
-        return this.style_number > 0;
-    }
-
-    Product.prototype.has_price = function(){
-        return this.price > 0;
-    }
-
-    Product.prototype.on_sale = function(){
-        return this.comape_at_price > this.price;
-    }
-
-    Product.prototype.price_in_dollars = function(){
-        return Shopify.formatMoney( this.price );
-    }
-
-    Product.prototype.compare_in_dollars = function(){
-        return Shopify.formatMoney( this.compare_at_price );
-    }
-
-    Product.prototype.url = function(){
-        var hostName = window.location.hostname,
-            baseUrl = "http://"+hostName+"/",
-            collectionProducts = "collections/shop/products/";
-
-        return baseUrl + collectionProducts + this.handle;
-
-    }
+    // Define prototype functiojns below saving to save bytes which has no effect
 
 
-    
     // build the html for the block
     if (recentProducts.length > 2){
         for(var j = 1; j < recentProducts.length; j++){

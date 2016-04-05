@@ -21,12 +21,12 @@
       </h4>
 
     </div>
-    <div class="image-row {{#if has_back_image}} has-back-image {{/if}}">
+    <div class="image-row {% endraw %}{% comment %} {{#if has_back_image}} has-back-image {{/if}} {% endcomment %}{% raw %} ">
 
       <a href="{{ url }}">
-        {{#if has_back_image}}
+{% endraw %}{% comment %}{{#if has_back_image}}
           <img class="back-image" src="{{ back_image }}" alt="{{ back_image_alt }}">
-        {{/if}}
+        {{/if}}{% endcomment %}{% raw %}
         <img class="featured-image" src="{{ featured_image }}" alt="{{ featured_image_alt }}">
       </a>
 
