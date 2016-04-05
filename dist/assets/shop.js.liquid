@@ -1044,7 +1044,75 @@ timber.accessibleNav = function () {
 
 
 timber.productPage = function(){
-   
+    var pageData = timber.pageData.productPage;
+    
+    if (timber.cache.productPage.$productOptions.length !== 0){
+        new Shopify.OptionSelectors('productSelect', {
+            product: pageData.product,
+            onVariantSelected: timber.productSelectCallback
+        });
+    }
+    
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    if (pageData.addSingleOptionLabel){
+        $('.selector-wrapper:eq(0)').prepend('<label>' + pageData.singleOptionLabelText + '</label>');
+    }
+    
+    // Hide selectors if we only have 1 variant and its title contains 'Default'.
+    if (pageData.hasSingleDefaultVariant){
+        $('.selector-wrapper').hide();
+    }
+    
+    // Auto-select first available variant on page load. Otherwise the product looks sold out.
+    var foundVariantInStock = false;
+    var currentVariant = null;
+    for (var i=0; i<pageData.product.variants.length; i++){
+        currentVariant = pageData.product.variants[i];
+        if (currentVariant.available && !foundVariantInStock){
+            foundVariantInStock = true;
+            var currentOption = null;
+            for (var j=0; j<pageData.product.options.length; j++){
+                currentOption = pageData.product.options[j];
+                $('.single-option-selector:eq(' + j + ')').val(currentVariant.options[j]).trigger('change');
+            }
+            break;
+        }
+    }
+    
+    // dress sizes popup link
+    currentOption = null;
+    for (var k=0; k<pageData.product.options.length; k++){
+        currentOption = pageData.product.options[k];
+        
+        if (currentOption === 'Size'){
+            $('.selector-wrapper:eq(' + k + ')').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">Size Chart</a>');
+        }
+    }
+    
+    // wire the modal popup
+    $('.js-open-modal').click(function(event) {
+        event.preventDefault();
+
+        var $this = $(this),
+            modalContentSelector = $this.attr('href');
+
+        vex.open({
+            // default is no close button
+            showCloseButton: true,
+            escapeButtonCloses: true,
+            // default is two buttons, we don't want that.
+            // you need the padding at the top else your close button infringes on the content.
+            // dump the table into the modal
+            // content: $('#modal-content-dress-size').html(),
+            content: $(modalContentSelector).html(),
+            className: 'vex-theme-wireframe'
+        });
+    });
+    
+    timber.productImageGallery();
+    timber.mobileProductInfoBlock();
+    timber.productDescriptionBlock();
+    timber.productBackLink();
 }
 
 timber.productBackLink = function(){

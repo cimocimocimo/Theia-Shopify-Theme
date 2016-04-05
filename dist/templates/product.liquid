@@ -153,16 +153,33 @@ For more information on these Scheme.org tags, visit:
               {% else %}
 
 
-
-              <div class="product-options-block">
-                  
-
-                {% if product.variants.size > 1 %}
-                 
-                  {% include 'variant-swatch' %}
-
-                {% endif %}
-              </div>
+                <div class="product-options-block"> 
+                  {% comment %} 
+                  {% if product.available and product.variants.size > 1 %} 
+                  {% include 'swatch' with 'Color' %} 
+                  {% endif %} 
+                  {% endcomment %} 
+ 
+                  <select name="id" id="productSelect" class="product-variants"> 
+                    {% for variant in product.variants %} 
+                      {% if variant.available %} 
+ 
+                        {% comment %} 
+                        Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below. 
+                        {% endcomment %} 
+                        <option value="{{variant.id}}"> 
+                          {{ variant.title }} - {{ variant.price | money_with_currency }} 
+                        </option> 
+ 
+                      {% else %} 
+                        <option disabled="disabled"> 
+                          {{ variant.title }} - Sold out 
+                        </option> 
+                      {% endif %} 
+                    {% endfor %} 
+                  </select> 
+ 
+                </div> 
 
                 <div class="call-to-action-block">
 
