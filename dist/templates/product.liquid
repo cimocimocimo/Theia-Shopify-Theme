@@ -269,7 +269,7 @@ in the URL, we can show next/previous links to other products in the collection.
 
       <h2>Other styles you might like:</h2>
 
-      <div class="carousel-block you-previously-viewed">
+      <div class="carousel-block">
 
         {% comment %}
         Use class grid-uniform to have evenly sized columns clear
@@ -313,71 +313,25 @@ in the URL, we can show next/previous links to other products in the collection.
 
   </div>
 
-{% endif %}
-
-{% if collection and collection.handle != 'bridal' %}
-
-  <div class="related-products-hero">
+  <div class="recent-products-hero">
 
     <div class="wrapper">
 
       <h2>You Recently Viewed:</h2>
 
-      <div class="carousel-block you-might-also-like">
+      <div class="carousel-block recently-viewed-products-block">
 
-        {% comment %}
-        Use class grid-uniform to have evenly sized columns clear
-        each other properly at each breakpoint.
-        {% endcomment %}
-
-        {% comment %}
-        Loop through our products in the current collection.
-        See the snippet 'product-grid-item' for the layout.
-        {% endcomment %}
-
-        {% comment %}
-        Capture the current product for this page. This allows the loop to use the name 'product'
-        {% endcomment %}
-        {% assign this_product = product %}
-
-        {% for product in collection.products limit:20 %}
-
-          {% if product.id != this_product.id %}
-
-            {% include 'product-grid-item' %}
-
-          {% endif %}
-
-        {% endfor %}
-
-        {% if paginate.pages > 1 %}
-          <div class="text-center">
-            {% include 'pagination-custom' %}
-          </div>
-        {% endif %}
-
-        {% comment %}
-        Restore the current page product.
-        {% endcomment %}
-        {% assign product = this_product %}
 
       </div>
 
     </div>
 
   </div>
-  <div class="related-products-hero">
-    <div class="wrapper">
-        <div class="carousel-block recently-viewed-products-block">   
-          {% comment %} Recently Viewed Products gets appended intoo there  {% endcomment %}
-        </div>
-      </div>
-    </div>
-  </div>
+
   
   <hr class="hr-4-col" />
   
-  {% endif %}
+{% endif %}
 
 
 {% include 'social-link-newsletter-hero' %}
@@ -411,7 +365,9 @@ in the URL, we can show next/previous links to other products in the collection.
 
 
 <script id="recent-product-template" type="text/x-handlebars-template">
+
   {% include 'recently-viewed-grid-item' %}
+
 </script>
 
 

@@ -88,7 +88,6 @@ timber.init = function () {
     // Run on load
     timber.accessibleNav();
     timber.carouselInit();
-    timber.productCarouselInit();
     timber.loginFormInit();
     timber.mobileSideNav();
     timber.loader.init();
@@ -1021,26 +1020,26 @@ timber.productCarouselInit = function () {
         },
         responsive: [
             {
-              breakpoint: 1150,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                infinite: true,
-              }
+                breakpoint: 1150,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: true,
+                } 
             },
             {
-              breakpoint: 935,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2
-              }
+                breakpoint: 935,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
             },
             {
-              breakpoint: 580,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-              }
+                breakpoint: 580,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
             }
           ]
 
@@ -1209,6 +1208,7 @@ timber.productPage = function(){
     timber.productDescriptionBlock();
     timber.productBackLink();
     timber.productRecentlyViewedBlock();
+    timber.productCarouselInit();
 }
 
 timber.productBackLink = function(){
@@ -1343,15 +1343,14 @@ timber.productRecentlyViewedBlock = function(){
     var maxRecentProducts = 8,
         cookieName = 'theia-recent-products',
         recentProducts = [],
+        maxCookieSize = 4000,
         cookieData,
         // create a Product object from current product
         currentProduct = new Product(timber.pageData.productPage.product),
         $recentProductsContainer = $('#recent-products-block'),
         recentProductTemplate = Handlebars.compile(
             $('#recent-product-template').html()
-        );
-      
-     console.log(timber.pageData.productPage.product);   
+        ); 
 
     function Product(data){
         if (data === undefined){
@@ -1362,35 +1361,16 @@ timber.productRecentlyViewedBlock = function(){
         this.id = data.id;
         this.handle = data.handle;
         this.featured_image = data.featured_image;
-        this.images = data.images;
         this.price = data.price;
-        this.has_price = this.price > 0;
         this.compare_at_price = data.compare_at_price;
-        this.on_sale = this.comape_at_price > this.price;
         this.style_number = data.style_number;
-        this.has_style_number = this.style_number > 0;
-        this.back_image = data.back_image;
-        this.back_image_alt = data.back_image_alt;
-        this.has_back_image = data.has_back_image;
+        // this.back_image = data.back_image;
+        // this.back_image_alt = data.back_image_alt;
+        // this.has_back_image = data.has_back_image;
         this.sold_out = !data.available;
         
     }
     
-    Product.prototype.price_in_dollars = function(){
-        return Shopify.formatMoney( this.price );
-    }
-    Product.prototype.compare_in_dollars = function(){
-        return Shopify.formatMoney( this.compare_at_price );
-    }
-
-    Product.prototype.url = function(){
-        var hostName = window.location.hostname,
-            baseUrl = "http://"+hostName+"/",
-            collectionProducts = "collections/shop/products/";
-
-            return baseUrl + collectionProducts + this.handle;
-
-    }
 
     // on page load
     // check for for the cookie
@@ -1406,39 +1386,85 @@ timber.productRecentlyViewedBlock = function(){
         }
     }
 
-
-    
-    // add current Product to beginning of the recentProducts array
-    // if the first product isn't the current product
-    if (recentProducts[0] === undefined || recentProducts[0].id !== currentProduct.id){
-        recentProducts.unshift(currentProduct);
-    }
-    
-    // check to see if array is greater than max recent products length, trim array if needed
-    if (recentProducts.length > maxRecentProducts){
-        recentProducts = recentProducts.slice(0, maxRecentProducts);
+    // add the current dress to the array if it isn't all ready there 
+    function addProductIf(product, array){
+        product.title === array[0].title || array.unshift(product);
     }
 
-    // remove any duplicates from the array
-
-    // for(var k = 1; j < recentProducts.length; j++){
-    //     // search the rest of the array for J
-    //    for(var l = j + 1; k < recentProducts.lengh; k++)
-    //         console.log(recentProducts[j].title, recentProducts[k].title);
-    //        if(recentProducts[j].title === recentProducts[k].title){
-    //             recentProducts.splice(k, 1, recentProducts[k]);
-    //        }
-    // }
-
-    for(var k = 1; j < recentProducts.length; k++){
-        if(currentProduct.title === recentProducts[k].title){
-            recentProducts.splice(k, 1, recentProducts[k]);
-       }
+    // this counts the bytes of a string, use JSON.stringify()
+    function byteCount(s) { 
+        return encodeURI(s).split(/%..|./).length - 1;
     }
 
+    // this removes the last item from the array if the array is too big to handle
+    function checkMaxCookieSize(array){
+        return byteCount(JSON.stringify(array)) <= ( maxCookieSize );
+    }
+
+
+    //check to see if cookeis have been defined yet
+    if (recentProducts[0] === undefined){
+        // add the first product as a cookie because there are no cookies
+        recentProducts[0] = currentProduct;
+    }else{
+        addProductIf(currentProduct, recentProducts);       
+    }
+
+    // check the array for duplicates and remove them
+    for(var p = 1; p < recentProducts.length; p++){
+        if (recentProducts[p].title === recentProducts[0].title){
+            console.log(recentProducts[0].title);
+            recentProducts.splice(p, 1);
+        }
+    }
+
+    // Make Sure we're able to save 
+    console.log(checkMaxCookieSize(recentProducts));
     
+    recentProducts.forEach(function(product){
+        console.log(product, byteCount(JSON.stringify(product)));
+    })
+
     // save data to cookie
-    Cookies.set(cookieName, recentProducts);
+    if(checkMaxCookieSize(recentProducts)){
+        Cookies.set(cookieName, recentProducts);
+    }else{
+        recentProducts.pop();
+        Cookies.set(cookieName, recentProducts);
+    }
+
+    // Define prototype functiojns below saving to save bytes
+
+    Product.prototype.has_style_number = function(){
+        return this.style_number > 0;
+    }
+
+    Product.prototype.has_price = function(){
+        return this.price > 0;
+    }
+
+    Product.prototype.on_sale = function(){
+        return this.comape_at_price > this.price;
+    }
+
+    Product.prototype.price_in_dollars = function(){
+        return Shopify.formatMoney( this.price );
+    }
+
+    Product.prototype.compare_in_dollars = function(){
+        return Shopify.formatMoney( this.compare_at_price );
+    }
+
+    Product.prototype.url = function(){
+        var hostName = window.location.hostname,
+            baseUrl = "http://"+hostName+"/",
+            collectionProducts = "collections/shop/products/";
+
+        return baseUrl + collectionProducts + this.handle;
+
+    }
+
+
     
     // build the html for the block
     if (recentProducts.length > 2){
@@ -1448,9 +1474,6 @@ timber.productRecentlyViewedBlock = function(){
     }
 
 
-    function byteCount(s) { 
-        return encodeURI(s).split(/%..|./).length - 1;
-    }
 };
 
 
