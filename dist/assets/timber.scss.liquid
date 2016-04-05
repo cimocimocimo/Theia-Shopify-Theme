@@ -197,7 +197,7 @@ $radius: 3px;
 
 
 // header heights
-$headerTopRowHeight: 32px;
+$headerTopRowHeight: 53px;
 $desktopHeaderMainRowHeight: 85px;
 $mobileHeaderMainRowHeight: 88px;
 
@@ -319,7 +319,7 @@ $baseFontSize: 100%; // Henseforth known as 1em (assumed at 16px)
 
 @font-face {
     font-family: 'theia-icons';
-    src: url(' {{ "theia-icons.eot" | asset_url }} ');
+    src: url(' {{ "theia-icons.eot" | asset_url }} ')
 }
 @font-face {
     font-family: 'theia-icons';
@@ -327,6 +327,8 @@ $baseFontSize: 100%; // Henseforth known as 1em (assumed at 16px)
     font-weight: normal;
     font-style: normal;
 }
+
+
 $socialIconFontStack: 'theia-icons';
 
 
@@ -599,6 +601,12 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
         display: none;
     }
 }
+
+.js-hidden-size{
+    display: none;
+}
+
+
 
 /*================================================================================
   #Extends - these are for common text and block styles
@@ -2067,6 +2075,11 @@ $smallSocialIconRatio: (2.66/3.375);
     }
 }
 
+%small-black-outline-button {
+    @extend %button-base;
+    @extend %darkGray-outline-block-medium;
+}
+
 
 /* gold, small button with solid arrow icon */
 %small-gold-arrow-button {
@@ -2932,6 +2945,7 @@ input[type="radio"] {
     }
 }
 
+
 /* fabric/color swatch radio block */
 %checkbox-radio-swatch {
     &:not(old) {
@@ -2939,43 +2953,79 @@ input[type="radio"] {
 
         & + label {
             margin: 0;
-            height: 32px;
-            width: 32px;
+            height: 100%;
+            width: 100%;
         }
 
-        &:not(:checked) + label {
+        &:not(:checked) + .colour-label {
             border: 3px solid white;
         }
 
-        &:checked + label {
+        &:checked + .colour-label {
             @extend %darkGray-outline-block-medium;
         }
+
+        &:checked + .size-label {
+            background-color: $colorLighterGold;
+            span{
+                color: $colorWhite;
+            }
+        } 
     }
+}
+
+.colour-name{
+    width: auto;
+    float: left;
+    margin-top: 5px;
+}
+
+legend {
+    color: $colorBlack;
+    margin-top: 5px;
+    display: block;
+    margin: 0;
+    line-height: 32px;
+    float: left;
+    color: black;
+
 }
 
 .swatch {
     @extend .clearfix;
-
-    $height: 32px;
-
     padding: 0;
-    height: $height;
-
-    legend {
-        display: block;
-        margin: 0;
-        line-height: $height;
+    &.colour-field{
+        width: auto;
+    }
+    &.js-colour-swatch-field{
+        @include at-query(null, $postSmall, $medium){
+            max-width: 100%;
+            float: left;
+        }
+    }
+    &.js-size-swatch-field{
+        margin-top: 1px;
+        @include at-query(null, $postSmall, $medium){
+            padding-left: 20px;
+        }
+        
+    }
+    .dress-sizing-link{
+        font-weight: 200;
+        color: $colorBlack;
     }
 
-    .swatch-element {
-        width: 32px;
-        margin: 0 2px 0 0;
-        background: pink;
+    .swatch-container{
+        float: left;
+        max-width: 196px;
+        @include at-query($max, $small){
+            max-width: 100%;
+            float: right;
+        }
     }
 
     .swatch-element, legend {
         float: left;
-        height: 100%;
     }
 
     .tooltip {
@@ -2988,6 +3038,80 @@ input[type="radio"] {
 
     input[type="radio"], input[type="checkbox"] {
         @extend %checkbox-radio-swatch;
+    }
+}
+
+.swatch-element {
+    position: relative;
+    margin: 0px 1.9px 7.5px 0;
+    overflow: hidden;
+    &.colour-swatch{
+        width: 32px;
+        height: 32px;
+    }
+    &.size-swatch{
+        margin: 0 3px 10px 2px;
+        width: 29px;
+        height: 29px;
+        border: 1px solid $colorBlack;
+    }
+    &.size-available{
+
+        &:hover > label{
+            @include transition(all 0.3s);
+            background-color: $colorBlack;
+            span{
+              color: $colorWhite;  
+            }
+        }
+
+    }
+    .soldOut{
+        width: 50px;
+        height: 50px;
+        border-bottom: 1px solid $colorWarmDarkGray;
+        -webkit-transform:
+            translateY(5px)
+            translateX(7px)
+            rotate(134deg); 
+        position: absolute;
+    }
+    .size-label{
+        text-align: center;
+        position: absolute;
+
+        span{
+            font-size: 0.8em;
+            color: black;
+            margin-top: 32%;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+}
+
+.split-color-triangle{
+    $length: 100px;
+    position: relative;
+    height: $length;
+    width: $length;
+    overflow: hidden;
+    z-index: -3;
+    width: 100%;
+    height: 100%;
+
+    div {
+        width: 50px;
+        height: 50px;
+        top: 0;
+        left: 0;
+        position: absolute;
+        z-index: 0;
+        top: 10px;
+        z-index: -2;
+        transform: rotate(135deg);
+        -webkit-transform:
+            rotate(135deg);
     }
 }
 
@@ -3139,7 +3263,7 @@ legend {
     margin: ($gutter / 2 ) 0 10px;
     font-weight: 700;
     text-transform: uppercase;
-    color: $colorWarmLightGray;
+    color: $colorBlack;
     line-height: 1;
 
     .meta {
@@ -3911,21 +4035,51 @@ body.vex-open {
 
 .product-detail-hero {
     background: white;
-    border-bottom: 1px solid $colorLighterGray;
-    border-top: 1px solid $colorLighterGray;
-    overflow: hidden; // clip the product image zoom
+    // border-bottom: 1px solid $colorLighterGray;
+    // border-top: 1px solid $colorLighterGray;
+    // overflow: hidden; // clip the product image zoom --- note: moved to block
+    height: auto;
 
     .wrapper {
-        height: 100%;
+        height: auto;
+        clear: both; // not sure if this is necesary
+    }
+    
+
+    @include at-query( null, $small,  $postMedium){
+        .product-gallery-overflow{
+            overflow: hidden;
+            position: relative;
+        }
+
+
     }
 
     @include at-query( $min, $postMedium ){
-        height: 692px;
 
-        .product-gallery-block,
-        .product-info-block {
-            position: absolute;
+        .tablet-column-row{
+            width: 100%;
         }
+
+        .tablet-column{
+            width: 100%;
+        }
+    
+        .product-info-block{
+            height: auto;
+            position: relative;
+            float: right;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .product-gallery-overflow{
+            overflow: hidden;
+            width: 100%;
+            position: absolute;
+            height: 100%;
+        }
+
 
         .product-gallery-block {
             left: $gutter;
@@ -3959,9 +4113,10 @@ body.vex-open {
 }
 
 .product-back-link-block {
+    @extend .icon-arrow-left-tail;
     @include overflowEllipsis();
 
-    background: $colorLightestGray;
+    background: $colorWhite;
     border-bottom: 1px solid $colorLightGray;
 
     a {
@@ -3970,14 +4125,15 @@ body.vex-open {
         @extend %smallish-arial-text;
 
         display: inline-block;
-        font-weight: 700;
+        font-weight: 500;
+        font-size: 19px;
     }
 
     /* Desktop */
     @include at-query ($min, $postSmall) {
         height: $gutter * 2.25;
         padding: 2px ( $gutter * 1.25 ) 0;
-        line-height: $gutter * 2;
+        line-height: $gutter;
     }
 
     /* Mobile */
@@ -3987,8 +4143,8 @@ body.vex-open {
         padding: 0 $gutter;
 
         a {
-            font-size: 0.625em;
-            line-height: 33px;
+            font-size: 0.8em;
+            line-height: 15px;
         }
     }
 }
@@ -4080,15 +4236,24 @@ body.vex-open {
     
     .image-zoom-container {
         height: 100%;
-        width: 100%;
+        width: 75%;
         overflow: visible !important; // override overflow: hidden on the zoom container
+
+        @include at-query ($max, $small) { /* Mobile */
+            width: 100%;
+        }
     }
     
     img {
         display: block;
-        margin: 0 auto;
         height: 100%;
+        margin-left: 15%;
         width: auto;
+        @include at-query ($max, $small){
+            width: 300px;
+            margin: 0 auto;
+            height: auto;
+        }
     }
 }
 
@@ -4207,7 +4372,7 @@ $lookbookModalHeaderHeight: $gutter*8;
             @include transition(all 0.3s);
             
             text-align: center;
-	    content: "\e117";
+	        content: "\e117";
             display: inline-block;
         }
         
@@ -4509,7 +4674,6 @@ $lookbookModalHeaderHeight: $gutter*8;
     @include at-query ($min, $postMedium) {
         background: #fff;
         height: 639px;
-        border: 1px solid $colorLightGray;
 
         .product-is-exclusive & {
             height: auto;
@@ -4536,9 +4700,10 @@ $lookbookModalHeaderHeight: $gutter*8;
             }
 
             .product-description-block {
+                position: relative;
                 .content {
-                    height: 282px;
-                    overflow-y: scroll;
+                    height: auto;
+                    //overflow-y: scroll;
                 }
             }
         }
@@ -4551,44 +4716,34 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     @include at-query( null, $postMedium, $large ){
         width: 326px;
-
-        /* expanded product description state */
-        &.description-expanded {
-            .product-description-block .content {
-                height: 358px;
-            }
-        }
     }
 
     @include at-query( null, $postSmall, $medium ){
-        .tablet-column {
-            float: right;
-            width: 50%;
-        }
+
     }
 
     /* Mobile */
     @include at-query ($max, $medium) {
-        display: none;
-
-        background: $colorPaleGray;
-        border-bottom: 1px solid $colorLightGray;
+        background: $colorWhite;
     }
 }
+
 
 .product-meta-block {
     @extend %product-info-block-row;
     @extend .clearfix;
 
     h2 {
-        font-size: 1.8em;
+        font-size: 2.4em;
         font-weight: 300;
-        color: $colorWarmDarkGray;
+        color: $colorDarkGray;
         line-height: 1;
         margin: 0 0 11px;
     }
 
     .product-price {
+        margin-top: 20px;
+        font-weight: 300;
         font-family: $helveticaFontStack;
         color: $colorWarmLightGray;
         line-height: 1;
@@ -4611,12 +4766,13 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     /* Desktop */
     @include at-query ($min, $postSmall) {
-        border-bottom: 1px solid $colorLightestGray;
+       // border-bottom: 1px solid $colorLightestGray;
         padding: 0 0 $gutter/2;
 
         .product-price {
-            font-size: 1.5em;
+            font-size: 1.8em;
             margin-bottom: 6px;
+            margin-top: 2;
         }
     }
 
@@ -4654,6 +4810,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 }
 
 .product-purchase-block {
+    margin-bottom: 10px;
     @extend %product-info-block-row;
 
     /* Layout */
@@ -4663,6 +4820,10 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     .call-to-action-block {
         margin-right: $gutter;
+        @include at-query ($max, $small){
+            margin-top: 20px;
+            margin-right: 0;
+        } 
     }
 
     .product-offer-block {
@@ -4673,7 +4834,9 @@ $lookbookModalHeaderHeight: $gutter*8;
     @include at-query ($min, $postLarge) {
         .add-to-wishlist-link,
         .add-to-waitlist-link {
+            color: $colorBlack;
             line-height: 50px;
+            font-weight: 100
         }
 
         .call-to-action-block,
@@ -4686,8 +4849,10 @@ $lookbookModalHeaderHeight: $gutter*8;
     @include at-query ($min, $postMedium) {
         margin-bottom: 22px;
 
+
         .product-options-block {
-            margin-bottom: 27px;
+            margin-top: 22px;
+            margin-bottom: 22px;
         }
     }
 
@@ -4723,7 +4888,18 @@ $lookbookModalHeaderHeight: $gutter*8;
     
     button,
     .add-to-cart-button {
+        padding-top: 0px;
+        font-family: $centuryGothicFontStack;
+        height: 50px;
+        width: 190px;
         @extend %large-black-outline-button;
+        span{
+            letter-spacing: -1px;
+            line-height: 0;
+        }
+        @include at-query ($max, $small){
+            width: 100%;
+        } 
     }
 
     .add-to-wishlist-link,
@@ -4731,15 +4907,16 @@ $lookbookModalHeaderHeight: $gutter*8;
         @extend %gray-underline-hover-gold-link;
         @extend %rsaquo;
         @extend %smallish-arial-text;
-
         text-transform: uppercase;
+        font-weight: 200;
+        color: $colorBlack;
     }
 
     /* Mobile */
     @include at-query ($max, $medium) {
         button,
         .button {
-            font-size: 1.25em;
+            font-size: 1.22em;
             height: 44px;
 
             .icon {
@@ -4849,7 +5026,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 }
 
 .product-offer-block {
-    color: $colorWarmLightGray;
+    color: $colorDarkGray;
 
     span {
         vertical-align: middle;
@@ -4865,7 +5042,7 @@ $lookbookModalHeaderHeight: $gutter*8;
     .text {
         @extend %smallish-arial-text;
 
-        font-weight: 700;
+        font-weight: 200;
         text-transform: uppercase;
     }
 }
@@ -4926,12 +5103,10 @@ $lookbookModalHeaderHeight: $gutter*8;
 
 .product-description-block {
     @extend %product-info-block-row;
-
-    padding-bottom: 44px; /* room for the more details expand link */
     position: relative;
-    margin-bottom: 23px;
+    margin-bottom: 15px;
     margin-top: 0;
-    padding-top: 19px;
+    padding-top: 0;
 
     h6 {
         @extend %smallish-arial-text;
@@ -4940,23 +5115,30 @@ $lookbookModalHeaderHeight: $gutter*8;
         margin-top: 0;
         margin-bottom: 9px;
         font-weight: 700;
-        color: $colorWarmLightGray;
+        color: $colorBlack;
     }
 
     p, li {
         @extend %smaller-helvetica-text;
-
         line-height: (23/14);
-        color: $colorWarmGray;
+        color: $colorBlack;
     }
     
     ul {
-        list-style-type: disc;
+        list-style: disc;
         padding-left: $gutter * 1.5;
+    }
+    
+
+    li:before{
+        font-family: helvetica;
+        height: 1px;
+        font-size: 170%;
     }
     
     li {
         margin-bottom: 0;
+
     }
     
     a {
@@ -4964,8 +5146,11 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
     
     .content {
-        height: 64px; /* height of the header and 3 lines of text. */
+        height: auto; /* height of the header and 3 lines of text. */
         overflow-y: hidden;
+        p{
+            margin-bottom: 33px;
+        }
     }
 
     /* Desktop */
@@ -5931,7 +6116,7 @@ address {
         margin: 0;
         font-size: 13px;
         font-family: $centuryGothicFontStack;
-        font-weight: 700;
+        font-weight: 200;
         text-transform: uppercase;
     }
     
@@ -8265,6 +8450,16 @@ html.full-viewport {
     }
 }
 
+.related-products-hero{
+    .wrapper{
+        h2{
+            font-weight: 100;
+            font-family: $helveticaFontStack;
+        }
+    }
+}
+
+
 .related-products-hero,
 .collection-grid-hero,
 .order-grid-row {
@@ -9149,14 +9344,25 @@ html.full-viewport {
 
 /* Naviation Menus */
 
+
+
+
 .main-menu {
+
+    li{
+        .main-menu-link{
+            font-weight: 200;
+    }
+
+    }
     .site-header &,
     .site-footer & {
         @extend %nav-menu-base;
 
         @mixin main-menu-separator(){
             li {
-                border-left: 1px solid $colorLightestGray;
+
+                font-size: 1.2em;
 
                 &:first-child {
                     border-left-width: 0;
@@ -9166,10 +9372,12 @@ html.full-viewport {
         
         @include at-query (null, $postSmall, $medium) {
             @include main-menu-separator;
+
         }
         
         @include at-query ($min, $large) {
             @include main-menu-separator;
+
         }
     }
 
@@ -9191,7 +9399,7 @@ html.full-viewport {
 
 .main-menu-link {
     @extend %gray-hover-gold-link;
-
+    font-weight: 100;
     display: block;
     text-transform: uppercase;
     line-height: 1;
@@ -9239,7 +9447,7 @@ html.full-viewport {
         @extend %icon-base;
         @extend .icon-arrow-left;
 
-        font-weight: 700;
+        font-weight: 200;
         position: relative;
         padding: $gutter 0 $gutter 20px;
 
@@ -9372,6 +9580,7 @@ html.full-viewport {
 }
 
 .customer-menu-link {
+    text-transform: uppercase;
     @extend %gray-hover-gold-link;
     @include clearfix();
 
@@ -9381,6 +9590,7 @@ html.full-viewport {
     .site-header & {
 
         .label {
+            font-weight: 200;
             @extend %small-bold-arial-text;
         }
 
@@ -9452,6 +9662,8 @@ html.full-viewport {
 }
 
 .secondary-menu-link {
+    font-weight: 200;
+    text-transform: uppercase;
     @extend %gray-hover-gold-link;
     @extend %small-bold-arial-text;
 
@@ -11864,10 +12076,8 @@ span#resultMessage {
     }
 
     .add-to-cart-button {
-        @extend %small-gold-arrow-button;
 
-        width: 160px;
-        padding-top: 0;
+        @extend %small-black-outline-button;
     }
 
     /* Desktop */
@@ -11935,7 +12145,7 @@ span#resultMessage {
         }
 
         .add-to-cart-button {
-            width: 168px;
+            width: 160px;
         }
     }
 

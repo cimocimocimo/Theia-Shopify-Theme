@@ -20,7 +20,9 @@ gulp.task('shopify:watch', function() {
         ));
 });
 
+
 // Default gulp action when gulp is run
 gulp.task('default', [
     'shopify:watch'
 ]);
+

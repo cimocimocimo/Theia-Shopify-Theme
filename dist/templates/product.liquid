@@ -34,34 +34,59 @@ For more information on these Scheme.org tags, visit:
   <div class="wrapper">
 
     <div class="product-mobile-header-block">
-      <a href="#" id="mobileProductHeaderLink" class="expand-detail-link">
-        <span class="expand-detail-link-text">
-          {{ product.title }}
-          <span class="icon down"></span>
-        </span>
+       <h5> {{ product.title }} </h5>
 
-        <span class="buy-now-button">Buy now</span>
-      </a>
+ {% comment %}       <span class="buy-now-button">Buy now</span>{% endcomment %}
+    </div>
+
+    <div class="product-gallery-overflow">
+    
+      <div class="product-gallery-block">
+
+        <div class="product-gallery-image-block" id="mainImageBlock">
+
+          {% for image in product.images %}
+            {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+            <div class="image-zoom-container{% if forloop.first != true %} js-hidden{% endif %}"
+                 {% if image_color %}data-image-color="{{ image_color }}"{% endif %}
+                 data-attached-to-variant="{{ image.attached_to_variant? }}"
+                 id="image-{{ image.id }}">
+              <img src="{{ image.src | product_img_url: 'master' }}"
+                   alt="{{ image_alt_text | escape }}"
+                   class="product-gallery-main-image">
+            </div>
+          {% endfor %}
+
+        </div>
+
+      {% if product.images.size > 1 %}
+
+        <div class="product-image-thumbs-block">
+
+          <ul id="productThumbs">
+
+            {% for image in product.images %}
+              {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+              <li>
+                <a href="{{ image.src | product_img_url: 'master' }}"
+                   class="product-photo-thumb"
+                   {% if image_color %} data-image-color="{{ image_color }}"{% endif %}
+                   data-target-image-id="image-{{ image.id }}">
+                  <img src="{{ image.src | product_img_url: 'large' }}"
+                       alt="{{ image_alt | escape }}">
+                </a>
+              </li>
+            {% endfor %}
+
+          </ul>
+
+        </div>
+
+      {% endif %}
+      </div>
     </div>
 
     <div id="productInfoBlock" class="product-info-block" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-
-      <div class="product-back-link-row">
-
-        <nav class="product-back-link-block" role="navigation">
-          <a href="/collections/{{ collection.handle }}/#style-{{ style_number }}" class="product-back-link" title="Back to collection">
-            Back to
-            <span class="link-target-label">
-              {% if collection.handle == 'shop' %}
-                the Shop
-              {% else %}
-                {{ collection.title }}
-              {% endif %}
-            </span>
-          </a>
-        </nav>
-
-      </div>
 
       <div class="tablet-column-row">
         <div class="tablet-column">
@@ -72,11 +97,16 @@ For more information on these Scheme.org tags, visit:
 
             {% if product.price > 0 and product.type contains 'Shop' %}
               <div class="product-price">
-                {% if on_sale %}
-                  Now: <span id="productPrice" itemprop="price">{{ product.price | money }}</span>
-                  <span class="compare-at-price">{{ product.compare_at_price | money }}</span>
-                {% else %}
-                  <span id="productPrice" itemprop="price">{{ product.price | money }}</span>
+                {% if product.available != true %}
+                  <span class="productPrice"> {{ shop.currency }} {{ product.price | money }} Sold Out</span>
+                {% endif %}
+                {% if product.available == true %} 
+                  {% if on_sale %}
+                    Now: <span id="productPrice" itemprop="price"> {{ shop.currency }} {{ product.price | money }}</span>
+                    <span class="compare-at-price"> {{ product.compare_at_price | money }}</span>
+                  {% else %}
+                    <span id="productPrice" itemprop="price">{{ shop.currency }} {{ product.price | money }}</span>
+                  {% endif %}
                 {% endif %}
               </div>
             {% endif %}
@@ -122,38 +152,22 @@ For more information on these Scheme.org tags, visit:
 
               {% else %}
 
-                <div class="product-options-block">
-                  {% comment %}
-                  {% if product.available and product.variants.size > 1 %}
-                  {% include 'swatch' with 'Color' %}
-                  {% endif %}
-                  {% endcomment %}
 
-                  <select name="id" id="productSelect" class="product-variants">
-                    {% for variant in product.variants %}
-                      {% if variant.available %}
 
-                        {% comment %}
-                        Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
-                        {% endcomment %}
-                        <option value="{{variant.id}}">
-                          {{ variant.title }} - {{ variant.price | money_with_currency }}
-                        </option>
+              <div class="product-options-block">
+                  
 
-                      {% else %}
-                        <option disabled="disabled">
-                          {{ variant.title }} - Sold out
-                        </option>
-                      {% endif %}
-                    {% endfor %}
-                  </select>
+                {% if product.variants.size > 1 %}
+                 
+                  {% include 'variant-swatch' %}
 
-                </div>
+                {% endif %}
+              </div>
 
                 <div class="call-to-action-block">
 
                   <button type="submit" name="add" class="add-to-cart-button" id="addToCart">
-                    <span class="label">Add to cart</span>
+                    <span class="label">Add to Cart</span>
                   </button>
 
                 </div>
@@ -162,7 +176,7 @@ For more information on these Scheme.org tags, visit:
                   {% if product.tags contains 'waitlist' and product.available == false %}
                     <a href="#add-to-waitlist-modal" id="add-to-waitlist-link" class="js-open-modal add-to-waitlist-link">Notify When Available</a>
                   {% else %}
-                    <a href="/account" class="add-to-wishlist-link" id="add-to-wishlist-link" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">Add to wishlist</a>
+                    <a href="/account" class="add-to-wishlist-link" id="add-to-wishlist-link" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">Add To Favourites </a>
                   {% endif %}
                 </div>
 
@@ -185,75 +199,44 @@ For more information on these Scheme.org tags, visit:
         </div>
         <div class="tablet-column">
 
-          <div class="product-share-block">
 
+
+          <div class="product-description-block" style="position: relative;" itemprop="description">
+            <h6>Details:</h6>
+            <div class="content">
+              {{ product.description }}
+            </div>
+          </div>
+
+          <div class="product-share-block">
             <div class="label">Share:</div>
 
             {% include 'social-sharing-buttons' %}
 
           </div>
+        </div>
+        
+        <div class="product-back-link-row">
 
-          <div class="product-description-block" itemprop="description">
-            <h6>Details:</h6>
-            <div class="content">
-              {{ product.description }}
-            </div>
-            <a id="descriptionToggle" class="product-description-expand-link" href="#">
-              <span class="label">
-                <span class="expand-text">More</span>
-                <span class="collapse-text">Hide</span>
-                 Details
-              </span><span class="icon up"></span>
+          <nav class="product-back-link-block" role="navigation">
+            <a href="/collections/{{ collection.handle }}/#style-{{ style_number }}" class="product-back-link" title="Back to collection">
+              Back to
+              <span class="link-target-label">
+                {% if collection.handle == 'shop' %}
+                  the Shop
+                {% else %}
+                  {{ collection.title }}
+                {% endif %}
+              </span>
             </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="product-gallery-block">
-
-      <div class="product-gallery-image-block" id="mainImageBlock" style="position: relative;">
-
-        {% for image in product.images %}
-          {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-          <div class="image-zoom-container{% if forloop.first != true %} js-hidden{% endif %}"
-               {% if image_color %}data-image-color="{{ image_color }}"{% endif %}
-               data-attached-to-variant="{{ image.attached_to_variant? }}"
-               id="image-{{ image.id }}">
-            <img src="{{ image.src | product_img_url: 'master' }}"
-                 alt="{{ image_alt_text | escape }}"
-                 class="product-gallery-main-image">
-          </div>
-        {% endfor %}
-
-      </div>
-
-      {% if product.images.size > 1 %}
-
-        <div class="product-image-thumbs-block">
-
-          <ul id="productThumbs">
-
-            {% for image in product.images %}
-              {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-              <li>
-                <a href="{{ image.src | product_img_url: 'master' }}"
-                   class="product-photo-thumb"
-                   {% if image_color %} data-image-color="{{ image_color }}"{% endif %}
-                   data-target-image-id="image-{{ image.id }}">
-                  <img src="{{ image.src | product_img_url: 'large' }}"
-                       alt="{{ image_alt | escape }}">
-                </a>
-              </li>
-            {% endfor %}
-
-          </ul>
+          </nav>
 
         </div>
+      </div>
 
-      {% endif %}
 
     </div>
+
   </div>
 </div>
 
@@ -267,7 +250,7 @@ in the URL, we can show next/previous links to other products in the collection.
 
     <div class="wrapper">
 
-      <h2>Other styles you might like:</h2>
+      <h2>You may also like:</h2>
 
       <div class="carousel-block">
 
@@ -290,7 +273,7 @@ in the URL, we can show next/previous links to other products in the collection.
 
           {% if product.id != this_product.id %}
 
-            {% include 'product-grid-item' %}
+            {% include 'carosel-grid-item' %}
 
           {% endif %}
 
@@ -344,3 +327,6 @@ in the URL, we can show next/previous links to other products in the collection.
 
   </div>
 </div>
+
+
+
