@@ -4113,7 +4113,6 @@ body.vex-open {
 }
 
 .product-back-link-block {
-    @extend .icon-arrow-left-tail;
     @include overflowEllipsis();
 
     background: $colorWhite;
@@ -5049,10 +5048,8 @@ $lookbookModalHeaderHeight: $gutter*8;
 
 .product-share-block {
     @extend %product-info-block-row;
-
-    border-top: 1px solid $colorLightestGray;
     border-bottom: 1px solid $colorLightestGray;
-    padding: 12px 0 14px;
+    padding: 12px 0 7px;
     margin-top: 0px;
 
     > div {
@@ -5090,7 +5087,7 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
 
     @include at-query( null, $postMedium, $large ){
-        display: none;
+
     }
     
     /* Mobile */
@@ -5170,7 +5167,6 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
 
     @include at-query( null, $postMedium, $large ){
-        border-top: 1px solid $colorLightestGray;
     }
 
     /* Mobile */
