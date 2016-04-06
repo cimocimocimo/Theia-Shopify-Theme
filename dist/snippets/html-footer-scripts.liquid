@@ -129,7 +129,6 @@ Ajaxify Cart Documentation:
   </script>
 
 {% comment %} sets the cookie data for recently viewed product {% endcomment %}
-{{ product.images }}
 
 {% for image in product.images %}
   {% if image.alt contains 'back' and image_color == featured_image_color %}

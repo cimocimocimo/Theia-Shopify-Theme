@@ -8567,6 +8567,17 @@ html.full-viewport {
     }
 }
 
+// Carosell product 
+.product-grid-item,
+.slick-slide{
+    @include at-query ($max, $small) {
+        .image-row {
+            min-height: 300px;
+        }
+    }
+
+}
+
 .product-grid-item {
     @extend %product-lookbook-grid-item-base;
     width: 262px;
