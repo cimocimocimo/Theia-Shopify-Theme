@@ -4250,6 +4250,7 @@ body.vex-open {
 
         @include at-query ($max, $small) { /* Mobile */
             width: 100%;
+            overflow: hidden !important; 
         }
     }
     
@@ -10690,7 +10691,7 @@ html.full-viewport {
     /* Desktop */
     @include at-query ($min, $postSmall) {
         .related-products-hero {
-            margin-top: $gutter * 5;
+            margin-top: $gutter * 10;
             margin-bottom: $gutter * 3;
         }
 
