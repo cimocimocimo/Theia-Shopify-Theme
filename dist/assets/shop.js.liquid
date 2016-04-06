@@ -1,7 +1,5 @@
 window.timber = window.timber || {};
 
-
-
 timber.cache = {
     // General
     $window: $(window),
@@ -36,12 +34,14 @@ timber.cache = {
         $subMenus: $('.sub-menu-mobile')
     },
 
-    // homepage
     homepage: {
         $body: $('body.template-index'),
-        $splashScroller: $('#homepage-splash-scroller'),
         $hero: $('#homepage-hero'),
+        $splashScroller: $('#homepage-splash-scroller'),
         $splash: $('#homepage-splash'),
+        $videoBlock: $('#block-navigation-video-player'),
+        $videoContainer: $('#homepage-video-container'),
+        $videoPlayer: $('#homepage-video-player'),
         $headerWaypoint: $('.js-header-waypoint'),
         $headerContainer: $('#header-container'),
         $scrollBody: $('#body-container')
@@ -232,7 +232,8 @@ timber.lookbookPageNew = function(pager){
             currentIndex = selectedIndex,
             startIndex = selectedIndex - numberFlankingBehind,
             endIndex = selectedIndex + numberFlankingAhead, // .slice() works with the indexes between the elements
-            $carousel = $modal.find('.lookbook-carousel');
+            $carousel = $modal.find('.lookbook-carousel'),
+            pageUrl = window.location.href;
         
         if (startIndex < 0){
             startIndex = 0;
@@ -250,11 +251,30 @@ timber.lookbookPageNew = function(pager){
             .each(function(index){
                 var $item = $(this);
                 
-                slidesHtml += getSlideHtml($item);
+                // add the slide html
+                $carousel.append(getSlideHtml($item));
             });
 
-        // add the slides html
-        $carousel.html(slidesHtml);
+        function getSlideHtml($item){
+            
+            var index = $item.attr('data-item-index'),
+                title = $item.attr('data-title'),
+                styleNumber = $item.attr('data-style-number'),
+                imageUrl = $item.attr('data-image-url'),
+                itemClass = $item.attr('class').split(' ')[0],
+                slideHtml = slideTemplate({
+                    title: title,
+                    styleNumber: styleNumber,
+                    imageUrl: imageUrl,
+                    imageUrlEncoded: window.encodeURIComponent(imageUrl),
+                    pageUrlEncoded: window.encodeURIComponent(pageUrl),
+                    descriptionEncoded: window.encodeURIComponent(title + ' - Style: ' + styleNumber),
+                    itemIndex: index,
+                    itemId: itemClass + '-' + index
+                });
+            
+            return slideHtml;
+        }
         
         // init the carousel
         $carousel.slick({
@@ -297,17 +317,8 @@ timber.lookbookPageNew = function(pager){
                 // the currentSlide index should remain the same.
                 slick.currentSlide++;
             }
-
         });
         
-        function getSlideHtml($item){
-            return slideTemplate({
-                title: $item.attr('data-title'),
-                styleNumber: $item.attr('data-style-number'),
-                imageUrl: $item.attr('data-image-url'),
-                itemIndex: $item.attr('data-item-index')
-            });            
-        }
     }
     
     function refresh$items(){
@@ -534,11 +545,17 @@ timber.homepageInit = function(){
         return;
     }
     
-    timber.homepageSplash();
-    timber.homepageHeader();
+    if (timber.cache.homepage.$splash.length !== 0){
+        timber.homepageSplash();
+        timber.homepageOffsetHeader();
+    }
+    
+    if (timber.cache.homepage.$videoBlock.length !== 0){
+        timber.homepageVideo();
+    }
 };
 
-timber.homepageHeader = function(){
+timber.homepageOffsetHeader = function(){
     // on the home page we want to activate headroom.js when
     // scrolling up and the header hits the top of the screen.
     // then deactivate it at the same point on scroll down.
@@ -585,6 +602,46 @@ timber.homepageSplash = function(){
         
         $('#body-container').animate({scrollTop: $splash.height()});
     });
+};
+
+timber.homepageVideo = function(){
+    var $block = timber.cache.homepage.$videoBlock,
+        $blockInner = $block.find('.inner'),
+        $playButton = $block.find('.play-link'),
+        $videoContainer = timber.cache.homepage.$videoContainer,
+        $playerIframe = timber.cache.homepage.$videoPlayer,
+        player = $f($playerIframe[0]);
+    
+    // When the player is ready, add listeners for pause, finish, and playProgress
+    player.addEvent('ready', function() {
+        player.addEvent('pause', videoFinishPauseCallback);
+        
+        $playButton.click(playButtonCallback);
+    });
+    
+    function playButtonCallback(event){
+        event.preventDefault();
+
+        $block.addClass('active');
+        $videoContainer.addClass('active');
+        player.api('play');
+
+        transitionEnd($videoContainer[0]).bind(function(event){
+            $block.addClass('hide-inner');
+            transitionEnd($videoContainer[0]).unbind();
+        });
+    }
+    
+    function videoFinishPauseCallback(){
+        $block.removeClass('active');
+        $videoContainer.removeClass('active');
+        player.api('unload');
+
+        transitionEnd($videoContainer[0]).bind(function(event){
+            $block.removeClass('hide-inner');
+            transitionEnd($videoContainer[0]).unbind();
+        });
+    }
 };
 
 timber.switchClass = function( $el, c1, c2){
@@ -1038,10 +1095,7 @@ timber.accessibleNav = function () {
     function removeFocus ($el) {
         $el.removeClass(focusClass);
     }
-
-
 };
-
 
 timber.productPage = function(){
     var pageData = timber.pageData.productPage;
@@ -1178,6 +1232,15 @@ timber.productSelectCallback = function(variant, selector) {
         addToCart.val('Unavailable').addClass('disabled').prop('disabled', true);
     }
     
+    // trigger event for selected color
+    var currentSelector = {};
+    for (var i = 1; i < selector.selectors.length; i++){
+        currentSelector = selector.selectors[i];
+
+        if (currentSelector.name === 'Color'){
+            $body.trigger('colorChanged.productPage', {color: currentSelector.element.value});
+        }
+    }
 };
 
 timber.productImageGallery = function(){
