@@ -122,38 +122,22 @@ For more information on these Scheme.org tags, visit:
 
               {% else %}
 
-                <div class="product-options-block">
-                  {% comment %}
-                  {% if product.available and product.variants.size > 1 %}
-                  {% include 'swatch' with 'Color' %}
-                  {% endif %}
-                  {% endcomment %}
 
-                  <select name="id" id="productSelect" class="product-variants">
-                    {% for variant in product.variants %}
-                      {% if variant.available %}
 
-                        {% comment %}
-                        Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
-                        {% endcomment %}
-                        <option value="{{variant.id}}">
-                          {{ variant.title }} - {{ variant.price | money_with_currency }}
-                        </option>
+              <div class="product-options-block">
+                  
 
-                      {% else %}
-                        <option disabled="disabled">
-                          {{ variant.title }} - Sold out
-                        </option>
-                      {% endif %}
-                    {% endfor %}
-                  </select>
+                {% if product.variants.size > 1 %}
+                 
+                  {% include 'variant-swatch' %}
 
-                </div>
+                {% endif %}
+              </div>
 
                 <div class="call-to-action-block">
 
                   <button type="submit" name="add" class="add-to-cart-button" id="addToCart">
-                    <span class="label">Add to cart</span>
+                    <span class="label">Add to Cart</span>
                   </button>
 
                 </div>
@@ -162,7 +146,7 @@ For more information on these Scheme.org tags, visit:
                   {% if product.tags contains 'waitlist' and product.available == false %}
                     <a href="#add-to-waitlist-modal" id="add-to-waitlist-link" class="js-open-modal add-to-waitlist-link">Notify When Available</a>
                   {% else %}
-                    <a href="/account" class="add-to-wishlist-link" id="add-to-wishlist-link" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">Add to wishlist</a>
+                    <a href="/account" class="add-to-wishlist-link" id="add-to-wishlist-link" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">Add To Favourites </a>
                   {% endif %}
                 </div>
 
