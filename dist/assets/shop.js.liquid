@@ -1013,18 +1013,15 @@ timber.productCarouselInit = function () {
         slidesToShow: 4,
         speed: 1000,
         slidesToScroll: 4,
-        prevArrow: '<div class="arrow-box left"><a href="#/" onClick="preventDefault();"  class="slick-link slick-left"></a></div>',
-        nextArrow: '<div class="arrow-box right"><a href="#/" onClick="preventDefault();"  class="slick-link slick-right"></a></div>',
-        customPaging: function(slider, i) {
-            return '<a href="#">' + (i + 1) + '</a>';
-        },
+        prevArrow: '<div class="arrow-box-left slick-link slick-left"></div>',
+        nextArrow: '<div class="arrow-box-right slick-link slick-right"></div>',
         responsive: [
             {
                 breakpoint: 1150,
                 settings: {
                     slidesToShow: 3,
                     slidesToScroll: 3,
-                    infinite: true,
+                    infinite: true
                 } 
             },
             {

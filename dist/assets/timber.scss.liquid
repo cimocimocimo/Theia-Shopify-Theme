@@ -11354,6 +11354,7 @@ $opacity-not-active: .25;
     }
 }
 
+// TODO select a single class to use for this block.
 .recently-viewed-products-block,
 .carousel-block{
     width: 100%;
@@ -11367,37 +11368,24 @@ $opacity-not-active: .25;
         position: absolute;
         top: 0;
         z-index: 100;
-        
-        .slick-link{
-            text-decoration: none;
-            color: $colorGold;
-            font-size: 110px;
-            font-family: "theia-icons";
-        }
+        text-decoration: none;
+        color: $colorGold;
+        font-size: 110px;
+        font-family: "theia-icons";
     }
     
     .arrow-box-left {
         @extend %arrow-box-base;
+        @extend .icon-arrow-left-xlarge;
         
         left: 0;
-        
-        .slick-left{
-            &:before{
-                content: " \e608";
-            }
-        }
     }
 
     .arrow-box-right {
         @extend %arrow-box-base;
+        @extend .icon-arrow-right-xlarge;
         
         right: 0;
-        
-        .slick-right{
-            &:before{
-                content: " \e607";
-            }
-        }
     }
     
     @include at-query( $min, $postLarge){
