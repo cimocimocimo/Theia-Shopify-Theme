@@ -286,7 +286,7 @@ in the URL, we can show next/previous links to other products in the collection.
         {% endcomment %}
         {% assign this_product = product %}
 
-        {% for product in collection.products limit:4 %}
+        {% for product in collection.products limit:20 %}
 
           {% if product.id != this_product.id %}
 
@@ -313,9 +313,22 @@ in the URL, we can show next/previous links to other products in the collection.
 
   </div>
 
-  <hr class="hr-4-col" />
+  <div class="recent-products-hero js-hidden">
 
+    <div class="wrapper">
+
+      <h2>You Recently Viewed:</h2>
+
+      <div class="carousel-block recently-viewed-products-block">
+
+      </div>
+
+    </div>
+
+  </div>
+  
 {% endif %}
+
 
 {% include 'social-link-newsletter-hero' %}
 
@@ -344,3 +357,14 @@ in the URL, we can show next/previous links to other products in the collection.
 
   </div>
 </div>
+
+
+
+<script id="recent-product-template" type="text/x-handlebars-template">
+
+  {% include 'recently-viewed-grid-item' %}
+
+</script>
+
+
+

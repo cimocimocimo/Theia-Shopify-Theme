@@ -8265,7 +8265,6 @@ html.full-viewport {
     }
 }
 
-.related-products-hero,
 .collection-grid-hero,
 .order-grid-row {
     @extend %grid-block-base;
@@ -8480,7 +8479,7 @@ html.full-viewport {
     .button {
         @extend %small-gray-outline-arrow-button;
     }
-
+    
     /* Mobile */
     @include at-query ($max, $small) {
         .button {
@@ -8564,7 +8563,7 @@ html.full-viewport {
 
 .product-grid-item {
     @extend %product-lookbook-grid-item-base;
-
+    
     .image-row {
         height: 384px;
         text-align: center;
@@ -11330,6 +11329,93 @@ $opacity-not-active: .25;
         }
     }
 }
+
+// recently viewed and related products carousels
+
+.recent-products-hero,
+.related-products-hero {
+    @extend %grid-block-base;
+}
+
+// TODO select a single class to use for this block.
+.recently-viewed-products-block,
+.carousel-block {
+    width: 100%;
+    
+    %arrow-box-base {
+        @include verticalCenterChildElements();
+        
+        min-width: 100px;
+        width: auto;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        z-index: 100;
+        text-decoration: none;
+        color: $colorGold;
+        font-size: 110px;
+        font-family: "theia-icons";
+    }
+    
+    .arrow-box-left {
+        @extend %arrow-box-base;
+        @extend .icon-arrow-left-xlarge;
+        
+        left: 0;
+    }
+
+    .arrow-box-right {
+        @extend %arrow-box-base;
+        @extend .icon-arrow-right-xlarge;
+        
+        right: 0;
+    }
+    
+    @include at-query( $min, $postLarge){
+        .arrow-blox-left {
+            margin-left: -50px;
+        }
+
+        .arrow-box-right {
+            margin-right: -50px;
+        }
+    }
+}
+
+%recent-related-product-grid-item-base {
+    @extend .product-grid-item;
+    
+    width: 262px;
+
+    .meta-row{
+        margin: 0 auto;
+        max-width: 260px;
+        min-width: 260px;
+    }
+
+    .header-row {
+        max-width: 260px;
+        min-width: 260px;
+        margin: 0 auto;
+    }
+
+    @include at-query ($max, $small) {
+        .image-row {
+            min-height: 300px;
+        }
+    }
+}
+
+.recent-product-grid-item {
+    @extend %recent-related-product-grid-item-base;
+
+}
+
+.related-product-grid-item {
+    @extend %recent-related-product-grid-item-base;
+    
+}
+
 
 .carousel-hero {
     @extend %hero-base;
