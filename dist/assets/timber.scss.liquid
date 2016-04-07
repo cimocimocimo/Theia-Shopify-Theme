@@ -11353,47 +11353,60 @@ $opacity-not-active: .25;
         }
     }
 }
+
 .recently-viewed-products-block,
 .carousel-block{
     width: 100%;
-    .arrow-box{
+    
+    %arrow-box-base {
+        @include verticalCenterChildElements();
+        
         min-width: 100px;
         width: auto;
         height: 100%;
         position: absolute;
         top: 0;
         z-index: 100;
-        @include verticalCenterChildElements();
-
+        
         .slick-link{
             text-decoration: none;
             color: $colorGold;
             font-size: 110px;
             font-family: "theia-icons";
         }
-
-        &.left{
-            left: 0;
-            @include at-query( $min, $postLarge){
-                margin-left: -50px;
-            }
-            .slick-left{
-                &:before{
-                    content: " \e608";
-                }
+    }
+    
+    .arrow-box-left {
+        @extend %arrow-box-base;
+        
+        left: 0;
+        
+        .slick-left{
+            &:before{
+                content: " \e608";
             }
         }
+    }
 
-        &.right{
-            right: 0;
-            @include at-query( $min, $postLarge){
-                margin-right: -50px;
+    .arrow-box-right {
+        @extend %arrow-box-base;
+        
+        right: 0;
+        
+        .slick-right{
+            &:before{
+                content: " \e607";
             }
-            .slick-right{
-                &:before{
-                    content: " \e607";
-                }
-            }
+        }
+    }
+    
+    @include at-query( $min, $postLarge){
+        .arrow-blox-left {
+            margin-left: -50px;
+        }
+
+        .arrow-box-right {
+            margin-right: -50px;
         }
     }
 }
