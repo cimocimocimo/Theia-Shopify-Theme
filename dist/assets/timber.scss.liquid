@@ -11343,7 +11343,10 @@ $opacity-not-active: .25;
     width: 100%;
     
     %arrow-box-base {
-        @include verticalCenterChildElements();
+        // TODO use another vertical centering method
+        // line-height could work
+        // also margin-top on the :before element
+        // @include verticalCenterChildElements();
         
         min-width: 100px;
         width: auto;
