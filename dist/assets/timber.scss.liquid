@@ -8264,8 +8264,7 @@ html.full-viewport {
         }
     }
 }
-.recent-products-hero,
-.related-products-hero,
+
 .collection-grid-hero,
 .order-grid-row {
     @extend %grid-block-base;
@@ -8480,12 +8479,7 @@ html.full-viewport {
     .button {
         @extend %small-gray-outline-arrow-button;
     }
-    .meta-row{
-        margin: 0 auto;
-        max-width: 260px;
-        min-width: 260px;
-    }
-
+    
     /* Mobile */
     @include at-query ($max, $small) {
         .button {
@@ -8567,27 +8561,9 @@ html.full-viewport {
     }
 }
 
-// Carosell product 
-.product-grid-item,
-.slick-slide{
-    @include at-query ($max, $small) {
-        .image-row {
-            min-height: 300px;
-        }
-    }
-
-}
-
 .product-grid-item {
     @extend %product-lookbook-grid-item-base;
-    width: 262px;
-
-    .header-row {
-        max-width: 260px;
-        min-width: 260px;
-        margin: 0 auto;
-    }
-
+    
     .image-row {
         height: 384px;
         text-align: center;
@@ -11354,9 +11330,16 @@ $opacity-not-active: .25;
     }
 }
 
+// recently viewed and related products carousels
+
+.recent-products-hero,
+.related-products-hero {
+    @extend %grid-block-base;
+}
+
 // TODO select a single class to use for this block.
 .recently-viewed-products-block,
-.carousel-block{
+.carousel-block {
     width: 100%;
     
     %arrow-box-base {
@@ -11398,6 +11381,41 @@ $opacity-not-active: .25;
         }
     }
 }
+
+%recent-related-product-grid-item-base {
+    @extend .product-grid-item;
+    
+    width: 262px;
+
+    .meta-row{
+        margin: 0 auto;
+        max-width: 260px;
+        min-width: 260px;
+    }
+
+    .header-row {
+        max-width: 260px;
+        min-width: 260px;
+        margin: 0 auto;
+    }
+
+    @include at-query ($max, $small) {
+        .image-row {
+            min-height: 300px;
+        }
+    }
+}
+
+.recent-product-grid-item {
+    @extend %recent-related-product-grid-item-base;
+
+}
+
+.related-product-grid-item {
+    @extend %recent-related-product-grid-item-base;
+    
+}
+
 
 .carousel-hero {
     @extend %hero-base;
