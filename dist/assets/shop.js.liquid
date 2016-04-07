@@ -1338,7 +1338,6 @@ timber.productImageGallery = function(){
 }
 
 timber.productRecentlyViewedBlock = function(){
-    
     var maxRecentProducts = 8,
         cookieName = 'theia-recent-products',
         recentProducts = [],
@@ -1349,7 +1348,9 @@ timber.productRecentlyViewedBlock = function(){
         $recentProductsContainer = $('#recent-products-block'),
         recentProductTemplate = Handlebars.compile(
             $('#recent-product-template').html()
-        ); 
+        ),
+        $hero = $('.recent-products-hero'),
+        $carousel = $hero.find('.carousel-block');
 
     function Product(data){
         if (data === undefined){
@@ -1363,23 +1364,19 @@ timber.productRecentlyViewedBlock = function(){
         this.price = data.price;
         this.compare_at_price = data.compare_at_price;
         this.style_number = data.style_number;
-        // this.back_image = data.back_image;
-        // this.back_image_alt = data.back_image_alt;
-        // this.has_back_image = data.has_back_image;
         this.sold_out = !data.available;
-        
     }
-
+    
     Product.prototype.has_style_number = function(){
         return this.style_number > 0;
     }
-
+    
     Product.prototype.has_price = function(){
         return this.price > 0;
     }
-
+    
     Product.prototype.on_sale = function(){
-        return this.comape_at_price > this.price;
+        return this.comape_at_price > this.price;
     }
 
     Product.prototype.price_in_dollars = function(){
@@ -1398,7 +1395,6 @@ timber.productRecentlyViewedBlock = function(){
         return baseUrl + collectionProducts + this.handle;
     }
     
-    
     // on page load
     // check for for the cookie
     if (Cookies.get(cookieName)){
@@ -1413,63 +1409,51 @@ timber.productRecentlyViewedBlock = function(){
         }
     }
 
-    // add the current dress to the array if it isn't all ready there 
-    function addProductIf(product, array){
-        product.title === array[0].title || array.unshift(product);
-    }
-
-    // this counts the bytes of a string, use JSON.stringify()
-    function byteCount(s) { 
-        return encodeURI(s).split(/%..|./).length - 1;
-    }
-
-    // this removes the last item from the array if the array is too big to handle
-    function checkMaxCookieSize(array){
-        return byteCount(JSON.stringify(array)) <= ( maxCookieSize );
-    }
-
-
-    //check to see if cookeis have been defined yet
+    // check to see if Products have been defined yet
     if (recentProducts[0] === undefined){
         // add the first product as a cookie because there are no cookies
         recentProducts[0] = currentProduct;
-    }else{
-        addProductIf(currentProduct, recentProducts);       
+    } else { 
+        // existing product in recentProducts
+
+        // add the current dress to the array if it isn't all ready there 
+        if (currentProduct.id !== recentProducts[0].id){
+            recentProducts.unshift(currentProduct);
+        }
     }
 
     // check the array for duplicates and remove them
     for(var p = 1; p < recentProducts.length; p++){
-        if (recentProducts[p].title === recentProducts[0].title){
+        if (recentProducts[p].id === recentProducts[0].id){
             recentProducts.splice(p, 1);
         }
     }
-
-    // Make Sure we're able to save 
-    console.log(checkMaxCookieSize(recentProducts));
     
-    recentProducts.forEach(function(product){
-        console.log(product, byteCount(JSON.stringify(product)));
-    })
-
-    // save data to cookie
-    if(checkMaxCookieSize(recentProducts)){
-        Cookies.set(cookieName, recentProducts);
-    }else{
-        recentProducts.pop();
-        Cookies.set(cookieName, recentProducts);
+    // resize array to fit in cookie
+    // this counts the bytes of a string, use JSON.stringify()
+    function byteCount(s) { 
+        return encodeURI(s).split(/%..|./).length - 1;
     }
+    function isRecentProducstTooBigToSave(products){
+        return byteCount(JSON.stringify(products)) >= maxCookieSize;
+    }
+    while (isRecentProducstTooBigToSave(recentProducts)){
+        recentProducts.pop();
+    }
+    
+    // save data to cookie
+    Cookies.set(cookieName, recentProducts);
 
     // Define prototype functiojns below saving to save bytes which has no effect
-
 
     // build the html for the block
     if (recentProducts.length > 2){
         for(var j = 1; j < recentProducts.length; j++){
-            $('.recently-viewed-products-block').append(recentProductTemplate(recentProducts[j]));
+            $carousel.append(recentProductTemplate(recentProducts[j]));
         }
+
+        $hero.removeClass('js-hidden');
     }
-
-
 };
 
 
