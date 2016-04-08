@@ -11337,6 +11337,10 @@ $opacity-not-active: .25;
     @extend %grid-block-base;
 }
 
+.recent-products-hero{
+    margin-top: 100px;
+}
+
 // TODO select a single class to use for this block.
 .recently-viewed-products-block,
 .carousel-block {
@@ -11347,7 +11351,6 @@ $opacity-not-active: .25;
         // line-height could work
         // also margin-top on the :before element
         // @include verticalCenterChildElements();
-        
         min-width: 100px;
         width: auto;
         height: 100%;
@@ -11358,6 +11361,15 @@ $opacity-not-active: .25;
         color: $colorGold;
         font-size: 110px;
         font-family: "theia-icons";
+
+        @include at-query( $max, $small){
+            padding-top: 75px;
+        }
+
+        @include at-query($min, $small){
+            padding-top: 150px;
+        }
+
     }
     
     .arrow-box-left {
@@ -11370,11 +11382,10 @@ $opacity-not-active: .25;
     .arrow-box-right {
         @extend %arrow-box-base;
         @extend .icon-arrow-right-xlarge;
-        
         right: 0;
     }
     
-    @include at-query( $min, $postLarge){
+    @include at-query ($min, $postLarge) {
         .arrow-blox-left {
             margin-left: -50px;
         }
@@ -11393,13 +11404,17 @@ $opacity-not-active: .25;
     .meta-row{
         margin: 0 auto;
         max-width: 260px;
-        min-width: 260px;
+        @include at-query ($max, $small) {
+            width: 200px; 
+        }
     }
 
     .header-row {
         max-width: 260px;
-        min-width: 260px;
         margin: 0 auto;
+        @include at-query ($max, $small) {
+            width: 200px; 
+        }
     }
 
     @include at-query ($max, $small) {
@@ -11418,7 +11433,6 @@ $opacity-not-active: .25;
     @extend %recent-related-product-grid-item-base;
     
 }
-
 
 .carousel-hero {
     @extend %hero-base;
