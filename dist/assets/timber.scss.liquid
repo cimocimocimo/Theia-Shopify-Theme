@@ -11337,7 +11337,7 @@ $opacity-not-active: .25;
     @extend %grid-block-base;
 }
 
-.recent-products-hero{
+.recent-products-hero {
     margin-top: 100px;
 }
 
@@ -11347,10 +11347,6 @@ $opacity-not-active: .25;
     width: 100%;
     
     %arrow-box-base {
-        // TODO use another vertical centering method
-        // line-height could work
-        // also margin-top on the :before element
-        // @include verticalCenterChildElements();
         min-width: 100px;
         width: auto;
         height: 100%;
@@ -11362,14 +11358,13 @@ $opacity-not-active: .25;
         font-size: 110px;
         font-family: "theia-icons";
 
-        @include at-query( $max, $small){
+        @include at-query($max, $small){
             padding-top: 75px;
         }
 
-        @include at-query($min, $small){
+        @include at-query($min, $postSmall){
             padding-top: 150px;
         }
-
     }
     
     .arrow-box-left {
@@ -11382,6 +11377,7 @@ $opacity-not-active: .25;
     .arrow-box-right {
         @extend %arrow-box-base;
         @extend .icon-arrow-right-xlarge;
+        
         right: 0;
     }
     
@@ -11402,25 +11398,25 @@ $opacity-not-active: .25;
     width: 262px;
 
     .meta-row{
-        margin-top: 20px;
-        margin: 0 auto;
-        max-width: 260px;
+        margin: 20px auto 0;
+        width: 260px;
+        
         @include at-query ($max, $small) {
-            width: 200px; 
+            width: 200px;
         }
     }
 
     .header-row {
-        max-width: 260px;
+        width: 260px;
         margin: 0 auto;
+        
         @include at-query ($max, $small) {
-            width: 200px; 
+            width: 200px;
         }
     }
 
     .button-block{
         margin-bottom: 30px;
-
     }
 
     @include at-query ($max, $small) {
@@ -11428,18 +11424,14 @@ $opacity-not-active: .25;
             min-height: 300px;
         }
     }
-
-
 }
 
 .recent-product-grid-item {
     @extend %recent-related-product-grid-item-base;
-
 }
 
 .related-product-grid-item {
     @extend %recent-related-product-grid-item-base;
-    
 }
 
 .carousel-hero {
