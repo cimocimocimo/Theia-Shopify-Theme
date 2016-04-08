@@ -294,8 +294,8 @@ in the URL, we can show next/previous links to other products in the collection.
         {% for product in collection.products limit:20 %}
 
           {% if product.id != this_product.id %}
-
-            {% include 'product-grid-item' %}
+            
+            {% include 'product-grid-item' with block_class='related-product-grid-item' %}
 
           {% endif %}
 
