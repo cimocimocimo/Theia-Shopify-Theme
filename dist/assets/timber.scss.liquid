@@ -4089,7 +4089,7 @@ body.vex-open {
 
         .product-info-block {
             right: $gutter;
-            top: $gutter * 2;
+            margin-top: $gutter * 2;
             z-index: 1;
         }
     }
@@ -4119,7 +4119,8 @@ body.vex-open {
     @include overflowEllipsis();
 
     background: $colorWhite;
-    border-bottom: 1px solid $colorLightGray;
+    margin: 0 20px 0 20px;
+    border-bottom: 1px solid $colorLightestGray;
 
     &:before{
         font-family: 'theia-icons';
@@ -4141,7 +4142,7 @@ body.vex-open {
     /* Desktop */
     @include at-query ($min, $postSmall) {
         height: $gutter * 2.25;
-        padding: 2px ( $gutter * 1.25 ) 0;
+        padding: 2px 0;
         line-height: $gutter;
     }
 
