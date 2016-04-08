@@ -214,24 +214,28 @@ For more information on these Scheme.org tags, visit:
           </div>
 
         </div>
+        {% if product.description.size == 0 %}
+          <div class="tablet-clearfix"></div>
+        {% endif %}
         <div class="tablet-column">
+    
 
+          {% if product.description.size > 0 %}
+            <div class="product-description-block" style="position: relative;" itemprop="description">
+              <h6>Details:</h6>
+              <div class="content">
+                {{ product.description }}
+              </div>
+            </div>
 
+            <div class="product-share-block">
+              <div class="label">Share:</div>
 
-          <div class="product-description-block" style="position: relative;" itemprop="description">
-            <h6>Details:</h6>
-            <div class="content">
-              {{ product.description }}
+              {% include 'social-sharing-buttons' %}
+
             </div>
           </div>
-
-          <div class="product-share-block">
-            <div class="label">Share:</div>
-
-            {% include 'social-sharing-buttons' %}
-
-          </div>
-        </div>
+        {% endif %}
         
         <div class="product-back-link-row">
 

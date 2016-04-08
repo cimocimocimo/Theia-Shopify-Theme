@@ -4052,6 +4052,17 @@ body.vex-open {
             position: relative;
         }
 
+        .tablet-clearfix{
+            width: 100%;
+            clear: both;
+            @extend %clearfix;
+        }
+
+        .tablet-column{
+            width: 50%;
+            float: left;
+        }
+
 
     }
 
@@ -4059,6 +4070,7 @@ body.vex-open {
 
         .tablet-column-row{
             width: 100%;
+
         }
 
         .tablet-column{
@@ -4104,6 +4116,7 @@ body.vex-open {
     }
 
     @include at-query( null, $postMedium, $large ){
+
 
         .product-gallery-block {
             right: 278px;
@@ -4803,11 +4816,10 @@ $lookbookModalHeaderHeight: $gutter*8;
     /* Mobile */
     @include at-query ($max, $small) {
         h2 {
-            display: none;
+            // display: none;
         }
 
         > div {
-            float: left;
             width: 50%;
         }
 
@@ -4816,7 +4828,7 @@ $lookbookModalHeaderHeight: $gutter*8;
         }
 
         .product-style-number {
-            text-align: right;
+            text-align: left;
         }
     }
 }
@@ -5184,6 +5196,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     /* Mobile */
     @include at-query ($max, $medium) {
+        margin-top: 30px;
         padding-bottom: 0;
 
         p {
