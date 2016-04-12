@@ -197,7 +197,7 @@ $radius: 3px;
 
 
 // header heights
-$headerTopRowHeight: 32px;
+$headerTopRowHeight: 53px;
 $desktopHeaderMainRowHeight: 85px;
 $mobileHeaderMainRowHeight: 88px;
 
@@ -323,7 +323,7 @@ $baseFontSize: 100%; // Henseforth known as 1em (assumed at 16px)
 }
 @font-face {
     font-family: 'theia-icons';
-    src: url('data:application/x-font-ttf;charset=utf-8;base64,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') format('truetype');
+    src: url('data:application/x-font-ttf;charset=utf-8;base64,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') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -598,6 +598,10 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     .js-hidden {
         display: none;
     }
+}
+
+.js-hidden-size{
+    display: none;
 }
 
 /*================================================================================
@@ -1641,175 +1645,132 @@ $iconSelector: '[class^="icon-"], [class*=" icon-"]';
 .icon-box-checked:before {
     content: "\f046";
 }
-
 .icon-box-unchecked:before {
     content: "\f096";
 }
-
 .icon-menu:before {
     content: "\e60c";
 }
-
 .icon-telephone-handset:before {
     content: "\e600";
 }
-
 .icon-map-pin:before {
     content: "\e601";
 }
-
 .icon-stamp:before {
     content: "\e602";
 }
-
 .icon-arrow-right-solid:before {
     content: "\e603";
 }
-
 .icon-arrow-right-solid-suffix:after {
     content: "\e603";
 }
-
 .icon-facebook-f:before {
     content: "\e604";
 }
-
 .icon-instagram:before {
     content: "\e605";
 }
-
 .icon-pinterest-p:before {
     content: "\e606";
 }
-
 .icon-arrow-right-xlarge:before {
     content: "\e607";
 }
-
 .icon-arrow-left-xlarge:before {
     content: "\e608";
 }
-
 .icon-search:before {
     content: "\e609";
 }
-
 .icon-store:before {
     content: "\e60a";
 }
-
 .icon-safe:before {
     content: "\e60b";
 }
-
 .icon-fancy:before {
     content: "\46";
 }
-
 .icon-twitter:before {
     content: "\54";
 }
-
 .icon-facebook:before {
     content: "\66";
 }
-
 .icon-pinterest:before {
     content: "\70";
 }
-
 .icon-tumblr:before {
     content: "\74";
 }
-
 .icon-vimeo:before {
     content: "\76";
 }
-
 .icon-youtube:before {
     content: "\79";
 }
-
 .icon-gift:before {
     content: "\e60e";
 }
-
 .icon-calendar:before {
     content: "\e60f";
 }
-
 .icon-arrow-left-curved:before {
     content: "\e610";
 }
-
 .icon-arrow-right-curved:before {
     content: "\e611";
 }
-
 .icon-cross:before {
     content: "\e612";
 }
-
 .icon-cross-circle:before {
     content: "\e613";
 }
-
 .icon-info:before {
     content: "\e614";
 }
-
 .icon-info-circle:before {
     content: "\e615";
 }
-
 .icon-arrow-left:before {
     content: "\e616";
 }
-
 .icon-arrow-down:before {
     content: "\e617";
 }
-
 .icon-arrow-up:before {
     content: "\e618";
 }
-
 .icon-arrow-up-suffix:after {
     content: "\e618";
 }
-
 .icon-arrow-right:before {
     content: "\e619";
 }
-
 .icon-arrow-left-small:before {
     content: "\e61a";
 }
-
 .icon-arrow-down-small:before {
     content: "\e61b";
 }
-
 .icon-arrow-up-small:before {
     content: "\e61c";
 }
-
 .icon-arrow-right-small:before {
     content: "\e61d";
 }
-
 .icon-arrow-left-large:before {
     content: "\e61e";
 }
-
 .icon-arrow-down-large:before {
     content: "\e61f";
 }
-
 .icon-arrow-up-large:before {
     content: "\e620";
 }
-
 .icon-arrow-right-large:before {
     content: "\e621";
 }
@@ -1822,6 +1783,13 @@ $iconSelector: '[class^="icon-"], [class*=" icon-"]';
 .icon-play-suffix:after {
     content: "\e900";
 }
+.icon-arrow-right-tail:before {
+    content: "\e901";
+}
+.icon-arrow-left-tail:before {
+    content: "\e902";
+}
+
 
 
 $smallSocialIconRatio: (2.66/3.375);
@@ -2103,6 +2071,10 @@ $smallSocialIconRatio: (2.66/3.375);
     }
 }
 
+%small-black-outline-button {
+    @extend %button-base;
+    @extend %darkGray-outline-block-medium;
+}
 
 /* gold, small button with solid arrow icon */
 %small-gold-arrow-button {
@@ -2975,43 +2947,85 @@ input[type="radio"] {
 
         & + label {
             margin: 0;
-            height: 32px;
-            width: 32px;
+            height: 100%;
+            width: 100%;
         }
 
-        &:not(:checked) + label {
+        &:not(:checked) + .colour-label {
             border: 3px solid white;
         }
 
-        &:checked + label {
+        &:checked + .colour-label {
             @extend %darkGray-outline-block-medium;
         }
+
+        &:checked + .size-label {
+            background-color: $colorLighterGold;
+            span{
+                color: $colorWhite;
+            }
+        } 
     }
+}
+
+.colour-name {
+    width: auto;
+    float: left;
+    margin-top: 5px;
+}
+
+legend {
+    color: $colorBlack;
+    margin-top: 5px;
+    display: block;
+    margin: 0;
+    line-height: 32px;
+    float: left;
+    color: black;
+
 }
 
 .swatch {
     @extend .clearfix;
 
-    $height: 32px;
-
     padding: 0;
-    height: $height;
-
-    legend {
-        display: block;
-        margin: 0;
-        line-height: $height;
+    
+    &.colour-field{
+        width: auto;
+    }
+    
+    &.js-colour-swatch-field{
+        @include at-query(null, $postSmall, $medium){
+            max-width: 100%;
+            float: left;
+        }
+    }
+    
+    &.js-size-swatch-field{
+        margin-top: 1px;
+        
+        @include at-query(null, $postSmall, $medium){
+            padding-left: 20px;
+        }
+    }
+    .dress-sizing-link{
+        font-weight: 200;
+        color: $colorBlack;
     }
 
-    .swatch-element {
-        width: 32px;
-        margin: 0 2px 0 0;
-        background: pink;
-    }
-
-    .swatch-element, legend {
+    .swatch-container{
         float: left;
-        height: 100%;
+        max-width: 196px;
+        
+        @include at-query($max, $small){
+            max-width: 100%;
+            float: right;
+        }
+    }
+
+    .swatch-element,
+    legend {
+        float: left;
     }
 
     .tooltip {
@@ -3027,10 +3041,92 @@ input[type="radio"] {
     }
 }
 
+.swatch-element {
+    position: relative;
+    margin: 0px 1.9px 7.5px 0;
+    overflow: hidden;
+    
+    &.colour-swatch{
+        width: 32px;
+        height: 32px;
+    }
+    
+    &.size-swatch{
+        margin: 0 3px 10px 2px;
+        width: 29px;
+        height: 29px;
+        border: 1px solid $colorBlack;
+    }
+    
+    &.size-available{
+        &:hover > label{
+            @include transition(all 0.3s);
+            
+            background-color: $colorBlack;
+            
+            span{
+              color: $colorWhite;  
+            }
+        }
+
+    }
+    
+    .soldOut{
+        width: 50px;
+        height: 50px;
+        border-bottom: 1px solid $colorWarmDarkGray;
+        -webkit-transform:
+            translateY(5px)
+            translateX(7px)
+            rotate(134deg); 
+        position: absolute;
+    }
+    
+    .size-label{
+        text-align: center;
+        position: absolute;
+
+        span{
+            font-size: 0.8em;
+            color: black;
+            margin-top: 32%;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+}
+
+.split-color-triangle{
+    $length: 100px;
+    
+    position: relative;
+    height: $length;
+    width: $length;
+    overflow: hidden;
+    z-index: -3;
+    width: 100%;
+    height: 100%;
+
+    div {
+        width: 50px;
+        height: 50px;
+        top: 0;
+        left: 0;
+        position: absolute;
+        z-index: 0;
+        top: 10px;
+        z-index: -2;
+        transform: rotate(135deg);
+        -webkit-transform:
+            rotate(135deg);
+    }
+}
+
 
 .contact-form {
     button {
         @extend %medium-gold-rsaquo-button;
+        
         width: 288px;
     }
 
@@ -3175,7 +3271,7 @@ legend {
     margin: ($gutter / 2 ) 0 10px;
     font-weight: 700;
     text-transform: uppercase;
-    color: $colorWarmLightGray;
+    color: $colorBlack;
     line-height: 1;
 
     .meta {
@@ -3947,20 +4043,53 @@ body.vex-open {
 
 .product-detail-hero {
     background: white;
-    border-bottom: 1px solid $colorLighterGray;
-    border-top: 1px solid $colorLighterGray;
-    overflow: hidden; // clip the product image zoom
+    height: auto;
 
     .wrapper {
-        height: 100%;
+        height: auto;
+    }
+
+    @include at-query( null, $small,  $postMedium){
+        .product-gallery-overflow {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tablet-clearfix {
+            @extend %clearfix;
+            
+            width: 100%;
+            clear: both;
+        }
+
+        .tablet-column {
+            width: 50%;
+            float: left;
+        }
     }
 
     @include at-query( $min, $postMedium ){
-        height: 692px;
+        .tablet-column-row {
+            width: 100%;
+        }
 
-        .product-gallery-block,
+        .tablet-column {
+            width: 100%;
+        }
+    
         .product-info-block {
+            height: auto;
+            position: relative;
+            float: right;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .product-gallery-overflow {
+            overflow: hidden;
+            width: 100%;
             position: absolute;
+            height: 100%;
         }
 
         .product-gallery-block {
@@ -3971,60 +4100,63 @@ body.vex-open {
 
         .product-info-block {
             right: $gutter;
-            top: $gutter * 2;
+            margin-top: $gutter * 2;
             z-index: 1;
         }
     }
 
     /* Desktop */
     @include at-query ($min, $postLarge) {
-
         .product-gallery-block {
             right: 368px;
         }
-
     }
 
     @include at-query( null, $postMedium, $large ){
-
         .product-gallery-block {
             right: 278px;
         }
-
     }
 }
 
 .product-back-link-block {
     @include overflowEllipsis();
 
-    background: $colorLightestGray;
-    border-bottom: 1px solid $colorLightGray;
+    background: $colorWhite;
+    margin: 0 20px 0 20px;
+    border-bottom: 1px solid $colorLightestGray;
+
+    &:before{
+        font-family: 'theia-icons';
+        content: "\e902";
+        color: $colorGold;
+        margin-right: 10px;
+    }
 
     a {
-        @extend %lsaquo-prefix;
         @extend %gold-hover-underline-link;
         @extend %smallish-arial-text;
 
         display: inline-block;
-        font-weight: 700;
+        font-weight: 500;
+        font-size: 19px;
     }
 
     /* Desktop */
     @include at-query ($min, $postSmall) {
         height: $gutter * 2.25;
-        padding: 2px ( $gutter * 1.25 ) 0;
-        line-height: $gutter * 2;
+        padding: 2px 0;
+        line-height: $gutter;
     }
 
     /* Mobile */
     @include at-query ($max, $small) {
-        // border-top: 1px solid $colorLightGray;
         height: 35px;
         padding: 0 $gutter;
 
         a {
-            font-size: 0.625em;
-            line-height: 33px;
+            font-size: 0.8em;
+            line-height: 15px;
         }
     }
 }
@@ -4035,6 +4167,7 @@ body.vex-open {
     border-bottom: 1px solid $colorLighterGray;
     padding: ($gutter / 2) $gutter;
     position: relative;
+    text-align: center;
 
     .expand-detail-link {
         text-decoration: none;
@@ -4116,15 +4249,26 @@ body.vex-open {
     
     .image-zoom-container {
         height: 100%;
-        width: 100%;
+        width: 75%;
         overflow: visible !important; // override overflow: hidden on the zoom container
+
+        @include at-query ($max, $small) { /* Mobile */
+            width: 100%;
+            overflow: hidden !important; 
+        }
     }
     
     img {
         display: block;
-        margin: 0 auto;
         height: 100%;
+        margin-left: 15%;
         width: auto;
+        
+        @include at-query ($max, $small){
+            width: 300px;
+            margin: 0 auto;
+            height: auto;
+        }
     }
 }
 
@@ -4211,11 +4355,13 @@ $lookbookModalHeaderHeight: $gutter*8;
         font-family: $centuryGothicFontStack;
         background: $colorWhite;
         margin: 0;
-        
         height: 100%;
         width: 100%;
         position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         
         h1, h2, h3, h4, h5, h6, p, ul, li {
             color: $colorDarkGray;
@@ -4242,8 +4388,8 @@ $lookbookModalHeaderHeight: $gutter*8;
         &:before {
             @include transition(all 0.3s);
             
-            text-align: center;
 	    content: "\e117";
+            text-align: center;
             display: inline-block;
         }
         
@@ -4545,7 +4691,6 @@ $lookbookModalHeaderHeight: $gutter*8;
     @include at-query ($min, $postMedium) {
         background: #fff;
         height: 639px;
-        border: 1px solid $colorLightGray;
 
         .product-is-exclusive & {
             height: auto;
@@ -4572,9 +4717,10 @@ $lookbookModalHeaderHeight: $gutter*8;
             }
 
             .product-description-block {
+                position: relative;
                 .content {
-                    height: 282px;
-                    overflow-y: scroll;
+                    height: auto;
+                    //overflow-y: scroll;
                 }
             }
         }
@@ -4587,44 +4733,34 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     @include at-query( null, $postMedium, $large ){
         width: 326px;
-
-        /* expanded product description state */
-        &.description-expanded {
-            .product-description-block .content {
-                height: 358px;
-            }
-        }
     }
 
     @include at-query( null, $postSmall, $medium ){
-        .tablet-column {
-            float: right;
-            width: 50%;
-        }
+
     }
 
     /* Mobile */
     @include at-query ($max, $medium) {
-        display: none;
-
-        background: $colorPaleGray;
-        border-bottom: 1px solid $colorLightGray;
+        background: $colorWhite;
     }
 }
+
 
 .product-meta-block {
     @extend %product-info-block-row;
     @extend .clearfix;
 
     h2 {
-        font-size: 1.8em;
+        font-size: 2.4em;
         font-weight: 300;
-        color: $colorWarmDarkGray;
+        color: $colorDarkGray;
         line-height: 1;
         margin: 0 0 11px;
     }
 
     .product-price {
+        margin-top: 20px;
+        font-weight: 300;
         font-family: $helveticaFontStack;
         color: $colorWarmLightGray;
         line-height: 1;
@@ -4647,12 +4783,13 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     /* Desktop */
     @include at-query ($min, $postSmall) {
-        border-bottom: 1px solid $colorLightestGray;
+       // border-bottom: 1px solid $colorLightestGray;
         padding: 0 0 $gutter/2;
 
         .product-price {
-            font-size: 1.5em;
+            font-size: 1.8em;
             margin-bottom: 6px;
+            margin-top: 2;
         }
     }
 
@@ -4671,11 +4808,10 @@ $lookbookModalHeaderHeight: $gutter*8;
     /* Mobile */
     @include at-query ($max, $small) {
         h2 {
-            display: none;
+            // display: none;
         }
 
         > div {
-            float: left;
             width: 50%;
         }
 
@@ -4684,12 +4820,13 @@ $lookbookModalHeaderHeight: $gutter*8;
         }
 
         .product-style-number {
-            text-align: right;
+            text-align: left;
         }
     }
 }
 
 .product-purchase-block {
+    margin-bottom: 10px;
     @extend %product-info-block-row;
 
     /* Layout */
@@ -4699,6 +4836,10 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     .call-to-action-block {
         margin-right: $gutter;
+        @include at-query ($max, $small){
+            margin-top: 20px;
+            margin-right: 0;
+        } 
     }
 
     .product-offer-block {
@@ -4709,7 +4850,9 @@ $lookbookModalHeaderHeight: $gutter*8;
     @include at-query ($min, $postLarge) {
         .add-to-wishlist-link,
         .add-to-waitlist-link {
+            color: $colorBlack;
             line-height: 50px;
+            font-weight: 100
         }
 
         .call-to-action-block,
@@ -4722,8 +4865,10 @@ $lookbookModalHeaderHeight: $gutter*8;
     @include at-query ($min, $postMedium) {
         margin-bottom: 22px;
 
+
         .product-options-block {
-            margin-bottom: 27px;
+            margin-top: 22px;
+            margin-bottom: 22px;
         }
     }
 
@@ -4759,7 +4904,18 @@ $lookbookModalHeaderHeight: $gutter*8;
     
     button,
     .add-to-cart-button {
+        padding-top: 0px;
+        font-family: $centuryGothicFontStack;
+        height: 50px;
+        width: 190px;
         @extend %large-black-outline-button;
+        span{
+            letter-spacing: -1px;
+            line-height: 0;
+        }
+        @include at-query ($max, $small){
+            width: 100%;
+        } 
     }
 
     .add-to-wishlist-link,
@@ -4767,15 +4923,16 @@ $lookbookModalHeaderHeight: $gutter*8;
         @extend %gray-underline-hover-gold-link;
         @extend %rsaquo;
         @extend %smallish-arial-text;
-
         text-transform: uppercase;
+        font-weight: 200;
+        color: $colorBlack;
     }
 
     /* Mobile */
     @include at-query ($max, $medium) {
         button,
         .button {
-            font-size: 1.25em;
+            font-size: 1.22em;
             height: 44px;
 
             .icon {
@@ -4885,7 +5042,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 }
 
 .product-offer-block {
-    color: $colorWarmLightGray;
+    color: $colorDarkGray;
 
     span {
         vertical-align: middle;
@@ -4901,17 +5058,15 @@ $lookbookModalHeaderHeight: $gutter*8;
     .text {
         @extend %smallish-arial-text;
 
-        font-weight: 700;
+        font-weight: 200;
         text-transform: uppercase;
     }
 }
 
 .product-share-block {
     @extend %product-info-block-row;
-
-    border-top: 1px solid $colorLightestGray;
     border-bottom: 1px solid $colorLightestGray;
-    padding: 12px 0 14px;
+    padding: 12px 0 7px;
     margin-top: 0px;
 
     > div {
@@ -4925,7 +5080,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 
         font-weight: 700;
         text-transform: uppercase;
-        color: $colorWarmLightGray;
+        color: $colorBlack;
         padding-top: 2px;
     }
 
@@ -4949,7 +5104,7 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
 
     @include at-query( null, $postMedium, $large ){
-        display: none;
+
     }
     
     /* Mobile */
@@ -4962,12 +5117,10 @@ $lookbookModalHeaderHeight: $gutter*8;
 
 .product-description-block {
     @extend %product-info-block-row;
-
-    padding-bottom: 44px; /* room for the more details expand link */
     position: relative;
-    margin-bottom: 23px;
+    margin-bottom: 15px;
     margin-top: 0;
-    padding-top: 19px;
+    padding-top: 0;
 
     h6 {
         @extend %smallish-arial-text;
@@ -4976,23 +5129,30 @@ $lookbookModalHeaderHeight: $gutter*8;
         margin-top: 0;
         margin-bottom: 9px;
         font-weight: 700;
-        color: $colorWarmLightGray;
+        color: $colorBlack;
     }
 
     p, li {
         @extend %smaller-helvetica-text;
-
         line-height: (23/14);
-        color: $colorWarmGray;
+        color: $colorBlack;
     }
     
     ul {
-        list-style-type: disc;
+        list-style: disc;
         padding-left: $gutter * 1.5;
+    }
+    
+
+    li:before{
+        font-family: helvetica;
+        height: 1px;
+        font-size: 170%;
     }
     
     li {
         margin-bottom: 0;
+
     }
     
     a {
@@ -5000,8 +5160,11 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
     
     .content {
-        height: 64px; /* height of the header and 3 lines of text. */
+        height: auto; /* height of the header and 3 lines of text. */
         overflow-y: hidden;
+        p{
+            margin-bottom: 33px;
+        }
     }
 
     /* Desktop */
@@ -5021,11 +5184,11 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
 
     @include at-query( null, $postMedium, $large ){
-        border-top: 1px solid $colorLightestGray;
     }
 
     /* Mobile */
     @include at-query ($max, $medium) {
+        margin-top: 30px;
         padding-bottom: 0;
 
         p {
@@ -5967,7 +6130,7 @@ address {
         margin: 0;
         font-size: 13px;
         font-family: $centuryGothicFontStack;
-        font-weight: 700;
+        font-weight: 200;
         text-transform: uppercase;
     }
     
@@ -8431,7 +8594,7 @@ html.full-viewport {
         }
 
         .header-row {
-            height: 24px;
+            height: 29px;
         }
 
         h4 {
@@ -8516,7 +8679,7 @@ html.full-viewport {
     .button {
         @extend %small-gray-outline-arrow-button;
     }
-
+    
     /* Mobile */
     @include at-query ($max, $small) {
         .button {
@@ -8600,7 +8763,7 @@ html.full-viewport {
 
 .product-grid-item {
     @extend %product-lookbook-grid-item-base;
-
+    
     .image-row {
         height: 384px;
         text-align: center;
@@ -9185,14 +9348,25 @@ html.full-viewport {
 
 /* Naviation Menus */
 
+
+
+
 .main-menu {
+
+    li{
+        .main-menu-link{
+            font-weight: 200;
+    }
+
+    }
     .site-header &,
     .site-footer & {
         @extend %nav-menu-base;
 
         @mixin main-menu-separator(){
             li {
-                border-left: 1px solid $colorLightestGray;
+
+                font-size: 1.2em;
 
                 &:first-child {
                     border-left-width: 0;
@@ -9202,10 +9376,12 @@ html.full-viewport {
         
         @include at-query (null, $postSmall, $medium) {
             @include main-menu-separator;
+
         }
         
         @include at-query ($min, $large) {
             @include main-menu-separator;
+
         }
     }
 
@@ -9227,7 +9403,7 @@ html.full-viewport {
 
 .main-menu-link {
     @extend %gray-hover-gold-link;
-
+    font-weight: 100;
     display: block;
     text-transform: uppercase;
     line-height: 1;
@@ -9275,7 +9451,7 @@ html.full-viewport {
         @extend %icon-base;
         @extend .icon-arrow-left;
 
-        font-weight: 700;
+        font-weight: 200;
         position: relative;
         padding: $gutter 0 $gutter 20px;
 
@@ -9408,6 +9584,7 @@ html.full-viewport {
 }
 
 .customer-menu-link {
+    text-transform: uppercase;
     @extend %gray-hover-gold-link;
     @include clearfix();
 
@@ -9417,6 +9594,7 @@ html.full-viewport {
     .site-header & {
 
         .label {
+            font-weight: 200;
             @extend %small-bold-arial-text;
         }
 
@@ -9488,6 +9666,8 @@ html.full-viewport {
 }
 
 .secondary-menu-link {
+    font-weight: 200;
+    text-transform: uppercase;
     @extend %gray-hover-gold-link;
     @extend %small-bold-arial-text;
 
@@ -10508,7 +10688,7 @@ html.full-viewport {
     /* Desktop */
     @include at-query ($min, $postSmall) {
         .related-products-hero {
-            margin-top: $gutter * 5;
+            margin-top: $gutter * 10;
             margin-bottom: $gutter * 3;
         }
 
@@ -11367,6 +11547,110 @@ $opacity-not-active: .25;
     }
 }
 
+// recently viewed and related products carousels
+
+.recent-products-hero,
+.related-products-hero {
+    @extend %grid-block-base;
+}
+
+.recent-products-hero {
+    margin-top: 100px;
+}
+
+// TODO select a single class to use for this block.
+.recently-viewed-products-block,
+.carousel-block {
+    width: 100%;
+    
+    %arrow-box-base {
+        min-width: 100px;
+        width: auto;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        z-index: 100;
+        text-decoration: none;
+        color: $colorGold;
+        font-size: 110px;
+        font-family: "theia-icons";
+
+        @include at-query($max, $small){
+            padding-top: 75px;
+        }
+
+        @include at-query($min, $postSmall){
+            padding-top: 150px;
+        }
+    }
+    
+    .arrow-box-left {
+        @extend %arrow-box-base;
+        @extend .icon-arrow-left-xlarge;
+        
+        left: 0;
+    }
+
+    .arrow-box-right {
+        @extend %arrow-box-base;
+        @extend .icon-arrow-right-xlarge;
+        
+        right: 0;
+    }
+    
+    @include at-query ($min, $postLarge) {
+        .arrow-blox-left {
+            margin-left: -50px;
+        }
+
+        .arrow-box-right {
+            margin-right: -50px;
+        }
+    }
+}
+
+%recent-related-product-grid-item-base {
+    @extend .product-grid-item;
+    
+    width: 262px;
+
+    .meta-row{
+        margin: 20px auto 0;
+        width: 260px;
+        
+        @include at-query ($max, $small) {
+            width: 200px;
+        }
+    }
+
+    .header-row {
+        width: 260px;
+        margin: 0 auto;
+        
+        @include at-query ($max, $small) {
+            width: 200px;
+        }
+    }
+
+    .button-block{
+        margin-bottom: 30px;
+    }
+
+    @include at-query ($max, $small) {
+        .image-row {
+            min-height: 300px;
+        }
+    }
+}
+
+.recent-product-grid-item {
+    @extend %recent-related-product-grid-item-base;
+}
+
+.related-product-grid-item {
+    @extend %recent-related-product-grid-item-base;
+}
+
 .carousel-hero {
     @extend %hero-base;
 
@@ -11900,10 +12184,8 @@ span#resultMessage {
     }
 
     .add-to-cart-button {
-        @extend %small-gold-arrow-button;
 
-        width: 160px;
-        padding-top: 0;
+        @extend %small-black-outline-button;
     }
 
     /* Desktop */
@@ -11971,7 +12253,7 @@ span#resultMessage {
         }
 
         .add-to-cart-button {
-            width: 168px;
+            width: 160px;
         }
     }
 
