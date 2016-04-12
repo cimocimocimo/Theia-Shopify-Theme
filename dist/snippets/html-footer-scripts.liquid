@@ -130,20 +130,10 @@ Ajaxify Cart Documentation:
 
 {% comment %} sets the cookie data for recently viewed product {% endcomment %}
 
-{% for image in product.images %}
-  {% if image.alt contains 'back' and image_color == featured_image_color %}
-    {% assign has_back_image = true %}
-    {% assign back_image = image %}
-  {% endif %} 
-{% endfor %}
-
 <script>
     var product = timber.pageData.productPage.product;
     product.featured_image_alt = "{{ product.featured_image.alt }}";
     product.style_number = "{{ style_number }}";
-    product.back_image = "{{ back_image.src | product_img_url: 'large' | escape }}"
-    product.back_image_alt = "{{ back_image.alt | escape }}";
-    product.has_back_image = {{ has_back_image }};
 </script>
 
 
