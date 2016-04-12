@@ -19,10 +19,14 @@ Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
       #product-select-option-{{ option_index }} + .custom-style-select-box { display: none !important; }
     </style>
     <script>$(window).load(function() { $('.selector-wrapper:eq({{ option_index }})').hide(); });</script>
+    
+
+
 
   {% endif %}
 
 {% endfor %}
+
 
 {% if has_color_option %}
 
@@ -46,8 +50,11 @@ Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
 
           <input id="swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} {% unless variant.available %}disabled{% endunless %} />
 
-          <label for="swatch-{{ option_index }}-{{ value | handle }}" style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | asset_url }})">
-            <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
+
+          <label for="swatch-{{ option_index }}-{{ value | handle }}" class="product-color-swatch" >
+{% comment %}            {% unless variant.available %}
+              <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
+            {% endunless %}{% endcomment %}
           </label>
 
         </div>
@@ -66,3 +73,4 @@ Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
 
 {% endif %}
 <!-- end swatch.liquid -->
+

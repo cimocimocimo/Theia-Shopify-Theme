@@ -1263,7 +1263,7 @@ timber.productSelectCallback = function(variant, selector) {
         }
 
         // Regardless of stock, update the product price
-        productPrice.html(Shopify.formatMoney(variant.price, "{{ shop.money_format }}"));
+        productPrice.html(Shopify.formatMoney(variant.price, "{{ shop.currency }}"+"{{ shop.money_format }}"));
 
     } else {
         // The variant doesn't exist, disable submit button.
