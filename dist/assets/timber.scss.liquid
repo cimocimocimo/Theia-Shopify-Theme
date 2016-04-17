@@ -2977,45 +2977,27 @@ legend {
 
 }
 
-.js-hidden-size{
-    display: none;
-}
-
-.swatch {
+%option-swatches-fieldset-base {
     @extend .clearfix;
+    
     padding: 0;
-    &.colour-field{
-        width: auto;
-    }
-    &.js-colour-swatch-field{
-        @include at-query(null, $postSmall, $medium){
-            max-width: 100%;
-            float: left;
-        }
-    }
-    &.js-size-swatch-field{
-        margin-top: 1px;
-        @include at-query(null, $postSmall, $medium){
-            padding-left: 20px;
-        }
-        
-    }
-    .dress-sizing-link{
-        font-weight: 200;
-        color: $colorBlack;
+    
+    legend {
+        float: left;
     }
 
-    .swatch-container{
+    .swatch-container {
         float: left;
         max-width: 196px;
+        
+        > * {
+            float: left;
+        }
+        
         @include at-query($max, $small){
             max-width: 100%;
             float: right;
         }
-    }
-
-    .swatch-element, legend {
-        float: left;
     }
 
     .tooltip {
@@ -3026,37 +3008,45 @@ legend {
         display: block;
     }
 
-    input[type="radio"], input[type="checkbox"] {
+    input[type="radio"],
+    input[type="checkbox"] {
         @extend %checkbox-radio-swatch;
     }
 }
 
-.swatch-element {
+.option-color-swatches {
+    @extend %option-swatches-fieldset-base;
+    
+    width: auto;
+    
+    @include at-query(null, $postSmall, $medium){
+        max-width: 100%;
+        float: left;
+    }
+}
+
+.option-size-swatches {
+    @extend %option-swatches-fieldset-base;
+    
+    margin-top: 1px;
+    
+    .dress-sizing-link {
+        font-weight: 200;
+        color: $colorBlack;
+    }
+    
+    @include at-query(null, $postSmall, $medium){
+        padding-left: 20px;
+    }
+}
+
+%option-swatch-base {
     position: relative;
     margin: 0px 1.9px 7.5px 0;
     overflow: hidden;
-    &.colour-swatch{
-        width: 32px;
-        height: 32px;
-    }
-    &.size-swatch{
-        margin: 0 3px 10px 2px;
-        width: 29px;
-        height: 29px;
-        border: 1px solid $colorBlack;
-    }
-    &.size-available{
 
-        &:hover > label{
-            @include transition(all 0.3s);
-            background-color: $colorBlack;
-            span{
-              color: $colorWhite;  
-            }
-        }
 
-    }
-    .soldOut{
+    .sold-out {
         width: 50px;
         height: 50px;
         border-bottom: 1px solid $colorWarmDarkGray;
@@ -3066,7 +3056,36 @@ legend {
             rotate(134deg); 
         position: absolute;
     }
-    .size-label{
+}
+
+.option-color-swatch {
+    @extend %option-swatch-base;
+    
+    width: 32px;
+    height: 32px;
+}
+
+.option-size-swatch {
+    @extend %option-swatch-base;
+
+    margin: 0 3px 10px 2px;
+    width: 29px;
+    height: 29px;
+    border: 1px solid $colorBlack;
+
+    &.size-available {
+        &:hover > label {
+            @include transition(all 0.3s);
+            
+            background-color: $colorBlack;
+            
+            span{
+              color: $colorWhite;  
+            }
+        }
+    }
+
+    .size-label {
         text-align: center;
         position: absolute;
 

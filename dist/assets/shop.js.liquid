@@ -1,7 +1,5 @@
 window.timber = window.timber || {};
 
-
-
 timber.cache = {
     // General
     $window: $(window),
@@ -77,6 +75,102 @@ timber.cache = {
     heroCarousel: {
         $carousel: $('.collection-hero-carousel')
     }
+};
+
+timber.swatchColors = {
+    'silver': '#C0C0C0',
+    'aegean blue': '#b6d5e4',
+    'amethyst': '#9966CC',
+    'antique gold': '#C4994B',
+    'antique silver': '#B9C4CA',
+    'aqua splash': '#85cfd2',
+    'arctic blue': '#8d9198',
+    'azure': '#315BA1',
+    'azurite': '#012c57',
+    'black': '#000000',
+    'blk': '#000000',
+    'blonde': '#ead8a8',
+    'blue grass': '#46b3be',
+    'blush': '#B44668',
+    'cactus rose': '#cf292a',
+    'cadet blue': '#A9B2C3',
+    'capri blue': '#5096c7',
+    'caribbean blue': '#47bedc',
+    'celadon': '#ACE1AF',
+    'cerise': '#DA3287',
+    'cerulean': '#02A4D3',
+    'cerulian': '#055cba',
+    'cerulian multi': '#055cba',
+    'champagne': '#FAECCC',
+    'cobalt': '#0047AB',
+    'color': '#055cba',
+    'coral': '#FF7F50',
+    'cream': '#FFFDD0',
+    'crimson': '#DC143C',
+    'dijon': '#e5b960',
+    'dusty rose': '#d66cb6',
+    'forest': '#266A2E',
+    'fuchsia': '#de3092',
+    'fuchsia multi': '#de3092',
+    'garnet': '#782f40',
+    'gold': '#FFD700',
+    'guava': '#e28772',
+    'indigo': '#4F69C6',
+    'ivory': '#FFFFF0',
+    'lapis': '#452f53',
+    'lime': '#BFFF00',
+    'lime gold': '#d9c277',
+    'lipstick': '#AB0563',
+    'magenta': '#ff00fe',
+    'mallard': '#233418',
+    'marina blue': '#7abcee',
+    'midnight': '#011635',
+    'missing': '#7abcee',
+    'multi': '#7abcee',
+    'navy': '#7abcee',
+    'nickel': '#e0e0e0',
+    'nude': '#eacab5',
+    'ocean blue': '#7abcee',
+    'orchid': '#DA70D6',
+    'oyster': '#8a765b',
+    'passion fruit': '#ab9a54',
+    'peach': '#FFE5B4',
+    'peacock': '#365b3a',
+    'peridot': '#93ab67',
+    'periwinkle': '#CCCCFF',
+    'pewter': '#96A8A1',
+    'pewter midnight': '#f4f2f3',
+    'pink': '#FFC0CB',
+    'platinum': '#e7e6e4',
+    'poppy': '#e81b25',
+    'powder blue': '#B0E0E6',
+    'prussian blue': '#003153',
+    'red': '#FF0000',
+    'rhodium': '#5c4d4a',
+    'rose': '#FF007F',
+    'rose gold': '#f5c8c3',
+    'rose quartz': '#de988e',
+    'rouge': '#A23B6C',
+    'royal': '#7abcee',
+    'sand': '#eacab5',
+    'scarlet': '#FF2400',
+    'sea glass': '#7abcee',
+    'seafoam': '#7abcee',
+    'silver': '#e0e0e0',
+    'sky blue': '#76D7EA',
+    'spruce': '#13624D',
+    'tangerine': '#F28500',
+    'tartan': '#no hex',
+    'taupe': '#483C32',
+    'tawny': '#cc6600',
+    'teal': '#008080',
+    'tile blue': '#5974a3',
+    'tourmaline': '#f488c7',
+    'turquoise': '#30D5C8',
+    'vanilla': '#D1BEA8',
+    'violet': '#240A40',
+    'watermelon': '#ff978c',
+    'white': '#FFFFFF'
 };
 
 // used for passing in data from local pages through script tags
@@ -1040,181 +1134,92 @@ timber.accessibleNav = function () {
     }
 };
 
-timber.colourSwatch = function(){
-    var currentActiveSwatchColour;
-    var swatchColours = {
-      'silver': '#C0C0C0',
-      'aegean blue': '#b6d5e4',
-      'amethyst': '#9966CC',
-      'antique gold': '#C4994B',
-      'antique silver': '#B9C4CA',
-      'aqua splash': '#85cfd2',
-      'arctic blue': '#8d9198',
-      'azure': '#315BA1',
-      'azurite': '#012c57',
-      'black': '#000000',
-      'blk': '#000000',
-      'blonde': '#ead8a8',
-      'blue grass': '#46b3be',
-      'blush': '#B44668',
-      'cactus rose': '#cf292a',
-      'cadet blue': '#A9B2C3',
-      'capri blue': '#5096c7',
-      'caribbean blue': '#47bedc',
-      'celadon': '#ACE1AF',
-      'cerise': '#DA3287',
-      'cerulean': '#02A4D3',
-      'cerulian': '#055cba',
-      'cerulian multi': '#055cba',
-      'champagne': '#FAECCC',
-      'cobalt': '#0047AB',
-      'color': '#055cba',
-      'coral': '#FF7F50',
-      'cream': '#FFFDD0',
-      'crimson': '#DC143C',
-      'dijon': '#e5b960',
-      'dusty rose': '#d66cb6',
-      'forest': '#266A2E',
-      'fuchsia': '#de3092',
-      'fuchsia multi': '#de3092',
-      'garnet': '#782f40',
-      'gold': '#FFD700',
-      'guava': '#e28772',
-      'indigo': '#4F69C6',
-      'ivory': '#FFFFF0',
-      'lapis': '#452f53',
-      'lime': '#BFFF00',
-      'lime gold': '#d9c277',
-      'lipstick': '#AB0563',
-      'magenta': '#ff00fe',
-      'mallard': '#233418',
-      'marina blue': '#7abcee',
-      'midnight': '#011635',
-      'missing': '#7abcee',
-      'multi': '#7abcee',
-      'navy': '#7abcee',
-      'nickel': '#e0e0e0',
-      'nude': '#eacab5',
-      'ocean blue': '#7abcee',
-      'orchid': '#DA70D6',
-      'oyster': '#8a765b',
-      'passion fruit': '#ab9a54',
-      'peach': '#FFE5B4',
-      'peacock': '#365b3a',
-      'peridot': '#93ab67',
-      'periwinkle': '#CCCCFF',
-      'pewter': '#96A8A1',
-      'pewter midnight': '#f4f2f3',
-      'pink': '#FFC0CB',
-      'platinum': '#e7e6e4',
-      'poppy': '#e81b25',
-      'powder blue': '#B0E0E6',
-      'prussian blue': '#003153',
-      'red': '#FF0000',
-      'rhodium': '#5c4d4a',
-      'rose': '#FF007F',
-      'rose gold': '#f5c8c3',
-      'rose quartz': '#de988e',
-      'rouge': '#A23B6C',
-      'royal': '#7abcee',
-      'sand': '#eacab5',
-      'scarlet': '#FF2400',
-      'sea glass': '#7abcee',
-      'seafoam': '#7abcee',
-      'silver': '#e0e0e0',
-      'sky blue': '#76D7EA',
-      'spruce': '#13624D',
-      'tangerine': '#F28500',
-      'tartan': '#no hex',
-      'taupe': '#483C32',
-      'tawny': '#cc6600',
-      'teal': '#008080',
-      'tile blue': '#5974a3',
-      'tourmaline': '#f488c7',
-      'turquoise': '#30D5C8',
-      'vanilla': '#D1BEA8',
-      'violet': '#240A40',
-      'watermelon': '#ff978c',
-      'white': '#FFFFFF'
-    };
+timber.colorSwatch = function(){
+    var currentActiveSwatchColor,
+        swatchColors = timber.swatchColors;
 
-    
-
-  // set the colour of the swatch
-    function setColourOfSwatch($input){
-        var colour = $input.attr( 'data-colour' ),
+    // set the color of the swatch
+    function setColorOfSwatch($input){
+        var colorName = $input.attr('data-color'),
+            isSplitColor = colorName.indexOf('/') !== -1,
             $label = $input.siblings('label');
 
         // check to see if the swatch solour has a split
-        if(colour.indexOf('/') !== -1){
-            var $triangle = $label.find('.split-color-triangle');
-            $triangle.css('background', swatchColours[$triangle.attr('data-colour-one')]);
-            $triangle.find('div').css('background', swatchColours[$triangle.attr('data-colour-two')]);
-
-        }else{
-            $label.css( 'background', swatchColours[colour]); 
+        if (isSplitColor){
+            var $triangle = $label.find('.split-color-triangle'),
+                colorOneName = $triangle.attr('data-color-one'),
+                colorTwoName = $triangle.attr('data-color-two');
+            
+            $triangle.css('background', swatchColors[colorOneName]);
+            $triangle.find('div').css('background', swatchColors[colorTwoName]);
+        } else {
+            $label.css( 'background', swatchColors[colorName]); 
         }
-
     }
 
-
-     // Change dress colour and show/hide the size inputs
+    // Change dress color and show/hide the size inputs
     function changeDress(arg){
-        $('body').trigger('colorChanged.productPage', {color: arg});
-        $('.colour-name').html(arg);
+        $('body').trigger('colorChanged.productPage', {
+            color: arg
+        });
+        $('.color-name').html(arg);
     }
 
     // show swatch
     function showSwatch($el){
-      $el.removeClass('js-hidden-size');
+        $el.removeClass('js-hidden');
     }
 
     // hide swatch
     function hideSwatch($el){
-        $el.addClass('js-hidden-size');  
+        $el.addClass('js-hidden');  
     }
 
-  // Test to see if dress size should be visible then show or hide
-    function sizeShouldBeVisibile($input, $colour){
-        $input.attr('data-colour-size') === $colour ? showSwatch($input.parent()) : hideSwatch($input.parent());
-    }
-
-    // run specifeid test on children and find each input
-    function testEachInput($children, test, arg){
-        $children.each(function(){
-            var $input = $(this).find('input');
-
-            test($input, arg);
-        });
+    // Test to see if dress size should be visible then show or hide
+    function sizeShouldBeVisible($input, $color){
+        $input.attr('data-color-size') === $color ? showSwatch($input.parent()) : hideSwatch($input.parent());
     }
 
     // test to see if the radio has been checked
-    function colourSwatchIsActive($input, callback){
+    function colorSwatchIsActive($input, callback){
         if( $input.attr( 'checked' ) ){
-            currentActiveSwatchColour = $input.attr( 'data-colour' );
+            currentActiveSwatchColor = $input.attr( 'data-color' );
+            
             if(callback){
-                callback($input.attr( 'data-colour' )); 
+                callback($input.attr( 'data-color' )); 
             }
         }
     }
 
-     // Bind the colour to dress and to sizes of the radio input 
-    var $colourChildren = $('.js-colour-swatch-field').find('.swatch-element'); 
-    var $sizeChildren = $('.js-size-swatch-field').find('.swatch-element');
-    var $colourInput = $('.colourSelect');
+    // Bind the color to dress and to sizes of the radio input 
+    var $colorSwatches = $('.option-color-swatch'),
+        $sizeSwatches = $('.option-size-swatch'),
+        $colorSwatchInputs = $colorSwatches.find('input'),
+        $sizeSwatchInputs = $sizeSwatches.find('input');
 
-    $colourInput.change(function() {
-        var $colour = $(this).attr('data-colour');
-        testEachInput($sizeChildren, sizeShouldBeVisibile, $colour);
-    changeDress($colour);
+    $colorSwatchInputs.change(function() {
+        var $color = $(this).attr('data-color');
+        
+        $sizeSwatchInputs.each(function(){
+            sizeShouldBeVisible($(this), $color);
+        });
+        changeDress($color);
     });
-    // Colour each swatch
-    testEachInput($colourChildren, setColourOfSwatch);
-  // Initiate and auto select first dress
-    testEachInput($colourChildren, colourSwatchIsActive, changeDress);
+    
+    // Color each swatch
+    $colorSwatchInputs.each(function(){
+        setColorOfSwatch($(this));
+    });
+    
+    // Initiate and auto select first dress
+    $colorSwatchInputs.each(function(){
+        colorSwatchIsActive($(this), changeDress);
+    });
+    
     // Show Only necesary sizes
-    testEachInput($sizeChildren, sizeShouldBeVisibile, currentActiveSwatchColour);
-
+    $sizeSwatchInputs.each(function(){
+        sizeShouldBeVisible($(this), currentActiveSwatchColor);
+    });
 };
 
 timber.productPage = function(){
@@ -1234,14 +1239,14 @@ timber.productPage = function(){
 
         // select the first available variant
         if(currentVariant.available && !foundVariantInStock){
-            $('input[data-colour="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
+            $('input[data-color="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
             return foundVariantInStock = true;
         }
     })
 
     // if none are available select the the last variant color 
     if(foundVariantInStock === false){
-        $('input[data-colour="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
+        $('input[data-color="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
     }
 
     $('.js-size-swatch-field').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">WHAT\'S MY SIZE </a>');
@@ -1270,7 +1275,7 @@ timber.productPage = function(){
     timber.mobileProductInfoBlock();
     timber.productDescriptionBlock();
     timber.productBackLink();
-    timber.colourSwatch();
+    timber.colorSwatch();
 }
 
 timber.productBackLink = function(){
