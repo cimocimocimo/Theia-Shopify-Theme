@@ -11,9 +11,9 @@ For more information on these Scheme.org tags, visit:
 {% include 'capture-style-number' %}
 {% include 'capture-product-on-sale' %}
 {% if product.type contains 'Shop' %}
-    {% assign is_exclusive = false %}
+  {% assign is_exclusive = false %}
 {% else %}
-    {% assign is_exclusive = true %}
+  {% assign is_exclusive = true %}
 {% endif %}
 
 {% if product.tags contains 'Bridal' %}
@@ -122,17 +122,15 @@ For more information on these Scheme.org tags, visit:
 
               {% else %}
 
+                <div class="product-options-block">
 
+                  {% if product.variants.size > 1 %}
 
-              <div class="product-options-block">
-                  
+                    {% include 'variant-swatch' %}
 
-                {% if product.variants.size > 1 %}
-                 
-                  {% include 'variant-swatch' %}
+                  {% endif %}
 
-                {% endif %}
-              </div>
+                </div>
 
                 <div class="call-to-action-block">
 
@@ -164,6 +162,7 @@ For more information on these Scheme.org tags, visit:
               </div>
 
             {% endif %}
+
           </div>
 
         </div>
@@ -186,7 +185,7 @@ For more information on these Scheme.org tags, visit:
               <span class="label">
                 <span class="expand-text">More</span>
                 <span class="collapse-text">Hide</span>
-                 Details
+                Details
               </span><span class="icon up"></span>
             </a>
           </div>

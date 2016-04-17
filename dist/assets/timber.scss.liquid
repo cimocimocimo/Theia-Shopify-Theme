@@ -2932,7 +2932,6 @@ input[type="radio"] {
     }
 }
 
-
 /* fabric/color swatch radio block */
 %checkbox-radio-swatch {
     &:not(old) {
@@ -3081,8 +3080,9 @@ legend {
     }
 }
 
-.split-color-triangle{
+.split-color-triangle {
     $length: 100px;
+    
     position: relative;
     height: $length;
     width: $length;
@@ -3105,14 +3105,15 @@ legend {
     }
 }
 
-
 .contact-form {
     button {
         @extend %medium-gold-rsaquo-button;
+        
         width: 288px;
     }
 
-    input[type="radio"], input[type="checkbox"] {
+    input[type="radio"],
+    input[type="checkbox"] {
         @extend %checkbox-radio-icon;
     }
 

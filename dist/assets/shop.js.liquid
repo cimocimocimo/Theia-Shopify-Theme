@@ -1038,8 +1038,6 @@ timber.accessibleNav = function () {
     function removeFocus ($el) {
         $el.removeClass(focusClass);
     }
-
-
 };
 
 timber.colourSwatch = function(){
@@ -1185,6 +1183,7 @@ timber.colourSwatch = function(){
     function testEachInput($children, test, arg){
         $children.each(function(){
             var $input = $(this).find('input');
+
             test($input, arg);
         });
     }
@@ -1218,23 +1217,21 @@ timber.colourSwatch = function(){
 
 };
 
-
 timber.productPage = function(){
-    var pageData = timber.pageData.productPage;
-
-
-    // Auto-select first available variant on page load. Otherwise the product looks sold out.
-    var foundVariantInStock = false;
-    var currentVariant = null;
-    var variants = pageData.product.variants;
-
+    var pageData = timber.pageData.productPage,
+        // Auto-select first available variant on page load. Otherwise the product looks sold out.
+        foundVariantInStock = false,
+        currentVariant = null,
+        variants = pageData.product.variants;
 
     variants.forEach(function(i){
         currentVariant = i;
+
         // disable the radio button if the variant is not available
         if(!currentVariant.available){
             $('input[id="'+ currentVariant.option1 +'-'+ currentVariant.option2 +'-select'+'"]').attr("disabled", "disabled");
         }
+
         // select the first available variant
         if(currentVariant.available && !foundVariantInStock){
             $('input[data-colour="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
@@ -1242,26 +1239,13 @@ timber.productPage = function(){
         }
     })
 
-  // if none are available select the the last variant colour 
+    // if none are available select the the last variant color 
     if(foundVariantInStock === false){
         $('input[data-colour="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
     }
 
     $('.js-size-swatch-field').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">WHAT\'S MY SIZE </a>');
 
-    // dress sizes popup link
-    // currentOption = null;
-    // for (var k=0; k<pageData.product.options.length; k++){
-    //     currentOption = pageData.product.options[k];
-        
-    //     if (currentOption === 'Size'){
-            
-    //     }
-
-
-    // }
-
-    
     // wire the modal popup
     $('.js-open-modal').click(function(event) {
         event.preventDefault();
