@@ -24,11 +24,11 @@ The last option is the one that sends the product id
         
         {% if option == 'Color' %}
           {% assign element_classes = 'option-color-swatch' %}
-          {% assign input_id = '{{ variant.option1 }}-select' %}
+          {% capture input_id %}{{ variant.option1 }}-select{% endcapture %}
           {% assign input_classes = 'input-color' %}
         {% elsif option == 'Size' %}
-          {% capture element_classes %}option-size-swatch {% if variant.available %}size-available{% endif %} js-hidden-size{% endcapture %}
-          {% assign input_id = '{{ variant.option2 }}-{{ variant.option1 }}-select' %}
+          {% capture element_classes %}option-size-swatch {% if variant.available %}size-available{% endif %} js-hidden{% endcapture %}
+          {% capture input_id %}'{{ variant.option2 }}-{{ variant.option1 }}-select{% endcapture %}
           {% assign input_classes = 'input-color' %}
         {% endif %}
         
@@ -40,7 +40,9 @@ The last option is the one that sends the product id
               
               <input type="radio"
                      id="{{ input_id }}"
-                     class="input-color"
+                     name="dress-color"
+                     value="{{ variant.option1 }}"
+                     class="{{ input_classes }}"
                      data-color="{{ variant.option1 }}" />
               <label class="color-label"
                      for="{{ input_id }}">
@@ -68,7 +70,8 @@ The last option is the one that sends the product id
                    name="id"
                    value="{{ variant.id }}"
                    class="{{ input_classes }}"
-                   data-color-size="{{ variant.option1 }}"/>
+                   data-color-size="{{ variant.option1 }}"
+                   data-variant-available="{{ variant.available }}"/>
 
             <label class="size-label" 
                    for="{{ input_id }}">

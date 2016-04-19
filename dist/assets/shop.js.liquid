@@ -1135,12 +1135,71 @@ timber.accessibleNav = function () {
 };
 
 timber.colorSwatch = function(){
-    var currentActiveSwatchColor,
-        swatchColors = timber.swatchColors;
+    var swatchColors = timber.swatchColors,
+        $colorSwatchInputs = $('.option-color-swatch input'),
+        $sizeSwatchInputs = $('.option-size-swatch input');
 
-    // set the color of the swatch
-    function setColorOfSwatch($input){
-        var colorName = $input.attr('data-color'),
+    // Change dress color and show/hide the size inputs
+    function changeDressColorTo(color){
+        $('body').trigger('colorChanged.productPage', {
+            color: color
+        });
+        $('.color-name').html(color);
+    }
+
+    // loops through the sizes for a color to see if any are in stock
+    function hasAnySizesAvailable(color){
+        var isAvailable = false;
+
+        // loop over all the size swatch inputs to check for available sizes
+        $sizeSwatchInputs.each(function(){
+            var $input = $(this),
+                dataVariantAvailable = $input.attr('data-variant-available'),
+                isSizeAvailable = dataVariantAvailable === 'true' ? true : false;
+            
+            if (isSizeAvailable){
+                isAvailable = true;
+                // break from loop early
+                return false;
+            }
+        });
+        
+        return isAvailable;
+    }
+    
+    function showSizesForColor(color){
+        // show the size swatches for this color and hide the others
+        $sizeSwatchInputs.each(function(){
+            var $input = $(this),
+                inputColor = $input.attr('data-color-size'),
+                $swatchElement = $input.parent();
+
+            if (inputColor === color){
+                // show swatch
+                $swatchElement.removeClass('js-hidden');
+            } else {
+                // hide swatch
+                $swatchElement.addClass('js-hidden');
+            }
+        });
+    }
+    
+    // When a user changes the color swatch selection
+    $colorSwatchInputs.change(function() {
+        var $colorInput = $(this),
+            color = $colorInput.attr('data-color');
+        
+        // show the size swatches for this color and hide the others
+        showSizesForColor(color);
+        
+        // change the name of the color and trigger color changed event
+        changeDressColorTo(color);
+    });
+    
+    // Color each swatch
+    $colorSwatchInputs.each(function(){
+        var $input = $(this),
+            colorName = $input.attr('data-color'),
             isSplitColor = colorName.indexOf('/') !== -1,
             $label = $input.siblings('label');
 
@@ -1155,70 +1214,22 @@ timber.colorSwatch = function(){
         } else {
             $label.css( 'background', swatchColors[colorName]); 
         }
-    }
-
-    // Change dress color and show/hide the size inputs
-    function changeDress(arg){
-        $('body').trigger('colorChanged.productPage', {
-            color: arg
-        });
-        $('.color-name').html(arg);
-    }
-
-    // show swatch
-    function showSwatch($el){
-        $el.removeClass('js-hidden');
-    }
-
-    // hide swatch
-    function hideSwatch($el){
-        $el.addClass('js-hidden');  
-    }
-
-    // Test to see if dress size should be visible then show or hide
-    function sizeShouldBeVisible($input, $color){
-        $input.attr('data-color-size') === $color ? showSwatch($input.parent()) : hideSwatch($input.parent());
-    }
-
-    // test to see if the radio has been checked
-    function colorSwatchIsActive($input, callback){
-        if( $input.attr( 'checked' ) ){
-            currentActiveSwatchColor = $input.attr( 'data-color' );
-            
-            if(callback){
-                callback($input.attr( 'data-color' )); 
-            }
-        }
-    }
-
-    // Bind the color to dress and to sizes of the radio input 
-    var $colorSwatches = $('.option-color-swatch'),
-        $sizeSwatches = $('.option-size-swatch'),
-        $colorSwatchInputs = $colorSwatches.find('input'),
-        $sizeSwatchInputs = $sizeSwatches.find('input');
-
-    $colorSwatchInputs.change(function() {
-        var $color = $(this).attr('data-color');
+    });
+    
+    // Initiate and auto select first dress color with sizes available
+    $colorSwatchInputs.each(function(){
+        var $input = $(this),
+            color = $input.attr('data-color');
         
-        $sizeSwatchInputs.each(function(){
-            sizeShouldBeVisible($(this), $color);
-        });
-        changeDress($color);
-    });
-    
-    // Color each swatch
-    $colorSwatchInputs.each(function(){
-        setColorOfSwatch($(this));
-    });
-    
-    // Initiate and auto select first dress
-    $colorSwatchInputs.each(function(){
-        colorSwatchIsActive($(this), changeDress);
-    });
-    
-    // Show Only necesary sizes
-    $sizeSwatchInputs.each(function(){
-        sizeShouldBeVisible($(this), currentActiveSwatchColor);
+        // test to see if the radio has been checked
+        if(hasAnySizesAvailable(color)){
+            // Show Only necesary sizes
+            showSizesForColor(color);
+            // update color label and trigger color change event
+            changeDressColorTo(color);
+            // exit from loop early
+            return false;
+        }
     });
 };
 
