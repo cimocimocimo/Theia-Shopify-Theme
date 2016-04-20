@@ -27,7 +27,7 @@ The last option is the one that sends the product id
           {% capture input_id %}{{ variant.option1 }}-select{% endcapture %}
           {% assign input_classes = 'input-color' %}
         {% elsif option == 'Size' %}
-          {% capture element_classes %}option-size-swatch {% if variant.available %}size-available{% endif %} js-hidden{% endcapture %}
+          {% capture element_classes %}option-size-swatch {% if variant.available %}size-available{% else %}disabled{% endif %} js-hidden{% endcapture %}
           {% capture input_id %}'{{ variant.option2 }}-{{ variant.option1 }}-select{% endcapture %}
           {% assign input_classes = 'input-color' %}
         {% endif %}
@@ -72,7 +72,8 @@ The last option is the one that sends the product id
                    class="{{ input_classes }}"
                    data-color="{{ variant.option1 }}"
                    data-size="{{ variant.option2 }}"
-                   data-variant-available="{{ variant.available }}"/>
+                   data-variant-available="{{ variant.available }}"
+                   {% unless variant.available %}disabled="disabled"{% endunless %}/>
 
             <label class="size-label" 
                    for="{{ input_id }}">
