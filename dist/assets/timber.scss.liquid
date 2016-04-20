@@ -2943,16 +2943,17 @@ input[type="radio"] {
             width: 100%;
         }
 
-        &:not(:checked) + .colour-label {
+        &:not(:checked) + .color-label {
             border: 3px solid white;
         }
 
-        &:checked + .colour-label {
+        &:checked + .color-label {
             @extend %darkGray-outline-block-medium;
         }
 
         &:checked + .size-label {
             background-color: $colorLighterGold;
+            
             span{
                 color: $colorWhite;
             }
@@ -2960,7 +2961,7 @@ input[type="radio"] {
     }
 }
 
-.colour-name{
+.color-name{
     width: auto;
     float: left;
     margin-top: 5px;
@@ -2974,7 +2975,6 @@ legend {
     line-height: 32px;
     float: left;
     color: black;
-
 }
 
 %option-swatches-fieldset-base {
