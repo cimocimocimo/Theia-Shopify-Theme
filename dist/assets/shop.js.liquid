@@ -1147,31 +1147,12 @@ timber.colorSwatch = function(){
         $('.color-name').html(color);
     }
 
-    // loops through the sizes for a color to see if any are in stock
-    function hasAnySizesAvailable(color){
-        var isAvailable = false;
-
-        // loop over all the size swatch inputs to check for available sizes
-        $sizeSwatchInputs.each(function(){
-            var $input = $(this),
-                dataVariantAvailable = $input.attr('data-variant-available'),
-                isSizeAvailable = dataVariantAvailable === 'true' ? true : false;
-            
-            if (isSizeAvailable){
-                isAvailable = true;
-                // break from loop early
-                return false;
-            }
-        });
-        
-        return isAvailable;
-    }
-    
     function showSizesForColor(color){
         // show the size swatches for this color and hide the others
         $sizeSwatchInputs.each(function(){
             var $input = $(this),
-                inputColor = $input.attr('data-color-size'),
+                inputColor = $input.attr('data-color'),
+                inputSize = $input.attr('data-size'),
                 $swatchElement = $input.parent();
 
             if (inputColor === color){
@@ -1189,9 +1170,24 @@ timber.colorSwatch = function(){
         var $colorInput = $(this),
             color = $colorInput.attr('data-color');
         
+        // select the first available size for this color
+        $sizeSwatchInputs.each(function(){
+            var $sizeInput = $(this),
+                inputColor = $sizeInput.attr('data-color'),
+                inputSize = $sizeInput.attr('data-size'),
+                dataVariantAvailable = $sizeInput.attr('data-variant-available'),
+                isAvailable = dataVariantAvailable === 'true' ? true : false;
+            
+            if (inputColor === color && isAvailable){
+                $sizeInput.prop('checked', true);
+                
+                // break from loop early
+                return false;
+            }
+        });
+        
         // show the size swatches for this color and hide the others
         showSizesForColor(color);
-        
         // change the name of the color and trigger color changed event
         changeDressColorTo(color);
     });
@@ -1216,21 +1212,39 @@ timber.colorSwatch = function(){
         }
     });
     
-    // Initiate and auto select first dress color with sizes available
-    $colorSwatchInputs.each(function(){
+    // find first size/color in stock
+    $sizeSwatchInputs.each(function(){
         var $input = $(this),
-            color = $input.attr('data-color');
+            color = $input.attr('data-color'),
+            size = $input.attr('data-size'),
+            dataVariantAvailable = $input.attr('data-variant-available'),
+            isAvailable = dataVariantAvailable === 'true' ? true : false;
         
-        // test to see if the radio has been checked
-        if(hasAnySizesAvailable(color)){
-            // Show Only necesary sizes
+        // first available
+        if (isAvailable){
+            // select that variant color/size option
+            $input.prop('checked', true);
+            
+            // select that color option
+            $colorSwatchInputs.each(function(){
+                var $input = $(this),
+                    inputColor = $input.attr('data-color');
+                
+                if (inputColor === color){
+                    $input.prop('checked', true);
+                }
+            });
+
+            // show the sizes for this available color
             showSizesForColor(color);
             // update color label and trigger color change event
             changeDressColorTo(color);
-            // exit from loop early
+            
+            // break from loop early
             return false;
         }
     });
+    
 };
 
 timber.productPage = function(){
