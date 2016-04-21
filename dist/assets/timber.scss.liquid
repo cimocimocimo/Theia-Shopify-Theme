@@ -4690,11 +4690,11 @@ $lookbookModalHeaderHeight: $gutter*8;
     /* Desktop */
     @include at-query ($min, $postMedium) {
         background: #fff;
-        height: 639px;
+        min-height: 639px;
 
         .product-is-exclusive & {
             height: auto;
-            max-height: 639px;
+            min-height: 639px;
 
             .product-description-block {
                 .content {
@@ -4718,9 +4718,9 @@ $lookbookModalHeaderHeight: $gutter*8;
 
             .product-description-block {
                 position: relative;
+
                 .content {
                     height: auto;
-                    //overflow-y: scroll;
                 }
             }
         }
@@ -4728,15 +4728,10 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     @include at-query( $min, $postLarge ){
         width: 448px;
-
     }
 
     @include at-query( null, $postMedium, $large ){
         width: 326px;
-    }
-
-    @include at-query( null, $postSmall, $medium ){
-
     }
 
     /* Mobile */
@@ -4903,7 +4898,8 @@ $lookbookModalHeaderHeight: $gutter*8;
     /* Style */
     
     button,
-    .add-to-cart-button {
+    .add-to-cart-button,
+    .contact-sales-button {
         padding-top: 0px;
         font-family: $centuryGothicFontStack;
         height: 50px;
@@ -5065,6 +5061,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 
 .product-share-block {
     @extend %product-info-block-row;
+
     border-bottom: 1px solid $colorLightestGray;
     padding: 12px 0 7px;
     margin-top: 0px;
@@ -5098,15 +5095,6 @@ $lookbookModalHeaderHeight: $gutter*8;
         }
     }
 
-    /* Desktop */
-    @include at-query( $min, $postMedium ){
-
-    }
-
-    @include at-query( null, $postMedium, $large ){
-
-    }
-    
     /* Mobile */
     @include at-query ($max, $large) {
         .label {
@@ -5117,6 +5105,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 
 .product-description-block {
     @extend %product-info-block-row;
+
     position: relative;
     margin-bottom: 15px;
     margin-top: 0;
@@ -5132,8 +5121,10 @@ $lookbookModalHeaderHeight: $gutter*8;
         color: $colorBlack;
     }
 
-    p, li {
+    p,
+    li {
         @extend %smaller-helvetica-text;
+
         line-height: (23/14);
         color: $colorBlack;
     }
@@ -5152,7 +5143,6 @@ $lookbookModalHeaderHeight: $gutter*8;
     
     li {
         margin-bottom: 0;
-
     }
     
     a {
@@ -5162,8 +5152,9 @@ $lookbookModalHeaderHeight: $gutter*8;
     .content {
         height: auto; /* height of the header and 3 lines of text. */
         overflow-y: hidden;
-        p{
-            margin-bottom: 33px;
+
+        p {
+            margin-bottom: 32px;
         }
     }
 
@@ -5181,9 +5172,6 @@ $lookbookModalHeaderHeight: $gutter*8;
                 display: none;
             }
         }
-    }
-
-    @include at-query( null, $postMedium, $large ){
     }
 
     /* Mobile */
