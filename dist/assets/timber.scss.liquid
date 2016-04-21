@@ -4690,11 +4690,11 @@ $lookbookModalHeaderHeight: $gutter*8;
     /* Desktop */
     @include at-query ($min, $postMedium) {
         background: #fff;
-        height: 639px;
+        min-height: 639px;
 
         .product-is-exclusive & {
             height: auto;
-            max-height: 639px;
+            min-height: 639px;
 
             .product-description-block {
                 .content {
@@ -4898,7 +4898,8 @@ $lookbookModalHeaderHeight: $gutter*8;
     /* Style */
     
     button,
-    .add-to-cart-button {
+    .add-to-cart-button,
+    .contact-sales-button {
         padding-top: 0px;
         font-family: $centuryGothicFontStack;
         height: 50px;
