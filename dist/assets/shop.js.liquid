@@ -1343,6 +1343,8 @@ timber.productRecentlyViewedBlock = function(){
         recentProducts = [],
         maxCookieSize = 4000,
         cookieData,
+        isBridal = false,
+        productTags = timber.pageData.productPage.product.tags
         // create a Product object from current product
         currentProduct = new Product(timber.pageData.productPage.product),
         $recentProductsContainer = $('#recent-products-block'),
@@ -1408,6 +1410,13 @@ timber.productRecentlyViewedBlock = function(){
             }
         }
     }
+    
+
+    for(var i = 0; i < productTags.length; i++){
+        if (productTags[i] === "Bridal" || "bridal" ){
+            isBridal = true;
+        }
+    }
 
     // check to see if Products have been defined yet
     if (recentProducts[0] === undefined){
@@ -1429,6 +1438,8 @@ timber.productRecentlyViewedBlock = function(){
         }
     }
     
+
+
     // resize array to fit in cookie
     // this counts the bytes of a string, use JSON.stringify()
     function byteCount(s) { 
@@ -1441,8 +1452,12 @@ timber.productRecentlyViewedBlock = function(){
         recentProducts.pop();
     }
     
+    // if dress is bridal then dont save
+    if(!isBridal){
+      Cookies.set(cookieName, recentProducts);  
+    }
     // save data to cookie
-    Cookies.set(cookieName, recentProducts);
+    
 
     // Define prototype functiojns below saving to save bytes which has no effect
 

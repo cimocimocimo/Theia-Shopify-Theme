@@ -11,16 +11,19 @@
 {% assign current_url = collection.url %}
 {% when 'product' %}
 {% assign current_url = product.url %}
+{% assign product_url = product.featured_image %}
 {% endcase %}
+
+
 
 {% capture share_url %}{{ shop.url }}{{ current_url }}{% endcapture %}
 
 <div class="share-buttons">
   {% include 'facebook-like-button' %}
   {% include 'twitter-tweet-button' %}
-  {% include 'google-plus-one-button' %}
-  {% include 'pinterest-pin-button',
-      pin_page_url: product_absolute_url,
-      pin_media_url: featured_image_url,
-      pin_description: product.description %}
+  <a href="//pinterest.com/pin/create/button/?url={{ shop.url }}{{ product.url }}&amp;media=http:{{ product | img_url: '1024x1024' | split: '?' | first }}&amp;description={{ product.title | strip_html | truncate: 200, '' | url_param_escape }}{% for tag in product.tags limit: 3 %}{{ tag | replace: ' ', '-' | prepend: ' #' | url_param_escape }}{% endfor %}" data-pin-do="buttonPin" data-pin-config="none">
+  <img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" />
+</a>
+<script async src="//assets.pinterest.com/js/pinit.js"></script>
+
 </div>
