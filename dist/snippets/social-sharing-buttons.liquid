@@ -19,5 +19,8 @@
   {% include 'facebook-like-button' %}
   {% include 'twitter-tweet-button' %}
   {% include 'google-plus-one-button' %}
-  {% include 'pinterest-button-bookmark' %}
+  {% include 'pinterest-pin-button',
+      pin_page_url: product_absolute_url,
+      pin_media_url: featured_image_url,
+      pin_description: product.description %}
 </div>
