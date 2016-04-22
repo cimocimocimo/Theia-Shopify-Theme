@@ -80,14 +80,15 @@
       <img class="featured-image" src="{{ featured_image_url }}" alt="{{ product.featured_image.alt | escape }}">
     </a>
 
+    <div class="pinterest-button-pin-block">
+      {% include 'pinterest-pin-button',
+      pin_page_url: product_absolute_url,
+      pin_media_url: featured_image_url,
+      pin_description: product.description %}
+    </div>
+
   </div>
 
-  <div class="pinterest-button-pin-block">
-    {% include 'pinterest-pin-button',
-    pin_page_url: product_absolute_url,
-    pin_media_url: featured_image_url,
-    pin_description: product.description %}
-  </div>
 
   <div class="meta-row">
 
@@ -111,6 +112,8 @@
         <span class="icon"></span>
       </a>
     </div>
+
+
   </div>
 
 </div>

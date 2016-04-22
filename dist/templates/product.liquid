@@ -166,7 +166,7 @@ For more information on these Scheme.org tags, visit:
                         Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below. 
                         {% endcomment %} 
                         <option value="{{variant.id}}"> 
-                          {{ variant.title }} - {{ variant.price | money_with_currency }} 
+                          {{ variant.title }} - {{ variant.price | money_with_currency }}
                         </option> 
  
                       {% else %} 
@@ -225,7 +225,7 @@ For more information on these Scheme.org tags, visit:
                 {{ product.description }}
               </div>
             </div>
-
+          {% endif %}
             <div class="product-share-block">
               <div class="label">Share:</div>
 
@@ -233,7 +233,7 @@ For more information on these Scheme.org tags, visit:
 
             </div>
           </div>
-        {% endif %}
+    
         
         <div class="product-back-link-row">
 

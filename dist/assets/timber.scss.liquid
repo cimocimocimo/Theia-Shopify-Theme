@@ -8755,6 +8755,13 @@ html.full-viewport {
     .image-row {
         height: 384px;
         text-align: center;
+        position: relative;
+
+        .pinterest-button-pin-block {
+            position: absolute;
+            bottom: 0;
+            margin-left: 2%;
+        }
         
         a {
             right: 50%;
@@ -8768,6 +8775,8 @@ html.full-viewport {
             width: auto;
         }
     }
+        
+
     
     .info-block {
         @extend %smallish-arial-text;
