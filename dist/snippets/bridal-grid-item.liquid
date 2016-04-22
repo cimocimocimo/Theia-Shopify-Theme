@@ -28,9 +28,8 @@
 
 {% include 'capture-style-number' %}
 
-{% capture product_href %}
-  {{ product.url | within: collection }}{% if current_tags.first %}?tag={{ current_tags.first | handle }}{% endif %}
-{% endcapture %}
+{% capture product_href %}{{ product.url | within: collection }}{% if current_tags.first %}?tag={{ current_tags.first | handle }}{% endif %}{% endcapture %}
+{% capture product_absolute_url %}http://theiacouture.com{{ product_href }}{% endcapture %}
 
 {% include 'unpack_image_alt_data', raw_alt_text: product.featured_image.alt %}
 {% assign featured_image_color = image_color %}
@@ -77,12 +76,21 @@
       {% if has_back_image %}
         <img class="back-image" src="{{ back_image.src | product_img_url: 'large' }}" alt="{{ back_image.alt | escape }}">
       {% endif %}
-      <img class="featured-image" src="{{ product.featured_image.src | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+      {% assign featured_image_url = product.featured_image.src | product_img_url: 'large' %}
+      <img class="featured-image" src="{{ featured_image_url }}" alt="{{ product.featured_image.alt | escape }}">
     </a>
 
   </div>
 
+  <div class="pinterest-button-pin-block">
+    {% include 'pinterest-pin-button',
+    pin_page_url: product_absolute_url,
+    pin_media_url: featured_image_url,
+    pin_description: product.description %}
+  </div>
+
   <div class="meta-row">
+
     <div class="info-block">
       {% if style_number != 0 %}
         <div>
