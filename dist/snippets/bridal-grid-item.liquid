@@ -78,6 +78,8 @@
       {% endif %}
       {% assign featured_image_url = product.featured_image.src | product_img_url: 'large' %}
       {% assign featured_product_description = product.description | strip_html %}
+      {% include 'capture-style-number' %}
+      {% capture default_product_description %}{{ product.title }} - #{{ style_number }} - {{ featured_product_description }}{% endcapture %}
       <img class="featured-image" src="{{ featured_image_url }}" alt="{{ product.featured_image.alt | escape }}">
     </a>
 
@@ -85,7 +87,7 @@
       {% include 'pinterest-pin-button',
       pin_page_url: product_absolute_url,
       pin_media_url: featured_image_url,
-      pin_description: featured_product_description %}
+      pin_description: default_product_description %}
     </div>
 
   </div>

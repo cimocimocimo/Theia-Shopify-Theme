@@ -15,8 +15,10 @@
 {% assign featured_product_description = product.description | strip_html %}
 {% endcase %}
 
-
 {% capture share_url %}{{ shop.url }}{{ current_url }}{% endcapture %}
+
+{% include 'capture-style-number' %}
+{% capture default_product_description %}{{ product.title }} {{ style_number }} {{ featured_product_description }}{% endcapture %}
 
 <div class="share-buttons">
 	{% include 'facebook-like-button' %}
@@ -26,6 +28,6 @@
  	{% include 'pinterest-pin-button',
     pin_page_url: share_url,
     pin_media_url: featured_image_url,
-    pin_description: featured_product_description %}
+    pin_description: default_product_description %}
  	{% endcase %}
 </div>
