@@ -1139,6 +1139,17 @@ timber.accessibleNav = function () {
 timber.productPage = function(){
     var pageData = timber.pageData.productPage;
     
+    // checks to see if the has a Bridal or bridal tag.
+    function isBridal(){
+        for(var i = 0; i < pageData.product.tags.length; i++){
+            if (pageData.product.tags[i].toLowerCase() === "bridal"){
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
     if (timber.cache.productPage.$productOptions.length !== 0){
         new Shopify.OptionSelectors('productSelect', {
             product: pageData.product,
@@ -1206,7 +1217,9 @@ timber.productPage = function(){
     timber.mobileProductInfoBlock();
     timber.productDescriptionBlock();
     timber.productBackLink();
-    timber.productRecentlyViewedBlock();
+    if( !isBridal() ){
+        timber.productRecentlyViewedBlock();
+    }
     timber.productCarouselInit();
 }
 
@@ -1343,8 +1356,6 @@ timber.productRecentlyViewedBlock = function(){
         recentProducts = [],
         maxCookieSize = 4000,
         cookieData,
-        isBridal = false,
-        productTags = timber.pageData.productPage.product.tags
         // create a Product object from current product
         currentProduct = new Product(timber.pageData.productPage.product),
         $recentProductsContainer = $('#recent-products-block'),
@@ -1411,13 +1422,6 @@ timber.productRecentlyViewedBlock = function(){
         }
     }
     
-
-    for(var i = 0; i < productTags.length; i++){
-        if (productTags[i] === "Bridal" || "bridal" ){
-            isBridal = true;
-        }
-    }
-
     // check to see if Products have been defined yet
     if (recentProducts[0] === undefined){
         // add the first product as a cookie because there are no cookies
@@ -1450,11 +1454,8 @@ timber.productRecentlyViewedBlock = function(){
         recentProducts.pop();
     }
     
-    // if dress is bridal then dont save
-    if(!isBridal){
-      Cookies.set(cookieName, recentProducts);  
-    }
     // save data to cookie
+    Cookies.set(cookieName, recentProducts);
     
     // build the html for the block
     if (recentProducts.length > 2){
