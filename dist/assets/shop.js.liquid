@@ -1354,6 +1354,7 @@ timber.productRecentlyViewedBlock = function(){
     var maxRecentProducts = 8,
         cookieName = 'theia-recent-products',
         recentProducts = [],
+        recentProductsLoaded = false,
         maxCookieSize = 4000,
         cookieData,
         // create a Product object from current product
@@ -1419,11 +1420,12 @@ timber.productRecentlyViewedBlock = function(){
             for(var i = 0; i < cookieData.length; i++){
                 recentProducts.push(new Product(cookieData[i]));
             }
+            recentProductsLoaded = true;
         }
     }
     
     // check to see if Products have been defined yet
-    if (recentProducts[0] === undefined){
+    if (!recentProductsLoaded){
         // add the first product as a cookie because there are no cookies
         recentProducts[0] = currentProduct;
     } else { 
