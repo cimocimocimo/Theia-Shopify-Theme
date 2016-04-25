@@ -18,7 +18,7 @@
 {% capture share_url %}{{ shop.url }}{{ current_url }}{% endcapture %}
 
 {% include 'capture-style-number' %}
-{% capture default_product_description %}{{ product.title }} {{ style_number }} {{ featured_product_description }}{% endcapture %}
+{% capture default_product_description %}{{ product.title }} - #{{ style_number }} - {{ featured_product_description }}{% endcapture %}
 
 <div class="share-buttons">
 	{% include 'facebook-like-button' %}
