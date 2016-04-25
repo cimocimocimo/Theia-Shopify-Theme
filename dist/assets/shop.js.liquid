@@ -1437,8 +1437,6 @@ timber.productRecentlyViewedBlock = function(){
             recentProducts.splice(p, 1);
         }
     }
-    
-
 
     // resize array to fit in cookie
     // this counts the bytes of a string, use JSON.stringify()
@@ -1458,9 +1456,6 @@ timber.productRecentlyViewedBlock = function(){
     }
     // save data to cookie
     
-
-    // Define prototype functiojns below saving to save bytes which has no effect
-
     // build the html for the block
     if (recentProducts.length > 2){
         for(var j = 1; j < recentProducts.length; j++){
