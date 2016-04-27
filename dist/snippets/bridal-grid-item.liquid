@@ -1,22 +1,9 @@
 {% comment %}
-
-  This snippet is used to showcase each product during the loop,
-  'for product in collection.products' in collection.liquid.
-
-  A liquid variable (grid_item_width) is set just before the this
-  snippet is included to change the size of the container.
-  Once the variable is set on a page, all future instances of this
-  snippet will use that width. Overwrite the variable to adjust this.
-
-  Example
-    - assign grid_item_width = 'large--one-quarter medium--one-half'
-
-{% endcomment %}
-
-{% comment %}
   Check if the product is on sale and set a variable to be used below.
 {% endcomment %}
 {% include 'capture-product-on-sale' %}
+
+{% include 'capture-style-number' %}
 
 {% comment %}
   Check if the product is sold out and set a variable to be used below.
@@ -25,8 +12,6 @@
 {% if product.available  %}
   {% assign sold_out = false %}
 {% endif %}
-
-{% include 'capture-style-number' %}
 
 {% capture product_href %}{{ product.url | within: collection }}{% if current_tags.first %}?tag={{ current_tags.first | handle }}{% endif %}{% endcapture %}
 {% capture product_absolute_url %}{{ shop.url }}{{ product_href }}{% endcapture %}
@@ -47,7 +32,6 @@
   Set a class for sold-out and on-sale items
   add css class for last item, used to determine when to grab new dresses as user scrolls...
 {% endcomment %}
-{% include 'capture-style-number' %}
 <div id="style-{{ style_number }}" class="product-grid-item{% if forloop.last %} last-item{% endif %}{% if sold_out %} sold-out{% endif %}{% if on_sale %} on-sale{% endif %}">
 
   {% comment %}
@@ -78,8 +62,6 @@
       {% endif %}
       {% assign featured_image_url = product.featured_image.src | product_img_url: 'large' %}
       {% assign featured_product_description = product.description | strip_html %}
-      {% include 'capture-style-number' %}
-      {% capture default_product_description %}{{ product.title }} - #{{ style_number }} - {{ featured_product_description }}{% endcapture %}
       <img class="featured-image" src="{{ featured_image_url }}" alt="{{ product.featured_image.alt | escape }}">
     </a>
 
@@ -91,7 +73,6 @@
     </div>
 
   </div>
-
 
   <div class="meta-row">
 
@@ -115,7 +96,6 @@
         <span class="icon"></span>
       </a>
     </div>
-
 
   </div>
 
