@@ -1,14 +1,29 @@
 {% if pin_page_url == "" %}
-  {% assign pin_page_url = "http://theiacouture.com" %}
+  {% assign pin_page_url = shop.url %}
 {% endif %}
 {% if pin_media_url == "" %}
   {% assign pin_media_url = 'theia-logo.svg' | asset_url %}
 {% endif %}
-{% if pin_description = "" %}
+{% if pin_description == "" %}
   {% assign pin_description = "Bring out your inner goddess." %}
 {% endif %}
 
+{% comment %}
+Pinterest pin button code requires the media variable to start with a protocol
+specification (i.e.: http: or https:). This just checks for one and adds https:
+if one is not present.
+{% endcomment %}
+
+{% assign media_url_parts = pin_media_url | split: '://' %}
+{% if media_url_parts[0] == 'http' or media_url_parts[0] == 'https' %}
+  {% assign pin_media_url_with_protocol = pin_media_url %}
+{% else %}
+  {% capture pin_media_url_with_protocol %}https:{{ pin_media_url }}{% endcapture %}
+{% endif %}
+
 <a data-pin-do="buttonPin"
-   href="//www.pinterest.com/pin/create/button/?url={{ pin_page_url | url_escape }}&media={{ pin_media_url | url_escape }}&description={{ pin_description | url_escape }}">
-  <img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" />
+   data-pin-media="{{ pin_media_url_with_protocol }}"
+   data-pin-url="{{ pin_page_url }}"
+   data-pin-description="{{ pin_description }}"
+   href="https://www.pinterest.com/pin/create/button/">
 </a>
