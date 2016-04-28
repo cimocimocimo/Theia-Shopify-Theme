@@ -15,6 +15,8 @@
 
 {% capture product_href %}{{ product.url | within: collection }}{% if current_tags.first %}?tag={{ current_tags.first | handle }}{% endif %}{% endcapture %}
 {% capture product_absolute_url %}{{ shop.url }}{{ product_href }}{% endcapture %}
+{% assign featured_image_url = product.featured_image.src | product_img_url: 'large' %}
+{% capture default_product_description %}{{ product.title }} - #{{ style_number }} - {{ product.description | strip_html }}{% endcapture %}
 
 {% include 'unpack_image_alt_data', raw_alt_text: product.featured_image.alt %}
 {% assign featured_image_color = image_color %}
@@ -60,8 +62,6 @@
       {% if has_back_image %}
         <img class="back-image" src="{{ back_image.src | product_img_url: 'large' }}" alt="{{ back_image.alt | escape }}">
       {% endif %}
-      {% assign featured_image_url = product.featured_image.src | product_img_url: 'large' %}
-      {% assign featured_product_description = product.description | strip_html %}
       <img class="featured-image" src="{{ featured_image_url }}" alt="{{ product.featured_image.alt | escape }}">
     </a>
 
