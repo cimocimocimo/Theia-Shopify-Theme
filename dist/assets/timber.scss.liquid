@@ -1777,7 +1777,7 @@ $iconSelector: '[class^="icon-"], [class*=" icon-"]';
 .icon-cross2:before {
 	content: "\e117";
 }
-.icon-play:before {
+.icon-play-prefix:before {
     content: "\e900";
 }
 .icon-play-suffix:after {
@@ -10021,6 +10021,7 @@ html.full-viewport {
         
         color: $colorGray;
         font-size: 80px;
+        text-align: center;
         text-decoration: none;
         display: inline-block;
         vertical-align: middle;
@@ -10063,8 +10064,15 @@ html.full-viewport {
     }
 
     .content {
-        height: 100%;
-        top: 0;
+        @include verticalCenterChildElements;
+        position: absolute;
+        top: 66%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 34%;
+        width: 100%;
+        text-align: center;
     }
 
 }
