@@ -12930,3 +12930,14 @@ span#resultMessage {
         opacity: 1;
     }
 }
+
+// bridal 2017 hero
+.bridal-2017-collection-hero {
+    @extend %hero-medium;
+
+    background-image: url({{ 'bridal-2017-collection-hero-bg.jpg' | asset_url }});
+
+    .content {
+        top: $gutter * 3.75;
+    }
+}

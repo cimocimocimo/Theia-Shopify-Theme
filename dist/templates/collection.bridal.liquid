@@ -7,6 +7,16 @@ For more information on collection tags:
 
 {% include 'collection-hero-gallery' %}
 
+{% comment %}If this is Birdal Runway 2017 show custom header image{% endcomment %}
+
+{% comment %}
+  <div id="top" class="bridal-2017-collection-hero">
+    <div class="wrapper">
+
+    </div>
+  </div>
+{% endcomment %}
+
 <div class="product-grid-hero">
   <div class="wrapper">
 
@@ -30,8 +40,8 @@ For more information on collection tags:
            data-has-next-page="{% if paginate.next %}true{% else %}false{% endif %}"
            {% if paginate.next %}
            data-next-page-url="{{ paginate.next.url }}"
-           {% endif %}
-           >
+           {% endif %}>
+
         {% for product in collection.products %}
 
           {% include 'bridal-grid-item' %}
