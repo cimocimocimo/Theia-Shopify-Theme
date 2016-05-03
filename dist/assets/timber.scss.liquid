@@ -1777,7 +1777,7 @@ $iconSelector: '[class^="icon-"], [class*=" icon-"]';
 .icon-cross2:before {
 	content: "\e117";
 }
-.icon-play:before {
+.icon-play-prefix:before {
     content: "\e900";
 }
 .icon-play-suffix:after {
@@ -4746,10 +4746,10 @@ $lookbookModalHeaderHeight: $gutter*8;
     @extend .clearfix;
 
     h2 {
-        font-size: 2.4em;
+        font-size: 1.5em;
         font-weight: 300;
         color: $colorDarkGray;
-        line-height: 1;
+        line-height: 1.1;
         margin: 0 0 11px;
     }
 
@@ -4782,7 +4782,7 @@ $lookbookModalHeaderHeight: $gutter*8;
         padding: 0 0 $gutter/2;
 
         .product-price {
-            font-size: 1.8em;
+            font-size: 1.4em;
             margin-bottom: 6px;
             margin-top: 2;
         }
@@ -4790,13 +4790,13 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     @include at-query( null, $postMedium, $large ){
         h2 {
-            font-size: 1.6em;
+            font-size: 1.5em;
         }
     }
 
     @include at-query( null, $postSmall, $medium ){
         h2 {
-            font-size: 1.75em;
+            font-size: 1.5em;
         }
     }
 
@@ -10021,6 +10021,7 @@ html.full-viewport {
         
         color: $colorGray;
         font-size: 80px;
+        text-align: center;
         text-decoration: none;
         display: inline-block;
         vertical-align: middle;
@@ -10061,10 +10062,21 @@ html.full-viewport {
             font-size: 180px;
         }
     }
-
-    .content {
-        height: 100%;
+    .content{
         top: 0;
+        height: 100%;
+    }
+        
+    .content-title-wrapper {
+        @include verticalCenterChildElements;
+        position: absolute;
+        top: 66%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 34%;
+        width: 100%;
+        text-align: center;
     }
 
 }
@@ -11553,6 +11565,9 @@ $opacity-not-active: .25;
 
 .recent-products-hero {
     margin-top: 100px;
+    h2{
+        font-size: 1.75em;
+    }
 }
 
 // TODO select a single class to use for this block.
