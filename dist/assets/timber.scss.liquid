@@ -6665,10 +6665,28 @@ address {
 .shop-page-hero {
     @extend %hero-medium;
 
-    background-image: url({{ 'collection-page-hero-bg-DELETE.jpg' | asset_url }});
+    background-image: none !important;
+    background-color: $colorGray;
+    overflow: hidden;
 
     .content {
         top: $gutter * 3.75;
+    }
+}
+
+.shop-hero-carousel {
+    transition: opacity .3s;
+    opacity: 0 !important;
+    
+    &.js-carousel-loaded {
+        opacity: 1 !important;
+    }
+
+    @include at-query($max, $small){
+        img {
+            height: 260px;
+            width: auto;
+        }
     }
 }
 

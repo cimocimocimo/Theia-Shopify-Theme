@@ -61,7 +61,8 @@ timber.cache = {
     },
 
     collectionShop: {
-        $body: $('body.template-collection-shop')
+        $body: $('body.template-collection-shop'),
+        $carousel: $('.shop-hero-carousel')
     },
     
     collectionLookbook: {
@@ -487,6 +488,7 @@ timber.shopPage = function(pager){
     var $itemContainer = timber.cache.collectionPage.$itemContainer,
         scrollToTargetSelector = window.location.hash,
         scrollToElement = $itemContainer.find(scrollToTargetSelector),
+        $carousel = timber.cache.collectionShop.$carousel,
         hasFoundScrollTarget = false;
     
     function isScrollElementLoaded(){
@@ -515,6 +517,52 @@ timber.shopPage = function(pager){
     } else if (scrollToTargetSelector !== '') {
         getPageUntillScrollElementLoaded()
     }
+    
+    // check for the carousel
+    if ($carousel.length > 0){
+        timber.initShopCarousel();
+    }
+}
+
+timber.initShopCarousel = function(){
+    // code from: http://stackoverflow.com/questions/6488104/how-to-know-when-all-images-inside-a-specific-div-are-loaded
+    // TODO: replace this with https://github.com/alexanderdickson/waitForImages/blob/master/src/jquery.waitforimages.js
+    // get the images in the carousel that have not yet loaded
+    // show the carousel only after the images have loaded
+    var $carousel = timber.cache.collectionShop.$carousel,
+    $carouselImagesNotLoaded = $carousel.find('img').not(function(){
+        return this.complete;
+    }),
+        // count them
+        imageCount = $carouselImagesNotLoaded.length;
+
+    // if some images haven't loaded yet
+    if (imageCount){
+        // wire load events to them
+        $carouselImagesNotLoaded.load(function(){
+            imageCount--; // decrement the count
+            // when count reaches 0 all images have loaded, show the carousel
+            if (imageCount === 0){
+                $carousel.addClass('js-carousel-loaded');
+            }
+        });
+    } else {
+        // else all images have loaded so just show it
+        $carousel.addClass('js-carousel-loaded');
+    }
+    
+    // init the carousel
+    $carousel.slick({
+        dots: false,
+        arrows: false,
+        infinite: true,
+        slidesToShow: 1,
+        centerMode: true,
+        variableWidth: true,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        speed: 1500
+    });
 }
 
 timber.contactForm = function(){
