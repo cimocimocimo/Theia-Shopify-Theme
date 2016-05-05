@@ -84,6 +84,7 @@ For more information on collection tags:
   </style>
 {% endif %}
 
+{% comment %}
 {% if meta.other_images.desktop_hero != blank or meta.slide1.desktop != blank %}
   <div id="top" class="{% if collection.handle == 'shop' %}shop-page-hero{% else %}collection-page-hero{% endif %}">
     {% if meta.slide1.desktop != blank %}
@@ -103,6 +104,7 @@ For more information on collection tags:
     {% endif %}
   </div>
 {% endif %}
+{% endcomment %}
 
 {% if is_valentine_promo %}
   <div id="top" class="{% if collection.handle == 'shop' %}shop-page-hero{% else %}collection-page-hero{% endif %} valentines-promo-hero">
@@ -123,6 +125,23 @@ For more information on collection tags:
     </div>
   </div>
 {% endif %}
+
+<div id="top" class="shop-page-hero">
+  <div class="shop-hero-carousel">
+    <img src="{{ 'shop-carousel-hero-Spring2016_882660_1607.jpg' | asset_url }}" />
+    <img src="{{ 'shop-carousel-hero-Spring2016_882676_1509.jpg' | asset_url }}" />
+    <img src="{{ 'shop-carousel-hero-Spring2016_882676_1516.jpg' | asset_url }}" />
+    <img src="{{ 'shop-carousel-hero-Spring2016_882694_1707.jpg' | asset_url }}" />
+    <img src="{{ 'shop-carousel-hero-Spring2016_882694_1718.jpg' | asset_url }}" />
+    <img src="{{ 'shop-carousel-hero-Spring2016_882762_1379.jpg' | asset_url }}" />
+    <img src="{{ 'shop-carousel-hero-Spring2016_882767_1012.jpg' | asset_url }}" />
+    <img src="{{ 'shop-carousel-hero-Spring2016_882814_0772.jpg' | asset_url }}" />
+    <img src="{{ 'shop-carousel-hero-Spring2016_882826_4234.jpg' | asset_url }}" />
+    <img src="{{ 'shop-carousel-hero-Spring2016_882827_4289.jpg' | asset_url }}" />
+    <img src="{{ 'shop-carousel-hero-Spring2016_882834_0591.jpg' | asset_url }}" />
+    <img src="{{ 'shop-carousel-hero-Spring2016_882838_0650.jpg' | asset_url }}" />
+  </div>
+</div>
 
 <div class="product-grid-hero">
   <div class="wrapper">
