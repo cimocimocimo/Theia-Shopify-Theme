@@ -1301,7 +1301,6 @@ timber.productBackLink = function(){
 };
 
 timber.productSelectCallback = function(variant, selector) {
-
     var $body = $('body'),
         addToCart = $('#addToCart'),
         productPrice = $('#productPrice'),
@@ -1336,7 +1335,7 @@ timber.productSelectCallback = function(variant, selector) {
     
     // trigger event for selected color
     var currentSelector = {};
-    for (var i = 1; i < selector.selectors.length; i++){
+    for (var i = 0; i < selector.selectors.length; i++){
         currentSelector = selector.selectors[i];
 
         if (currentSelector.name === 'Color'){
