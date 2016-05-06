@@ -10,6 +10,9 @@ var private = require('./private.json');
 gulp.task('shopify:watch', function() {
     return watch('./dist/+(assets|layout|config|snippets|templates|locales)/**')
         .pipe(gulpShopify(
+            // private.shopifyProduction.api_key,
+            // private.shopifyProduction.password,
+            // 'theia.myshopify.com',
             private.shopifyDevelop.api_key,
             private.shopifyDevelop.password,
             'theia2.myshopify.com',
