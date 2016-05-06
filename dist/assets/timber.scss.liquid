@@ -12971,16 +12971,28 @@ span#resultMessage {
     background-image: url({{ 'bridal-spring-runway-2017-hero.jpg' | asset_url }});
     background-position: top right;
     
-    .content {
-        top: $gutter * 3.75;
-    }
-
     @include at-query(null, $postMedium, $large){
         background-image: url({{ 'bridal-spring-runway-2017-hero-1024.jpg' | asset_url }});
     }
     
     @include at-query($max, $medium){
         background-image: url({{ 'bridal-spring-runway-2017-hero-768.jpg' | asset_url }});
+        background-position: top center;
+    }
+}
+
+// bridal 2017 hero
+.bridesmaids-collection-hero {
+    @extend %hero-large;
+
+    background-image: url({{ 'bridesmaids-collection-hero.jpg' | asset_url }});
+    
+    @include at-query(null, $postMedium, $large){
+        background-image: url({{ 'bridesmaids-collection-hero-1024.jpg' | asset_url }});
+    }
+    
+    @include at-query($max, $medium){
+        background-image: url({{ 'bridesmaids-collection-hero-768.jpg' | asset_url }});
         background-position: top center;
     }
 }
