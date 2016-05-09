@@ -45,14 +45,16 @@ For more information on these Scheme.org tags, visit:
 
           {% for image in product.images %}
             {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-            <div class="image-zoom-container{% if forloop.first != true %} js-hidden{% endif %}"
-                 {% if image_color %}data-image-color="{{ image_color }}"{% endif %}
-                 data-attached-to-variant="{{ image.attached_to_variant? }}"
-                 id="image-{{ image.id }}">
-              <img src="{{ image.src | product_img_url: 'master' }}"
-                   alt="{{ image_alt_text | escape }}"
-                   class="product-gallery-main-image">
-            </div>
+            {% if image_type == 'productImage' %}
+              <div class="image-zoom-container{% if forloop.first != true %} js-hidden{% endif %}"
+                   {% if image_color %}data-image-color="{{ image_color }}"{% endif %}
+                   data-attached-to-variant="{{ image.attached_to_variant? }}"
+                   id="image-{{ image.id }}">
+                <img src="{{ image.src | product_img_url: 'master' }}"
+                     alt="{{ image_alt_text | escape }}"
+                     class="product-gallery-main-image">
+              </div>
+            {% endif %}
           {% endfor %}
 
         </div>
@@ -65,15 +67,17 @@ For more information on these Scheme.org tags, visit:
 
             {% for image in product.images %}
               {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-              <li>
-                <a href="{{ image.src | product_img_url: 'master' }}"
-                   class="product-photo-thumb"
-                   {% if image_color %} data-image-color="{{ image_color }}"{% endif %}
-                   data-target-image-id="image-{{ image.id }}">
-                  <img src="{{ image.src | product_img_url: 'large' }}"
-                       alt="{{ image_alt | escape }}">
-                </a>
-              </li>
+              {% if image_type == 'productImage' %}
+                <li>
+                  <a href="{{ image.src | product_img_url: 'master' }}"
+                     class="product-photo-thumb"
+                     {% if image_color %} data-image-color="{{ image_color }}"{% endif %}
+                     data-target-image-id="image-{{ image.id }}">
+                    <img src="{{ image.src | product_img_url: 'large' }}"
+                         alt="{{ image_alt | escape }}">
+                  </a>
+                </li>
+              {% endif %}
             {% endfor %}
 
           </ul>
@@ -258,6 +262,18 @@ For more information on these Scheme.org tags, visit:
 
   </div>
 </div>
+
+<!-- image swatches -->
+<h3>Image Swatches</h3>
+{% for image in product.images %}
+  {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+  {% if image_type == 'swatch' %}
+    <div class="product-image-swatch">
+      <img src="{{ image.src | product_img_url: 'master' }}"
+           alt="{{ image_alt_text | escape }}">
+    </div>
+  {% endif %}
+{% endfor %}
 
 {% comment %}
 If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)
