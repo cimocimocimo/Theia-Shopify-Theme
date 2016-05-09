@@ -1,21 +1,19 @@
 // Gulp plugin setup
-var gulp = require('gulp');
-// Watches single files
-var watch = require('gulp-watch');
-var gulpShopify = require('gulp-shopify-upload');
-
-// load private data
-var private = require('./private.json');
+var gulp = require('gulp'),
+    // Watches single files
+    watch = require('gulp-watch'),
+    gulpShopify = require('gulp-shopify-upload'),
+    // load private data
+    private = require('./private.json'),
+    // set current shop data
+    shop = private.shopifyStores[private.currentShop];
 
 gulp.task('shopify:watch', function() {
     return watch('./dist/+(assets|layout|config|snippets|templates|locales)/**')
         .pipe(gulpShopify(
-            // private.shopifyProduction.api_key,
-            // private.shopifyProduction.password,
-            // 'theia.myshopify.com',
-            private.shopifyDevelop.api_key,
-            private.shopifyDevelop.password,
-            'theia2.myshopify.com',
+            shop.api_key,
+            shop.password,
+            shop.url,
             null, // theme id is optional
             {
                 'basePath': 'dist/'
