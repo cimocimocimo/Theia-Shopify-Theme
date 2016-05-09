@@ -41,8 +41,7 @@ Thumbs.db
 ######################
 *.sass-cache*
 config.yml
-config-production.yml
-config-development.yml
+config-*.yml
 /_site
 assets/logo.png
 node_modules/
