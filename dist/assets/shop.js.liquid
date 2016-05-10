@@ -1210,12 +1210,11 @@ timber.colorSwatch = function(){
             showSizesForColor(color);
             // update color label and trigger color change event
             changeDressColorTo(color);
-            notAvailable = isAvailable;
+            sizesAreAvailable = isAvailable;
             // break from loop early
             return false;
-        }else{
-            sizesAreAvailable = isAvailable;
         }
+            
 
     });
 
