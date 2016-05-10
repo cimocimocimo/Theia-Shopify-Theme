@@ -1127,7 +1127,8 @@ timber.accessibleNav = function () {
 
 timber.colorSwatch = function(){
     var $colorSwatchInputs = $('.option-color-swatch input'),
-        $sizeSwatchInputs = $('.option-size-swatch input');
+        $sizeSwatchInputs = $('.option-size-swatch input'),
+        sizesAreAvailable = false;
 
     // Change dress color and show/hide the size inputs
     function changeDressColorTo(color){
@@ -1209,11 +1210,28 @@ timber.colorSwatch = function(){
             showSizesForColor(color);
             // update color label and trigger color change event
             changeDressColorTo(color);
-            
+            notAvailable = isAvailable;
             // break from loop early
             return false;
+        }else{
+            sizesAreAvailable = isAvailable;
         }
+
     });
+
+    if(sizesAreAvailable == false){
+        var colorSel = $colorSwatchInputs.first(),
+            color = colorSel.attr('data-color'),
+            buttonText = $('.add-to-cart-button').find('.label');
+        // set the first color to true
+        colorSel.prop('checked', true);
+        // show sizes for color
+        showSizesForColor(color);
+        // change the dress for the color
+        changeDressColorTo(color);
+        // change the button text
+        buttonText.html('Sold Out');
+    }
     
 };
 
