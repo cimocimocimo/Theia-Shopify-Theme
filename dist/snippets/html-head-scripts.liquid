@@ -15,11 +15,11 @@ However, jQuery is included here so that it can be used inside the templates, e.
 {{ 'modernizr.min.js' | asset_url | script_tag }}
 <script src="//load.sumome.com/" data-sumo-site-id="31bf85a5cfdeba951313a2809d5a0fc03debd16b08441dc536417bef183455d2" async="async"></script>
 
-<!-- Facebook Pixel Code -->
-<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','//connect.facebook.net/en_US/fbevents.js');
-fbq('init', '741171925983598');
-fbq('track', "PageView");
-fbq('track', 'Purchase', {value: '', currency: 'USD'});
-fbq('track', 'AddToCart');</script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=741171925983598&ev=PageView&noscript=1" /></noscript>
+<!-- Facebook Pixel Code - added May 4, 2016 - AC  -->
+<script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2024427511115008');
+    fbq('track', "PageView");
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2024427511115008&ev=PageView&noscript=1" /></noscript>
 <!-- End Facebook Pixel Code -->

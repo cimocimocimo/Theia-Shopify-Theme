@@ -1,2 +1,3 @@
 id="{% if handle %}{{ handle }}{% else %}{{ page_title| handle }}{% endif %}"
-class="{% if customer %}customer-logged-in{% endif %}{% assign template_name_parts = template | split: '.' %}{% if template_name_parts.size > 1 %} template-{{ template_name_parts | join: '-' }}{% endif %} template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% for layout in top-level-layouts %} layout-{{ layout }}{% endfor %}"
+class="{% if customer %}customer-logged-in{% endif %}{% assign template_name_parts = template | split: '.' %}{% if template_name_parts.size > 1 %} template-{{ template_name_parts | join: '-' }}{% endif %} template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% for layout in top-level-layouts %} layout-{{ layout }}{% endfor %}{% if current_tags %}{% for tag in current_tags %} tag-{{ tag | handleize }}{% endfor %}{% endif %}"
+{% if current_tags %}data-current-tags="{{ current_tags | join: ' ' }}"{% endif %}

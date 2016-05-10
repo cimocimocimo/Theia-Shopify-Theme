@@ -5,7 +5,23 @@ For more information on collection tags:
 
 {% endcomment %}
 
-{% include 'collection-hero-gallery' %}
+{% if current_tags contains 'Runway Spring 2017' %}
+  <div id="top" class="bridal-2017-collection-hero">
+    <div class="wrapper">
+
+    </div>
+  </div>
+{% elsif current_tags contains 'Bridesmaids' %}
+  <div id="top" class="bridesmaids-collection-hero">
+    <div class="wrapper">
+
+    </div>
+  </div>
+{% else %}
+  {% include 'collection-hero-gallery' %}
+{% endif %}
+
+{% comment %}If this is Birdal Runway 2017 show custom header image{% endcomment %}
 
 <div class="product-grid-hero">
   <div class="wrapper">
@@ -30,8 +46,8 @@ For more information on collection tags:
            data-has-next-page="{% if paginate.next %}true{% else %}false{% endif %}"
            {% if paginate.next %}
            data-next-page-url="{{ paginate.next.url }}"
-           {% endif %}
-           >
+           {% endif %}>
+
         {% for product in collection.products %}
 
           {% include 'bridal-grid-item' %}
