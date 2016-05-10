@@ -197,7 +197,7 @@ $radius: 3px;
 
 
 // header heights
-$headerTopRowHeight: 32px;
+$headerTopRowHeight: 53px;
 $desktopHeaderMainRowHeight: 85px;
 $mobileHeaderMainRowHeight: 88px;
 
@@ -598,6 +598,10 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     .js-hidden {
         display: none;
     }
+}
+
+.js-hidden-size{
+    display: none;
 }
 
 /*================================================================================
@@ -1773,7 +1777,7 @@ $iconSelector: '[class^="icon-"], [class*=" icon-"]';
 .icon-cross2:before {
 	content: "\e117";
 }
-.icon-play:before {
+.icon-play-prefix:before {
     content: "\e900";
 }
 .icon-play-suffix:after {
@@ -2067,6 +2071,10 @@ $smallSocialIconRatio: (2.66/3.375);
     }
 }
 
+%small-black-outline-button {
+    @extend %button-base;
+    @extend %darkGray-outline-block-medium;
+}
 
 /* gold, small button with solid arrow icon */
 %small-gold-arrow-button {
@@ -2953,7 +2961,7 @@ input[type="radio"] {
 
         &:checked + .size-label {
             background-color: $colorLighterGold;
-            
+
             span{
                 color: $colorWhite;
             }
@@ -2961,7 +2969,7 @@ input[type="radio"] {
     }
 }
 
-.color-name{
+.color-name {
     width: auto;
     float: left;
     margin-top: 5px;
@@ -3273,7 +3281,7 @@ legend {
     margin: ($gutter / 2 ) 0 10px;
     font-weight: 700;
     text-transform: uppercase;
-    color: $colorWarmLightGray;
+    color: $colorBlack;
     line-height: 1;
 
     .meta {
@@ -4045,20 +4053,53 @@ body.vex-open {
 
 .product-detail-hero {
     background: white;
-    border-bottom: 1px solid $colorLighterGray;
-    border-top: 1px solid $colorLighterGray;
-    overflow: hidden; // clip the product image zoom
+    height: auto;
 
     .wrapper {
-        height: 100%;
+        height: auto;
+    }
+
+    @include at-query( null, $small,  $postMedium){
+        .product-gallery-overflow {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tablet-clearfix {
+            @extend %clearfix;
+            
+            width: 100%;
+            clear: both;
+        }
+
+        .tablet-column {
+            width: 50%;
+            float: left;
+        }
     }
 
     @include at-query( $min, $postMedium ){
-        height: 692px;
+        .tablet-column-row {
+            width: 100%;
+        }
 
-        .product-gallery-block,
+        .tablet-column {
+            width: 100%;
+        }
+    
         .product-info-block {
+            height: auto;
+            position: relative;
+            float: right;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .product-gallery-overflow {
+            overflow: hidden;
+            width: 100%;
             position: absolute;
+            height: 100%;
         }
 
         .product-gallery-block {
@@ -4069,60 +4110,63 @@ body.vex-open {
 
         .product-info-block {
             right: $gutter;
-            top: $gutter * 2;
+            margin-top: $gutter * 2;
             z-index: 1;
         }
     }
 
     /* Desktop */
     @include at-query ($min, $postLarge) {
-
         .product-gallery-block {
             right: 368px;
         }
-
     }
 
     @include at-query( null, $postMedium, $large ){
-
         .product-gallery-block {
             right: 278px;
         }
-
     }
 }
 
 .product-back-link-block {
     @include overflowEllipsis();
 
-    background: $colorLightestGray;
-    border-bottom: 1px solid $colorLightGray;
+    background: $colorWhite;
+    margin: 0 20px 0 20px;
+    border-bottom: 1px solid $colorLightestGray;
+
+    &:before{
+        font-family: 'theia-icons';
+        content: "\e902";
+        color: $colorGold;
+        margin-right: 10px;
+    }
 
     a {
-        @extend %lsaquo-prefix;
         @extend %gold-hover-underline-link;
         @extend %smallish-arial-text;
 
         display: inline-block;
-        font-weight: 700;
+        font-weight: 500;
+        font-size: 19px;
     }
 
     /* Desktop */
     @include at-query ($min, $postSmall) {
         height: $gutter * 2.25;
-        padding: 2px ( $gutter * 1.25 ) 0;
-        line-height: $gutter * 2;
+        padding: 2px 0;
+        line-height: $gutter;
     }
 
     /* Mobile */
     @include at-query ($max, $small) {
-        // border-top: 1px solid $colorLightGray;
         height: 35px;
         padding: 0 $gutter;
 
         a {
-            font-size: 0.625em;
-            line-height: 33px;
+            font-size: 0.8em;
+            line-height: 15px;
         }
     }
 }
@@ -4133,6 +4177,7 @@ body.vex-open {
     border-bottom: 1px solid $colorLighterGray;
     padding: ($gutter / 2) $gutter;
     position: relative;
+    text-align: center;
 
     .expand-detail-link {
         text-decoration: none;
@@ -4214,15 +4259,26 @@ body.vex-open {
     
     .image-zoom-container {
         height: 100%;
-        width: 100%;
+        width: 75%;
         overflow: visible !important; // override overflow: hidden on the zoom container
+
+        @include at-query ($max, $small) { /* Mobile */
+            width: 100%;
+            overflow: hidden !important; 
+        }
     }
     
     img {
         display: block;
-        margin: 0 auto;
         height: 100%;
+        margin-left: 15%;
         width: auto;
+        
+        @include at-query ($max, $small){
+            width: 300px;
+            margin: 0 auto;
+            height: auto;
+        }
     }
 }
 
@@ -4309,11 +4365,13 @@ $lookbookModalHeaderHeight: $gutter*8;
         font-family: $centuryGothicFontStack;
         background: $colorWhite;
         margin: 0;
-        
         height: 100%;
         width: 100%;
         position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         
         h1, h2, h3, h4, h5, h6, p, ul, li {
             color: $colorDarkGray;
@@ -4340,8 +4398,8 @@ $lookbookModalHeaderHeight: $gutter*8;
         &:before {
             @include transition(all 0.3s);
             
-            text-align: center;
 	    content: "\e117";
+            text-align: center;
             display: inline-block;
         }
         
@@ -4642,12 +4700,11 @@ $lookbookModalHeaderHeight: $gutter*8;
     /* Desktop */
     @include at-query ($min, $postMedium) {
         background: #fff;
-        height: 639px;
-        border: 1px solid $colorLightGray;
+        min-height: 639px;
 
         .product-is-exclusive & {
             height: auto;
-            max-height: 639px;
+            min-height: 639px;
 
             .product-description-block {
                 .content {
@@ -4670,9 +4727,10 @@ $lookbookModalHeaderHeight: $gutter*8;
             }
 
             .product-description-block {
+                position: relative;
+
                 .content {
-                    height: 282px;
-                    overflow-y: scroll;
+                    height: auto;
                 }
             }
         }
@@ -4680,49 +4738,34 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     @include at-query( $min, $postLarge ){
         width: 448px;
-
     }
 
     @include at-query( null, $postMedium, $large ){
         width: 326px;
-
-        /* expanded product description state */
-        &.description-expanded {
-            .product-description-block .content {
-                height: 358px;
-            }
-        }
-    }
-
-    @include at-query( null, $postSmall, $medium ){
-        .tablet-column {
-            float: right;
-            width: 50%;
-        }
     }
 
     /* Mobile */
     @include at-query ($max, $medium) {
-        display: none;
-
-        background: $colorPaleGray;
-        border-bottom: 1px solid $colorLightGray;
+        background: $colorWhite;
     }
 }
+
 
 .product-meta-block {
     @extend %product-info-block-row;
     @extend .clearfix;
 
     h2 {
-        font-size: 1.8em;
+        font-size: 1.5em;
         font-weight: 300;
-        color: $colorWarmDarkGray;
-        line-height: 1;
+        color: $colorDarkGray;
+        line-height: 1.1;
         margin: 0 0 11px;
     }
 
     .product-price {
+        margin-top: 20px;
+        font-weight: 300;
         font-family: $helveticaFontStack;
         color: $colorWarmLightGray;
         line-height: 1;
@@ -4745,35 +4788,35 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     /* Desktop */
     @include at-query ($min, $postSmall) {
-        border-bottom: 1px solid $colorLightestGray;
+       // border-bottom: 1px solid $colorLightestGray;
         padding: 0 0 $gutter/2;
 
         .product-price {
-            font-size: 1.5em;
+            font-size: 1.4em;
             margin-bottom: 6px;
+            margin-top: 2;
         }
     }
 
     @include at-query( null, $postMedium, $large ){
         h2 {
-            font-size: 1.6em;
+            font-size: 1.5em;
         }
     }
 
     @include at-query( null, $postSmall, $medium ){
         h2 {
-            font-size: 1.75em;
+            font-size: 1.5em;
         }
     }
 
     /* Mobile */
     @include at-query ($max, $small) {
         h2 {
-            display: none;
+            // display: none;
         }
 
         > div {
-            float: left;
             width: 50%;
         }
 
@@ -4782,12 +4825,13 @@ $lookbookModalHeaderHeight: $gutter*8;
         }
 
         .product-style-number {
-            text-align: right;
+            text-align: left;
         }
     }
 }
 
 .product-purchase-block {
+    margin-bottom: 10px;
     @extend %product-info-block-row;
 
     /* Layout */
@@ -4797,6 +4841,10 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     .call-to-action-block {
         margin-right: $gutter;
+        @include at-query ($max, $small){
+            margin-top: 20px;
+            margin-right: 0;
+        } 
     }
 
     .product-offer-block {
@@ -4807,7 +4855,9 @@ $lookbookModalHeaderHeight: $gutter*8;
     @include at-query ($min, $postLarge) {
         .add-to-wishlist-link,
         .add-to-waitlist-link {
+            color: $colorBlack;
             line-height: 50px;
+            font-weight: 100
         }
 
         .call-to-action-block,
@@ -4820,8 +4870,10 @@ $lookbookModalHeaderHeight: $gutter*8;
     @include at-query ($min, $postMedium) {
         margin-bottom: 22px;
 
+
         .product-options-block {
-            margin-bottom: 27px;
+            margin-top: 22px;
+            margin-bottom: 22px;
         }
     }
 
@@ -4856,8 +4908,20 @@ $lookbookModalHeaderHeight: $gutter*8;
     /* Style */
     
     button,
-    .add-to-cart-button {
+    .add-to-cart-button,
+    .contact-sales-button {
+        padding-top: 0px;
+        font-family: $centuryGothicFontStack;
+        height: 50px;
+        width: 190px;
         @extend %large-black-outline-button;
+        span{
+            letter-spacing: -1px;
+            line-height: 0;
+        }
+        @include at-query ($max, $small){
+            width: 100%;
+        } 
     }
 
     .add-to-wishlist-link,
@@ -4865,15 +4929,16 @@ $lookbookModalHeaderHeight: $gutter*8;
         @extend %gray-underline-hover-gold-link;
         @extend %rsaquo;
         @extend %smallish-arial-text;
-
         text-transform: uppercase;
+        font-weight: 200;
+        color: $colorBlack;
     }
 
     /* Mobile */
     @include at-query ($max, $medium) {
         button,
         .button {
-            font-size: 1.25em;
+            font-size: 1.22em;
             height: 44px;
 
             .icon {
@@ -4983,7 +5048,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 }
 
 .product-offer-block {
-    color: $colorWarmLightGray;
+    color: $colorDarkGray;
 
     span {
         vertical-align: middle;
@@ -4999,7 +5064,7 @@ $lookbookModalHeaderHeight: $gutter*8;
     .text {
         @extend %smallish-arial-text;
 
-        font-weight: 700;
+        font-weight: 200;
         text-transform: uppercase;
     }
 }
@@ -5007,9 +5072,8 @@ $lookbookModalHeaderHeight: $gutter*8;
 .product-share-block {
     @extend %product-info-block-row;
 
-    border-top: 1px solid $colorLightestGray;
     border-bottom: 1px solid $colorLightestGray;
-    padding: 12px 0 14px;
+    padding: 12px 0 7px;
     margin-top: 0px;
 
     > div {
@@ -5023,7 +5087,7 @@ $lookbookModalHeaderHeight: $gutter*8;
 
         font-weight: 700;
         text-transform: uppercase;
-        color: $colorWarmLightGray;
+        color: $colorBlack;
         padding-top: 2px;
     }
 
@@ -5041,15 +5105,6 @@ $lookbookModalHeaderHeight: $gutter*8;
         }
     }
 
-    /* Desktop */
-    @include at-query( $min, $postMedium ){
-
-    }
-
-    @include at-query( null, $postMedium, $large ){
-        display: none;
-    }
-    
     /* Mobile */
     @include at-query ($max, $large) {
         .label {
@@ -5061,11 +5116,10 @@ $lookbookModalHeaderHeight: $gutter*8;
 .product-description-block {
     @extend %product-info-block-row;
 
-    padding-bottom: 44px; /* room for the more details expand link */
     position: relative;
-    margin-bottom: 23px;
+    margin-bottom: 15px;
     margin-top: 0;
-    padding-top: 19px;
+    padding-top: 0;
 
     h6 {
         @extend %smallish-arial-text;
@@ -5074,19 +5128,27 @@ $lookbookModalHeaderHeight: $gutter*8;
         margin-top: 0;
         margin-bottom: 9px;
         font-weight: 700;
-        color: $colorWarmLightGray;
+        color: $colorBlack;
     }
 
-    p, li {
+    p,
+    li {
         @extend %smaller-helvetica-text;
 
         line-height: (23/14);
-        color: $colorWarmGray;
+        color: $colorBlack;
     }
     
     ul {
-        list-style-type: disc;
+        list-style: disc;
         padding-left: $gutter * 1.5;
+    }
+    
+
+    li:before{
+        font-family: helvetica;
+        height: 1px;
+        font-size: 170%;
     }
     
     li {
@@ -5098,8 +5160,12 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
     
     .content {
-        height: 64px; /* height of the header and 3 lines of text. */
+        height: auto; /* height of the header and 3 lines of text. */
         overflow-y: hidden;
+
+        p {
+            margin-bottom: 32px;
+        }
     }
 
     /* Desktop */
@@ -5118,12 +5184,9 @@ $lookbookModalHeaderHeight: $gutter*8;
         }
     }
 
-    @include at-query( null, $postMedium, $large ){
-        border-top: 1px solid $colorLightestGray;
-    }
-
     /* Mobile */
     @include at-query ($max, $medium) {
+        margin-top: 30px;
         padding-bottom: 0;
 
         p {
@@ -6065,7 +6128,7 @@ address {
         margin: 0;
         font-size: 13px;
         font-family: $centuryGothicFontStack;
-        font-weight: 700;
+        font-weight: 200;
         text-transform: uppercase;
     }
     
@@ -6612,10 +6675,28 @@ address {
 .shop-page-hero {
     @extend %hero-medium;
 
-    background-image: url({{ 'collection-page-hero-bg-DELETE.jpg' | asset_url }});
+    background-image: none !important;
+    background-color: $colorGray;
+    overflow: hidden;
 
     .content {
         top: $gutter * 3.75;
+    }
+}
+
+.shop-hero-carousel {
+    transition: opacity .3s;
+    opacity: 0 !important;
+    
+    &.js-carousel-loaded {
+        opacity: 1 !important;
+    }
+
+    @include at-query($max, $small){
+        img {
+            height: 260px;
+            width: auto;
+        }
     }
 }
 
@@ -8529,7 +8610,7 @@ html.full-viewport {
         }
 
         .header-row {
-            height: 24px;
+            height: 29px;
         }
 
         h4 {
@@ -8614,7 +8695,7 @@ html.full-viewport {
     .button {
         @extend %small-gray-outline-arrow-button;
     }
-
+    
     /* Mobile */
     @include at-query ($max, $small) {
         .button {
@@ -8698,10 +8779,17 @@ html.full-viewport {
 
 .product-grid-item {
     @extend %product-lookbook-grid-item-base;
-
+    
     .image-row {
         height: 384px;
         text-align: center;
+        position: relative;
+
+        .pinterest-button-pin-block {
+            position: absolute;
+            bottom: 0;
+            margin-left: 2%;
+        }
         
         a {
             right: 50%;
@@ -8715,6 +8803,8 @@ html.full-viewport {
             width: auto;
         }
     }
+        
+
     
     .info-block {
         @extend %smallish-arial-text;
@@ -9283,14 +9373,25 @@ html.full-viewport {
 
 /* Naviation Menus */
 
+
+
+
 .main-menu {
+
+    li{
+        .main-menu-link{
+            font-weight: 200;
+    }
+
+    }
     .site-header &,
     .site-footer & {
         @extend %nav-menu-base;
 
         @mixin main-menu-separator(){
             li {
-                border-left: 1px solid $colorLightestGray;
+
+                font-size: 1.2em;
 
                 &:first-child {
                     border-left-width: 0;
@@ -9300,10 +9401,12 @@ html.full-viewport {
         
         @include at-query (null, $postSmall, $medium) {
             @include main-menu-separator;
+
         }
         
         @include at-query ($min, $large) {
             @include main-menu-separator;
+
         }
     }
 
@@ -9325,7 +9428,7 @@ html.full-viewport {
 
 .main-menu-link {
     @extend %gray-hover-gold-link;
-
+    font-weight: 100;
     display: block;
     text-transform: uppercase;
     line-height: 1;
@@ -9373,7 +9476,7 @@ html.full-viewport {
         @extend %icon-base;
         @extend .icon-arrow-left;
 
-        font-weight: 700;
+        font-weight: 200;
         position: relative;
         padding: $gutter 0 $gutter 20px;
 
@@ -9506,6 +9609,7 @@ html.full-viewport {
 }
 
 .customer-menu-link {
+    text-transform: uppercase;
     @extend %gray-hover-gold-link;
     @include clearfix();
 
@@ -9515,6 +9619,7 @@ html.full-viewport {
     .site-header & {
 
         .label {
+            font-weight: 200;
             @extend %small-bold-arial-text;
         }
 
@@ -9586,6 +9691,8 @@ html.full-viewport {
 }
 
 .secondary-menu-link {
+    font-weight: 200;
+    text-transform: uppercase;
     @extend %gray-hover-gold-link;
     @extend %small-bold-arial-text;
 
@@ -9942,6 +10049,7 @@ html.full-viewport {
         
         color: $colorGray;
         font-size: 80px;
+        text-align: center;
         text-decoration: none;
         display: inline-block;
         vertical-align: middle;
@@ -9982,10 +10090,21 @@ html.full-viewport {
             font-size: 180px;
         }
     }
-
-    .content {
-        height: 100%;
+    .content{
         top: 0;
+        height: 100%;
+    }
+        
+    .content-title-wrapper {
+        @include verticalCenterChildElements;
+        position: absolute;
+        top: 66%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 34%;
+        width: 100%;
+        text-align: center;
     }
 
 }
@@ -10606,7 +10725,7 @@ html.full-viewport {
     /* Desktop */
     @include at-query ($min, $postSmall) {
         .related-products-hero {
-            margin-top: $gutter * 5;
+            margin-top: $gutter * 10;
             margin-bottom: $gutter * 3;
         }
 
@@ -11465,6 +11584,113 @@ $opacity-not-active: .25;
     }
 }
 
+// recently viewed and related products carousels
+
+.recent-products-hero,
+.related-products-hero {
+    @extend %grid-block-base;
+}
+
+.recent-products-hero {
+    margin-top: 100px;
+    h2{
+        font-size: 1.75em;
+    }
+}
+
+// TODO select a single class to use for this block.
+.recently-viewed-products-block,
+.carousel-block {
+    width: 100%;
+    
+    %arrow-box-base {
+        min-width: 100px;
+        width: auto;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        z-index: 100;
+        text-decoration: none;
+        color: $colorGold;
+        font-size: 110px;
+        font-family: "theia-icons";
+
+        @include at-query($max, $small){
+            padding-top: 75px;
+        }
+
+        @include at-query($min, $postSmall){
+            padding-top: 150px;
+        }
+    }
+    
+    .arrow-box-left {
+        @extend %arrow-box-base;
+        @extend .icon-arrow-left-xlarge;
+        
+        left: 0;
+    }
+
+    .arrow-box-right {
+        @extend %arrow-box-base;
+        @extend .icon-arrow-right-xlarge;
+        
+        right: 0;
+    }
+    
+    @include at-query ($min, $postLarge) {
+        .arrow-blox-left {
+            margin-left: -50px;
+        }
+
+        .arrow-box-right {
+            margin-right: -50px;
+        }
+    }
+}
+
+%recent-related-product-grid-item-base {
+    @extend .product-grid-item;
+    
+    width: 262px;
+
+    .meta-row{
+        margin: 20px auto 0;
+        width: 260px;
+        
+        @include at-query ($max, $small) {
+            width: 200px;
+        }
+    }
+
+    .header-row {
+        width: 260px;
+        margin: 0 auto;
+        
+        @include at-query ($max, $small) {
+            width: 200px;
+        }
+    }
+
+    .button-block{
+        margin-bottom: 30px;
+    }
+
+    @include at-query ($max, $small) {
+        .image-row {
+            min-height: 300px;
+        }
+    }
+}
+
+.recent-product-grid-item {
+    @extend %recent-related-product-grid-item-base;
+}
+
+.related-product-grid-item {
+    @extend %recent-related-product-grid-item-base;
+}
+
 .carousel-hero {
     @extend %hero-base;
 
@@ -11998,10 +12224,8 @@ span#resultMessage {
     }
 
     .add-to-cart-button {
-        @extend %small-gold-arrow-button;
 
-        width: 160px;
-        padding-top: 0;
+        @extend %small-black-outline-button;
     }
 
     /* Desktop */
@@ -12069,7 +12293,7 @@ span#resultMessage {
         }
 
         .add-to-cart-button {
-            width: 168px;
+            width: 160px;
         }
     }
 
@@ -12747,5 +12971,38 @@ span#resultMessage {
     }
     100% {
         opacity: 1;
+    }
+}
+
+// bridal 2017 hero
+.bridal-2017-collection-hero {
+    @extend %hero-large;
+
+    background-image: url({{ 'bridal-spring-runway-2017-hero.jpg' | asset_url }});
+    background-position: top right;
+    
+    @include at-query(null, $postMedium, $large){
+        background-image: url({{ 'bridal-spring-runway-2017-hero-1024.jpg' | asset_url }});
+    }
+    
+    @include at-query($max, $medium){
+        background-image: url({{ 'bridal-spring-runway-2017-hero-768.jpg' | asset_url }});
+        background-position: top center;
+    }
+}
+
+// bridal 2017 hero
+.bridesmaids-collection-hero {
+    @extend %hero-large;
+
+    background-image: url({{ 'bridesmaids-collection-hero.jpg' | asset_url }});
+    
+    @include at-query(null, $postMedium, $large){
+        background-image: url({{ 'bridesmaids-collection-hero-1024.jpg' | asset_url }});
+    }
+    
+    @include at-query($max, $medium){
+        background-image: url({{ 'bridesmaids-collection-hero-768.jpg' | asset_url }});
+        background-position: top center;
     }
 }

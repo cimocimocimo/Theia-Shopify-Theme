@@ -6,5 +6,7 @@ Used for processing pairs in unpack_image_alt_data.liquid
   {% comment %}first half is the name, 2nd is the value{% endcomment %}
   {% if pair.first == 'color' %}
     {% assign image_color = pair.last %}
+  {% elsif pair.first == 'type' %}
+    {% assign image_type = pair.last %}
   {% endif %}
 {% endif %}

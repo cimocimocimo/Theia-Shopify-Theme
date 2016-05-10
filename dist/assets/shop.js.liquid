@@ -59,7 +59,8 @@ timber.cache = {
     },
 
     collectionShop: {
-        $body: $('body.template-collection-shop')
+        $body: $('body.template-collection-shop'),
+        $carousel: $('.shop-hero-carousel')
     },
     
     collectionLookbook: {
@@ -570,6 +571,7 @@ timber.shopPage = function(pager){
     var $itemContainer = timber.cache.collectionPage.$itemContainer,
         scrollToTargetSelector = window.location.hash,
         scrollToElement = $itemContainer.find(scrollToTargetSelector),
+        $carousel = timber.cache.collectionShop.$carousel,
         hasFoundScrollTarget = false;
     
     function isScrollElementLoaded(){
@@ -598,6 +600,52 @@ timber.shopPage = function(pager){
     } else if (scrollToTargetSelector !== '') {
         getPageUntillScrollElementLoaded()
     }
+    
+    // check for the carousel
+    if ($carousel.length > 0){
+        timber.initShopCarousel();
+    }
+}
+
+timber.initShopCarousel = function(){
+    // code from: http://stackoverflow.com/questions/6488104/how-to-know-when-all-images-inside-a-specific-div-are-loaded
+    // TODO: replace this with https://github.com/alexanderdickson/waitForImages/blob/master/src/jquery.waitforimages.js
+    // get the images in the carousel that have not yet loaded
+    // show the carousel only after the images have loaded
+    var $carousel = timber.cache.collectionShop.$carousel,
+    $carouselImagesNotLoaded = $carousel.find('img').not(function(){
+        return this.complete;
+    }),
+        // count them
+        imageCount = $carouselImagesNotLoaded.length;
+
+    // if some images haven't loaded yet
+    if (imageCount){
+        // wire load events to them
+        $carouselImagesNotLoaded.load(function(){
+            imageCount--; // decrement the count
+            // when count reaches 0 all images have loaded, show the carousel
+            if (imageCount === 0){
+                $carousel.addClass('js-carousel-loaded');
+            }
+        });
+    } else {
+        // else all images have loaded so just show it
+        $carousel.addClass('js-carousel-loaded');
+    }
+    
+    // init the carousel
+    $carousel.slick({
+        dots: false,
+        arrows: false,
+        infinite: true,
+        slidesToShow: 1,
+        centerMode: true,
+        variableWidth: true,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        speed: 1500
+    });
 }
 
 timber.contactForm = function(){
@@ -1044,6 +1092,45 @@ timber.infiniteScroll = function(settings){
     }
 };
 
+timber.productCarouselInit = function () {
+
+    // TODO use a better class name for the carousel block, also update the sass/css class name
+    $('.carousel-block').slick({
+        infinite: true,
+        slidesToShow: 4,
+        speed: 1000,
+        slidesToScroll: 4,
+        prevArrow: '<div class="arrow-box-left slick-link slick-left"></div>',
+        nextArrow: '<div class="arrow-box-right slick-link slick-right"></div>',
+        responsive: [
+            {
+                breakpoint: 1150,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: true
+                } 
+            },
+            {
+                breakpoint: 935,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 580,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            }
+          ]
+
+    });
+};
+
+
 timber.carouselInit = function () {
     $('.carousel').slick({
         dots: true,
@@ -1301,6 +1388,10 @@ timber.productPage = function(){
     timber.productDescriptionBlock();
     timber.productBackLink();
     timber.colorSwatch();
+    if( !isBridal() ){
+        timber.productRecentlyViewedBlock();
+    }
+    timber.productCarouselInit();
 }
 
 timber.productBackLink = function(){
@@ -1333,7 +1424,6 @@ timber.productBackLink = function(){
 };
 
 timber.productSelectCallback = function(variant, selector) {
-
     var $body = $('body'),
         addToCart = $('#addToCart'),
         productPrice = $('#productPrice'),
@@ -1356,7 +1446,7 @@ timber.productSelectCallback = function(variant, selector) {
         }
 
         // Regardless of stock, update the product price
-        productPrice.html(Shopify.formatMoney(variant.price, "{{ shop.money_format }}"));
+        productPrice.html(Shopify.formatMoney(variant.price, "{{ shop.currency }}"+"{{ shop.money_format }}"));
 
     } else {
         // The variant doesn't exist, disable submit button.
@@ -1365,7 +1455,16 @@ timber.productSelectCallback = function(variant, selector) {
         //   - http://docs.shopify.com/manual/configuration/store-customization/advanced-navigation/linked-product-options
         addToCart.val('Unavailable').addClass('disabled').prop('disabled', true);
     }
-    
+   
+    // trigger event for selected color
+    var currentSelector = {};
+    for (var i = 0; i < selector.selectors.length; i++){
+        currentSelector = selector.selectors[i];
+
+        if (currentSelector.name === 'Color'){
+            $body.trigger('colorChanged.productPage', {color: currentSelector.element.value});
+        }
+    }
 };
 
 timber.productImageGallery = function(){
@@ -1420,6 +1519,126 @@ timber.productImageGallery = function(){
         }
     });
 }
+
+timber.productRecentlyViewedBlock = function(){
+    var maxRecentProducts = 8,
+        cookieName = 'theia-recent-products',
+        recentProducts = [],
+        recentProductsLoaded = false,
+        maxCookieSize = 4000,
+        cookieData,
+        // create a Product object from current product
+        currentProduct = new Product(timber.pageData.productPage.product),
+        $recentProductsContainer = $('#recent-products-block'),
+        recentProductTemplate = Handlebars.compile(
+            $('#recent-product-template').html()
+        ),
+        $hero = $('.recent-products-hero'),
+        $carousel = $hero.find('.carousel-block');
+
+    function Product(data){
+        if (data === undefined){
+            return;
+        }
+        
+        this.title = data.title;
+        this.id = data.id;
+        this.handle = data.handle;
+        this.featured_image = data.featured_image;
+        this.price = data.price;
+        this.compare_at_price = data.compare_at_price;
+        this.style_number = data.style_number;
+        this.sold_out = !data.available;
+    }
+    
+    Product.prototype.has_style_number = function(){
+        return this.style_number > 0;
+    }
+    
+    Product.prototype.has_price = function(){
+        return this.price > 0;
+    }
+    
+    Product.prototype.on_sale = function(){
+        return this.comape_at_price > this.price;
+    }
+
+    Product.prototype.price_in_dollars = function(){
+        return Shopify.formatMoney( this.price );
+    }
+
+    Product.prototype.compare_in_dollars = function(){
+        return Shopify.formatMoney( this.compare_at_price );
+    }
+
+    Product.prototype.url = function(){
+        var hostName = window.location.hostname,
+            baseUrl = "http://"+hostName+"/",
+            collectionProducts = "collections/shop/products/";
+
+        return baseUrl + collectionProducts + this.handle;
+    }
+    
+    // on page load
+    // check for for the cookie
+    if (Cookies.get(cookieName)){
+        // load products from cookie
+        cookieData = Cookies.getJSON(cookieName);
+
+        // inistantiate Dresses from objects in array.
+        if (cookieData !== undefined && cookieData.constructor === Array && cookieData.length > 0){
+            for(var i = 0; i < cookieData.length; i++){
+                recentProducts.push(new Product(cookieData[i]));
+            }
+            recentProductsLoaded = true;
+        }
+    }
+    
+    // check to see if Products have been defined yet
+    if (!recentProductsLoaded){
+        // add the first product as a cookie because there are no cookies
+        recentProducts[0] = currentProduct;
+    } else { 
+        // existing product in recentProducts
+
+        // add the current dress to the array if it isn't all ready there 
+        if (currentProduct.id !== recentProducts[0].id){
+            recentProducts.unshift(currentProduct);
+        }
+    }
+
+    // check the array for duplicates and remove them
+    for(var p = 1; p < recentProducts.length; p++){
+        if (recentProducts[p].id === recentProducts[0].id){
+            recentProducts.splice(p, 1);
+        }
+    }
+
+    // resize array to fit in cookie
+    // this counts the bytes of a string, use JSON.stringify()
+    function byteCount(s) { 
+        return encodeURI(s).split(/%..|./).length - 1;
+    }
+    function isRecentProducstTooBigToSave(products){
+        return byteCount(JSON.stringify(products)) >= maxCookieSize;
+    }
+    while (isRecentProducstTooBigToSave(recentProducts)){
+        recentProducts.pop();
+    }
+    
+    // save data to cookie
+    Cookies.set(cookieName, recentProducts);
+    
+    // build the html for the block
+    if (recentProducts.length > 2){
+        for(var j = 1; j < recentProducts.length; j++){
+            $carousel.append(recentProductTemplate(recentProducts[j]));
+        }
+
+        $hero.removeClass('js-hidden');
+    }
+};
+
 
 timber.productDescriptionBlock = function(){
 
