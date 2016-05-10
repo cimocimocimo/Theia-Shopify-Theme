@@ -107,7 +107,7 @@ For more information on these Scheme.org tags, visit:
                     Now: <span id="productPrice" itemprop="price"> {{ shop.currency }} {{ product.price | money }}</span>
                     <span class="compare-at-price"> {{ product.compare_at_price | money }}</span>
                   {% else %}
-                    <span id="productPrice" itemprop="price"> {{ shop.currency }} {{ product.price | money }}</span>
+                    <span id="shopCurrency">{{ shop.currency }}</span><span id="productPrice" itemprop="price"> {{ product.price | money }}</span>
                   {% endif %}
                 {% endif %}
               </div>

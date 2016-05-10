@@ -15,7 +15,6 @@
     "growl": "^1.7.0",
     "gulp": "^3.9.0",
     "gulp-jshint": "^2.0.0",
-    "gulp-shell": "^0.5.2",
     "gulp-shopify-upload": "^2.0.0",
     "gulp-watch": "^4.3.5",
     "js-cookie": "^2.1.0"
