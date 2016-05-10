@@ -243,17 +243,6 @@ For more information on these Scheme.org tags, visit:
   </div>
 </div>
 
-<!-- image swatches -->
-<h3>Image Swatches</h3>
-{% for image in product.images %}
-  {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-  {% if image_type == 'swatch' %}
-    <div class="product-image-swatch">
-      <img src="{{ image.src | product_img_url: 'master' }}"
-           alt="{{ image_alt_text | escape }}">
-    </div>
-  {% endif %}
-{% endfor %}
 
 {% comment %}
 If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)

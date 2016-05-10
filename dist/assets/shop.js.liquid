@@ -1279,26 +1279,6 @@ timber.colorSwatch = function(){
         changeDressColorTo(color);
     });
     
-    // Color each swatch
-    $colorSwatchInputs.each(function(){
-        var $input = $(this),
-            colorName = $input.attr('data-color'),
-            isSplitColor = colorName.indexOf('/') !== -1,
-            $label = $input.siblings('label');
-
-        // check to see if the swatch solour has a split
-        if (isSplitColor){
-            var $triangle = $label.find('.split-color-triangle'),
-                colorOneName = $triangle.attr('data-color-one'),
-                colorTwoName = $triangle.attr('data-color-two');
-            
-            $triangle.css('background', swatchColors[colorOneName]);
-            $triangle.find('div').css('background', swatchColors[colorTwoName]);
-        } else {
-            $label.css( 'background', swatchColors[colorName]); 
-        }
-    });
-    
     // find first size/color in stock
     $sizeSwatchInputs.each(function(){
         var $input = $(this),

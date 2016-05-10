@@ -1,8 +1,10 @@
 {% comment %}
 Color Swatches
 
+
 The last option is the one that sends the product id 
 {% endcomment %}
+
 {% for option in product.options %}
   
   {% comment %}Defaults{% endcomment %}
@@ -46,12 +48,9 @@ The last option is the one that sends the product id
                      data-color="{{ variant.option1 }}" />
               <label class="color-label"
                      for="{{ input_id }}">
-                {% if variant.option1 contains "/" %}
-                  {% assign colors = variant.option1 | split: '/' %}
-                  <div class="split-color-triangle" data-color-one="{{ colors[0] }}" data-color-two="{{ colors[1] }}">
-                    <div></div>
-                  </div>
-                {% endif %}
+
+                {% include 'swatch-image' swatch_color: variant.option1 %}
+ 
               </label>
 
             </div>
@@ -59,7 +58,7 @@ The last option is the one that sends the product id
             {% capture used %}{{ used }} {{ variant.option1 }}{% endcapture %}
           {% endunless %}                      
           
-        {% elsif option == 'Size' %} 
+        {% elsif option == 'Size' %}
           
           <div class="{{ element_classes }}">
             {% if variant.available == false %}
