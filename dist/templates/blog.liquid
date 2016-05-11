@@ -37,7 +37,9 @@ Don't forget to close the tag after your loop.
       </div>
     </header>        
     <div class="image-block">
-      {{ first_article.image | img_url: '1024x1024' | img_tag }}
+      <a href="{{ first_article.url }}">
+        {{ first_article.image | img_url: '1024x1024' | img_tag }}
+      </a>
     </div>
   </div>
   
@@ -79,7 +81,9 @@ Don't forget to close the tag after your loop.
           </div>
         </header>        
         <div class="image-block">
-          {{ article.image | img_url: '1024x1024' | img_tag }}
+          <a href="{{ article.url }}">
+             {{ article.image | img_url: '1024x1024' | img_tag }}
+          </a>
         </div>
         <div class="body-block">
           {% if article.excerpt.size > 0 %}
