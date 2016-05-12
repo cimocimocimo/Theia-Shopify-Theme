@@ -3017,21 +3017,25 @@ input[type="radio"] {
     
     width: auto;
     
-    @include at-query(null, $postSmall, $medium){
-        max-width: 100%;
-        float: left;
-    }
-
     .product-image-swatch {
         overflow: hidden;
-        width: 100%;
-        height: 100%;
+        
+        img {
+            border: 1px solid $colorGray;
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .color-name {
         width: auto;
         float: left;
         margin-top: 5px;
+    }
+
+    @include at-query(null, $postSmall, $medium){
+        max-width: 100%;
+        float: left;
     }
 }
 
@@ -3052,17 +3056,19 @@ input[type="radio"] {
 
 %option-swatch-base {
     position: relative;
-    margin: 0px 1.9px 7.5px 0;
+    margin: 0px 2px 8px 0;
     overflow: hidden;
 
     .sold-out {
+        @include transform(
+            translateY(5px)
+            translateX(7px)
+            rotate(134deg)
+        );
+        
         width: 50px;
         height: 50px;
         border-bottom: 1px solid $colorWarmDarkGray;
-        -webkit-transform:
-            translateY(5px)
-            translateX(7px)
-            rotate(134deg); 
         position: absolute;
     }
 }
