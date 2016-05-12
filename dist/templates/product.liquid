@@ -166,7 +166,7 @@ For more information on these Scheme.org tags, visit:
 
                 <div class="call-to-action-block">
                   
-                  <button type="submit" name="add" class="add-to-cart-button{% if not product.available %} disabled{% endif %}" id="addToCart"{% if not product.available %} disabled="disabled"{% endif %}>
+                  <button type="submit" name="add" class="add-to-cart-button{% unless product.available %} disabled{% endunless %}" id="addToCart"{% unless product.available %} disabled="disabled"{% endunless %}>
                     <span class="label">{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</span>
                   </button>
                   
