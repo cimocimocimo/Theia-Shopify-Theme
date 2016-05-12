@@ -165,11 +165,11 @@ For more information on these Scheme.org tags, visit:
                 </div>
 
                 <div class="call-to-action-block">
-
-                  <button type="submit" name="add" class="add-to-cart-button" id="addToCart">
-                    <span class="label">Add to Cart</span>
+                  
+                  <button type="submit" name="add" class="add-to-cart-button{% if not product.available %} disabled{% endif %}" id="addToCart"{% if not product.available %} disabled="disabled"{% endif %}>
+                    <span class="label">{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</span>
                   </button>
-
+                  
                 </div>
 
                 <div class="add-to-lists-block">
