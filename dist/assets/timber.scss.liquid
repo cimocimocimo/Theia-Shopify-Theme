@@ -2969,28 +2969,6 @@ input[type="radio"] {
     }
 }
 
-.product-image-swatch{
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-}
-
-.color-name {
-    width: auto;
-    float: left;
-    margin-top: 5px;
-}
-
-legend {
-    color: $colorBlack;
-    margin-top: 5px;
-    display: block;
-    margin: 0;
-    line-height: 32px;
-    float: left;
-    color: black;
-}
-
 %option-swatches-fieldset-base {
     @extend .clearfix;
     
@@ -2998,8 +2976,14 @@ legend {
     
     legend {
         float: left;
+        color: $colorBlack;
+        margin-top: 5px;
+        display: block;
+        margin: 0;
+        line-height: 32px;
+        color: black;
     }
-
+    
     .swatch-container {
         float: left;
         max-width: 196px;
@@ -3036,6 +3020,18 @@ legend {
     @include at-query(null, $postSmall, $medium){
         max-width: 100%;
         float: left;
+    }
+
+    .product-image-swatch {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+    }
+
+    .color-name {
+        width: auto;
+        float: left;
+        margin-top: 5px;
     }
 }
 
