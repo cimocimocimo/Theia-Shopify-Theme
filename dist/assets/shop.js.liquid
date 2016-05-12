@@ -1128,7 +1128,8 @@ timber.accessibleNav = function () {
 timber.colorSwatch = function(){
     var $colorSwatchInputs = $('.option-color-swatch input'),
         $sizeSwatchInputs = $('.option-size-swatch input'),
-        sizesAreAvailable = false;
+        isProductAvailable = timber.pageData.productPage.product.available,
+        firstSwatchColor = $colorSwatchInputs.first().attr('data-color');
 
     // Change dress color and show/hide the size inputs
     function changeDressColorTo(color){
@@ -1183,55 +1184,45 @@ timber.colorSwatch = function(){
         changeDressColorTo(color);
     });
     
-    // find first size/color in stock
-    $sizeSwatchInputs.each(function(){
-        var $input = $(this),
-            color = $input.attr('data-color'),
-            size = $input.attr('data-size'),
-            dataVariantAvailable = $input.attr('data-variant-available'),
-            isAvailable = dataVariantAvailable === 'true' ? true : false;
-        
-        // first available
-        if (isAvailable){
-            // select that variant color/size option
-            $input.prop('checked', true);
+    if (isProductAvailable){
+        // find first size/color in stock
+        $sizeSwatchInputs.each(function(){
+            var $input = $(this),
+                color = $input.attr('data-color'),
+                size = $input.attr('data-size'),
+                dataVariantAvailable = $input.attr('data-variant-available'),
+                isAvailable = dataVariantAvailable === 'true' ? true : false;
             
-            // select that color option
-            $colorSwatchInputs.each(function(){
-                var $input = $(this),
-                    inputColor = $input.attr('data-color');
+            // first available
+            if (isAvailable){
+                // select that variant color/size option
+                $input.prop('checked', true);
                 
-                if (inputColor === color){
-                    $input.prop('checked', true);
-                }
-            });
+                // select that color option
+                $colorSwatchInputs.each(function(){
+                    var $input = $(this),
+                        inputColor = $input.attr('data-color');
+                    
+                    if (inputColor === color){
+                        $input.prop('checked', true);
+                    }
+                });
 
-            // show the sizes for this available color
-            showSizesForColor(color);
-            // update color label and trigger color change event
-            changeDressColorTo(color);
-            sizesAreAvailable = isAvailable;
-            // break from loop early
-            return false;
-        }
-            
+                // show the sizes for this available color
+                showSizesForColor(color);
+                // update color label and trigger color change event
+                changeDressColorTo(color);
+                // break from loop early
+                return false;
+            }
+        });
 
-    });
-
-    if(sizesAreAvailable == false){
-        var colorSel = $colorSwatchInputs.first(),
-            color = colorSel.attr('data-color'),
-            buttonText = $('.add-to-cart-button').find('.label');
-        // set the first color to true
-        colorSel.prop('checked', true);
-        // show sizes for color
-        showSizesForColor(color);
-        // change the dress for the color
-        changeDressColorTo(color);
-        // change the button text
-        buttonText.html('Sold Out');
+    } else {
+        // show sizes for the first color
+        showSizesForColor(firstSwatchColor);
+        // change the dress for the first color
+        changeDressColorTo(firstSwatchColor);
     }
-    
 };
 
 timber.productPage = function(){

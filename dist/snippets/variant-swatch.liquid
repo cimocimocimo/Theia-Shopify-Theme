@@ -20,6 +20,7 @@ The last option is the one that sends the product id
     <legend>{{ option }}:</legend>
     <div class="swatch-container">
       {% assign used = '' %}
+      {% assign isFirstColor = true %}
       
       {% for variant in product.variants %}
         
@@ -44,7 +45,8 @@ The last option is the one that sends the product id
                      name="dress-color"
                      value="{{ variant.option1 }}"
                      class="{{ input_classes }}"
-                     data-color="{{ variant.option1 }}" />
+                     data-color="{{ variant.option1 }}"
+                     {% if isFirstColor %}checked="checked"{% endif %}/>
               <label class="color-label"
                      for="{{ input_id }}">
 
@@ -55,6 +57,9 @@ The last option is the one that sends the product id
             </div>
 
             {% capture used %}{{ used }} {{ variant.option1 }}{% endcapture %}
+            
+            {% assign isFirstColor = false %}
+            
           {% endunless %}                      
           
         {% elsif option == 'Size' %}
@@ -79,7 +84,7 @@ The last option is the one that sends the product id
             </label>
             
           </div>
-          
+
         {% endif %}
 
       {% endfor %}
