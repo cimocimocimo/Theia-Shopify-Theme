@@ -1,12 +1,11 @@
-<!-- image swatches -->
 {% for image in product.images %}
-{% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-	{% if image_type contains 'swatch' %}
-  		{% if image_color contains swatch_color %}
-        	<div class="product-image-swatch">
-          	<img src="{{ image.src | product_img_url: 'master' }}"
-               alt="{{ image_alt_text | escape }}">
-        </div>
-      {% endif %}
+  {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+  {% if image_type == 'swatch' %}
+    {% if image_color == swatch_color %}
+      <div class="product-image-swatch">
+        <img src="{{ image.src | product_img_url: 'master' }}"
+             alt="{{ image_alt_text | escape }}">
+      </div>
+    {% endif %}
   {% endif %}
 {% endfor %}
