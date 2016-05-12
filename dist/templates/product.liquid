@@ -11,9 +11,9 @@ For more information on these Scheme.org tags, visit:
 {% include 'capture-style-number' %}
 {% include 'capture-product-on-sale' %}
 {% if product.type contains 'Shop' %}
-    {% assign is_exclusive = false %}
+  {% assign is_exclusive = false %}
 {% else %}
-    {% assign is_exclusive = true %}
+  {% assign is_exclusive = true %}
 {% endif %}
 
 {% if product.tags contains 'Bridal' %}
@@ -107,7 +107,7 @@ For more information on these Scheme.org tags, visit:
                     Now: <span id="productPrice" itemprop="price"> {{ shop.currency }} {{ product.price | money }}</span>
                     <span class="compare-at-price"> {{ product.compare_at_price | money }}</span>
                   {% else %}
-                    <span id="productPrice" itemprop="price"> {{ shop.currency }} {{ product.price | money }}</span>
+                    <span id="shopCurrency">{{ shop.currency }}</span><span id="productPrice" itemprop="price"> {{ product.price | money }}</span>
                   {% endif %}
                 {% endif %}
               </div>
@@ -154,41 +154,22 @@ For more information on these Scheme.org tags, visit:
 
               {% else %}
 
+                <div class="product-options-block">
 
-                <div class="product-options-block"> 
-                  {% comment %} 
-                  {% if product.available and product.variants.size > 1 %} 
-                  {% include 'swatch' with 'Color' %} 
-                  {% endif %} 
-                  {% endcomment %} 
- 
-                  <select name="id" id="productSelect" class="product-variants"> 
-                    {% for variant in product.variants %} 
-                      {% if variant.available %} 
- 
-                        {% comment %} 
-                        Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below. 
-                        {% endcomment %} 
-                        <option value="{{variant.id}}"> 
-                          {{ variant.title }} - {{ variant.price | money_with_currency }}
-                        </option> 
- 
-                      {% else %} 
-                        <option disabled="disabled"> 
-                          {{ variant.title }} - Sold out 
-                        </option> 
-                      {% endif %} 
-                    {% endfor %} 
-                  </select> 
- 
-                </div> 
+                  {% if product.variants.size > 1 %}
+
+                    {% include 'variant-swatch' %}
+
+                  {% endif %}
+
+                </div>
 
                 <div class="call-to-action-block">
-
-                  <button type="submit" name="add" class="add-to-cart-button" id="addToCart">
-                    <span class="label">Add to Cart</span>
+                  
+                  <button type="submit" name="add" class="add-to-cart-button{% unless product.available %} disabled{% endunless %}" id="addToCart"{% unless product.available %} disabled="disabled"{% endunless %}>
+                    <span class="label">{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</span>
                   </button>
-
+                  
                 </div>
 
                 <div class="add-to-lists-block">
@@ -213,6 +194,7 @@ For more information on these Scheme.org tags, visit:
               </div>
 
             {% endif %}
+
           </div>
 
         </div>
@@ -220,8 +202,7 @@ For more information on these Scheme.org tags, visit:
           <div class="tablet-clearfix"></div>
         {% endif %}
         <div class="tablet-column">
-    
-
+          
           {% if product.description.size > 0 %}
             <div class="product-description-block" style="position: relative;" itemprop="description">
               <h6>Details:</h6>
@@ -230,14 +211,13 @@ For more information on these Scheme.org tags, visit:
               </div>
             </div>
           {% endif %}
-            <div class="product-share-block">
-              <div class="label">Share:</div>
+          <div class="product-share-block">
+            <div class="label">Share:</div>
 
-              {% include 'social-sharing-buttons' %}
+            {% include 'social-sharing-buttons' %}
 
-            </div>
           </div>
-    
+        </div>
         
         <div class="product-back-link-row">
 
@@ -263,17 +243,6 @@ For more information on these Scheme.org tags, visit:
   </div>
 </div>
 
-<!-- image swatches -->
-<h3>Image Swatches</h3>
-{% for image in product.images %}
-  {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-  {% if image_type == 'swatch' %}
-    <div class="product-image-swatch">
-      <img src="{{ image.src | product_img_url: 'master' }}"
-           alt="{{ image_alt_text | escape }}">
-    </div>
-  {% endif %}
-{% endfor %}
 
 {% comment %}
 If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)
