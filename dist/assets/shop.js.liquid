@@ -1226,12 +1226,23 @@ timber.colorSwatch = function(){
 };
 
 timber.productPage = function(){
-    var pageData = timber.pageData.productPage,
+    var pageData = timber.pageData.productPage;
         // Auto-select first available variant on page load. Otherwise the product looks sold out.
         foundVariantInStock = false,
         currentVariant = null,
         variants = pageData.product.variants;
-
+    
+    // checks to see if the has a Bridal or bridal tag.
+    function isBridal(){
+        for(var i = 0; i < pageData.product.tags.length; i++){
+            if (pageData.product.tags[i].toLowerCase() === "bridal"){
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     variants.forEach(function(i){
         currentVariant = i;
 
@@ -1278,8 +1289,8 @@ timber.productPage = function(){
     timber.mobileProductInfoBlock();
     timber.productDescriptionBlock();
     timber.productBackLink();
-    timber.colorSwatch();
     if( !isBridal() ){
+        timber.colorSwatch();
         timber.productRecentlyViewedBlock();
     }
     timber.productCarouselInit();

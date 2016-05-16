@@ -45,7 +45,7 @@ For more information on these Scheme.org tags, visit:
 
           {% for image in product.images %}
             {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-            {% if image_type == 'productImage' %}
+            {% if image_type != 'swatch' %}
               <div class="image-zoom-container{% if forloop.first != true %} js-hidden{% endif %}"
                    {% if image_color %}data-image-color="{{ image_color }}"{% endif %}
                    data-attached-to-variant="{{ image.attached_to_variant? }}"
@@ -67,7 +67,7 @@ For more information on these Scheme.org tags, visit:
 
             {% for image in product.images %}
               {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-              {% if image_type == 'productImage' %}
+              {% if image_type != 'swatch' %}
                 <li>
                   <a href="{{ image.src | product_img_url: 'master' }}"
                      class="product-photo-thumb"
