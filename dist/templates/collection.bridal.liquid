@@ -50,7 +50,20 @@ For more information on collection tags:
 
         {% for product in collection.products %}
 
-          {% include 'bridal-grid-item' %}
+          {% comment %}
+          Bridesmaids dresses should not show up on the full list of bridal dresses.
+          But they need to be part of the bridal collection to be in the same section.
+          This code filters out the bridesmaid's dresses when on the main bridal
+          list page. But when viewing the Bridesmaids tag page, allows showing the
+          Bridesmaids dresses.
+          {% endcomment %}
+          {% if current_tags contains 'Bridesmaids' %}
+            {% include 'bridal-grid-item' %}
+          {% else %}
+            {% unless product.tags contains 'Bridesmaids' %}
+              {% include 'bridal-grid-item' %}
+            {% endunless %}
+          {% endif %}
 
         {% else %}
 
