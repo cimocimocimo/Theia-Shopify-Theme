@@ -20,6 +20,15 @@ For more information on these Scheme.org tags, visit:
   {% assign is_bridal = true %}
 {% endif %}
 
+{% assign has_product_swatches = false %}
+{% for image in product.images %}
+  {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+  {% if image_type == 'swatch' %}
+    {% assign has_product_swatches = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
 <div class="product-detail-hero {% if is_bridal %}bridal-collection{% endif %}{% if is_exclusive %} product-is-exclusive{% endif %}{% if on_sale %} on-sale{% endif %}" itemscope itemtype="http://schema.org/Product">
 
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
@@ -157,9 +166,17 @@ For more information on these Scheme.org tags, visit:
                 <div class="product-options-block">
 
                   {% if product.variants.size > 1 %}
+                    
+                    {% if has_product_swatches %}
+                      
+                      {% include 'variant-swatch' %}
+                      
+                    {% endif %}
+                    
+                  {% else %}
 
-                    {% include 'variant-swatch' %}
-
+                    <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                    
                   {% endif %}
 
                 </div>
