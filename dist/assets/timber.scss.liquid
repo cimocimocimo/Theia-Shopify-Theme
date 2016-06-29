@@ -7250,22 +7250,6 @@ html.full-viewport {
     }
 }
 
-.homepage-video-container {
-    @include transition(opacity 0.3s);
-    
-    background: $colorBlack;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    opacity: 0;
-
-    &.active {
-        opacity: 1;
-    }
-}
-
 .homepage-hero {
     @extend %homepage-hero-base;
     
@@ -10008,12 +9992,8 @@ html.full-viewport {
     
     background: $colorBlack;
     
-    &:before {
-        background-image: url({{ "spring-2016-block-nav-video-bg-still.jpg" | asset_url }});
-    }
-
     .image {
-        background-image: url({{ "spring-2016-block-nav-video-bg-still.jpg" | asset_url }});
+        background-image: url({{ "bridesmaids-2016-block-nav-video-bg-still.jpg" | asset_url }});
     }
 
     &.hide-inner {
@@ -10080,6 +10060,7 @@ html.full-viewport {
         
     .content-title-wrapper {
         @include verticalCenterChildElements;
+        
         position: absolute;
         top: 66%;
         left: 0;
@@ -10089,7 +10070,23 @@ html.full-viewport {
         width: 100%;
         text-align: center;
     }
+    
+}
 
+.block-navigation-video-container {
+    @include transition(opacity 0.3s);
+    
+    background: $colorBlack;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+
+    &.active {
+        opacity: 1;
+    }
 }
 
 .social-link-newsletter-hero {
