@@ -42,7 +42,10 @@ timber.cache = {
         $splash: $('#homepage-splash'),
         $headerWaypoint: $('.js-header-waypoint'),
         $headerContainer: $('#header-container'),
-        $scrollBody: $('#body-container')
+        $scrollBody: $('#body-container'),
+        $videoPlayButton: $('.js-play-video'),
+        $videoContainer: $('.block-navigation-video-container'),
+        $videoPlayer: $('#block-navigation-video-player')
     },
 
     headerSubNav: {
@@ -580,8 +583,9 @@ timber.homepageInit = function(){
         return;
     }
     
-    timber.homepageSplash();
     timber.homepageHeader();
+    timber.homepageSplash();
+    timber.homepageVideo();
 };
 
 timber.homepageHeader = function(){
@@ -632,6 +636,20 @@ timber.homepageSplash = function(){
         $('#body-container').animate({scrollTop: $splash.height()});
     });
 };
+
+timber.homepageVideo = function(){
+    var $button = timber.cache.homepage.$videoPlayButton,
+        $playerContainer = timber.cache.homepage.$videoContainer,
+        player = new Vimeo.Player(timber.cache.homepage.$videoPlayer[0]);
+    
+    $button.click(function(event){
+        event.preventDefault();
+        
+        $playerContainer.removeClass('hidden')
+        $playerContainer.addClass('active');
+        player.play();
+    });
+}
 
 timber.switchClass = function( $el, c1, c2){
     if ( $el.hasClass(c1) ) {
