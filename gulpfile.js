@@ -1,16 +1,13 @@
-// Gulp plugin setup
 var gulp = require('gulp'),
-    // Watches single files
-    watch = require('gulp-watch'),
-    gulpShopify = require('gulp-shopify-upload'),
+    plugins = require('gulp-load-plugins')(),
     // load private data
     private = require('./private.json'),
     // set current shop data
     shop = private.shopifyStores[private.currentShop];
 
 gulp.task('shopify:watch', function() {
-    return watch('./dist/+(assets|layout|config|snippets|templates|locales)/**')
-        .pipe(gulpShopify(
+    return plugins.watch('./dist/+(assets|layout|config|snippets|templates|locales)/**')
+        .pipe(plugins.shopifyUpload(
             shop.api_key,
             shop.password,
             shop.url,

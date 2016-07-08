@@ -8,13 +8,11 @@
     "url": "https://github.com/cimocimocimo/Theia-Shopify-Theme.git"
   },
   "license": "(MIT OR Apache-2.0)",
-  "dependencies": {
-    "grunt": "^0.4.5"
-  },
   "devDependencies": {
     "growl": "^1.7.0",
     "gulp": "^3.9.0",
     "gulp-jshint": "^2.0.0",
+    "gulp-load-plugins": "^1.2.4",
     "gulp-shopify-upload": "^2.0.0",
     "gulp-watch": "^4.3.5",
     "js-cookie": "^2.1.0"
