@@ -1976,6 +1976,18 @@ $smallSocialIconRatio: (2.66/3.375);
     }
 }
 
+%white-button-base {
+    @include transition(background-color 0.3s);
+
+    background-color: $colorWhite;
+    color: $colorDarkGray;
+
+    &:hover {
+        background-color: $colorDarkGray;
+        color: $colorWhite;
+    }
+}
+
 %gray-outline-button-base {
     @include transition(background-color 0.3s);
     
@@ -2055,6 +2067,18 @@ $smallSocialIconRatio: (2.66/3.375);
     @extend %button-base;
     @extend %large-button-base;
     @extend %gray-button-base;
+    @extend %arrow-icon-button-base;
+
+    .icon {
+        padding-left: 2px;
+        top: -2px;
+    }
+}
+
+%large-white-arrow-button {
+    @extend %button-base;
+    @extend %large-button-base;
+    @extend %white-button-base;
     @extend %arrow-icon-button-base;
 
     .icon {
@@ -6821,9 +6845,26 @@ address {
     $heroBgColor: #897456;
 
     background: $heroBgColor url({{ 'customer-account-page-hero-bg.jpg' | asset_url}}) top center no-repeat;
+    background-size: 50%;
+    
+    .wrapper {
+        @include heroEdgeFade( $heroBgColor, $width: 160px, $offset: 99px );
+    }
+}
+
+.search-results-page-hero {
+    @extend %hero-small;
+
+    $heroBgColor: #d2d0d1;
+
+    background: $heroBgColor url({{ 'search-results-page-hero-bg.jpg' | asset_url}}) top center no-repeat;
 
     .wrapper {
         @include heroEdgeFade( $heroBgColor, $width: 160px, $offset: 99px );
+    }
+
+    h2 {
+        color: $colorDarkGray;
     }
 }
 
@@ -13026,7 +13067,7 @@ span#resultMessage {
         }
         
         a {
-            @extend %large-gray-arrow-button;
+            @extend %large-white-arrow-button;
         }
         
         @media screen and ($max, $medium){
