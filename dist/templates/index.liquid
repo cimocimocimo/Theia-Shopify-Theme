@@ -1,26 +1,11 @@
-{% layout 'theme' %}
+{% layout 'full-viewport' %}
 
 {% comment %}{% assign bg-video-path = 'DELETE-example-bg-video' | asset_url | split: '?' | first %}{% endcomment %}
 {% assign bg-video-path = 'spring-2016-hero-bg' | asset_url | split: '?' | first %}
 
-<div class="video-bg-hero">
-  {% comment %}
-  <video poster="{{ bg-video-path }}.jpeg"  autoplay="autoplay" loop="loop" muted="muted">
-    <source src="{{ bg-video-path }}.webm" type="video/webm">
-    <source src="{{ bg-video-path }}.mp4" type="video/mp4">
-  </video>
-  {% endcomment %}
-  <div class="inner">
-    <div class="content">
-      <h2>Discover the Spring 2016 Collection</h2>
-      <a href="/collections/shop/new-arrivals">Shop New Arrivals</a>
-    </div>
-  </div>
-</div>
-
 {% comment %}
 <!-- static hero -->
-<div id="homepage-hero" class="homepage-hero">
+  <div id="homepage-hero" class="homepage-hero">
   <div class="inner">
     <div class="content">
       <!-- <h2>Boxing Week Sale on now! 40% off select items.</h2>
