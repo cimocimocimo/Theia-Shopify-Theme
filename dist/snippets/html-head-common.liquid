@@ -10,6 +10,9 @@
 
 {% if page_description %}
   <meta name="description" content="{{ page_description | escape }}">
+{% else %}
+  {% comment %}Try to auto-generate a meta description.{% endcomment %}
+  <meta name="description" content="The THEIA collection was created to bring out a women’s inner goddess.">
 {% endif %}
 
 <!-- Product meta ================================================== -->
