@@ -10,10 +10,16 @@ JS Plugins
 {{ 'headroom.min.js' | asset_url | script_tag }}
 {{ 'jQuery.headroom.min.js' | asset_url | script_tag }}
 {{ 'jquery.cookie-1.4.1.min.js' | asset_url | script_tag }}
+{{ 'cookies.min.js' | asset_url | script_tag }}
 {{ 'vex.min.js' | asset_url | script_tag }}
 {{ 'noframework.waypoints.min.js' | asset_url | script_tag }}
 {{ 'jquery.waypoints.min.js' | asset_url | script_tag }}
 {{ 'jquery.zoom.min.js' | asset_url | script_tag }}
+{{ 'transition-end.min.js' | asset_url | script_tag }}
+
+{% if template contains 'index' %}
+  <script src="https://player.vimeo.com/api/player.js"></script>
+{% endif %}
 
 {% comment %}main js file{% endcomment %}
 {{ 'shop.js' | asset_url | script_tag }}
@@ -58,6 +64,15 @@ Ajaxify Cart Documentation:
 
 {% if template contains 'product' %}
 
+
+
+  <script> 
+
+
+    
+
+  </script>
+
   {% comment %}
   To take advantage of a callback on the select dropdown, add option_selection.js
   and customize the JS below as you need. This is only needed on pages where
@@ -77,7 +92,11 @@ Ajaxify Cart Documentation:
   {{ 'option_selection.js' | shopify_asset_url | script_tag }}
   <script>
 
+
+
       timber.pageData.productPage = {
+       
+
           {% if product.tags contains 'waitlist' and product.available == false %}
           showProductWaitlist: true,
           {% else %}
@@ -104,11 +123,19 @@ Ajaxify Cart Documentation:
           tags: [{% for tag in product.tags params %}
                  {
                      slug: '{{ tag | handle }}',
-                     name: '{{ tag }}'
-                 }{% unless forloop.last %},{% endunless %}{% endfor %}
-          ]
+                     name: "{{ tag }}"
+                 }{% unless forloop.last %},{% endunless %}{% endfor %}]
       };
-
   </script>
 
+{% comment %} sets the cookie data for recently viewed product {% endcomment %}
+
+<script>
+    var product = timber.pageData.productPage.product;
+    product.featured_image_alt = "{{ product.featured_image.alt }}";
+    product.style_number = "{{ style_number }}";
+</script>
+
+
 {% endif %}
+

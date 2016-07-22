@@ -1,0 +1,14 @@
+{% if pin_page_url == "" %}
+  {% assign pin_page_url = "http://theiacouture.com" %}
+{% endif %}
+{% if pin_media_url == "" %}
+  {% assign pin_media_url = 'theia-logo.svg' | asset_url %}
+{% endif %}
+{% if pin_description == "" %}
+  {% assign pin_description = "Bring out your inner goddess." %}
+{% endif %}
+
+<a data-pin-do="buttonPin"
+   href="//www.pinterest.com/pin/create/button/?url={{ pin_page_url | url_escape }}&media={{ pin_media_url | url_escape }}&description={{ pin_description | url_escape }}">
+  <img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" />
+</a>

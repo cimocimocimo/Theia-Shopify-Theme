@@ -1,22 +1,9 @@
 {% comment %}
-
-  This snippet is used to showcase each product during the loop,
-  'for product in collection.products' in collection.liquid.
-
-  A liquid variable (grid_item_width) is set just before the this
-  snippet is included to change the size of the container.
-  Once the variable is set on a page, all future instances of this
-  snippet will use that width. Overwrite the variable to adjust this.
-
-  Example
-    - assign grid_item_width = 'large--one-quarter medium--one-half'
-
-{% endcomment %}
-
-{% comment %}
   Check if the product is on sale and set a variable to be used below.
 {% endcomment %}
 {% include 'capture-product-on-sale' %}
+
+{% include 'capture-style-number' %}
 
 {% comment %}
   Check if the product is sold out and set a variable to be used below.
@@ -26,11 +13,10 @@
   {% assign sold_out = false %}
 {% endif %}
 
-{% include 'capture-style-number' %}
-
-{% capture product_href %}
-  {{ product.url | within: collection }}{% if current_tags.first %}?tag={{ current_tags.first | handle }}{% endif %}
-{% endcapture %}
+{% capture product_href %}{{ product.url | within: collection }}{% if current_tags.first %}?tag={{ current_tags.first | handle }}{% endif %}{% endcapture %}
+{% capture product_absolute_url %}{{ shop.url }}{{ product_href }}{% endcapture %}
+{% assign featured_image_url = product.featured_image.src | product_img_url: 'large' %}
+{% capture default_product_description %}{{ product.title }} - #{{ style_number }} - {{ product.description | strip_html }}{% endcapture %}
 
 {% include 'unpack_image_alt_data', raw_alt_text: product.featured_image.alt %}
 {% assign featured_image_color = image_color %}
@@ -48,7 +34,6 @@
   Set a class for sold-out and on-sale items
   add css class for last item, used to determine when to grab new dresses as user scrolls...
 {% endcomment %}
-{% include 'capture-style-number' %}
 <div id="style-{{ style_number }}" class="product-grid-item{% if forloop.last %} last-item{% endif %}{% if sold_out %} sold-out{% endif %}{% if on_sale %} on-sale{% endif %}">
 
   {% comment %}
@@ -77,12 +62,20 @@
       {% if has_back_image %}
         <img class="back-image" src="{{ back_image.src | product_img_url: 'large' }}" alt="{{ back_image.alt | escape }}">
       {% endif %}
-      <img class="featured-image" src="{{ product.featured_image.src | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+      <img class="featured-image" src="{{ featured_image_url }}" alt="{{ product.featured_image.alt | escape }}">
     </a>
+
+    <div class="pinterest-button-pin-block">
+      {% include 'pinterest-pin-button',
+      pin_page_url: product_absolute_url,
+      pin_media_url: featured_image_url,
+      pin_description: default_product_description %}
+    </div>
 
   </div>
 
   <div class="meta-row">
+
     <div class="info-block">
       {% if style_number != 0 %}
         <div>
@@ -103,6 +96,7 @@
         <span class="icon"></span>
       </a>
     </div>
+
   </div>
 
 </div>

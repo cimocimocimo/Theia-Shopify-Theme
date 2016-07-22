@@ -10,6 +10,9 @@
 
 {% if page_description %}
   <meta name="description" content="{{ page_description | escape }}">
+{% else %}
+  {% comment %}Try to auto-generate a meta description.{% endcomment %}
+  <meta name="description" content="The THEIA collection was created to bring out a women’s inner goddess.">
 {% endif %}
 
 <!-- Product meta ================================================== -->
@@ -29,3 +32,6 @@
 {% endif %}
 
 <link rel="shortcut icon" href="{{ 'theia.ico' | asset_url }}" type="image/x-icon">
+
+<!-- Pinterest Verification -->
+<meta name="p:domain_verify" content="54d49d2908341bbb597562d39984df58"/>

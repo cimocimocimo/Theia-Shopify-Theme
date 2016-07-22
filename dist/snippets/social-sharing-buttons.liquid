@@ -11,14 +11,14 @@
 {% assign current_url = collection.url %}
 {% when 'product' %}
 {% assign current_url = product.url %}
+{% comment %}Override the variables used in pinterest-pin-button.liquid{% endcomment %}
+{% capture pin_page_url %}{{ shop.url }}{{ share_url }}{% endcapture %}
+{% assign pin_media_url = product.featured_image.src | product_img_url: 'large' %}
+{% capture pin_description %}{{ product.title }} - #{{ style_number }} - {{ product.description | strip_html }}{% endcapture %}
 {% endcase %}
-
-{% capture share_url %}{{ shop.url }}{{ current_url }}{% endcapture %}
 
 <div class="share-buttons">
   {% include 'facebook-like-button' %}
   {% include 'twitter-tweet-button' %}
-  {% include 'google-plus-one-button' %}
   {% include 'pinterest-pin-button' %}
-
 </div>

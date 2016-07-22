@@ -5,7 +5,23 @@ For more information on collection tags:
 
 {% endcomment %}
 
-{% include 'collection-hero-gallery' %}
+{% if current_tags contains 'Runway Spring 2017' %}
+  <div id="top" class="bridal-2017-collection-hero">
+    <div class="wrapper">
+
+    </div>
+  </div>
+{% elsif current_tags contains 'Bridesmaids' %}
+  <div id="top" class="bridesmaids-collection-hero">
+    <div class="wrapper">
+
+    </div>
+  </div>
+{% else %}
+  {% include 'collection-hero-gallery' %}
+{% endif %}
+
+{% comment %}If this is Birdal Runway 2017 show custom header image{% endcomment %}
 
 <div class="product-grid-hero">
   <div class="wrapper">
@@ -30,11 +46,24 @@ For more information on collection tags:
            data-has-next-page="{% if paginate.next %}true{% else %}false{% endif %}"
            {% if paginate.next %}
            data-next-page-url="{{ paginate.next.url }}"
-           {% endif %}
-           >
+           {% endif %}>
+
         {% for product in collection.products %}
 
-          {% include 'bridal-grid-item' %}
+          {% comment %}
+          Bridesmaids dresses should not show up on the full list of bridal dresses.
+          But they need to be part of the bridal collection to be in the same section.
+          This code filters out the bridesmaid's dresses when on the main bridal
+          list page. But when viewing the Bridesmaids tag page, allows showing the
+          Bridesmaids dresses.
+          {% endcomment %}
+          {% if current_tags contains 'Bridesmaids' %}
+            {% include 'bridal-grid-item' %}
+          {% else %}
+            {% unless product.tags contains 'Bridesmaids' %}
+              {% include 'bridal-grid-item' %}
+            {% endunless %}
+          {% endif %}
 
         {% else %}
 

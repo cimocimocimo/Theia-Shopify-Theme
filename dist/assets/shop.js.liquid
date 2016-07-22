@@ -42,7 +42,10 @@ timber.cache = {
         $splash: $('#homepage-splash'),
         $headerWaypoint: $('.js-header-waypoint'),
         $headerContainer: $('#header-container'),
-        $scrollBody: $('#body-container')
+        $scrollBody: $('#body-container'),
+        $videoPlayButton: $('.js-play-video'),
+        $videoContainer: $('.block-navigation-video-container'),
+        $videoPlayer: $('#block-navigation-video-player')
     },
 
     headerSubNav: {
@@ -59,7 +62,8 @@ timber.cache = {
     },
 
     collectionShop: {
-        $body: $('body.template-collection-shop')
+        $body: $('body.template-collection-shop'),
+        $carousel: $('.shop-hero-carousel')
     },
     
     collectionLookbook: {
@@ -192,6 +196,9 @@ timber.lookbookPageNew = function(pager){
         var $clickedItem = $(this),
             clickedItemIndex = getAttrInt($clickedItem, 'data-item-index');
 
+        // set the $currentItem
+        $currentItem = $clickedItem;
+        
         vex.open({
             showCloseButton: true,
             escapeButtonCloses: true,
@@ -212,6 +219,7 @@ timber.lookbookPageNew = function(pager){
             },
             afterClose: function($vexContent){
                 $modal = null;
+                $currentItem = null;
             }
         });
     }
@@ -470,6 +478,7 @@ timber.shopPage = function(pager){
     var $itemContainer = timber.cache.collectionPage.$itemContainer,
         scrollToTargetSelector = window.location.hash,
         scrollToElement = $itemContainer.find(scrollToTargetSelector),
+        $carousel = timber.cache.collectionShop.$carousel,
         hasFoundScrollTarget = false;
     
     function isScrollElementLoaded(){
@@ -498,6 +507,52 @@ timber.shopPage = function(pager){
     } else if (scrollToTargetSelector !== '') {
         getPageUntillScrollElementLoaded()
     }
+    
+    // check for the carousel
+    if ($carousel.length > 0){
+        timber.initShopCarousel();
+    }
+}
+
+timber.initShopCarousel = function(){
+    // code from: http://stackoverflow.com/questions/6488104/how-to-know-when-all-images-inside-a-specific-div-are-loaded
+    // TODO: replace this with https://github.com/alexanderdickson/waitForImages/blob/master/src/jquery.waitforimages.js
+    // get the images in the carousel that have not yet loaded
+    // show the carousel only after the images have loaded
+    var $carousel = timber.cache.collectionShop.$carousel,
+    $carouselImagesNotLoaded = $carousel.find('img').not(function(){
+        return this.complete;
+    }),
+        // count them
+        imageCount = $carouselImagesNotLoaded.length;
+
+    // if some images haven't loaded yet
+    if (imageCount){
+        // wire load events to them
+        $carouselImagesNotLoaded.load(function(){
+            imageCount--; // decrement the count
+            // when count reaches 0 all images have loaded, show the carousel
+            if (imageCount === 0){
+                $carousel.addClass('js-carousel-loaded');
+            }
+        });
+    } else {
+        // else all images have loaded so just show it
+        $carousel.addClass('js-carousel-loaded');
+    }
+    
+    // init the carousel
+    $carousel.slick({
+        dots: false,
+        arrows: false,
+        infinite: true,
+        slidesToShow: 1,
+        centerMode: true,
+        variableWidth: true,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        speed: 1500
+    });
 }
 
 timber.contactForm = function(){
@@ -528,8 +583,9 @@ timber.homepageInit = function(){
         return;
     }
     
-    timber.homepageSplash();
     timber.homepageHeader();
+    timber.homepageSplash();
+    timber.homepageVideo();
 };
 
 timber.homepageHeader = function(){
@@ -580,6 +636,20 @@ timber.homepageSplash = function(){
         $('#body-container').animate({scrollTop: $splash.height()});
     });
 };
+
+timber.homepageVideo = function(){
+    var $button = timber.cache.homepage.$videoPlayButton,
+        $playerContainer = timber.cache.homepage.$videoContainer,
+        player = new Vimeo.Player(timber.cache.homepage.$videoPlayer[0]);
+    
+    $button.click(function(event){
+        event.preventDefault();
+        
+        $playerContainer.removeClass('hidden')
+        $playerContainer.addClass('active');
+        player.play();
+    });
+}
 
 timber.switchClass = function( $el, c1, c2){
     if ( $el.hasClass(c1) ) {
@@ -944,6 +1014,45 @@ timber.infiniteScroll = function(settings){
     }
 };
 
+timber.productCarouselInit = function () {
+
+    // TODO use a better class name for the carousel block, also update the sass/css class name
+    $('.carousel-block').slick({
+        infinite: true,
+        slidesToShow: 4,
+        speed: 1000,
+        slidesToScroll: 4,
+        prevArrow: '<div class="arrow-box-left slick-link slick-left"></div>',
+        nextArrow: '<div class="arrow-box-right slick-link slick-right"></div>',
+        responsive: [
+            {
+                breakpoint: 1150,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: true
+                } 
+            },
+            {
+                breakpoint: 935,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 580,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            }
+          ]
+
+    });
+};
+
+
 timber.carouselInit = function () {
     $('.carousel').slick({
         dots: true,
@@ -1034,52 +1143,146 @@ timber.accessibleNav = function () {
     }
 };
 
-timber.productPage = function(){
-    var pageData = timber.pageData.productPage;
-    
-    if (timber.cache.productPage.$productOptions.length !== 0){
-        new Shopify.OptionSelectors('productSelect', {
-            product: pageData.product,
-            onVariantSelected: timber.productSelectCallback
+timber.colorSwatch = function(){
+    var $colorSwatchInputs = $('.option-color-swatch input'),
+        $sizeSwatchInputs = $('.option-size-swatch input'),
+        isProductAvailable = timber.pageData.productPage.product.available,
+        firstSwatchColor = $colorSwatchInputs.first().attr('data-color');
+
+    // Change dress color and show/hide the size inputs
+    function changeDressColorTo(color){
+        $('body').trigger('colorChanged.productPage', {
+            color: color
+        });
+        $('.color-name').html(color);
+    }
+
+    function showSizesForColor(color){
+        // show the size swatches for this color and hide the others
+        $sizeSwatchInputs.each(function(){
+            var $input = $(this),
+                inputColor = $input.attr('data-color'),
+                inputSize = $input.attr('data-size'),
+                $swatchElement = $input.parent();
+
+            if (inputColor === color){
+                // show swatch
+                $swatchElement.removeClass('js-hidden');
+            } else {
+                // hide swatch
+                $swatchElement.addClass('js-hidden');
+            }
         });
     }
     
-    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
-    if (pageData.addSingleOptionLabel){
-        $('.selector-wrapper:eq(0)').prepend('<label>' + pageData.singleOptionLabelText + '</label>');
-    }
-    
-    // Hide selectors if we only have 1 variant and its title contains 'Default'.
-    if (pageData.hasSingleDefaultVariant){
-        $('.selector-wrapper').hide();
-    }
-    
-    // Auto-select first available variant on page load. Otherwise the product looks sold out.
-    var foundVariantInStock = false;
-    var currentVariant = null;
-    for (var i=0; i<pageData.product.variants.length; i++){
-        currentVariant = pageData.product.variants[i];
-        if (currentVariant.available && !foundVariantInStock){
-            foundVariantInStock = true;
-            var currentOption = null;
-            for (var j=0; j<pageData.product.options.length; j++){
-                currentOption = pageData.product.options[j];
-                $('.single-option-selector:eq(' + j + ')').val(currentVariant.options[j]).trigger('change');
-            }
-            break;
-        }
-    }
-    
-    // dress sizes popup link
-    currentOption = null;
-    for (var k=0; k<pageData.product.options.length; k++){
-        currentOption = pageData.product.options[k];
+    // When a user changes the color swatch selection
+    $colorSwatchInputs.change(function() {
+        var $colorInput = $(this),
+            color = $colorInput.attr('data-color');
         
-        if (currentOption === 'Size'){
-            $('.selector-wrapper:eq(' + k + ')').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">Size Chart</a>');
+        // select the first available size for this color
+        $sizeSwatchInputs.each(function(){
+            var $sizeInput = $(this),
+                inputColor = $sizeInput.attr('data-color'),
+                inputSize = $sizeInput.attr('data-size'),
+                dataVariantAvailable = $sizeInput.attr('data-variant-available'),
+                isAvailable = dataVariantAvailable === 'true' ? true : false;
+            
+            if (inputColor === color && isAvailable){
+                $sizeInput.prop('checked', true);
+                
+                // break from loop early
+                return false;
+            }
+        });
+        
+        // show the size swatches for this color and hide the others
+        showSizesForColor(color);
+        // change the name of the color and trigger color changed event
+        changeDressColorTo(color);
+    });
+    
+    if (isProductAvailable){
+        // find first size/color in stock
+        $sizeSwatchInputs.each(function(){
+            var $input = $(this),
+                color = $input.attr('data-color'),
+                size = $input.attr('data-size'),
+                dataVariantAvailable = $input.attr('data-variant-available'),
+                isAvailable = dataVariantAvailable === 'true' ? true : false;
+            
+            // first available
+            if (isAvailable){
+                // select that variant color/size option
+                $input.prop('checked', true);
+                
+                // select that color option
+                $colorSwatchInputs.each(function(){
+                    var $input = $(this),
+                        inputColor = $input.attr('data-color');
+                    
+                    if (inputColor === color){
+                        $input.prop('checked', true);
+                    }
+                });
+
+                // show the sizes for this available color
+                showSizesForColor(color);
+                // update color label and trigger color change event
+                changeDressColorTo(color);
+                // break from loop early
+                return false;
+            }
+        });
+
+    } else {
+        // show sizes for the first color
+        showSizesForColor(firstSwatchColor);
+        // change the dress for the first color
+        changeDressColorTo(firstSwatchColor);
+    }
+};
+
+timber.productPage = function(){
+    var pageData = timber.pageData.productPage;
+        // Auto-select first available variant on page load. Otherwise the product looks sold out.
+        foundVariantInStock = false,
+        currentVariant = null,
+        variants = pageData.product.variants;
+    
+    // checks to see if the has a Bridal or bridal tag.
+    function isBridal(){
+        for(var i = 0; i < pageData.product.tags.length; i++){
+            if (pageData.product.tags[i].toLowerCase() === "bridal"){
+                return true;
+            }
         }
+        
+        return false;
     }
     
+    variants.forEach(function(i){
+        currentVariant = i;
+
+        // disable the radio button if the variant is not available
+        if(!currentVariant.available){
+            $('input[id="'+ currentVariant.option1 +'-'+ currentVariant.option2 +'-select'+'"]').attr("disabled", "disabled");
+        }
+
+        // select the first available variant
+        if(currentVariant.available && !foundVariantInStock){
+            $('input[data-color="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
+            return foundVariantInStock = true;
+        }
+    })
+
+    // if none are available select the the last variant color 
+    if(foundVariantInStock === false){
+        $('input[data-color="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
+    }
+
+    $('.js-size-swatch-field').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">WHAT\'S MY SIZE </a>');
+
     // wire the modal popup
     $('.js-open-modal').click(function(event) {
         event.preventDefault();
@@ -1104,6 +1307,11 @@ timber.productPage = function(){
     timber.mobileProductInfoBlock();
     timber.productDescriptionBlock();
     timber.productBackLink();
+    if( !isBridal() ){
+        timber.colorSwatch();
+        timber.productRecentlyViewedBlock();
+    }
+    timber.productCarouselInit();
 }
 
 timber.productBackLink = function(){
@@ -1136,11 +1344,11 @@ timber.productBackLink = function(){
 };
 
 timber.productSelectCallback = function(variant, selector) {
-
     var $body = $('body'),
         addToCart = $('#addToCart'),
         productPrice = $('#productPrice'),
         comparePrice = $('#comparePrice'),
+        currency = "{{ shop.currency }}";
         showProductWaitlist = timber.pageData.productPage.showProductWaitlist;
 
     if (showProductWaitlist) {
@@ -1157,9 +1365,9 @@ timber.productSelectCallback = function(variant, selector) {
             addToCart.addClass('disabled').prop('disabled', true);
             addToCart.find('.label').text('Sold Out');
         }
-
+        console.log(variant);
         // Regardless of stock, update the product price
-        productPrice.html(Shopify.formatMoney(variant.price, "{{ shop.money_format }}"));
+        productPrice.html(currency+' '+Shopify.formatMoney( variant.price, "{{ shop.currency }}"+"{{ shop.money_format }}"));
 
     } else {
         // The variant doesn't exist, disable submit button.
@@ -1168,10 +1376,10 @@ timber.productSelectCallback = function(variant, selector) {
         //   - http://docs.shopify.com/manual/configuration/store-customization/advanced-navigation/linked-product-options
         addToCart.val('Unavailable').addClass('disabled').prop('disabled', true);
     }
-    
+   
     // trigger event for selected color
     var currentSelector = {};
-    for (var i = 1; i < selector.selectors.length; i++){
+    for (var i = 0; i < selector.selectors.length; i++){
         currentSelector = selector.selectors[i];
 
         if (currentSelector.name === 'Color'){
@@ -1232,6 +1440,126 @@ timber.productImageGallery = function(){
         }
     });
 }
+
+timber.productRecentlyViewedBlock = function(){
+    var maxRecentProducts = 8,
+        cookieName = 'theia-recent-products',
+        recentProducts = [],
+        recentProductsLoaded = false,
+        maxCookieSize = 4000,
+        cookieData,
+        // create a Product object from current product
+        currentProduct = new Product(timber.pageData.productPage.product),
+        $recentProductsContainer = $('#recent-products-block'),
+        recentProductTemplate = Handlebars.compile(
+            $('#recent-product-template').html()
+        ),
+        $hero = $('.recent-products-hero'),
+        $carousel = $hero.find('.carousel-block');
+
+    function Product(data){
+        if (data === undefined){
+            return;
+        }
+        
+        this.title = data.title;
+        this.id = data.id;
+        this.handle = data.handle;
+        this.featured_image = data.featured_image;
+        this.price = data.price;
+        this.compare_at_price = data.compare_at_price;
+        this.style_number = data.style_number;
+        this.sold_out = !data.available;
+    }
+    
+    Product.prototype.has_style_number = function(){
+        return this.style_number > 0;
+    }
+    
+    Product.prototype.has_price = function(){
+        return this.price > 0;
+    }
+    
+    Product.prototype.on_sale = function(){
+        return this.comape_at_price > this.price;
+    }
+
+    Product.prototype.price_in_dollars = function(){
+        return Shopify.formatMoney( this.price );
+    }
+
+    Product.prototype.compare_in_dollars = function(){
+        return Shopify.formatMoney( this.compare_at_price );
+    }
+
+    Product.prototype.url = function(){
+        var hostName = window.location.hostname,
+            baseUrl = "http://"+hostName+"/",
+            collectionProducts = "collections/shop/products/";
+
+        return baseUrl + collectionProducts + this.handle;
+    }
+    
+    // on page load
+    // check for for the cookie
+    if (Cookies.get(cookieName)){
+        // load products from cookie
+        cookieData = Cookies.getJSON(cookieName);
+
+        // inistantiate Dresses from objects in array.
+        if (cookieData !== undefined && cookieData.constructor === Array && cookieData.length > 0){
+            for(var i = 0; i < cookieData.length; i++){
+                recentProducts.push(new Product(cookieData[i]));
+            }
+            recentProductsLoaded = true;
+        }
+    }
+    
+    // check to see if Products have been defined yet
+    if (!recentProductsLoaded){
+        // add the first product as a cookie because there are no cookies
+        recentProducts[0] = currentProduct;
+    } else { 
+        // existing product in recentProducts
+
+        // add the current dress to the array if it isn't all ready there 
+        if (currentProduct.id !== recentProducts[0].id){
+            recentProducts.unshift(currentProduct);
+        }
+    }
+
+    // check the array for duplicates and remove them
+    for(var p = 1; p < recentProducts.length; p++){
+        if (recentProducts[p].id === recentProducts[0].id){
+            recentProducts.splice(p, 1);
+        }
+    }
+
+    // resize array to fit in cookie
+    // this counts the bytes of a string, use JSON.stringify()
+    function byteCount(s) { 
+        return encodeURI(s).split(/%..|./).length - 1;
+    }
+    function isRecentProducstTooBigToSave(products){
+        return byteCount(JSON.stringify(products)) >= maxCookieSize;
+    }
+    while (isRecentProducstTooBigToSave(recentProducts)){
+        recentProducts.pop();
+    }
+    
+    // save data to cookie
+    Cookies.set(cookieName, recentProducts);
+    
+    // build the html for the block
+    if (recentProducts.length > 2){
+        for(var j = 1; j < recentProducts.length; j++){
+            $carousel.append(recentProductTemplate(recentProducts[j]));
+        }
+
+        $hero.removeClass('js-hidden');
+    }
+};
+
 
 timber.productDescriptionBlock = function(){
 
