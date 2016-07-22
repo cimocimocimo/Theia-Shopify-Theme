@@ -3,6 +3,10 @@
   {% for c in sub-menu-categories %}{% assign cat = c | strip %}{% if coll.tags contains cat %}
     <a class="sub-menu-link" href="{{ coll.url }}/{{ cat | handle }}">{{ cat }}</a>
   {% endif %}{% endfor %}
+  {% if is_blog_submenu %}
+    {% for tag in blogs.blog.all_tags %}
+    <a class="sub-menu-link" href="/blogs/blog/{{ tag | handle }}">{{ tag }}</a>
+  {% endif %}
   {% if coll.handle == 'bridal' %}
     <a class="sub-menu-link" href="http://press.theiacouture.com/en/trunk-shows/">Trunk Shows</a>
     <a class="sub-menu-link" href="/pages/bridal-videos/">Bridal Videos</a>
