@@ -9409,18 +9409,7 @@ html.full-viewport {
 }
 
 /* Naviation Menus */
-
-
-
-
 .main-menu {
-
-    li{
-        .main-menu-link{
-            font-weight: 200;
-    }
-
-    }
     .site-header &,
     .site-footer & {
         @extend %nav-menu-base;
@@ -9465,7 +9454,8 @@ html.full-viewport {
 
 .main-menu-link {
     @extend %gray-hover-gold-link;
-    font-weight: 100;
+    
+    font-weight: 200;
     display: block;
     text-transform: uppercase;
     line-height: 1;
@@ -9490,9 +9480,9 @@ html.full-viewport {
         }
         
         // custom breakpoint to stop menu wrapping at sizes just above small.
-        @include at-query(null, $postSmall, 550px){
-            padding-left: $gutter*3/4;
-            padding-right: $gutter*3/4;
+        @include at-query(null, $postSmall, 600px){
+            padding-left: 10px;
+            padding-right: 10px;
         }
         
         @include at-query ($max, $small) {
