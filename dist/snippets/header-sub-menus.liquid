@@ -1,6 +1,7 @@
 <!-- Shop - available-online -->
 {% for coll in collections %}
   {% include 'sub-menu-categories' %}
+  <!-- sub-menu-categories: {{ sub-menu-categories }} -->
   {% if sub-menu-categories %}
     <div id="header-sub-menu-{{ coll.handle }}" class="js-header-sub-menu header-sub-menu">
       {% include 'header-sub-menu' %}
@@ -10,5 +11,5 @@
 {% endfor %}
 <!-- Add the blog tag sub menus -->
 <div id="header-sub-menu-blog" class="js-header-sub-menu header-sub-menu">
-  {% include 'header-sub-menu' with is_blog_submenu = true %}
+  {% include 'header-sub-menu', is_blog_submenu: true %}
 </div>

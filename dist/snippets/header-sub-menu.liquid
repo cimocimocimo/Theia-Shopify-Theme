@@ -5,12 +5,14 @@
   {% endif %}{% endfor %}
   {% if is_blog_submenu %}
     {% for tag in blogs.blog.all_tags %}
-    <a class="sub-menu-link" href="/blogs/blog/{{ tag | handle }}">{{ tag }}</a>
+      <a class="sub-menu-link" href="/blogs/blog/tagged/{{ tag | handle }}">{{ tag }}</a>
+    {% endfor %}
+    <a class="sub-menu-link" href="/blogs/blog/">View All</a>
   {% endif %}
   {% if coll.handle == 'bridal' %}
     <a class="sub-menu-link" href="http://press.theiacouture.com/en/trunk-shows/">Trunk Shows</a>
     <a class="sub-menu-link" href="/pages/bridal-videos/">Bridal Videos</a>
-  {% else %}
+  {% elsif coll %}
     <a class="sub-menu-link mobile-view-all-link" href="{{ coll.url }}">View All</a>
   {% endif %}
 </div>
