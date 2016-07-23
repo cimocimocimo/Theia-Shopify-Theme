@@ -20,11 +20,50 @@
 
 {% endcomment %}
 
-<ul class="pagination-block">
+{% if paginate %}
   {% if paginate.previous %}
-    <li><a href="{{ paginate.previous.url }}" title="{{ paginate.previous.title }}">Previous</a></li>
+    {% assign has_previous = true %}
+    {% assign previous_url = paginate.previous.url %}
+    {% assign previous_title = paginate.previous.title %}
+    {% assign previous_label = 'Prev' %}
+    {% assign previous_label_desktop = 'ious' %}
+  {% endif %}
+  {% if paginate.next %}
+    {% assign has_next = true %}
+    {% assign next_url = paginate.next.url %}
+    {% assign next_title = paginate.next.title %}
+    {% assign next_label = 'Next' %}
+  {% endif %}
+{% elsif blog.next_article or blog.previous_article %}
+  {% if blog.previous_article %}
+    {% assign has_previous = true %}
+    {% assign previous_url = blog.previous_article %}
+    {% assign previous_title = 'Older Article' %}
+    {% assign previous_label = 'Older' %}
+    {% assign previous_label_desktop = ' Article' %}
+  {% endif %}
+  {% if blog.next_article %}
+    {% assign has_next = true %}
+    {% assign next_url = blog.next_article %}
+    {% assign next_title = 'Newer Article' %}
+    {% assign next_label = 'Newer' %}
+    {% assign next_label_desktop = ' Article' %}
+  {% endif %}
+{% endif %}
+
+<ul class="pagination-block">
+  {% if has_previous %}
+    <li>
+      <a href="{{ previous_url }}" title="{{ previous_title }}">
+        {{ previous_label }}<span>{{ previous_label_desktop }}</span>
+      </a>
+    </li>
   {% else %}
-    <li class="disabled"><span>Prev<span class="hide-on-small">ious</span></span></li>
+    <li class="disabled">
+      <span>
+        {{ previous_label }}<span>{{ previous_label_desktop }}</span>
+      </span>
+    </li>
   {% endif %}
 
   {% for part in paginate.parts %}
@@ -41,9 +80,17 @@
     {% endif %}
   {% endfor %}
 
-  {% if paginate.next %}
-    <li class='more'><a href="{{ paginate.next.url }}" title="{{ paginate.next.title }}">Next</a></li>
+  {% if has_next %}
+    <li>
+      <a href="{{ next_url }}" title="{{ next_title }}">
+        {{ next_label }}<span>{{ next_label_desktop }}</span>
+      </a>
+    </li>
   {% else %}
-    <li class="disabled"><span>Next</span></li>
+    <li class="disabled">
+      <span>
+        {{ next_label }}<span>{{ next_label_desktop }}</span>
+      </span>
+    </li>
   {% endif %}
 </ul>

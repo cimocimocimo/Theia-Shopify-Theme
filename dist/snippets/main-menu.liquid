@@ -4,7 +4,7 @@
       <li><a class="main-menu-link" href="/">Home</a></li>
     {% endif %}
     {% for link in linklists.main-menu.links %}
-      {% if link.type == 'collection_link' %}
+      {% if link.type == 'collection_link' or link.type == 'blog_link' %}
         {% capture menu_target %}{{ link.object.handle }}{% endcapture %}
       {% else %}
         {% assign link_id = link.title | handle %}
