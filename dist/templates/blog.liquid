@@ -5,20 +5,14 @@ Don't forget to close the tag after your loop.
 
 {% endcomment %}
 
-<div class="wrapper-8-col">
-
-  {% paginate blog.articles by 5 %}
+<div class="blog-index">
+  
+  {% paginate blog.articles by 3 %}
 
   {% comment %}
   This template is also used for listing out articles of a specific tag.
   You can change layouts or styles by checking if current_tags is true.
   {% endcomment %}
-
-  {% if current_tags %}
-    <h2>{{ blog.title | link_to: blog.url }} &mdash; {{ current_tags.first }}</h2>
-  {% else %}
-    <h2>{{ blog.title }}</h2>
-  {% endif %}
 
   {% comment %}
   Loop through each article in your blog. This is limited to what you set for pagination above.
@@ -26,62 +20,100 @@ Don't forget to close the tag after your loop.
   For more info on article liquid tags:
   - http://docs.shopify.com/themes/liquid-variables/article
   {% endcomment %}
-
-  {% for article in blog.articles %}
-
-    <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
-    <p>
-      Posted by <strong>{{ article.author }}</strong> at
-      <strong><time pubdate datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
-        {{ article.published_at | date: '%b %d, %Y' }}
-      </time></strong>
-    </p>
-
-    {% comment %}
-    Add a surrounding div with class 'rte' to anything that will come from the rich text editor.
-    Since this is just a listing page, you can either use the excerpt or truncate the full article.
-    {% endcomment %}
-    <div class="rte">
-      {% if article.excerpt.size > 0 %}
-        {{ article.excerpt }}
-      {% else %}
-        <p>{{ article.content | strip_html | truncatewords: 100 }}</p>
-      {% endif %}
-    </div>
-
-    {% comment %}
-    Show off meta information like number of comments and tags.
-    {% endcomment %}
-    <ul>
-
-      {% comment %}
-      Don't be fooled, the ? in comments_enabled? is part of the liquid tag.
-      {% endcomment %}
-      {% if blog.comments_enabled? %}
-        <li>
-          <a href="{{ article.url }}#comments">
-            {{ article.comments_count }} {{ article.comments_count | pluralize: 'comment','comments' }}
-          </a>
-        </li>
-      {% endif %}
-
-      {% include 'tags-article' %}
-
-    </ul>
-
-    <p><a href="{{ article.url }}">Read more →</a></p>
-
-    <hr>
-
-  {% endfor %}
-
-  {% if paginate.pages > 1 %}
-    <div class="text-center">
-      {% include 'pagination-custom' %}
-    </div>
-  {% endif %}
-
   
+  {% assign first_article = blog.articles.first %}
+  
+  <div class="blog-index-featured-article">
+    <header class="header-block">
+      <div class="tags">
+        {{ first_article.tags | first | link_to_tag: first_article.tags.first }}
+      </div>
+      <h3><a href="{{ first_article.url }}">{{ first_article.title }}</a></h3>
+      <div class="article-meta">
+        By {{ first_article.author }}
+        <time pubdate datetime="{{ first_article.published_at | date: '%Y-%m-%d' }}">
+          {{ first_article.published_at | date: '%b %d, %Y' }}
+        </time>
+      </div>
+    </header>        
+    <div class="image-block">
+      <a href="{{ first_article.url }}">
+        {{ first_article.image | img_url: '1024x1024' | img_tag }}
+      </a>
+    </div>
+  </div>
+  
+  {% include 'blog-sidebar' %}
+  
+  <div class="blog-index-articles">
+    
+    <div class="blog-index-featured-article">
+      <div class="body-block">
+        {% if first_article.excerpt.size > 0 %}
+          {{ first_article.excerpt }}
+        {% else %}
+          <p>{{ first_article.content | strip_html | truncatewords: 100 }}</p>
+        {% endif %}
+      </div>
+      <div class="button-row">
+        <a href="{{ first_article.url }}" class="button">
+          <span class="label">Keep Reading</span>
+          <span class="icon"></span>
+        </a>
+      </div>
+    </div>
+    
+    {% for article in blog.articles offset:1 %}
+      
+      <hr>
+      
+      <div class="blog-index-article-block">
+        <header class="header-block">
+          <div class="tags">
+            {{ first_article.tags | first | link_to_tag: first_article.tags.first }}
+          </div>
+          <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+          <div class="article-meta">
+            By {{ article.author }}
+            <time pubdate datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+              {{ article.published_at | date: '%b %d, %Y' }}
+            </time>
+          </div>
+        </header>        
+        <div class="image-block">
+          <a href="{{ article.url }}">
+             {{ article.image | img_url: '1024x1024' | img_tag }}
+          </a>
+        </div>
+        <div class="body-block">
+          {% if article.excerpt.size > 0 %}
+            {{ article.excerpt }}
+          {% else %}
+            <p>{{ article.content | strip_html | truncatewords: 100 }}</p>
+          {% endif %}
+        </div>
+        <div class="button-row">
+          <a href="{{ article.url }}" class="button">
+            <span class="label">Keep Reading</span>
+            <span class="icon"></span>
+          </a>
+        </div>
+      </div>
+      
+    {% endfor %}
+    
+    {% if paginate.pages > 1 %}
+      <div class="pagination-row">
+        {% include 'pagination-block' %}
+      </div>
+    {% endif %}
+
+    <div class="newsletter-signup-row">
+      {% include 'newsletter-signup-block' %}
+    </div>
+
+  </div>
+
   {% endpaginate %}
 
 </div>
