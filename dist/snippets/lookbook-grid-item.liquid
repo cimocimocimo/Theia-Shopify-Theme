@@ -1,5 +1,9 @@
 {% include 'capture-style-number' %}
 
+{% capture image_alt_text %}
+  {{ product.title | escape }} - {{ product.description | strip_html | truncate: 100 }}
+{% endcapture %}
+
 <a href="#"
    id="lookbook-style-{{ style_number }}"
    class="lookbook-grid-item{% if forloop.last %} last-item{% endif %}"
@@ -9,6 +13,6 @@
    data-image-url="{{ product.featured_image.src | product_img_url: '1024x1024' }}">
 
   <div class="image-row">
-    <img src="{{ product.featured_image.src | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+    <img src="{{ product.featured_image.src | product_img_url: 'large' }}" alt="{{ image_alt_text | escape }}">
   </div>
 </a>
