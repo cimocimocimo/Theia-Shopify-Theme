@@ -13383,6 +13383,8 @@ span#resultMessage {
         top: 0;
     }
     
+    $shadow: 0 1px 10px rgba($colorBlack, 0.4);
+    
     // images: url, width, height, focus X, focus Y
     $imageLandscape: "{{ 'prefall-2016-hero.jpg' | asset_url }}" 2560 2192 748 752;
     $imagePortrait: "{{ 'prefall-2016-hero-portrait.jpg' | asset_url }}" 1584 2632 736 748;
@@ -13415,14 +13417,19 @@ span#resultMessage {
         }
 
         h2 {
-            color: $colorDarkerMidGray;
+            color: $colorWhite;
+            text-shadow: $shadow;
             font-size: 60px;
+            font-weight: 700;
             line-height: 72px;
             margin-top: 0;
         }
         
         a {
             @extend %large-white-arrow-button;
+            @include box-shadow($shadow);
+            
+            font-weight: 700;
         }
         
         @media screen and ($max, $medium){
