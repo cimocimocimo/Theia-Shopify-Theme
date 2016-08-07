@@ -680,6 +680,32 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     font-size: 0.75em; /* ~12px */
 }
 
+%smaller-arial-text {
+    font-family: $bodyFontStack;
+    font-weight: 700;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.6875em; /* ~11px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.6875em; /* ~11px */
+    }
+}
+
+%small-century-gothic-text {
+    font-family: $centuryGothicFontStack;
+    font-weight: 200;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.8125em; /* ~13px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.625em; /* ~10px */
+    }
+}
+
 %smallish-century-gothic-text {
     font-family: $centuryGothicFontStack;
     font-weight: 700;
@@ -687,9 +713,9 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     font-size: 0.75em; /* ~12px */
 }
 
-%smaller-arial-text {
-    font-family: $bodyFontStack;
-    font-weight: 700;
+%smaller-century-gothic-text {
+    font-family: $centuryGothicFontStack;
+    font-weight: 200;
 
     @include at-query ($min, $postSmall) {
         font-size: 0.6875em; /* ~11px */
@@ -9416,9 +9442,6 @@ html.full-viewport {
 
         @mixin main-menu-separator(){
             li {
-
-                font-size: 1.2em;
-
                 &:first-child {
                     border-left-width: 0;
                 }
@@ -9455,15 +9478,15 @@ html.full-viewport {
 .main-menu-link {
     @extend %gray-hover-gold-link;
     
-    font-weight: 200;
     display: block;
     text-transform: uppercase;
     line-height: 1;
 
     .site-header &,
     .site-footer & {
-        @extend %small-bold-arial-text;
-
+        font-weight: 700;
+        font-size: 0.975em;
+        
         @include at-query ($min, $postSmall) {
             padding: $gutter/4 $gutter * 1.25;
         }
@@ -9636,17 +9659,16 @@ html.full-viewport {
 }
 
 .customer-menu-link {
-    text-transform: uppercase;
     @extend %gray-hover-gold-link;
     @include clearfix();
 
     display: block;
     position: relative;
+    text-transform: uppercase;
 
     .site-header & {
 
         .label {
-            font-weight: 200;
             @extend %small-bold-arial-text;
         }
 
@@ -9718,11 +9740,10 @@ html.full-viewport {
 }
 
 .secondary-menu-link {
-    font-weight: 200;
-    text-transform: uppercase;
     @extend %gray-hover-gold-link;
-    @extend %small-bold-arial-text;
+    @extend %small-century-gothic-text;
 
+    text-transform: uppercase;
     padding: 3px $gutter/2 2px;
 }
 
@@ -9737,7 +9758,7 @@ html.full-viewport {
     }
 
     .count {
-        @extend %smaller-arial-text;
+        @extend %smaller-century-gothic-text;
         @include prefix(border-radius, 2px);
         @include transform('scale(0)');
         @include transition();
