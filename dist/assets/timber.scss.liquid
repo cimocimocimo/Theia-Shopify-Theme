@@ -13373,7 +13373,8 @@ span#resultMessage {
     }
 }
 
-.prefall-2016-hero {
+// 100% height hero
+%hero-100-height {
     position: relative;
     overflow: hidden;
     height: 100vh;
@@ -13383,38 +13384,93 @@ span#resultMessage {
         top: 0;
     }
     
-    $shadow: 0 1px 10px rgba($colorBlack, 0.4);
-    
-    // images: url, width, height, focus X, focus Y
-    $imageLandscape: "{{ 'prefall-2016-hero.jpg' | asset_url }}" 2560 2192 748 752;
-    $imagePortrait: "{{ 'prefall-2016-hero-portrait.jpg' | asset_url }}" 1584 2632 736 748;
-    
     .image {
         height: 100%;
         width: 100%;
 
-        background-image: url(nth($imageLandscape, 1));
         background-repeat: no-repeat;
 
         // default to center horizontally on the focus point
         height: 100%;
-        background-position: percentage(nth($imageLandscape, 4)/nth($imageLandscape, 2)) percentage(nth($imageLandscape, 5)/nth($imageLandscape, 3));
         background-size: cover;
     }
 
     .content {
         @include verticalCenterChildElements;
 
+        padding: $headerHeightDesktop $gutter 0;
         height: 100%;
-        width: 50%;
+        min-width: 50%;
         right: 0;
-        background: rgba($colorWhite, 0.4);
-        padding: $headerHeightDesktop 2vh 0;
 
         > div {
             text-align: center;
             width: 100%;
         }
+
+        @media screen and ($max, $medium){
+            padding: $headerHeightMobile $gutter 0;
+        }
+    }
+
+    @media screen and (max-width: $medium) and (max-aspect-ratio: 1/1){
+        .content {
+            height: percentage(1/3);
+            width: 100%;
+            bottom: 0;
+            top: auto;
+            padding: $gutter;
+        }
+    }
+
+    @media screen and (max-width: $medium) and (min-aspect-ratio: 1/1){
+        height: auto;
+        padding-top: 100%;
+    }
+}
+
+@mixin position100HeightHeroBGImage($imageLandscape, $imagePortrait){
+    // unpack variables
+    $landscapeUrl: nth($imageLandscape, 1);
+    $landscapeWidth: nth($imageLandscape, 2);
+    $landscapeHeight: nth($imageLandscape, 3);
+    $landscapeFocusX: nth($imageLandscape, 4);
+    $landscapeFocusY: nth($imageLandscape, 5);
+    
+    $portraitUrl: nth($imagePortrait, 1);
+    $portraitWidth: nth($imagePortrait, 2);
+    $portraitHeight: nth($imagePortrait, 3);
+    $portraitFocusX: nth($imagePortrait, 4);
+    $portraitFocusY: nth($imagePortrait, 5);
+
+    .image {
+        background-image: url($landscapeUrl);
+
+        // default to center horizontally on the focus point
+        background-position: percentage($landscapeFocusX/$landscapeWidth) percentage($landscapeFocusY/$landscapeHeight);
+    }
+
+    @media screen and (max-width: $medium) and (max-aspect-ratio: 1/1){
+        .image {
+            background-image: url($portraitUrl);
+
+            // default to center horizontally on the focus point
+            background-position: percentage($portraitFocusX/$portraitWidth) percentage($portraitFocusY/$portraitHeight);
+        }
+    }
+}
+
+.prefall-2016-hero {
+    @extend %hero-100-height;
+
+    // images: url, width, height, focus X, focus Y
+    $imageLandscape: "{{ 'prefall-2016-hero.jpg' | asset_url }}" 2560 2192 748 752;
+    $imagePortrait: "{{ 'prefall-2016-hero-portrait.jpg' | asset_url }}" 1584 2632 736 748;
+    
+    @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
+    
+    .content {
+        background: rgba($colorWhite, 0.4);
 
         h2 {
             color: $colorWhite;
@@ -13431,27 +13487,10 @@ span#resultMessage {
             
             font-weight: 700;
         }
-        
-        @media screen and ($max, $medium){
-            padding: $headerHeightMobile 2vh 0;
-        }
     }
 
     @media screen and (max-width: $medium) and (max-aspect-ratio: 1/1){
-        .image {
-            background-image: url(nth($imagePortrait, 1));
-
-            // default to center horizontally on the focus point
-            background-position: percentage(nth($imagePortrait, 4)/nth($imagePortrait, 2)) percentage(nth($imagePortrait, 5)/nth($imagePortrait, 3));
-        }
-
         .content {
-            height: percentage(1/3);
-            width: 100%;
-            bottom: 0;
-            top: auto;
-            padding: $gutter;
-
             h2 {
                 font-size: 36px;
                 line-height: 1.1;
@@ -13459,15 +13498,99 @@ span#resultMessage {
         }
     }
 
-    @media screen and (max-width: $medium) and (min-aspect-ratio: 1/1){
-        height: auto;
-        padding-top: 100%;
+    @media screen and (min-width: $postSmall) and (max-width: $large){
+        .content {
+            h2 {
+                font-size: 42px;
+            }
+        }
+    }
+}
+
+.fall-2016-hero {
+    @extend %hero-100-height;
+    
+    $shadow: 2px 2px 7px rgba($colorBlack,0.33);
+    
+    // images: url, width, height, focus X, focus Y
+    $imageLandscape: "{{ 'fall-2016-hero.jpg' | asset_url }}" 2880 1800 (704*2) (313*2);
+    $imagePortrait: "{{ 'fall-2016-hero-portrait.jpg' | asset_url }}" (768*2) 2048 (373*2) (267*2);
+    
+    @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
+
+    .content {
+        min-width: 33%;
+
+        h2,
+        a {
+            text-transform: uppercase;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        h2 {
+            color: $colorWhite;
+            font-size: 46px;
+            line-height: 1.2;
+            margin-top: 0;
+            text-shadow: $shadow;
+        }
+        
+        a {
+            @extend %large-white-arrow-button;
+            @include box-shadow($shadow);
+
+            font-size: 30px;
+            color: $colorDarkerMidGray;
+            padding: 9px 48px 0px;
+            height: auto;
+            
+            .icon {
+                font-size: 22px;
+            }
+
+            &:hover {
+                color: $colorWhite;
+                background-color: $colorDarkerMidGray;
+            }
+        }
+    }
+
+    @media screen and (max-width: $medium) and (max-aspect-ratio: 1/1){
+        .content {
+            h2 {
+                font-size: 36px;
+                line-height: 1.1;
+            }
+
+            a {
+                font-size: 21px;
+                padding: 7px 32px 0px;
+
+                .icon {
+                    font-size: 18px;
+                    top: -1px;
+                    padding-left: 0;
+                }
+            }
+        }
     }
 
     @media screen and (min-width: $postSmall) and (max-width: $large){
         .content {
             h2 {
-                font-size: 42px;
+                font-size: 36px;
+            }
+
+            a {
+                font-size: 21px;
+                padding: 7px 32px 0px;
+
+                .icon {
+                    font-size: 18px;
+                    top: -1px;
+                    padding-left: 0;
+                }
             }
         }
     }
