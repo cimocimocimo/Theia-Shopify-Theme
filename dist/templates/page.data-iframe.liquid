@@ -1,0 +1,52 @@
+{% layout none %}
+{% comment %}
+This page allows the Django site to access info from Shopify that is associated with
+the current user. Loading the this page through the iFrame allows the user to send back
+their session token so Shopify can load their cart and customer info if they are
+logged in.
+
+This page is loaded in an iFrame in the Django site but all the info is still
+protected from Cross Domain Scripting attacks. In order to get the info through the XSS
+barrier we use the window.postMessage() method to send data between the parent Django
+site and the Shopify page loaded in the iFrame. Each site must be configured to send
+and recieve info from the page. This allows us to only expose the info that we want
+exposed and protects the customer from malicious code from doing things like making
+purchases or viewing order info.
+{% endcomment %}
+<html>
+  <head>
+    {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
+  </head>
+  <body>
+    <script>
+        // need to create a string to pass in IE 8/9
+        // only string messages are supported in IE 8/9 for window.postMessage()
+        var message = JSON.stringify({
+            customer: {% if customer %}{
+                id: '{{ customer.id }}',
+                email: '{{ customer.email }}',
+                firstName: '{{ customer.first_name }}',
+                lastName: '{{ customer.last_name }}'
+            }{% else %}null{% endif %},
+            cart: {{ cart | json }}
+        }),
+            allowedDomains = [
+                'http://localhost:8000',
+                'http://press.theiacouture.com',
+                'http://www.theiacouture.com',
+                'http://theiacouture.com'
+            ];
+
+        window.addEventListener('message', function(event){
+            // $.inArray works like Array.indexOf()
+            // using the jQuery version for IE8 support
+            // ensure the event message came from an allowed domain.
+            allowedDomainIndex = $.inArray(event.origin, allowedDomains);
+            if (allowedDomainIndex !== -1){
+                // send the message only to the sender of the original message
+                parent.postMessage(message, allowedDomains[allowedDomainIndex]);
+            }
+        }, false);
+    </script>
+  </body>
+</html>
