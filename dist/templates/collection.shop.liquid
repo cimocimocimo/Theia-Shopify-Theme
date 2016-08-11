@@ -128,18 +128,10 @@ For more information on collection tags:
 
 <div id="top" class="shop-page-hero">
   <div class="shop-hero-carousel">
-    <img src="{{ 'shop-carousel-hero-Spring2016_882660_1607.jpg' | asset_url }}" />
-    <img src="{{ 'shop-carousel-hero-Spring2016_882676_1509.jpg' | asset_url }}" />
-    <img src="{{ 'shop-carousel-hero-Spring2016_882676_1516.jpg' | asset_url }}" />
-    <img src="{{ 'shop-carousel-hero-Spring2016_882694_1707.jpg' | asset_url }}" />
-    <img src="{{ 'shop-carousel-hero-Spring2016_882694_1718.jpg' | asset_url }}" />
-    <img src="{{ 'shop-carousel-hero-Spring2016_882762_1379.jpg' | asset_url }}" />
-    <img src="{{ 'shop-carousel-hero-Spring2016_882767_1012.jpg' | asset_url }}" />
-    <img src="{{ 'shop-carousel-hero-Spring2016_882814_0772.jpg' | asset_url }}" />
-    <img src="{{ 'shop-carousel-hero-Spring2016_882826_4234.jpg' | asset_url }}" />
-    <img src="{{ 'shop-carousel-hero-Spring2016_882827_4289.jpg' | asset_url }}" />
-    <img src="{{ 'shop-carousel-hero-Spring2016_882834_0591.jpg' | asset_url }}" />
-    <img src="{{ 'shop-carousel-hero-Spring2016_882838_0650.jpg' | asset_url }}" />
+    {% assign carousel_images = 'shop-carousel-fall-2016_882895_0424.jpg shop-carousel-fall-2016_882896_3117.jpg shop-carousel-fall-2016_882921_1628.jpg shop-carousel-fall-2016_882969_0001.jpg shop-carousel-fall-2016_882969_1256.jpg shop-carousel-fall-2016_882997_0657.jpg shop-carousel-fall-2016_882997_0669.jpg shop-carousel-fall-2016_883007_0407.jpg shop-carousel-fall-2016_883017_1731.jpg shop-carousel-fall-2016_883025_0711.jpg' | split: ' ' %}
+    {% for image in carousel_images %}
+      <img src="{{ image | asset_url }}" />
+    {% endfor %}
   </div>
 </div>
 
