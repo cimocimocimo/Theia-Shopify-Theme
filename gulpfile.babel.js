@@ -2,8 +2,10 @@
 
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
+import Manifest from 'asset-builder';
 
-var plugins =  gulpLoadPlugins(),
+var plugins = gulpLoadPlugins(),
+    manifest = Manifest('./src/assets/manifest.json'),
     // load private data
     privateData = require('./private.json'),
     // set current shop data

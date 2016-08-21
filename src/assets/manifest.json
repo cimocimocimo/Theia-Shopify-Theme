@@ -1,0 +1,6 @@
+{
+  "paths": {
+    "source": "src/assets/",
+    "dist": "dist/assets/"
+  }
+}
