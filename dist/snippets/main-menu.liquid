@@ -11,9 +11,12 @@
         {% assign menu_target = false %}
       {% endif %}
       {% assign link_disabled = false %}
+      {% comment %}disable click action for bridal{% endcomment %}
+      {% comment %}
       {% if link.object.handle == 'bridal' %}
         {% assign link_disabled = true %}
       {% endif %}
+      {% endcomment %}
       {% case location %}
       {% when 'footer' %}
       <li>

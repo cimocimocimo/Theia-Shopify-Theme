@@ -88,7 +88,7 @@ For more information on collection tags:
 {% if meta.other_images.desktop_hero != blank or meta.slide1.desktop != blank %}
   <div id="top" class="{% if collection.handle == 'shop' %}shop-page-hero{% else %}collection-page-hero{% endif %}">
     {% if meta.slide1.desktop != blank %}
-      <div class="collection-hero-carousel">
+      <div class="js-hero-carousel collection-hero-carousel">
         {% for slide_name in slide_names %}
           {% unless meta[slide_name].desktop == blank %}
             <div class="hero-slide hero-{{ slide_name }}">

@@ -1,0 +1,83 @@
+<style>
+
+  {% comment %}These are the namespace keys for each of the slides in the collection metafields{% endcomment %}
+    {% assign slide_names = 'slide1 slide2 slide3 slide4 slide5' | split: ' ' %}
+    {% for slide_name in slide_names %}
+    {% assign slide = collection.metafields[slide_name] %}
+    {% unless slide.empty? %}
+    .hero-{{ slide_name }} {
+        background-image: url('{{ slide.desktop }}');
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 1024px){
+        .hero-{{ slide_name }} {
+            background-image: url('{{ slide.tablet }}');
+        }
+    }
+
+    @media screen and (max-width: 480px){
+        .hero-{{ slide_name }} {
+            background-image: url('{{ slide.mobile }}');
+        }
+    }
+    {% endunless %}{% endfor %}
+
+    {% if collection.metafields.other_images.desktop_hero != blank %}
+    {% assign other_images = collection.metafields.other_images %}
+
+    .collection-page-hero,
+    .shop-page-hero {
+        background-image: url('{{ other_images.desktop_hero }}');
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 1024px){
+        .collection-page-hero,
+        .shop-page-hero {
+            background-image: url('{{ other_images.tablet_hero }}');
+        }
+    }
+
+    @media screen and (max-width: 480px){
+        .collection-page-hero,
+        .shop-page-hero {
+            background-image: url('{{ other_images.mobile_hero }}');
+        }
+    }
+    {% endif %}
+
+</style>
+
+<div id="top" class="bridal-page-hero">
+  <div class="js-hero-carousel bridal-page-hero-carousel">
+
+    <div class="hero-slide">
+
+      <div class="hero-slide-image-desktop" style="background-image: url({{ 'bridal-collection-1-desktop.jpg' | asset_url }});" ></div>
+      <div class="hero-slide-image-mobile" style="background-image: url({{ 'bridal-collection-1-mobile.jpg' | asset_url }});" ></div>
+      <div class="hero-slide-image-tablet" style="background-image: url({{ 'bridal-collection-1-tablet.jpg' | asset_url }});" ></div>
+
+    </div>
+    <div class="hero-slide">
+
+      <div class="hero-slide-image-desktop" style="background-image: url({{ 'bridal-collection-2-desktop.jpg' | asset_url }});" ></div>
+      <div class="hero-slide-image-mobile" style="background-image: url({{ 'bridal-collection-2-mobile.jpg' | asset_url }});" ></div>
+      <div class="hero-slide-image-tablet" style="background-image: url({{ 'bridal-collection-2-tablet.jpg' | asset_url }});" ></div>
+
+    </div>
+    <div class="hero-slide">
+
+      <div class="hero-slide-image-desktop" style="background-image: url({{ 'bridal-collection-3-desktop.jpg' | asset_url }});" ></div>
+      <div class="hero-slide-image-mobile" style="background-image: url({{ 'bridal-collection-3-mobile.jpg' | asset_url }});" ></div>
+      <div class="hero-slide-image-tablet" style="background-image: url({{ 'bridal-collection-3-tablet.jpg' | asset_url }});" ></div>
+
+    </div>
+    <div class="hero-slide">
+
+      <div class="hero-slide-image-desktop" style="background-image: url({{ 'bridal-collection-4-desktop.jpg' | asset_url }});" ></div>
+      <div class="hero-slide-image-mobile" style="background-image: url({{ 'bridal-collection-4-mobile.jpg' | asset_url }});" ></div>
+      <div class="hero-slide-image-tablet" style="background-image: url({{ 'bridal-collection-4-tablet.jpg' | asset_url }});" ></div>
+
+    </div>
+
+  </div>
+</div>

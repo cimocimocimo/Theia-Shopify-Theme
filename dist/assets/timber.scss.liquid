@@ -6736,7 +6736,7 @@ address {
     }
 }
 
-.collection-hero-carousel {
+%collection-hero-carousel-base {
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -6752,6 +6752,13 @@ address {
         width: 100%;
         background-position: top center;
         background-size: cover;
+
+        img {
+            height: 100%;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+        }
     }
 
     .slick-prev,
@@ -6778,6 +6785,59 @@ address {
         &:before {
             /* .icon-arrow-right-xlarge:before */
             content: "\e607";
+        }
+    }
+}
+
+.collection-hero-carousel {
+    @extend %collection-hero-carousel-base;
+}
+
+.bridal-page-hero {
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        height: 588px;
+    }
+
+    @include at-query( null, $postMedium, $large ){
+        height: 532px;
+    }
+
+    @include at-query( null, $postSmall, $medium ){
+        height: 476px;
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        height: 420px;
+    }
+}
+
+.bridal-page-hero-carousel {
+    @extend %collection-hero-carousel-base;
+    
+    [class^="hero-slide-image-"] {
+        height: 100%;
+        display: none;
+        background-position: top center; 
+       background-size: cover;
+    }
+
+    @media screen and (min-width: 1024px){
+        .hero-slide-image-desktop {
+            display: block;
+        }
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 1024px){
+        .hero-slide-image-tablet {
+            display: block;
+        }
+    }
+    
+    @media screen and (max-width: 480px){
+        .hero-slide-image-mobile {
+            display: block;
         }
     }
 }
