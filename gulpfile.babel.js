@@ -1,11 +1,15 @@
-var gulp = require('gulp'),
-    plugins = require('gulp-load-plugins')(),
-    // load private data
-    private = require('./private.json'),
-    // set current shop data
-    shop = private.shopifyStores[private.currentShop];
+'use strict';
 
-gulp.task('shopify:watch', function() {
+import gulp from 'gulp';
+import gulpLoadPlugins from 'gulp-load-plugins';
+
+var plugins =  gulpLoadPlugins(),
+    // load private data
+    privateData = require('./private.json'),
+    // set current shop data
+    shop = privateData.shopifyStores[privateData.currentShop];
+
+gulp.task('shopify:watch', () => {
     return plugins.watch('./dist/+(assets|layout|config|snippets|templates|locales)/**')
         .pipe(plugins.shopifyUpload(
             shop.api_key,
