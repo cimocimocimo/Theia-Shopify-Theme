@@ -83,7 +83,7 @@ gulp.task('videos', () => {
 // ### Fonts
 // `gulp fonts` - Grabs all the fonts and outputs them in a flattened directory
 // structure. See: https://github.com/armed/gulp-flatten
-gulp.task('fonts', function() {
+gulp.task('fonts', () => {
     return gulp.src(globs.fonts)
         .pipe(plugins.flatten())
         .pipe(gulp.dest(path.dist + 'assets'))
@@ -92,7 +92,7 @@ gulp.task('fonts', function() {
 
 // ### Images
 // `gulp images` - Run lossless compression on all the images.
-gulp.task('images', function() {
+gulp.task('images', () => {
     return gulp.src(globs.images)
         .pipe(plugins.imagemin({
             progressive: true,
@@ -112,7 +112,7 @@ gulp.task('shopify', () => {
 
 // ### JSHint
 // `gulp jshint` - Lints configuration JSON and project JS.
-gulp.task('jshint', function() {
+gulp.task('jshint', () => {
     return;
 
     return gulp.src([
@@ -167,7 +167,7 @@ gulp.task('clean', () => {
 // ### Build
 // `gulp build` - Run all the build tasks but don't clean up beforehand.
 // Generally you should be running `gulp` instead of `gulp build`.
-gulp.task('build', function(callback) {
+gulp.task('build', (callback) => {
     runSequence('styles',
                 'scripts',
                 ['fonts', 'images', 'templates', 'videos', 'shopify'],
@@ -176,6 +176,6 @@ gulp.task('build', function(callback) {
 
 // ### Gulp
 // `gulp` - Run a complete build. To compile for production run `gulp --production`.
-gulp.task('default', ['clean'], function() {
+gulp.task('default', ['clean'], () => {
     gulp.start('build');
 });
