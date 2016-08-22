@@ -25,7 +25,7 @@
     "gulp-load-plugins": "^1.2.4",
     "gulp-shopify-upload": "^2.0.0",
     "gulp-util": "^3.0.7",
-    "gulp-watch": "^4.3.5",
+    "gulp-watch": "^4.3.9",
     "jshint": "^2.9.3",
     "run-sequence": "^1.2.2"
   }

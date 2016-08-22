@@ -43,18 +43,6 @@ var plugins = gulpLoadPlugins(),
     project = manifest.getProjectGlobs();
 
 
-gulp.task('shopify:watch', () => {
-    return plugins.watch('./dist/+(assets|layout|config|snippets|templates|locales)/**')
-        .pipe(plugins.shopifyUpload(
-            shop.api_key,
-            shop.password,
-            shop.url,
-            null, // theme id is optional
-            {
-                'basePath': path.dist
-            }
-        ));
-});
 
 // ### Styles
 // `gulp styles` - Compiles, combines, and optimizes Bower CSS and project CSS.
@@ -140,6 +128,34 @@ gulp.task('jshint', function() {
     //     .pipe(jshint())
     //     .pipe(jshint.reporter('jshint-stylish'))
     //     .pipe(gulpif(enabled.failJSHint, jshint.reporter('fail')));
+});
+
+// ### Watch
+// `gulp watch` - Use BrowserSync to proxy your dev server and synchronize code
+// changes across devices. Specify the hostname of your dev server at
+// `manifest.config.devUrl`. When a modification is made to an asset, run the
+// build step for that asset and inject the changes into the page.
+// See: http://www.browsersync.io
+gulp.task('watch', () => {
+    gulp.watch([path.source + 'assets/scripts/**/*.js+(.liquid)'], ['scripts']);
+    gulp.watch([path.source + 'assets/styles/**/*.scss+(.liquid)'], ['styles']);
+    gulp.watch([path.source + 'assets/fonts/**/*'], ['fonts']);
+    gulp.watch([path.source + 'assets/images/**/*'], ['images']);
+    gulp.watch([path.source + 'assets/videos/**/*'], ['videos']);
+    gulp.watch([path.source + 'assets/templates/**/*'], ['templates']);
+    plugins.watch(path.source + 'shopify_theme/**/*', {base: path.source + 'shopify_theme'})
+        .pipe(gulp.dest(path.dist));
+
+    return plugins.watch(path.dist + '+(assets|layout|config|snippets|templates|locales)/**')
+        .pipe(plugins.shopifyUpload(
+            shop.api_key,
+            shop.password,
+            shop.url,
+            null, // theme id is optional
+            {
+                'basePath': path.dist
+            }
+        ));
 });
 
 // ### Clean
