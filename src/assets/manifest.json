@@ -1,6 +1,14 @@
 {
+  "dependencies": {
+    "fonts": {
+      "files": ["assets/fonts/**/*"]
+    },
+    "images": {
+      "files": ["assets/images/**/*"]
+    }
+  },
   "paths": {
-    "source": "src/assets/",
-    "dist": "dist/assets/"
+    "source": "src/",
+    "dist": "dist/"
   }
 }
