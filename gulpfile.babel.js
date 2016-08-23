@@ -5,6 +5,7 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 import Manifest from 'asset-builder';
 import del from 'del';
 import runSequence from 'run-sequence';
+import lazypipe from 'lazypipe';
 
 var plugins = gulpLoadPlugins(),
     manifest = Manifest('./src/assets/manifest.json'),
@@ -42,12 +43,72 @@ var plugins = gulpLoadPlugins(),
     // - `project.css` - Array of first-party CSS assets.
     project = manifest.getProjectGlobs();
 
+// ## Reusable Pipelines
+// See https://github.com/OverZealous/lazypipe
+
+// ### CSS processing pipeline
+// Example
+// ```
+// gulp.src(cssFiles)
+//   .pipe(cssTasks('main.css')
+//   .pipe(gulp.dest(path.dist + 'styles'))
+// ```
+// function cssTasks(filename) {
+//   return lazypipe()
+//     .pipe(() => {
+//       return plugins.if(false, plugins.plumber());
+//     })
+//     .pipe(() => {
+//       return plugins.if(true, plugins.sourcemaps.init());
+//     })
+//     .pipe(() => {
+//       return plugins.if('*.scss+(.liquid)', plugins.sass({
+//         outputStyle: 'nested', // libsass doesn't support expanded yet
+//         precision: 10,
+//         includePaths: ['.'],
+//         errLogToConsole: true
+//       }));
+//     })
+//     .pipe(plugins.concat, filename)
+//     .pipe(plugins.autoprefixer, {
+//       browsers: [
+//         'last 2 versions',
+//         'android 4',
+//         'opera 12'
+//       ]
+//     })
+//     .pipe(plugins.cssnano, {
+//       safe: true
+//     })
+//     .pipe(() => {
+//       return plugins.if(true, plugins.sourcemaps.write('.', {
+//         sourceRoot: 'assets/styles/'
+//       }));
+//     })();
+// };
 
 
 // ### Styles
 // `gulp styles` - Compiles, combines, and optimizes Bower CSS and project CSS.
 // By default this task will only log a warning if a precompiler error is
 // raised. If the `--production` flag is set: this task will fail outright.
+
+// gulp.task('styles', ['wiredep'], function() {
+//     var merged = merge();
+//     manifest.forEachDependency('css', function(dep) {
+//         var cssTasksInstance = cssTasks(dep.name);
+//         if (!enabled.failStyleTask) {
+//             cssTasksInstance.on('error', function(err) {
+//                 console.error(err.message);
+//                 this.emit('end');
+//             });
+//         }
+//         merged.add(gulp.src(dep.globs, {base: 'styles'})
+//                    .pipe(cssTasksInstance));
+//     });
+//     return merged;
+// });
+
 gulp.task('styles', () => {
     return gulp.src(path.source + 'assets/styles/**.*')
         .pipe(plugins.flatten())
@@ -103,13 +164,6 @@ gulp.task('images', () => {
         // .pipe(browserSync.stream());
 });
 
-// ### Shopify Theme Files
-// `gulp shopify` - Copys the shopify theme files to the dist dir
-gulp.task('shopify', () => {
-    return gulp.src(path.source + 'shopify_theme/**/*')
-        .pipe(gulp.dest(path.dist));
-});
-
 // ### JSHint
 // `gulp jshint` - Lints configuration JSON and project JS.
 gulp.task('jshint', () => {
@@ -121,14 +175,88 @@ gulp.task('jshint', () => {
         .pipe(plugins.jshint())
         .pipe(plugins.jshint.reporter('jshint-stylish'))
         .pipe(plugins.if(true, plugins.jshint.reporter('fail')));
-    
-    // return gulp.src([
-    //     'bower.json', 'gulpfile.babel.js', 'private.json'
-    // ].concat(project.js))
-    //     .pipe(jshint())
-    //     .pipe(jshint.reporter('jshint-stylish'))
-    //     .pipe(gulpif(enabled.failJSHint, jshint.reporter('fail')));
 });
+
+// var liquidAttrWrapOpen = /\{\{(#|\^)[^}]+\}\}/;
+// var hbAttrWrapClose = /\{\{\/[^}]+\}\}/;
+// var hbAttrWrapPair = [hbAttrWrapOpen, hbAttrWrapClose];
+
+// gets all file extensions
+// ('./some/where/something.html.liquid') => ['html', 'liquid']
+// returns null if no extension
+function getExtension(path) {
+    var basename = path.split('/').pop(),  // extract file name from full path ...
+        // (supports `\\` and `/` separators)
+        pos = basename.indexOf(".");       // get first position of `.`
+
+    if (basename === "" || pos < 1)            // if file name is empty or ...
+        return null;                             //  `.` not found (-1) or comes first (0)
+
+    return basename.slice(pos + 1).split('.');            // extract extension ignoring `.` and spliting on '.'
+}
+
+// searches array for any value in passed array
+function doesArrayContainAny(haystack, needles){
+    if (Array.isArray(haystack)
+        && Array.isArray(needles)){
+        return needles.some(v => haystack.indexOf(v) >= 0);
+    } else {
+        throw new Error('function doesArrayContainAny requires 2 passed arrays.')
+    }
+}
+
+// ### Shopify Theme Files
+// `gulp shopify` - Copys the shopify theme files to the dist dir
+var shopifyPipe = (() => {
+    var liquidTagRegexes = [/\{\{[\s\S]*?\}\}/, /\{%[\s\S]*?%\}/],
+        whitelist = ['liquid', 'html'],
+        blacklist = ['js'];
+    
+    // test for minification
+    function shouldMinify(file){
+        var ext = getExtension(file.path);
+
+        // if extension in whitelist and not in blacklist
+        if (ext !== null
+            && doesArrayContainAny(ext, whitelist)
+            && !doesArrayContainAny(ext, blacklist)){
+            return true;
+        }
+        return false;
+    }
+
+    // return the lazypipe
+    return lazypipe()
+        .pipe(() => {
+            return plugins.if(shouldMinify, plugins.htmlmin({
+                collapseBooleanAttributes: true,
+                collapseWhitespace: true,
+                decodeEntities: true,
+                ignoreCustomFragments: liquidTagRegexes,
+                includeAutoGeneratedTags: false,
+                minifyCSS: true,
+                minifyJS: true,
+                processScripts: ['text/template'],
+                quoteCharacter: "'",
+                removeAttributeQuotes: true,
+                removeComments: true,
+                removeEmptyAttributes: true,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                useShortDoctype: true
+            }))
+        })
+        .pipe(gulp.dest, path.dist);
+})()
+
+
+
+gulp.task('shopify', () => {
+    return gulp.src(path.source + 'shopify_theme/**/*')
+        .pipe(shopifyPipe());
+});
+
 
 // ### Watch
 // `gulp watch` - Use BrowserSync to proxy your dev server and synchronize code
@@ -143,8 +271,9 @@ gulp.task('watch', () => {
     gulp.watch([path.source + 'assets/images/**/*'], ['images']);
     gulp.watch([path.source + 'assets/videos/**/*'], ['videos']);
     gulp.watch([path.source + 'assets/templates/**/*'], ['templates']);
+    
     plugins.watch(path.source + 'shopify_theme/**/*', {base: path.source + 'shopify_theme'})
-        .pipe(gulp.dest(path.dist));
+        .pipe(shopifyPipe());
 
     return plugins.watch(path.dist + '+(assets|layout|config|snippets|templates|locales)/**')
         .pipe(plugins.shopifyUpload(
@@ -174,8 +303,31 @@ gulp.task('build', (callback) => {
                 callback);
 });
 
+gulp.task('clean-build', () => {
+    runSequence('clean', 'build');
+});
+
+
+
+// ### Deploy
+// `gulp deploy` - Cleans, builds, and uploads the theme to the current shop
+gulp.task('shopify-upload', () => {
+    return gulp.src(path.dist + '+(assets|layout|config|snippets|templates|locales)/**')
+        .pipe(plugins.shopifyUpload(
+            shop.api_key,
+            shop.password,
+            shop.url,
+            null, // theme id is optional
+            {
+                'basePath': path.dist
+            }
+        ));
+});
+
+gulp.task('deploy', () => {
+    runSequence('clean', 'build', 'shopify-upload');
+});
+
 // ### Gulp
 // `gulp` - Run a complete build. To compile for production run `gulp --production`.
-gulp.task('default', ['clean'], () => {
-    gulp.start('build');
-});
+gulp.task('default', ['clean-build']);
