@@ -1,0 +1,421 @@
+/*============================================================================
+  #Site Header
+  ==============================================================================*/
+
+/*================ Dropdowns ================*/
+.site-nav--dropdown {
+    display: none;
+    position: absolute;
+    left: 0;
+    z-index: 5;
+
+    .supports-no-touch .site-nav--has-dropdown:hover &,
+    .site-nav--has-dropdown.nav-hover &,
+    .nav-focus + & {
+        display: block;
+    }
+
+    a {
+        background-color: $colorNav;
+
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: darken($colorNav, 10%);
+        }
+    }
+}
+
+/* Header */
+.header-container {
+    @include transition(all 0.3s);
+
+    z-index: $zindexNavigation;
+
+    &.headroom {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    &.headroom--pinned {
+        @include transform(translateY(0%));
+        opacity: 1;
+    }
+
+    &.headroom--unpinned {
+        @include transform(translateY(-100%));
+        opacity: 0;
+    }
+}
+
+.site-header {
+    position: relative;
+    z-index: $zindexNavigation;
+
+    .layout-simplified & {
+        padding: $gutter * 2 0 $gutter;
+
+        /* center all child elements */
+        > * {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @include at-query ($max, $small) {
+            padding: ( $gutter * 1.5 ) 0 ( $gutter * 2 )
+        }
+    }
+}
+
+/* Using a mixin here since this is shared between media queries */
+@mixin site-header-column() {
+    @include verticalCenterChildElements();
+    @include box-sizing( content-box );
+
+    position: relative;
+    display: block;
+    float: left;
+}
+
+%site-header-row-base {
+    position: relative;
+    z-index: $zindexNavigation + 100;
+
+    .wrapper {
+        @extend %clearfix;
+    }
+
+    @include at-query ($min, $postMedium) {
+        .wrapper {
+            position: relative;
+        }
+
+        div[class$='-column'] {
+            margin: 0 $gutter;
+        }
+    }
+
+    @include at-query ($max, $medium) {
+        .wrapper {
+            position: relative;
+            margin: 0 $gutter;
+        }
+    }
+}
+
+.site-header-top-row {
+    @extend %site-header-row-base;
+    @include box-shadow(inset 0 -4px 3px -3px rgba(0,0,0,0.05));
+
+    background: $colorLightestGray;
+    height: $headerTopRowHeight;
+    padding: $gutter/4 0;
+
+    .site-message-column,
+    .customer-secondary-menu-column {
+        @include site-header-column();
+
+        height: $headerTopRowHeight - $gutter/2;
+        margin: 0 !important;
+        box-sizing: border-box;
+        padding: 0 $gutter;
+    }
+
+    .site-message-column {
+        width: 60%;
+    }
+
+    .customer-secondary-menu-column {
+        text-align: right;
+        width: 40%;
+    }
+
+    @include at-query($max, $medium){
+        .site-message-column {
+            float: none;
+            text-align: center;
+            width: auto;
+        }
+
+        .customer-secondary-menu-column {
+            display: none;
+        }
+    }
+}
+
+.site-message-block {
+    p {
+        margin: 0;
+        font-size: 13px;
+        font-family: $centuryGothicFontStack;
+        font-weight: 200;
+        text-transform: uppercase;
+    }
+
+    @include at-query(null, $postSmall, $large){
+        p {
+            font-size: 12px;
+        }
+    }
+
+    @include at-query($max, $small){
+        p {
+            font-size: 10px;
+        }
+    }
+}
+
+.site-header-main-row {
+    @extend %site-header-row-base;
+    @include box-shadow(0 2px 3px rgba(0,0,0,0.05));
+
+    background: $colorWhite;
+
+    // landscape tablet and larger
+    @include at-query ($min, $postMedium) {
+        height: $desktopHeaderMainRowHeight;
+        padding: $gutter 0;
+
+        %site-header-main-row-column-postLarge {
+            @include site-header-column();
+
+            height: $desktopHeaderMainRowHeight - $gridGutter;
+        }
+
+        .logo-column {
+            @extend %site-header-main-row-column-postLarge;
+        }
+
+        .main-menu-column {
+            @extend %site-header-main-row-column-postLarge;
+            width: 684px;
+            text-align: center;
+
+            ul {
+                padding-top: 2px;
+            }
+        }
+
+        .search-column {
+            @extend %site-header-main-row-column-postLarge;
+
+            width: 218px;
+        }
+
+        .mobile-ui-block,
+        .mobile-cart-block {
+            display: none;
+        }
+    }
+
+    // smaller desktops only
+    @include at-query(null, $postLarge, $preXLarge) {
+        .main-menu-column {
+            width: 584px;
+        }
+
+        .customer-menu-column {
+            width: 190px;
+        }
+
+        .search-column {
+            width: 190px;
+        }
+    }
+
+    // landscape tablets
+    @include at-query(null, $postMedium, $large) {
+        %absolute-column-postMedium-large-base {
+            position: absolute;
+            z-index: 10;
+        }
+
+        .logo-column {
+            @extend %absolute-column-postMedium-large-base;
+
+            left: 0;
+        }
+
+        .main-menu-column {
+            position: relative;
+            z-index: 0;
+            width: 100%;
+            text-align: center;
+            margin: 0 !important;
+            padding: 0 190px+$gutter*2 0 154px+$gutter*2;
+            box-sizing: border-box;
+        }
+
+        .search-column {
+            @extend %absolute-column-postMedium-large-base;
+
+            right: 0;
+            width: 190px;
+        }
+    }
+
+    // mobile and portrait tablets
+    @include at-query ($max, $medium) {
+        padding: $gutter/2 0;
+        height: $mobileHeaderMainRowHeight;
+
+        %site-header-main-row-column-large {
+            @include site-header-column();
+
+            height: $mobileHeaderMainRowHeight/2 - $gridGutter/2;
+        }
+
+        .logo-column {
+            @extend %site-header-main-row-column-large;
+
+            text-align: center;
+            float: none;
+            z-index: 0;
+            margin-bottom: $gutter;
+        }
+
+        .main-menu-column {
+            @extend %site-header-main-row-column-large;
+            text-align: center;
+            float: none;
+            z-index: 0;
+        }
+
+        %site-header-main-row-max-large-mobile-block-base {
+            float: none;
+            position: absolute;
+            top: 0;
+            z-index: 2;
+        }
+
+        .mobile-ui-block {
+            @extend %site-header-main-row-column-large;
+            @extend %site-header-main-row-max-large-mobile-block-base;
+
+            right: 0;
+        }
+
+        .mobile-cart-block {
+            @extend %site-header-main-row-column-large;
+            @extend %site-header-main-row-max-large-mobile-block-base;
+        }
+
+        .search-column {
+            display: none;
+        }
+    }
+}
+
+.site-header-sub-row {
+    position: relative;
+    z-index: 0;
+
+    .header-sub-menu {
+        @extend %clearfix;
+        @include transform(translateY(0%));
+
+        position: absolute;
+        bottom: 0px;
+        background: rgba($colorWhite, 0.93);
+        padding: 16px 10px;
+        opacity: 0;
+        transition: all 0.3s;
+
+        &.js-open {
+            @include transform(translateY(100%));
+            opacity: 1;
+        }
+
+        ul {
+            margin-bottom: 0;
+        }
+
+        .sub-menu-column {
+            padding: 0 10px;
+        }
+
+        /* Mobile */
+        @include at-query ($max, $large) {
+            left: 0;
+            right: 0;
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    .layout-simplified & {
+        display: none;
+    }
+}
+
+%sub-menu-link-base {
+    @extend %gray-hover-gold-link;
+
+    white-space: normal;
+    display: block;
+    line-height: (20/13);
+
+    @include at-query($max, $preLarge){
+        color: $colorGray;
+    }
+}
+
+.sub-menu-column {
+    .mobile-side-nav & {
+        padding: 6px 0;
+    }
+}
+
+.sub-menu-header {
+    @extend %small-bold-arial-text;
+    @extend %sub-menu-link-base;
+
+    text-transform: uppercase;
+
+    .site-header & {
+        padding-bottom: 4px;
+        margin-bottom: 4px;
+    }
+
+    .mobile-side-nav & {
+        padding: 6px 4px;
+    }
+}
+
+.sub-menu-link {
+    @extend %small-arial-text;
+    @extend %sub-menu-link-base;
+
+    .mobile-side-nav & {
+        padding: 4px 4px 4px 16px;
+    }
+
+    @include at-query($max, $large){
+        .header-sub-menu & {
+            display: inline-block;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+    }
+}
+
+.sub-menu-mobile {
+    @include transition(all 0.3s);
+
+    margin-right: 0;
+    padding: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+
+    a {
+        display: block;
+    }
+
+    &.js-open {
+        opacity: 1;
+        height: auto;
+    }
+}

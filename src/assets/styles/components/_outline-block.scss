@@ -1,0 +1,74 @@
+%outline-block-base {
+    position: relative;
+    z-index: 0;
+
+    /* outer border */
+    border-style: solid;
+
+    /* inner border */
+    &:before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        border-style: solid;
+        border-color: #fff;
+    }
+}
+
+%gold-outline-block-base {
+    @extend %outline-block-base;
+
+    background: $colorGold;
+
+    /* outer border */
+    border-color: $colorGold;
+}
+
+%gray-outline-block-base {
+    @extend %outline-block-base;
+
+    background: $colorGray;
+
+    /* outer border */
+    border-color: $colorGray;
+}
+
+@mixin outlineBlockBorderWidths( $innerWidth, $outerWidth ){
+    /* outer border */
+    border-width: $outerWidth + $innerWidth;
+
+    /* inner border */
+    &:before {
+        top: -$innerWidth;
+        right: -$innerWidth;
+        bottom: -$innerWidth;
+        left: -$innerWidth;
+        border-width: $innerWidth;
+    }
+}
+
+%gold-outline-block-large {
+    @extend %gold-outline-block-base;
+    @include outlineBlockBorderWidths( 5px, 2px );
+}
+
+%gold-outline-block-small {
+    @extend %gold-outline-block-base;
+    @include outlineBlockBorderWidths( 1px, 1px );
+}
+
+%gray-outline-block-small {
+    @extend %gray-outline-block-base;
+    @include outlineBlockBorderWidths( 1px, 1px );
+}
+
+%darkGray-outline-block-medium {
+    @extend %outline-block-base;
+    @include outlineBlockBorderWidths( 2px, 1px );
+}
+
+
+
+
+
+

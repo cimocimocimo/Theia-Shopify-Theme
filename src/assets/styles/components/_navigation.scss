@@ -1,0 +1,1005 @@
+/* Naviation Menus */
+.main-menu {
+    .site-header &,
+    .site-footer & {
+        @extend %nav-menu-base;
+
+        @mixin main-menu-separator(){
+            li {
+
+                font-size: 1.2em;
+
+                &:first-child {
+                    border-left-width: 0;
+                }
+            }
+        }
+
+        @include at-query (null, $postSmall, $medium) {
+            @include main-menu-separator;
+
+        }
+
+        @include at-query ($min, $large) {
+            @include main-menu-separator;
+
+        }
+    }
+
+    .mobile-side-nav & {
+        ul {
+            margin: 0 $gutter;
+        }
+
+        li {
+            border-top: 1px solid $colorLightGray;
+            margin-bottom: 0;
+
+            &:first-child {
+                border-top-width: 0;
+            }
+        }
+    }
+}
+
+.main-menu-link {
+    @extend %gray-hover-gold-link;
+
+    font-weight: 200;
+    display: block;
+    text-transform: uppercase;
+    line-height: 1;
+
+    .site-header &,
+    .site-footer & {
+        @extend %small-bold-arial-text;
+
+        @include at-query ($min, $postSmall) {
+            padding: $gutter/4 $gutter * 1.25;
+        }
+
+        @include at-query(null, $postMedium, $large){
+            padding-left: $gutter/4*3;
+            padding-right: $gutter/4*3;
+        }
+
+        // custom breakpoint to stop menu wrapping at sizes just above medium.
+        @include at-query(null, $postMedium, 850px){
+            padding-left: 6px;
+            padding-right: 6px;
+        }
+
+        // custom breakpoint to stop menu wrapping at sizes just above small.
+        @include at-query(null, $postSmall, 600px){
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        @include at-query ($max, $small) {
+            padding: $gutter/2 0;
+            margin: 0 $gutter/2;
+            font-size: 12px;
+        }
+
+        // custom breakpoint to stop menu wrapping on 320px wide screens (iPhone 4/5)
+        @include at-query($max, 380px){
+            font-size: 11px;
+            margin: 0 4px;
+        }
+    }
+
+    .mobile-side-nav & {
+        @extend %small-bold-arial-text;
+        @extend %icon-base;
+        @extend .icon-arrow-left;
+
+        font-weight: 200;
+        position: relative;
+        padding: $gutter 0 $gutter 20px;
+
+        &:before {
+            @include transform(rotate(0));
+            @include transition(all 0.3s);
+
+            display: block !important;
+            position: absolute;
+            font-size: 14px;
+            top: 14px;
+            left: 0;
+        }
+
+        &.active {
+            &:before {
+                @include transform(rotate(-90deg));
+            }
+        }
+    }
+
+    &.on-sale-link {
+        color: $colorGold;
+    }
+}
+
+.customer-menu {
+    @extend %inline-list-base;
+
+    /* Desktop */
+    @include at-query ($min, $postMedium) {
+        @include verticalCenterChildElements();
+
+        height: 24px;
+        padding: 0 $gutter/2;
+        border-right: 1px solid $colorLighterGray;
+
+        ul, li {
+            height: 24px;
+        }
+
+        li {
+            margin: 0 -2px; /* inline-block spacing fix */
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $medium) {
+
+        &, ul, li {
+            height: 22px;
+        }
+
+        li {
+            margin: 0 0 0 6px; /* inline-block spacing fix, 10px between li with the 2px per side whitespace */
+        }
+
+        .profile-login-links-block {
+            display: none;
+        }
+    }
+}
+
+.secondary-menu {
+    /* Desktop */
+    .site-header-top-row & {
+        @extend %inline-list-base;
+        @include verticalCenterChildElements();
+
+        height: 24px;
+        padding: 0 $gutter/2;
+        border-left: 1px solid #f2f2f2;
+
+        ul, li {
+            height: 24px;
+        }
+
+        li {
+            margin: 0 -2px; /* inline-block spacing fix */
+        }
+    }
+
+    .mobile-side-nav & {
+        ul {
+            margin: 0 $gutter;
+        }
+
+        li {
+            border-top: 1px solid $colorLightGray;
+            margin-bottom: 0;
+
+            &:first-child {
+                border-top-width: 0;
+            }
+        }
+    }
+}
+
+/* must be included within the avatar img selector block */
+@mixin customerAvatarSize( $radius ) {
+    height: $radius * 2;
+    width: $radius * 2;
+    @include prefix(border-radius, $radius);
+}
+
+/* styles shared between the desktop header and mobile side nav */
+@mixin customerLoginLink() {
+    img, #{$iconSelector}, .label {
+        display: block;
+        float: left;
+    }
+
+    img, #{$iconSelector} {
+        margin-right: $gutter/3;
+    }
+
+    #{$iconSelector} {
+        height: 1em;
+        width: 1em;
+    }
+
+    /* used for the avatar */
+    img {
+        position: relative;
+    }
+
+    .label {
+        @include overflowEllipsis();
+    }
+}
+
+.customer-menu-link {
+    text-transform: uppercase;
+    @extend %gray-hover-gold-link;
+    @include clearfix();
+
+    display: block;
+    position: relative;
+
+    .site-header & {
+
+        .label {
+            font-weight: 200;
+            @extend %small-bold-arial-text;
+        }
+
+        /* Desktop */
+        @include at-query ($min, $postMedium) {
+            @include customerLoginLink();
+
+            padding: 3px $gutter/2 2px;
+
+            /* used for the avatar */
+            img {
+                @include customerAvatarSize( 11px );
+
+                top: -2px;
+                border: 2px solid $colorWarmGray;
+            }
+
+            .label {
+                padding-top: 1px;
+                line-height: 15px;
+                max-width: 105px;
+            }
+        }
+
+        /* Mobile */
+        @include at-query ($max, $medium) {
+            @include prefix(border-radius, 2px);
+
+            height: 22px;
+            width: 22px;
+            border: 1px solid $colorGray;
+            text-align: center;
+
+            #{$iconSelector} {
+                height: 1em;
+                width: 1em;
+                font-size: 0.75em;
+                display: block;
+                margin: 4px auto;
+
+                &:before {
+                    display: block;
+                }
+            }
+
+            .label {
+                display: none;
+            }
+        }
+    }
+
+    .mobile-side-nav & {
+        @include customerLoginLink();
+
+        margin: 0 $gutter;
+        padding: 13px 0;
+
+        .label {
+            @extend %smallish-arial-text;
+        }
+
+        /* used for the avatar */
+        img {
+            @include customerAvatarSize( 8px );
+
+            border: 1px solid $colorWarmGray;
+        }
+    }
+}
+
+.secondary-menu-link {
+    font-weight: 200;
+    text-transform: uppercase;
+    @extend %gray-hover-gold-link;
+    @extend %small-bold-arial-text;
+
+    padding: 3px $gutter/2 2px;
+}
+
+.cart-count-link {
+
+    #{$iconSelector}{
+        position: relative;
+
+        &:before {
+            position: absolute;
+        }
+    }
+
+    .count {
+        @extend %smaller-arial-text;
+        @include prefix(border-radius, 2px);
+        @include transform('scale(0)');
+        @include transition();
+
+        opacity: 0;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #fff;
+        height: 16px;
+        width: 16px;
+        padding-top: 1px;
+        line-height: 15px;
+        text-align: center;
+
+        &:before {
+            // content: '';
+            display: block;
+            border: 1px solid #fff;
+            height: 14px;
+            width: 14px;
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            @include prefix(border-radius, 1px);
+        }
+
+        &.positive-count {
+            @include transform('scale(1)');
+
+            opacity: 1;
+        }
+    }
+
+    @include at-query($min, $postMedium){
+        #{$iconSelector}{
+            &:before {
+                top: -4px;
+                left: -2px;
+                font-size: 20px;
+            }
+        }
+    }
+
+    @include at-query($max, $medium){
+        #{$iconSelector}{
+            &:before {
+                top: -2px;
+                left: -1px;
+                font-size: 15px;
+            }
+        }
+
+        .count {
+            top: -1px;
+            left: -2px;
+        }
+    }
+}
+
+.meta-menu {
+    @extend %nav-menu-base;
+}
+
+.meta-menu-link {
+    @extend %gray-hover-underline-link;
+    @extend %small-bold-arial-text;
+    @extend %rsaquo;
+
+    display: block;
+    text-transform: uppercase;
+    padding: 4px 12px;
+
+    &:first-child {
+        padding-left: 0;
+    }
+}
+
+.language-menu {
+    @extend %nav-menu-base;
+}
+
+.language-menu-link {
+    @extend %gray-hover-underline-link;
+    @extend %small-bold-arial-text;
+
+    display: block;
+    text-transform: uppercase;
+}
+
+
+// based on 2560px max wide layout
+
+%two-column-fluid-base{
+    @extend %clearfix;
+}
+
+%two-column-fluid-column-base{
+    /* make sure to set padding-top to a percentage of the width of this element
+     to make it fluid */
+    float: left;
+    position: relative;
+    width: 50%;
+    height: 0;
+    overflow: hidden;
+
+    > .inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    @include at-query($max, $medium){
+        float: none;
+        width: auto;
+    }
+}
+
+.block-navigation-menu {
+    @extend %two-column-fluid-base;
+}
+
+.block-navigation-column {
+    @extend %two-column-fluid-column-base;
+
+    padding-top: percentage(856/2560);
+
+    @include at-query($max, $medium){
+        padding-top: percentage(856/1280);
+    }
+}
+
+%block-navigation-link-base {
+    display: block;
+    height: 100%;
+    width: 100%;
+
+    /* contains the background image for the transparent border outline */
+    &:before {
+        @include prefix('transition', 'all 0.4s ease');
+
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+
+        background-color: #fff;
+        background-position: left top;
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+
+    .image {
+        @include prefix('transition', 'all 0.4s ease');
+
+        $desaturation-value: 0.43;
+
+        height: 100%;
+        width: 100%;
+        background-size: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'desaturate\'><feColorMatrix type=\'saturate\' values=\'#{$desaturation-value}\'/></filter></svg>#desaturate"); /* Firefox 10+, Firefox on Android */
+        filter: gray; /* IE6-9 */
+        -webkit-filter: grayscale(percentage($desaturation-value)); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
+    }
+
+    .overlay {
+        @include prefix('box-shadow', 'inset 0px 0px 76px 0px rgba(50, 50, 50, 0.75)');
+        @include prefix('transition', 'box-shadow 0.4s, opacity 0.4s');
+
+        background: rgba(black, 0.20);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+
+    &:hover,
+    &.active {
+        .image {
+            filter: none;
+            -webkit-filter: none;
+        }
+
+        .overlay {
+            opacity: 0;
+            @include prefix('box-shadow', 'inset 0px 0px 0px 0px rgba(50, 50, 50, 0.75)');
+        }
+
+        &:before {
+            opacity: 0.6;
+        }
+    }
+
+    &.active {
+        .image,
+        .content {
+            opacity: 0;
+        }
+    }
+
+    .content {
+        @include verticalCenterChildElements();
+        @include prefix('transition', 'opacity 0.4s');
+
+        position: absolute;
+        top: 66%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 34%;
+        width: 100%;
+        text-align: center;
+
+        h3 {
+            margin: 0;
+            line-height: 1.15;
+            text-transform: uppercase;
+            white-space: normal;
+            font-family: $centuryGothicFontStack;
+            font-weight: 700;
+            font-size: 34px*30/34;
+            color: $colorWhite;
+            text-shadow: 0 0 $gutter rgba(0,0,0,0.4);
+        }
+    }
+
+    @include at-query(null, $postLarge, $huge){
+        .content {
+            h3 {
+                font-size: 30px*30/34;
+            }
+        }
+    }
+
+    @include at-query(null, $postMedium, $large){
+        .content {
+            h3 {
+                font-size: 24px*30/34;
+            }
+        }
+    }
+
+    @include at-query($max, $small){
+        .content {
+            h3 {
+                font-size: 24px*30/34;
+            }
+        }
+    }
+}
+
+.block-navigation-link-shop {
+    @extend %block-navigation-link-base;
+
+    &:before {
+        background-image: unquote("url({{'shop-block-bg.jpg' | asset_url}})");
+    }
+
+    .image {
+        background-image: unquote("url({{'shop-block-bg.jpg' | asset_url}})");
+    }
+}
+
+.block-navigation-link-press {
+    @extend %block-navigation-link-base;
+
+    &:before {
+        background-image: unquote("url({{'amy-poehler-press-block-bg.jpg' | asset_url}})");
+    }
+
+    .image {
+        background-image: unquote("url({{'amy-poehler-press-block-bg.jpg' | asset_url}})");
+    }
+}
+
+.block-navigation-link-collection {
+    @extend %block-navigation-link-base;
+
+    &:before {
+        background-image: unquote("url({{'evening-wear-collection-block-bg.jpg' | asset_url}})");
+    }
+
+    .image {
+        background-image: unquote("url({{'evening-wear-collection-block-bg.jpg' | asset_url}})");
+    }
+}
+
+.block-navigation-link-bridal {
+    @extend %block-navigation-link-base;
+
+    &:before {
+        background-image: unquote("url({{'bridal-collection-block-bg.jpg' | asset_url}})");
+    }
+
+    .image {
+        background-image: unquote("url({{'bridal-collection-block-bg.jpg' | asset_url}})");
+    }
+}
+
+.block-navigation-video-player {
+    @extend %block-navigation-link-base;
+
+    background: $colorBlack;
+
+    .image {
+        background-image: unquote("url({{ 'bridesmaids-2016-block-nav-video-bg-still.jpg' | asset_url }})");
+    }
+
+    &.hide-inner {
+        .image,
+        .overlay,
+        .content {
+            display: none;
+        }
+    }
+
+    .play-link {
+        @extend %icon-suffix-base;
+        @extend .icon-play-suffix;
+        @include prefix('transition', 'opacity 0.4s, color 0.4s');
+        @include verticalCenterChildElements;
+
+        color: $colorGray;
+        font-size: 80px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        vertical-align: middle;
+        opacity: 0.8;
+        height: 100%;
+        width: 100%;
+
+        &:hover {
+            opacity: 1;
+            color: $colorDarkGold;
+        }
+
+        @include at-query($max, $small){
+            font-size: 70px;
+        }
+
+        @include at-query(null, $postSmall, $medium){
+            font-size: 112px;
+        }
+
+        @include at-query(null, $postMedium, $large){
+            font-size: 76px;
+        }
+
+        @include at-query(null, $postLarge, $xLarge){
+            font-size: 84px;
+        }
+
+        @include at-query(null, $postXLarge, $huge){
+            font-size: 100px;
+        }
+
+        @include at-query(null, $postHuge, $gigantic){
+            font-size: 140px;
+        }
+
+        @include at-query($min, $gigantic){
+            font-size: 180px;
+        }
+    }
+    .content{
+        top: 0;
+        height: 100%;
+    }
+
+    .content-title-wrapper {
+        @include verticalCenterChildElements;
+
+        position: absolute;
+        top: 66%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 34%;
+        width: 100%;
+        text-align: center;
+    }
+
+}
+
+.block-navigation-video-container {
+    @include transition(opacity 0.3s);
+
+    background: $colorBlack;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+
+    &.active {
+        opacity: 1;
+    }
+}
+
+
+.customer-account-menu {
+    .main-content & {
+        @extend .clearfix;
+
+        width: 112px;
+        border-right: 1px solid $borderColor;
+
+        li {
+            margin: 14px 0;
+        }
+    }
+
+    .mobile-side-nav & {
+
+        ul {
+            margin: 0 $gutter;
+        }
+
+        li {
+            border-top: 1px solid $colorLightGray;
+            margin-bottom: 0;
+
+            &:first-child {
+                border-top-width: 0;
+            }
+        }
+    }
+}
+
+.customer-account-menu-link {
+    @extend %gray-hover-gold-link;
+    display: block;
+    position: relative;
+
+    .main-content & {
+        @extend %smallish-arial-text;
+        @extend %rsaquo;
+
+        text-transform: uppercase;
+        white-space: normal;
+        line-height: (15/12);
+
+        &.active {
+            color: $colorGold;
+        }
+    }
+
+    .mobile-side-nav & {
+        @extend %small-bold-arial-text;
+        @extend %icon-base;
+        @extend .icon-arrow-left;
+
+        font-weight: 700;
+        padding: $gutter 0 ($gutter - 2) 20px;
+
+        &:before {
+            display: block !important;
+            position: absolute;
+            font-size: 14px;
+            top: 16px;
+            left: 0;
+        }
+    }
+}
+
+
+/*================ Search bar in header ================*/
+.search-bar {
+    border-bottom: 1px solid $colorLightGray;
+    margin-bottom: 0;
+    position: relative;
+
+    button, input {
+        background: none;
+        height: 100%;
+        position: absolute;
+        display: block;
+        bottom: 0;
+        left: 0;
+    }
+
+    button {
+        line-height: 1;
+        color: $colorGray;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    input {
+        @extend %small-bold-arial-text;
+
+        margin: 0;
+        border: none;
+        padding: 0;
+        width: 100%;
+        line-height: 1.2;
+        color: $colorWarmLightGray;
+    }
+
+    @include at-query ($min, $postSmall) {
+        $buttonWidth: 20px;
+
+        width: 100%;
+        height: 30px;
+
+        button {
+            font-size: 1em;
+            width: $buttonWidth;
+        }
+
+        input {
+            padding-left: $buttonWidth;
+        }
+    }
+
+    @include at-query ($max, $small) {
+        $buttonWidth: 16px;
+
+        height: 27px;
+
+        button {
+            font-size: 0.8125em;
+            width: $buttonWidth;
+        }
+
+        input {
+            padding-left: $buttonWidth;
+        }
+    }
+
+    /* Make it big when in the main body */
+    .main-content & {
+
+        @include at-query ($min, $postSmall) {
+            $buttonWidth: 46px;
+
+            width: 440px;
+            height: 46px;
+
+            button {
+                font-size: 2em;
+                width: $buttonWidth;
+            }
+
+            input {
+                padding-left: $buttonWidth;
+                font-size: 1.2em;
+            }
+        }
+
+        @include at-query ($max, $small) {
+            $buttonWidth: 16px;
+
+            height: 27px;
+            margin: 0 $gutter/2;
+
+            button {
+                font-size: 0.8125em;
+                width: $buttonWidth;
+            }
+
+            input {
+                padding-left: $buttonWidth;
+            }
+        }
+    }
+}
+
+
+
+/*============================================================================
+  Slide out Push Nav
+
+  http://tympanus.net/codrops/2013/04/17/slide-and-push-menus/
+  ============================================================================*/
+
+/* Required styles for the menu */
+/* Transitions */
+%mobile-side-nav-transitions {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.mobile-side-nav {
+    @extend %mobile-side-nav-transitions;
+
+    position: fixed;
+    width: $mobileNavMenuWidth;
+    height: 100%;
+    top: 0;
+    right: -$mobileNavMenuWidth;
+    z-index: $zindexNavigation;
+
+    &.open {
+        right: 0px;
+    }
+}
+
+/* Push classes applied to the body */
+.body-container,
+.header-container {
+    @extend %mobile-side-nav-transitions;
+
+    left: 0;
+
+    &.menu-open {
+        left: -$mobileNavMenuWidth;
+        overflow-y: hidden; // disables scroll when menu open
+    }
+}
+
+// only add this padding for the interior pages
+.body-container {
+    position: relative;
+    overflow-x: hidden;
+
+    .layout-theme &,
+    .layout-customer-account & {
+        // add padding to get the page content right
+        @include at-query($min, $postMedium){
+            padding-top: $desktopHeaderMainRowHeight + $headerTopRowHeight;
+        }
+
+        @include at-query($max, $medium){
+            padding-top: $mobileHeaderMainRowHeight + $headerTopRowHeight;
+        }
+    }
+}
+
+/* end required styles */
+
+.mobile-side-nav {
+    background: $colorPaleGray;
+    border-left: 1px solid $colorLightGray;
+
+    .search-bar-row {
+        height: $mobileHeaderMainRowHeight/2;
+        background: #fff;
+        padding: 9px $gutter;
+
+        form {
+            border-bottom: 0;
+        }
+    }
+
+    .main-block {
+        height: 100%;
+        border: 1px solid $colorLightGray;
+        border-left: 0;
+        border-right-width: 0;
+    }
+
+    .main-menu-row,
+    .secondary-menu-row {
+        border-bottom: 1px solid $colorLightGray;
+    }
+
+    .customer-profile-login-link-row {
+        background: #fff;
+        border-bottom: 1px solid $colorLightGray;
+    }
+}

@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "main.css": {
+      "files": [
+        "assets/styles/main.scss.liquid"
+      ],
+      "main": true
+    },
     "fonts": {
       "files": ["assets/fonts/**/*"]
     },

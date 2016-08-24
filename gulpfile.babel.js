@@ -6,6 +6,7 @@ import Manifest from 'asset-builder';
 import del from 'del';
 import runSequence from 'run-sequence';
 import lazypipe from 'lazypipe';
+import merge from 'merge-stream';
 
 var plugins = gulpLoadPlugins(),
     manifest = Manifest('./src/assets/manifest.json'),
@@ -53,39 +54,39 @@ var plugins = gulpLoadPlugins(),
 //   .pipe(cssTasks('main.css')
 //   .pipe(gulp.dest(path.dist + 'styles'))
 // ```
-// function cssTasks(filename) {
-//   return lazypipe()
-//     .pipe(() => {
-//       return plugins.if(false, plugins.plumber());
-//     })
-//     .pipe(() => {
-//       return plugins.if(true, plugins.sourcemaps.init());
-//     })
-//     .pipe(() => {
-//       return plugins.if('*.scss+(.liquid)', plugins.sass({
-//         outputStyle: 'nested', // libsass doesn't support expanded yet
-//         precision: 10,
-//         includePaths: ['.'],
-//         errLogToConsole: true
-//       }));
-//     })
-//     .pipe(plugins.concat, filename)
-//     .pipe(plugins.autoprefixer, {
-//       browsers: [
-//         'last 2 versions',
-//         'android 4',
-//         'opera 12'
-//       ]
-//     })
-//     .pipe(plugins.cssnano, {
-//       safe: true
-//     })
-//     .pipe(() => {
-//       return plugins.if(true, plugins.sourcemaps.write('.', {
-//         sourceRoot: 'assets/styles/'
-//       }));
-//     })();
-// };
+function cssTasks(filename) {
+    return lazypipe()
+        .pipe(() => {
+            return plugins.if(true, plugins.plumber());
+        })
+        .pipe(() => {
+            return plugins.if('*.scss.liquid', plugins.sass({
+                outputStyle: 'nested', // libsass doesn't support expanded yet
+                precision: 10,
+                includePaths: ['.'],
+                errLogToConsole: true
+            }))
+        })
+        .pipe(plugins.rename, (path) => {
+            path.basename = path.basename.split('.').shift();
+            path.extname = '.css.liquid';
+            return path;
+        })
+        // .pipe(plugins.concat, filename)
+    //     .pipe(() => {
+    //         plugins.util.log('ended concat, next autopre');
+    //         return plugins.util.noop();
+    //     })
+    .pipe(plugins.autoprefixer, {
+      browsers: [
+        'last 2 versions',
+        'android 4',
+        'opera 12'
+      ]
+    }).pipe(plugins.cssnano, {
+        safe: true
+    })();
+};
 
 
 // ### Styles
@@ -93,24 +94,16 @@ var plugins = gulpLoadPlugins(),
 // By default this task will only log a warning if a precompiler error is
 // raised. If the `--production` flag is set: this task will fail outright.
 
-// gulp.task('styles', ['wiredep'], function() {
-//     var merged = merge();
-//     manifest.forEachDependency('css', function(dep) {
-//         var cssTasksInstance = cssTasks(dep.name);
-//         if (!enabled.failStyleTask) {
-//             cssTasksInstance.on('error', function(err) {
-//                 console.error(err.message);
-//                 this.emit('end');
-//             });
-//         }
-//         merged.add(gulp.src(dep.globs, {base: 'styles'})
-//                    .pipe(cssTasksInstance));
-//     });
-//     return merged;
-// });
-
 gulp.task('styles', () => {
-    return gulp.src(path.source + 'assets/styles/**.*')
+    var merged = merge();
+    manifest.forEachDependency('css', (dep) => {
+        merged.add(
+            gulp.src(dep.globs, {base: 'styles'})
+                .pipe(cssTasks(dep.name))
+        );
+    });
+    return merged
+    // return gulp.src(path.source + 'assets/styles/**.*')
         .pipe(plugins.flatten())
         .pipe(gulp.dest(path.dist + 'assets'));
 });
@@ -197,12 +190,11 @@ function getExtension(path) {
 
 // searches array for any value in passed array
 function doesArrayContainAny(haystack, needles){
-    if (Array.isArray(haystack)
-        && Array.isArray(needles)){
+    if (Array.isArray(haystack) && Array.isArray(needles)){
         return needles.some(v => haystack.indexOf(v) >= 0);
-    } else {
-        throw new Error('function doesArrayContainAny requires 2 passed arrays.')
     }
+    
+    throw new Error('function doesArrayContainAny requires 2 passed arrays.');
 }
 
 // ### Shopify Theme Files
@@ -265,8 +257,8 @@ gulp.task('shopify', () => {
 // build step for that asset and inject the changes into the page.
 // See: http://www.browsersync.io
 gulp.task('watch', () => {
-    gulp.watch([path.source + 'assets/scripts/**/*.js+(.liquid)'], ['scripts']);
-    gulp.watch([path.source + 'assets/styles/**/*.scss+(.liquid)'], ['styles']);
+    gulp.watch([path.source + 'assets/scripts/**/*.js?(.liquid)'], ['scripts']);
+    gulp.watch([path.source + 'assets/styles/**/*.scss?(.liquid)'], ['styles']);
     gulp.watch([path.source + 'assets/fonts/**/*'], ['fonts']);
     gulp.watch([path.source + 'assets/images/**/*'], ['images']);
     gulp.watch([path.source + 'assets/videos/**/*'], ['videos']);

@@ -1,0 +1,71 @@
+/*============================================================================
+  #Reset
+  ==============================================================================*/
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,main,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video,button{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0;}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:none;}table{border-collapse:collapse;border-spacing:0;}code,pre{background-color:#faf7f5;font-family:Consolas,monospace;border:0 none;padding:0 2px;color:#51ab62;}pre{overflow:auto;padding:0.5em;margin:0 0 1em;}
+
+// http://www.paulirish.com/2012/box-sizing-border-box-ftw/
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
+/*============================================================================
+  #Javascript styles
+  ============================================================================*/
+
+.supports-js {
+    .js-hidden {
+        display: none;
+    }
+}
+
+.js-no-scroll {
+    overflow: hidden;
+}
+
+/*============================================================================
+  #Basic Styles
+  ==============================================================================*/
+html,
+body {
+    background-color: $colorBody;
+    position: relative;
+}
+
+
+/*============================================================================
+  #Helper Classes
+  ==============================================================================*/
+.left { float: left; }
+.right { float: right; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.hidden { display: none; }
+.show { display: initial !important; }
+
+/* Desktop */
+@include at-query ($min, $postSmall) {
+    .hidden-on-desktop {
+        display: none !important;
+    }
+}
+
+/* Mobile */
+@include at-query ($max, $small) {
+    .hidden-on-mobile {
+        display: none !important;
+    }
+}
+
+.display-table {
+    display: table;
+}
+
+.display-table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}

@@ -1,0 +1,713 @@
+@mixin fontStyle($size, $weight: null, $lineHeight: null){
+    font-size: $size;
+    @if ($weight){
+        font-weight: $weight;
+    }
+    @if ($lineHeight){
+        line-height: $lineHeight;
+    }
+}
+
+
+/*================================================================================
+  #Extends - these are for common text and block styles
+  ================================================================================*/
+
+%large-arial-text {
+    font-family: $bodyFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 1.5em; /* ~24px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 1.25em; /* ~20px */
+    }
+}
+
+%medium-arial-text {
+    font-family: $bodyFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 1.125em; /* ~18px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.9375em; /* ~15px */
+    }
+}
+
+%small-mid-arial-text {
+    font-family: $bodyFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.875em; /* ~14px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.8125em; /* ~13px */
+    }
+}
+
+%small-bold-arial-text {
+    font-family: $bodyFontStack;
+    font-weight: 700;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.8125em; /* ~13px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.625em; /* ~10px */
+    }
+}
+
+%small-arial-text {
+    font-family: $bodyFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.8125em; /* ~13px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.625em; /* ~10px */
+    }
+}
+
+%smallish-arial-text {
+    font-family: $bodyFontStack;
+    font-weight: 700;
+
+    font-size: 0.75em; /* ~12px */
+}
+
+%smallish-century-gothic-text {
+    font-family: $centuryGothicFontStack;
+    font-weight: 700;
+
+    font-size: 0.75em; /* ~12px */
+}
+
+%smaller-arial-text {
+    font-family: $bodyFontStack;
+    font-weight: 700;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.6875em; /* ~11px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.6875em; /* ~11px */
+    }
+}
+
+%medium-helvetica-text {
+    font-family: $helveticaFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 1.25em; /* ~20px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.9375em; /* ~15px */
+    }
+}
+
+%small-helvetica-text {
+    font-family: $helveticaFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 1.125em; /* ~18px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.9375em; /* ~15px */
+    }
+}
+
+%smaller-helvetica-text {
+    font-family: $helveticaFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.875em; /* ~14px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.78125em; /* ~12.5px */
+    }
+}
+
+%smallest-helvetica-text {
+    font-family: $helveticaFontStack;
+
+    @include at-query ($min, $postSmall) {
+        font-size: 0.75em; /* ~12px */
+    }
+
+    @include at-query ($max, $small) {
+        font-size: 0.75em; /* ~12px */
+    }
+}
+
+
+%character-prefix-suffix-base {
+    display: inline-block;
+    position: relative;
+}
+
+%character-prefix-base {
+    &:before {
+        @extend %character-prefix-suffix-base;
+        padding-right: 3px;
+    }
+}
+
+%character-suffix-base {
+    &:after {
+        @extend %character-prefix-suffix-base;
+        padding-left: 3px;
+    }
+}
+
+%lsaquo-prefix {
+    @extend %character-prefix-base;
+
+    &:before {
+        content: '\2039';
+    }
+}
+
+%rsaquo {
+    @extend %character-suffix-base;
+
+    &:after {
+        content: '\203a';
+    }
+}
+
+%rdaquo {
+    @extend %character-suffix-base;
+
+    &:after {
+        content: '\BB';
+    }
+}
+
+%link-base {
+    white-space: nowrap;
+}
+
+/* link text styles */
+
+/* gray link base */
+
+/* gray, gold on hover */
+%gray-hover-gold-link {
+    @extend %link-base;
+
+    color: $colorGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+/* gray, gold on hover */
+%warmGray-hover-underline-link {
+    @extend %link-base;
+
+    color: $colorWarmGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+%warmGray-underline-hover-gold-link {
+    @extend %link-base;
+
+    color: $colorWarmGray;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+%warmGray-hover-gold-link {
+    @extend %link-base;
+
+    color: $colorWarmGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+/* gray, gold on hover */
+%warmLightGray-hover-gold-link {
+    @extend %link-base;
+
+    color: $colorWarmLightGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+%warmLightGray-hover-red-link {
+    @extend %link-base;
+
+    color: $colorWarmLightGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        color: $colorRed;
+    }
+}
+
+/* gray, gold and underline on hover */
+%gray-hover-gold-underline-link {
+    @extend %link-base;
+
+    color: $colorGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        text-decoration: underline;
+        color: $colorGold;
+    }
+}
+
+/* gray, underline on hover */
+%gray-hover-underline-link {
+    @extend %link-base;
+
+    color: $colorGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+%darkerGray-hover-underline-link {
+    @extend %link-base;
+
+    color: $colorDarkerGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+%darkerGray-hover-darkerGold-link {
+    @extend %link-base;
+
+    color: $colorDarkerGray;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        color: $colorDarkerGold;
+    }
+}
+
+/* gray underline, gold on hover */
+%gray-underline-hover-gold-link {
+    @extend %link-base;
+
+    color: $colorGray;
+    text-decoration: underline;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+/* gold, underline on hover */
+%gold-hover-underline-link {
+    @extend %link-base;
+
+    color: $colorGold;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+%darkGold-hover-underline-link {
+    @extend %link-base;
+
+    color: $colorDarkGold;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+/* gold, underline on hover */
+%gold-hover-gray-underline-link {
+    @extend %link-base;
+
+    color: $colorGold;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        color: $colorGray;
+        text-decoration: underline;
+    }
+}
+
+/* white, gray on hover */
+%white-hover-gray-link {
+    @extend %link-base;
+    @include prefix('transition', 'all 0.4s ease');
+
+    color: #fff;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        color: $colorWarmDarkGray;
+    }
+}
+
+/* white, gray on hover */
+%white-underline-hover-gold-link {
+    @extend %link-base;
+
+    color: #fff;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+/* white, gold on hover */
+%white-hover-gold-link {
+    @extend %link-base;
+
+    color: #fff;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &.active,
+    &:focus {
+        color: $colorGold;
+    }
+}
+
+%item-info-icon-text {
+    color: $colorWarmLightGray;
+    line-height: 18px;
+
+    .icon {
+        @extend %icon-base;
+
+        font-size: 12px;
+        display: inline-block;
+        height: 12px;
+    }
+
+    .label {
+        @extend %smallish-arial-text;
+
+        text-transform: uppercase;
+    }
+}
+
+
+/*============================================================================
+  #Typography
+  ==============================================================================*/
+body,
+input,
+textarea,
+button,
+select {
+    font-size: 1em;
+    font-family: $bodyFontStack;
+    line-height: 1.4375; // ~23px with a font size of 16px
+    font-weight: 400;
+    color: $colorWarmGray;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+
+    @include placeholder {
+        line-height: 1.4375; // ~23px with a font size of 16px
+        font-family: $bodyFontStack;
+        color: $colorMidGray;
+    }
+}
+
+/* h1 tags have been excluded from this list. The h1 tag is used for the site header. */
+
+h2, h3, h4, h5, h6,
+.h2, .h3, .h4, .h5, .h6 {
+    display: block;
+    font-family: $headerFontStack;
+    font-weight: $headerFontWeight;
+    margin: 0.5em 0;
+    line-height: 1;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+h2 a, h3 a, h4 a, h5 a, h6 a,
+.h2 a, .h3 a, .h4 a, .h5 a, .h6 a { font-weight: inherit; }
+
+/*============================================================================
+  Pixel to EM conversion tool
+  - http://pxtoem.com/
+  ==============================================================================*/
+
+h2, .h2 {
+    font-size: 3.75em; // 60px
+    /* portrait tablet, landscape phones, landscape tablet, small desktops */
+    @include at-query (null, $postSmall, $large) {
+        font-size: 3.25em; // 52px
+    }
+}
+h3, .h3 {
+    font-size: 2.25em; // 36px
+
+    @include at-query (null, $postSmall, $large) {
+        font-size: 1.95em; // 32px
+    }
+}
+h4, .h4 { font-size: 1.5em; }     // 24px
+h5, .h5 { font-size: 1.143em; }   // ? get these values from the PSD
+h6, .h6 { font-size: 1em; }       // ?
+
+p {
+    margin: 0 0 $gutter/2 0;
+
+    a {
+        @extend %gray-underline-hover-gold-link;
+    }
+}
+
+
+@include at-query ($max, $small) {
+
+    p {
+        font-size: 0.75em;
+        margin: 0 0 $gutter/2 0;
+    }
+
+    h2, .h2 { font-size: 2.1875em; }  // 35px
+    h3, .h3 { font-size: 2.25em; }    // 36px
+    h4, .h4 { font-size: 1.5em; }     // 24px
+    h5, .h5 { font-size: 1.143em; }   // ? get these values from the PSD
+    h6, .h6 { font-size: 1em; }       // ?
+}
+
+
+p img { margin: 0; }
+
+em { font-style: italic; }
+strong { font-weight: bold; }
+small { font-size: 80%; }
+sup {
+    position: relative;
+    top: -0.5em;
+    font-size: 60%;
+}
+
+/*================ Blockquotes ================*/
+blockquote {
+    font-size: 1.125em;
+    line-height: 1.45;
+    font-style: italic;
+    margin: 0 0 $gutter;
+    padding: $gutter/2 $gutter;
+    border-left: 1px solid $borderColor;
+
+    p {
+        margin-bottom: 0;
+
+        & + cite {
+            margin-top: $gutter/2;
+        }
+    }
+
+    cite {
+        display: block;
+        font-size: 0.75em;
+
+        &:before {
+            content: "\2014 \0020";
+        }
+    }
+}
+
+hr {
+    clear: both;
+    border-top: solid $borderColor;
+    border-width: 1px 0 0;
+
+    &.hr-4-col {
+        max-width: 416px;
+    }
+
+    &.hr-8-col {
+        max-width: $siteWidth8Col - $gridGutter;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        margin: 0 auto;
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        margin: 0 $gutter;
+    }
+}
+
+/*================ Section Headers ================*/
+.section-header {
+    margin-bottom: $gutter/2;
+}
+
+@include at-query ($min, $large) {
+    .section-header {
+        display: table;
+        width: 100%;
+    }
+
+    .section-header--left {
+        display: table-cell;
+        vertical-align: middle;
+        margin-bottom: 0;
+
+        h1, h2, h3, h4,
+        .h1, .h2, .h3, .h4 {
+            margin-bottom: 0;
+        }
+    }
+
+    .section-header--right {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: right;
+        width: 325px;
+
+        @include at-query ($max, $medium) {
+            margin-bottom: $gutter;
+        }
+    }
+}
+
+.section-header--right {
+    @include at-query ($max, $medium) {
+        margin-top: -0.4em; // don't exceed h1 margin-bottom
+    }
+
+    .form-horizontal,
+    .collection-view {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    @include at-query ($min, $postSmall) {
+        label + select,
+        .collection-view {
+            margin-left: $gutter/2;
+        }
+    }
+}
+
+.collection-view {
+    display: inline-block;
+    border: 1px solid $borderColor;
+    padding: 11px;
+    height: 37px; // same as form elements
+
+    /*================ We use SVG icons, so simply hide this in oldIE ================*/
+    .lt-ie9 & {
+        display: none;
+    }
+
+    /*================ Only show on larger screens ================*/
+    @include at-query ($min, $large) {
+        display: inline-block;
+    }
+
+    a {
+        display: block;
+        float: left;
+        opacity: 0.7;
+        cursor: pointer;
+
+        & + a {
+            margin-left: 10px;
+        }
+
+        &.collection-view--active {
+            opacity: 1;
+            cursor: default;
+        }
+    }
+
+    img {
+        display: block;
+        opacity: inherit;
+    }
+}

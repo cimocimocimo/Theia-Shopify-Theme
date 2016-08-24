@@ -336,10 +336,11 @@ $socialIconFontStack: 'theia-icons';
   #Sass Mixins
   ==============================================================================*/
 @mixin clearfix() {
-    &:after, &:before {
-                 content: "";
-                 display: table;
-             }
+    &:after,
+    &:before {
+        content: "";
+        display: table;
+    }
     &:after {
         clear: both;
     }
@@ -1559,38 +1560,6 @@ hr {
 }
 
 /*============================================================================
-  #Rich Text Editor
-  ==============================================================================*/
-.rte {
-    margin-bottom: $gutter/2;
-
-    // Add some top margin to headers from the rich text editor
-    h1, h2, h3, h4, h5, h6 {
-        margin-top: 2em;
-
-        &:first-child {
-            margin-top: 0;
-        }
-    }
-
-    & > div {
-        margin-bottom: $gutter/2;
-    }
-
-    ul, ol {
-        margin-left: 35px;
-    }
-
-    ul {
-        @extend ul.disc;
-    }
-
-    li {
-        margin-bottom: 0.4em;
-    }
-}
-
-/*============================================================================
   #Icons
   ==============================================================================*/
 /*============================================================================
@@ -2753,33 +2722,6 @@ th, td {
     text-align: left;
     padding: $gutter/2;
     border: 1px solid $borderColor;
-}
-
-
-/*============================================================================
-  #OOCSS Media Object
-  //  - http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
-  ==============================================================================*/
-.media,
-.media-flex {
-    overflow: hidden;
-    _overflow: visible;
-    zoom: 1;
-}
-
-.media-img {
-    float: left;
-    margin-right: $gutter;
-}
-
-.media-img-right {
-    float: right;
-    margin-left: $gutter;
-}
-
-.media-img img,
-.media-img-right img {
-    display: block;
 }
 
 
@@ -6542,11 +6484,6 @@ address {
   # Blocks
   ================================================================================*/
 
-/*
-    {{ 'theia-logo.svg' | asset_url | img_tag: shop.name }}
-    {{ 'theia-logo.png' | asset_url | img_tag: shop.name }}
-*/
-
 .site-logo {
     text-align: center;
     margin: 0;
@@ -6783,7 +6720,7 @@ address {
 }
 
 .about-page-hero {
-    @extend %hero-alarge;
+    @extend %hero-large;
 
     background: {
         color: #000;
@@ -10954,11 +10891,11 @@ html.full-viewport {
 
     input {
         @extend %small-bold-arial-text;
+        
         margin: 0;
         border: none;
         padding: 0;
         width: 100%;
-
         line-height: 1.2;
         color: $colorWarmLightGray;
     }
@@ -10993,7 +10930,6 @@ html.full-viewport {
             padding-left: $buttonWidth;
         }
     }
-
 
     /* Make it big when in the main body */
     .main-content & {
@@ -11030,8 +10966,6 @@ html.full-viewport {
                 padding-left: $buttonWidth;
             }
         }
-
-
     }
 }
 

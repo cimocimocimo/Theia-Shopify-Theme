@@ -1,0 +1,249 @@
+/*============================================================================
+  #Sass Mixins
+  ==============================================================================*/
+@mixin clearfix() {
+    &:after,
+    &:before {
+        content: "";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+.clearfix,
+%clearfix {
+    @include clearfix();
+}
+
+@mixin overflowEllipsis() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+@mixin prefix($property, $value) {
+    -webkit-#{$property}: #{$value};
+    -moz-#{$property}: #{$value};
+    -ms-#{$property}: #{$value};
+    -o-#{$property}: #{$value};
+    #{$property}: #{$value};
+}
+
+@mixin animation-prefix($animation){
+    @include prefix('animation', $animation);
+    -webkit-backface-visibility: hidden;
+}
+
+@mixin keyframes-prefix($animation-name) {
+    @-webkit-keyframes $animation-name {
+        @content;
+    }
+    @-moz-keyframes $animation-name {
+        @content;
+    }
+    @-o-keyframes $animation-name {
+        @content;
+    }
+    @keyframes $animation-name {
+        @content;
+    }
+}
+
+@mixin transform($transform) {
+    @include prefix('transform', #{$transform});
+}
+
+@mixin rotateX($t) {
+    @include transform(rotateX($t));
+}
+
+@mixin perspective ($p) {
+    -webkit-perspective: $p;
+    -moz-perspective: $p;
+    -o-perspective: $p;
+    perspective: $p;
+}
+
+@mixin perspective-origin($origin: 50%) {
+    -moz-perspective-origin: $origin;
+    -webkit-perspective-origin: $origin;
+    perspective-origin: $origin;
+}
+
+@mixin backface($visibility: hidden) {
+    -moz-backface-visibility: $visibility;
+    -webkit-backface-visibility: $visibility;
+    -o-backface-visibility: $visibility;
+    backface-visibility: $visibility;
+}
+
+@mixin appearance($appearance) {
+    $appearance: unquote($appearance);
+    -moz-appearance: $appearance;
+    -webkit-appearance: $appearance;
+}
+
+@mixin transition($transition: 0.1s all) {
+    @include prefix('transition', #{$transition});
+}
+
+@mixin gradient($dir, $from, $to, $fallback: transparent) {
+    /* **todo** - finish this cross browser mixin. */
+
+    /* variables in sass are scoped to blocks, need to initialize them here. */
+    $dirFrom: top;
+    $dirTo: bottom;
+
+    @if $dir == ltr {
+        $dirFrom: left;
+        $dirTo: right;
+    } @else if $dir == rtl {
+        $dirFrom: right;
+        $dirTo: left;
+    }
+
+    background: $fallback;
+    /* background: -moz-linear-gradient(top, $from 0%, $to 100%); */
+    /* background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$from), color-stop(100%,$to)); */
+    /* background: -webkit-linear-gradient(top, $from 0%, $to 100%); */
+    /* background: -o-linear-gradient(top, $from 0%, $to 100%); */
+    /* background: -ms-linear-gradient(top, $from 0%, $to 100%); */
+    background: linear-gradient(to $dirTo, $from 0%, $to 100%);
+}
+
+
+@mixin backface($visibility: hidden) {
+    @include prefix('backface-visibility', #{$visibility});
+}
+
+@mixin border-radius($radius) {
+    -moz-border-radius: $radius;
+    -webkit-border-radius: $radius;
+    border-radius: $radius;
+}
+
+@mixin box-sizing($box-sizing: border-box) {
+    -webkit-box-sizing: #{$box-sizing};
+    -moz-box-sizing: #{$box-sizing};
+    box-sizing: #{$box-sizing};
+}
+
+@function color-control($color) {
+    @if (lightness( $color ) > 40) {
+        @return #000;
+    }
+    @else {
+        @return #fff;
+    }
+}
+
+@mixin transform-origin($origin) {
+    -webkit-transform-origin: $origin;
+    -moz-transform-origin: $origin;
+    -o-transform-origin: $origin;
+    -ms-transform-origin: $origin;
+    transform-origin: $origin;
+}
+
+@mixin transform-style($style: preserve-3d) {
+    -moz-transform-style: $style;
+    -webkit-transform-style: $style;
+    -o-transform-style: $style;
+    transform-style: $style;
+}
+
+@mixin box-shadow($shadow) {
+    -webkit-box-shadow: $shadow;
+    -moz-box-shadow: $shadow;
+    box-shadow: $shadow;
+}
+
+/* Vertical Centering Mixin - now 100% table free!
+   http://css-tricks.com/centering-in-the-unknown/ */
+@mixin verticalCenterChildElements() {
+    font-size: 0; /* set to remove the spacing from the :before element */
+
+    // shim
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    // child elements
+    > * {
+        font-size: 16px; /* ratchet up the font-size to the default base hight; */
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+/* http://stackoverflow.com/questions/17181849/placeholder-mixin-scss-css */
+@mixin placeholder() {
+    &::-webkit-input-placeholder {
+        @content
+    }
+
+    &:-moz-placeholder {
+        @content
+    }
+
+    &::-moz-placeholder {
+        @content
+    }
+
+    &:-ms-input-placeholder {
+        @content
+    }
+}
+
+@mixin crossout-lines($angle: 15deg, $top: 45%){
+    position: relative;
+    display: inline-block;
+
+    &:before,
+    &:after {
+        content: '';
+        width: 110%;
+        height: 1px;
+        background-color: $colorGray;
+        position: absolute;
+        top: $top;
+        left: -5%;
+    }
+
+    &:before {
+        @include transform(rotate(-$angle));
+    }
+
+    &:after {
+        @include transform(rotate($angle));
+    }
+}
+
+/*============================================================================
+  Dependency-free breakpoint mixin
+  - http://blog.grayghostvisuals.com/sass/sass-media-query-mixin/
+  ==============================================================================*/
+$min: min-width;
+$max: max-width;
+@mixin at-query ($constraint, $viewport1, $viewport2:null) {
+    @if $constraint == $min {
+        @media screen and ($min: $viewport1) {
+            @content;
+        }
+    } @else if $constraint == $max {
+        @media screen and ($max: $viewport1) {
+            @content;
+        }
+    } @else {
+        @media screen and ($min: $viewport1) and ($max: $viewport2) {
+            @content;
+        }
+    }
+}
