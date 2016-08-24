@@ -65,27 +65,23 @@ function cssTasks(filename) {
                 precision: 10,
                 includePaths: ['.'],
                 errLogToConsole: true
-            }))
+            }));
         })
         .pipe(plugins.rename, (path) => {
             path.basename = path.basename.split('.').shift();
             path.extname = '.css.liquid';
             return path;
         })
-        // .pipe(plugins.concat, filename)
-    //     .pipe(() => {
-    //         plugins.util.log('ended concat, next autopre');
-    //         return plugins.util.noop();
-    //     })
-    .pipe(plugins.autoprefixer, {
-      browsers: [
-        'last 2 versions',
-        'android 4',
-        'opera 12'
-      ]
-    }).pipe(plugins.cssnano, {
-        safe: true
-    })();
+        .pipe(plugins.autoprefixer, {
+            browsers: [
+                'last 2 versions',
+                'android 4',
+                'opera 12'
+            ]
+        })
+        .pipe(plugins.cssnano, {
+            safe: true
+        })();
 };
 
 
@@ -97,13 +93,13 @@ function cssTasks(filename) {
 gulp.task('styles', () => {
     var merged = merge();
     manifest.forEachDependency('css', (dep) => {
+        var cssTasksInstance = cssTasks(dep.name);
         merged.add(
             gulp.src(dep.globs, {base: 'styles'})
-                .pipe(cssTasks(dep.name))
+                .pipe(cssTasksInstance)
         );
     });
     return merged
-    // return gulp.src(path.source + 'assets/styles/**.*')
         .pipe(plugins.flatten())
         .pipe(gulp.dest(path.dist + 'assets'));
 });
@@ -111,7 +107,7 @@ gulp.task('styles', () => {
 // ### Scripts
 // `gulp scripts` - Runs JSHint then compiles, combines, and optimizes Bower JS
 // and project JS.
-gulp.task('scripts', ['jshint'], () => {
+gulp.task('scripts', () => {
     return gulp.src(path.source + 'assets/scripts/**.*')
         .pipe(plugins.flatten())
         .pipe(gulp.dest(path.dist + 'assets'));
@@ -160,8 +156,6 @@ gulp.task('images', () => {
 // ### JSHint
 // `gulp jshint` - Lints configuration JSON and project JS.
 gulp.task('jshint', () => {
-    return;
-
     return gulp.src([
         'bower.json', 'gulpfile.babel.js', 'private.json'
     ])
@@ -230,7 +224,6 @@ var shopifyPipe = (() => {
                 minifyJS: true,
                 processScripts: ['text/template'],
                 quoteCharacter: "'",
-                removeAttributeQuotes: true,
                 removeComments: true,
                 removeEmptyAttributes: true,
                 removeRedundantAttributes: true,
