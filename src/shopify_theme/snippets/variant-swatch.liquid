@@ -30,7 +30,7 @@ The last option is the one that sends the product id
           {% assign input_classes = 'input-color' %}
         {% elsif option == 'Size' %}
           {% capture element_classes %}option-size-swatch {% if variant.available %}size-available{% else %}disabled{% endif %} js-hidden{% endcapture %}
-          {% capture input_id %}'{{ variant.option2 }}-{{ variant.option1 }}-select{% endcapture %}
+          {% capture input_id %}{{ variant.option2 }}-{{ variant.option1 }}-select{% endcapture %}
           {% assign input_classes = 'input-color' %}
         {% endif %}
         
@@ -49,7 +49,7 @@ The last option is the one that sends the product id
                      {% if isFirstColor %}checked="checked"{% endif %}/>
               <label class="color-label"
                      for="{{ input_id }}">
-
+                
                 {% include 'swatch-image' swatch_color: variant.option1 %}
 
               </label>
