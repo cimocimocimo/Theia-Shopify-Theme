@@ -44,65 +44,65 @@ var plugins = gulpLoadPlugins(),
     // - `project.css` - Array of first-party CSS assets.
     project = manifest.getProjectGlobs();
 
-// ## Reusable Pipelines
-// See https://github.com/OverZealous/lazypipe
-
-// ### CSS processing pipeline
-// Example
-// ```
-// gulp.src(cssFiles)
-//   .pipe(cssTasks('main.css')
-//   .pipe(gulp.dest(path.dist + 'styles'))
-// ```
-function cssTasks(filename) {
-    return lazypipe()
-        .pipe(() => {
-            return plugins.if(true, plugins.plumber());
-        })
-        .pipe(() => {
-            return plugins.if('*.scss.liquid', plugins.sass({
-                outputStyle: 'nested', // libsass doesn't support expanded yet
-                precision: 10,
-                includePaths: ['.'],
-                errLogToConsole: true
-            }));
-        })
-        .pipe(plugins.rename, (path) => {
-            path.basename = path.basename.split('.').shift();
-            path.extname = '.css.liquid';
-            return path;
-        })
-        .pipe(plugins.autoprefixer, {
-            browsers: [
-                'last 2 versions',
-                'android 4',
-                'opera 12'
-            ]
-        })
-        .pipe(plugins.cssnano, {
-            safe: true
-        })();
-};
-
-
 // ### Styles
 // `gulp styles` - Compiles, combines, and optimizes Bower CSS and project CSS.
 // By default this task will only log a warning if a precompiler error is
 // raised. If the `--production` flag is set: this task will fail outright.
 
-gulp.task('styles', () => {
+function styleTasks(filename){
+    return lazypipe()
+        .pipe(plugins.plumber)
+        .pipe(
+            plugins.if,
+            '*.scss?(.liquid)',
+            plugins.sass({
+                outputStyle: 'nested', // libsass doesn't support expanded yet
+                precision: 10,
+                includePaths: ['.'],
+                errLogToConsole: true
+            })
+        )
+        .pipe(
+            plugins.concat,
+            filename + '.liquid'
+        )
+        .pipe(
+            plugins.autoprefixer,
+            {
+                browsers: [
+                    'last 2 versions',
+                    'android 4',
+                    'opera 12'
+                ]
+            }
+        )();
+}
+
+function styles(){
+    // create empty merged stream to add css dependencies to
     var merged = merge();
+    
+    // loop over all the css dependencies
     manifest.forEachDependency('css', (dep) => {
-        var cssTasksInstance = cssTasks(dep.name);
         merged.add(
-            gulp.src(dep.globs, {base: 'styles'})
-                .pipe(cssTasksInstance)
+            gulp.src(dep.globs)
+                .pipe(styleTasks())
         );
     });
+    
     return merged
-        .pipe(plugins.flatten())
-        .pipe(gulp.dest(path.dist + 'assets'));
-});
+        .pipe(
+            plugins.cssnano({
+                safe: true
+            })
+        )
+        .pipe(
+            gulp.dest(
+                path.dist + 'assets'
+            )
+        );
+}
+gulp.task('styles', styles);
 
 // ### Scripts
 // `gulp scripts` - Runs JSHint then compiles, combines, and optimizes Bower JS
@@ -233,8 +233,7 @@ var shopifyPipe = (() => {
             }))
         })
         .pipe(gulp.dest, path.dist);
-})()
-
+})();
 
 
 gulp.task('shopify', () => {
@@ -275,24 +274,22 @@ gulp.task('watch', () => {
 // ### Clean
 // `gulp clean` - Deletes the build folder entirely.
 gulp.task('clean', () => {
-    del([path.dist]);
+    return del([path.dist]);
 });
 
 // ### Build
 // `gulp build` - Run all the build tasks but don't clean up beforehand.
 // Generally you should be running `gulp` instead of `gulp build`.
 gulp.task('build', (callback) => {
-    runSequence('styles',
+    return runSequence('styles',
                 'scripts',
                 ['fonts', 'images', 'templates', 'videos', 'shopify'],
-                callback);
+    callback);
 });
 
 gulp.task('clean-build', () => {
     runSequence('clean', 'build');
 });
-
-
 
 // ### Deploy
 // `gulp deploy` - Cleans, builds, and uploads the theme to the current shop
