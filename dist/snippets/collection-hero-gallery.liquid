@@ -69,7 +69,7 @@
 {% if collection.metafields.other_images.desktop_hero != blank or collection.metafields.slide1.desktop != blank %}
   <div id="top" class="{% if collection.handle == 'shop' %}shop-page-hero{% else %}collection-page-hero{% endif %}">
     {% if collection.metafields.slide1.desktop != blank %}
-      <div class="collection-hero-carousel">
+      <div class="js-hero-carousel collection-hero-carousel">
         {% for slide_name in slide_names %}
           {% unless collection.metafields[slide_name].desktop == blank %}
             <div class="hero-slide hero-{{ slide_name }}"></div>

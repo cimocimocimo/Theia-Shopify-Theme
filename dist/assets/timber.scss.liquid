@@ -6736,51 +6736,7 @@ address {
     }
 }
 
-.collection-hero-carousel {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    
-    .slick-list,
-    .slick-track,
-    .hero-slide,
-    & {
-        height: 100%;
-    }
-    
-    .hero-slide {
-        width: 100%;
-        background-position: top center;
-        background-size: cover;
-    }
 
-    .slick-prev,
-    .slick-next {
-        color: $colorDarkGray;
-    }
-    
-    .slick-prev {
-        @extend %lookbook-carousel-nav-base;
-        
-        left: $gutter*2;
-        
-        &:before {
-            /* .icon-arrow-left-xlarge:before */
-            content: "\e608";
-        }
-    }
-    
-    .slick-next {
-        @extend %lookbook-carousel-nav-base;
-        
-        right: $gutter*2;
-        
-        &:before {
-            /* .icon-arrow-right-xlarge:before */
-            content: "\e607";
-        }
-    }
-}
 
 .about-page-hero {
     @extend %hero-alarge;
@@ -13596,4 +13552,160 @@ span#resultMessage {
             }
         }
     }
+}
+
+// new code to factor into gulp file.
+
+%collection-hero-carousel-base {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    
+    .slick-list,
+    .slick-track,
+    .hero-slide,
+    & {
+        height: 100%;
+    }
+    
+    .hero-slide {
+        width: 100%;
+        background-position: top center;
+        background-size: cover;
+
+        img {
+            height: 100%;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    }
+
+    .slick-prev,
+    .slick-next {
+        color: $colorDarkGray;
+    }
+    
+    .slick-prev {
+        @extend %lookbook-carousel-nav-base;
+        
+        left: $gutter*2;
+        
+        &:before {
+            /* .icon-arrow-left-xlarge:before */
+            content: "\e608";
+        }
+    }
+    
+    .slick-next {
+        @extend %lookbook-carousel-nav-base;
+        
+        right: $gutter*2;
+        
+        &:before {
+            /* .icon-arrow-right-xlarge:before */
+            content: "\e607";
+        }
+    }
+}
+
+.collection-hero-carousel {
+    @extend %collection-hero-carousel-base;
+}
+
+.layout-bridal {
+    // add padding to get the page content right
+    @include at-query($min, $postMedium){
+        padding-top: $desktopHeaderMainRowHeight + $headerTopRowHeight;
+    }
+    
+    @include at-query($max, $medium){
+        padding-top: $mobileHeaderMainRowHeight + $headerTopRowHeight;
+    }
+}
+
+.bridal-page-hero {
+    .carousel-row {
+        /* Desktop */
+        @include at-query ($min, $postSmall) {
+            height: 588px;
+        }
+
+        @include at-query( null, $postMedium, $large ){
+            height: 532px;
+        }
+
+        @include at-query( null, $postSmall, $medium ){
+            height: 476px;
+        }
+
+        /* Mobile */
+        @include at-query ($max, $small) {
+            height: 420px;
+        }
+
+    }
+
+    .navigation-block-row {
+        background: blue;
+    }
+}
+
+.block-navigation-link-bridesmaids {
+    @extend %block-navigation-link-base;
+    
+    &:before {
+        background-image: url({{'bridesmaids-collection-block-bg.jpg' | asset_url}});
+    }
+    
+    .image {
+        background-image: url({{'bridesmaids-collection-block-bg.jpg' | asset_url}});
+    }
+}
+
+.block-navigation-link-bridal-runway-video {
+    @extend %block-navigation-link-base;
+    
+    &:before {
+        background-image: url({{'bridal-fall-2016-runway-video-nav-bg.jpg' | asset_url}});
+    }
+    
+    .image {
+        background-image: url({{'bridal-fall-2016-runway-video-nav-bg.jpg' | asset_url}});
+    }
+}
+
+
+.bridal-page-hero-carousel {
+    @extend %collection-hero-carousel-base;
+    
+    [class^="hero-slide-image-"] {
+        height: 100%;
+        display: none;
+        background-position: top center; 
+        background-size: cover;
+    }
+
+    @media screen and (min-width: 1024px){
+        .hero-slide-image-desktop {
+            display: block;
+        }
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 1024px){
+        .hero-slide-image-tablet {
+            display: block;
+        }
+    }
+    
+    @media screen and (max-width: 480px){
+        .hero-slide-image-mobile {
+            display: block;
+        }
+    }
+}
+
+// TODO: make this layout full height, top section 2/3 of vh, and bottom 1/3 of vh
+.bridal-page-hero-layout {
+    
 }
