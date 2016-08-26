@@ -10,8 +10,9 @@
     <a class="sub-menu-link" href="/blogs/blog/">View All</a>
   {% endif %}
   {% if coll.handle == 'bridal' %}
-    <a class="sub-menu-link" href="http://press.theiacouture.com/en/trunk-shows/">Trunk Shows</a>
-    <a class="sub-menu-link" href="/pages/bridal-videos/">Bridal Videos</a>
+    {% for link in linklists.bridal-menu.links %}
+      <a class="sub-menu-link" href="{{ link.url }}">{{ link.title }}</a>
+    {% endfor %}
   {% elsif coll %}
     <a class="sub-menu-link mobile-view-all-link" href="{{ coll.url }}">View All</a>
   {% endif %}

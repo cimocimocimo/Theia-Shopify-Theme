@@ -77,7 +77,7 @@ timber.cache = {
     },
 
     heroCarousel: {
-        $carousel: $('.collection-hero-carousel')
+        $carousel: $('.js-hero-carousel')
     }
 };
 
@@ -826,6 +826,7 @@ timber.headerSubNav = function(){
         var $menuLink = $(this);
 
         // if we are at breakpoint large or bigger
+        // or if the link was manually disabled.
         if (windowWidth <= breakPointLarge || $menuLink.hasClass('js-disabled')){
             event.preventDefault();
             openSubMenu($menuLink);
