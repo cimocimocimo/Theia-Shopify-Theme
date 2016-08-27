@@ -83,7 +83,8 @@ timber.cache = {
 
 // used for passing in data from local pages through script tags
 timber.pageData = {
-    productPage: {}
+    productPage: {},
+    loginPage: {}
 };
 
 timber.init = function () {
@@ -115,19 +116,6 @@ timber.init = function () {
     smoothScroll.init();
 };
 
-timber.heroCarousel = function(){
-    var $carousel = timber.cache.heroCarousel.$carousel;
-
-    $carousel.slick({
-        prevArrow: '<a href="#" class="slick-prev"></a>',
-        nextArrow: '<a href="#" class="slick-next"></a>',
-        autoplay: true,
-        fade: true,
-        autoplaySpeed: 3500,
-        speed: 1500
-    });
-};
-
 timber.collectionPage = function(){
     var pager = new timber.infiniteScroll();
     
@@ -137,7 +125,7 @@ timber.collectionPage = function(){
     
     // lookbook pages
     if (timber.cache.collectionLookbook.$body.length !== 0){
-        timber.lookbookPageNew(pager);
+        timber.lookbookPage(pager);
     }
     
     // shop pages
@@ -157,7 +145,7 @@ timber.productTagFilter = function(){
     });
 }
 
-timber.lookbookPageNew = function(pager){
+timber.lookbookPage = function(pager){
     var pageElementSelector = '#collection-items',
         itemElementSelector = '.lookbook-grid-item',
         carouselTemplate = Handlebars.compile(
@@ -320,159 +308,6 @@ timber.lookbookPageNew = function(pager){
         return parseInt($item.attr(attr), 10);
     }
 }
-
-timber.lookbookPage = function(pager){
-    var $openModalLinks = $('.js-open-modal'),
-        $modalContentBlock = $('#lookbook-gallery-modal'),
-        $collectionItemsBlock = $('#collection-items'),
-        $collectionItems = $collectionItemsBlock.find('.lookbook-grid-item');
-    
-    // init page objects
-    var collection = new Collection(
-        $collectionItemsBlock.attr('data-total-items'),
-        $collectionItemsBlock.attr('data-total-pages'),
-        $collectionItemsBlock.attr('data-page-size')
-    );
-    
-    gatherPageData($collectionItemsBlock);
-    
-    function gatherPageData($page){
-        var $items = $page.find('.lookbook-grid-item'),
-            currentPage = new Page(
-                $page.attr('data-has-next-page'),
-                $page.attr('data-next-page-url') || null,
-                $page.html()
-            );
-        
-        collection.currentPage = currentPage;
-        collection.pages.push(currentPage);
-        
-        $items.each(function(index){
-            var $item = $(this);
-            collection.items.push(
-                new Item(
-                    $item.attr('id'),
-                    $item.attr('data-index'),
-                    $item.attr('data-title'),
-                    $item.attr('data-style-number'),
-                    $item.attr('data-image-url')
-                )
-            );
-        });
-    }
-    
-    // wire the open modal handlers for the initial set of objects.
-    $openModalLinks.click(openModal);
-    
-    function initModalCarousel(){
-        
-    }
-    
-    // open modals
-    function openModal(event) {
-        event.preventDefault();
-        
-        // gather data for this modal
-        // gather data for the gallery
-        // gather data for the current element
-        var $this = $(this),
-            itemIndex = parseInt($this.attr('data-item-index'), 10),
-            modalContent = $modalContentBlock.html();
-        
-        // gather data for the prev/next 2 items in the lookbook
-        var start = itemIndex - 2 >= 0 ? itemIndex - 2 : 0,
-            end = itemIndex + 2 < collection.items.length ? itemIndex + 2 : collection.items.length - 1;
-        
-        start = itemIndex - 2;
-        end = itemIndex + 2;
-
-        if (start < 0){
-            start = 0;
-        }
-        
-        if (end >= collection.items.length){
-            // is there another page after this?
-            if (pager.hasNextPage()){
-                // get the next page
-                pager.getNextPage().done(function(data){
-
-                });
-            } else {
-                end = collection.itmes.length - 1;
-            }
-        }
-        
-        // get gallery mustache template
-        // create context object 
-        // render template and insert into the vex modal
-        // wire the carousel
-        // on click next add the 3rd item ahead to the carousel
-        // on click previous add the 3rd item behind to the carousel
-        // if the 3rd item is not found
-        // if looking ahead, is there another page
-        // if so load it
-        // if not then loop around to the first item on the page
-        // if looking behind do nothing end of carousel
-        
-        vex.open({
-            showCloseButton: true,
-            escapeButtonCloses: true,
-            content: modalContent,
-            className: 'vex-lookbook-modal',
-            afterOpen: wireImageCarousel,
-            closeClassName: 'lookbook-modal-close'
-        });
-    }
-    
-    function wireImageCarousel(){
-        var $carousel = this.$vexContent.find('.lookbook-modal-image-carousel');
-        
-        $carousel.slick({
-            prevArrow: '<a href="#" class="slick-prev"></a>',
-            nextArrow: '<a href="#" class="slick-next"></a>',
-            infinite: false
-        });
-    }
-    
-    // this wires the open modal click callbacks on pages loaded
-    // through ajax.
-    pager.setOptions({
-        processFilteredData: function($data){
-            $data.find('.js-open-modal').click(openModal);
-            
-            return $data;
-        },
-        processPage: function($page){
-            gatherPageData($page);
-            
-            return $page;
-        }
-    });
-    
-    // Models
-    function Collection(totalItems, totalPages, pageSize){
-        this.totalItems = totalItems;
-        this.totalPages = totalPages;
-        this.pageSize = pageSize;
-        this.currentPage = null;
-        this.pages = [];
-        this.items = [];
-    }
-    
-    function Page(hasNextPage, nextPageUrl, html){
-        this.hasNextPage = hasNextPage;
-        this.nextPageUrl = nextPageUrl;
-        this.html = html;
-    }
-    
-    function Item(id, index, title, styleNumber, imageUrl){
-        this.id = id;
-        this.index = index;
-        this.title = title;
-        this.styleNumber = styleNumber;
-        this.imageUrl = imageUrl;
-    }
-};
 
 timber.shopPage = function(pager){
     var $itemContainer = timber.cache.collectionPage.$itemContainer,
@@ -876,7 +711,8 @@ timber.headerSubNav = function(){
 };
 
 timber.loginFormInit = function(){
-
+    var resetSuccess = timber.pageData.loginPage.resetSuccess || false;
+    
     /*
      Show/hide the recover password form when requested.
      I'd suggest using some CSS3 transitions to make this change look cool,
@@ -905,11 +741,6 @@ timber.loginFormInit = function(){
 
     $('.forgot-passowrd-link').click(showRecoverPasswordForm);
     $('.cancel-forgot-password-link').click(hideRecoverPasswordForm);
-
-    // reset_success is only true when the reset form is
-    {% if reset_success %}
-    document.getElementById('resetSuccess').style.display = 'block';
-    {% endif %}
 };
 
 timber.infiniteScroll = function(settings){
