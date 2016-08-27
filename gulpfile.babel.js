@@ -75,10 +75,16 @@ function styleTasks(filename){
                     'opera 12'
                 ]
             }
+        )
+        .pipe(
+            plugins.cssnano,
+            {
+                safe: true
+            }
         )();
 }
 
-function styles(){
+gulp.task('styles', () => {
     // create empty merged stream to add css dependencies to
     var merged = merge();
     
@@ -86,23 +92,17 @@ function styles(){
     manifest.forEachDependency('css', (dep) => {
         merged.add(
             gulp.src(dep.globs)
-                .pipe(styleTasks())
+                .pipe(styleTasks(dep.name))
         );
     });
     
     return merged
         .pipe(
-            plugins.cssnano({
-                safe: true
-            })
-        )
-        .pipe(
             gulp.dest(
                 path.dist + 'assets'
             )
         );
-}
-gulp.task('styles', styles);
+});
 
 // ### Scripts
 // `gulp scripts` - Runs JSHint then compiles, combines, and optimizes Bower JS
