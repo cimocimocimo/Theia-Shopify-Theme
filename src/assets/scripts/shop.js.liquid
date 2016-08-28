@@ -8,7 +8,11 @@ timber.cache = {
 
     // Navigation
     $navigation: $('#accessibleNav'),
-
+    
+    // general page carousel
+    // TODO: factor this out into page specific chunk
+    $carousel: $('.carousel'),
+    
     // Product Page
     productPage: {
         $body: $('.template-product'),
@@ -90,7 +94,6 @@ timber.pageData = {
 timber.init = function () {
     // Run on load
     timber.accessibleNav();
-    timber.carouselInit();
     timber.loginFormInit();
     timber.mobileSideNav();
     timber.loader.init();
@@ -106,10 +109,6 @@ timber.init = function () {
     // collection pages (both lookbook and shop)
     if (timber.cache.collectionPage.$body.length !== 0){
         timber.collectionPage();
-    }
-    
-    if (timber.cache.heroCarousel.$carousel.length !== 0){
-        timber.heroCarousel();
     }
     
     // initialize smooth scroll
@@ -984,7 +983,7 @@ timber.colorSwatch = function(){
 };
 
 timber.productPage = function(){
-    var pageData = timber.pageData.productPage;
+    var pageData = timber.pageData.productPage,
         // Auto-select first available variant on page load. Otherwise the product looks sold out.
         foundVariantInStock = false,
         currentVariant = null,

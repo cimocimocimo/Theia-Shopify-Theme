@@ -1,3 +1,5 @@
+'use strict';
+
 import 'babel-polyfill';
 
 import slick from 'slick-carousel';
@@ -12,7 +14,7 @@ import zoom from 'jquery-zoom';
 var timber = window.timber,
     $ = window.jQuery;
 
-timber.heroCarousel = function(){
+function heroCarousel(){
     var $carousel = timber.cache.heroCarousel.$carousel;
 
     $carousel.slick({
@@ -70,7 +72,6 @@ timber.initShopCarousel = function(){
 
 
 timber.productCarouselInit = function () {
-
     // TODO use a better class name for the carousel block, also update the sass/css class name
     $('.carousel-block').slick({
         infinite: true,
@@ -109,8 +110,10 @@ timber.productCarouselInit = function () {
     console.log('product carousel init');
 };
 
-timber.carouselInit = function () {
-    $('.carousel').slick({
+function carouselInit() {
+    var $carousel = timber.cache.$carousel;
+
+    $carousel.slick({
         dots: true,
         prevArrow: '<a href="#" class="slick-prev"></a>',
         nextArrow: '<a href="#" class="slick-next"></a>',
@@ -121,3 +124,17 @@ timber.carouselInit = function () {
 
     console.log('carousel init');
 };
+
+function init() {
+    if (timber.cache.$carousel.length !== 0){
+        carouselInit();
+    }
+
+    if (timber.cache.heroCarousel.$carousel.length !== 0){
+        timber.heroCarousel();
+    }
+};
+
+$(() => {
+    init();
+});
