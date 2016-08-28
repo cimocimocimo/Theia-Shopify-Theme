@@ -6,6 +6,12 @@
       ],
       "main": true
     },
+    "shop.js": {
+      "files": [
+        "assets/scripts/shop.js.liquid"
+      ],
+      "main": true
+    },
     "fonts": {
       "files": ["assets/fonts/**/*"]
     },

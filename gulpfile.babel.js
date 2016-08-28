@@ -1,3 +1,5 @@
+/* jshint esversion: 6, node: true */ 
+
 'use strict';
 
 import gulp from 'gulp';
@@ -7,6 +9,8 @@ import del from 'del';
 import runSequence from 'run-sequence';
 import lazypipe from 'lazypipe';
 import merge from 'merge-stream';
+import webpack from 'webpack';
+import webpackConfig from './webpack.config.js';
 
 var plugins = gulpLoadPlugins(),
     manifest = Manifest('./src/assets/manifest.json'),
@@ -97,6 +101,7 @@ gulp.task('styles', () => {
     });
     
     return merged
+        .pipe(plugins.flatten())
         .pipe(
             gulp.dest(
                 path.dist + 'assets'
@@ -107,10 +112,68 @@ gulp.task('styles', () => {
 // ### Scripts
 // `gulp scripts` - Runs JSHint then compiles, combines, and optimizes Bower JS
 // and project JS.
-gulp.task('scripts', () => {
-    return gulp.src(path.source + 'assets/scripts/**.*')
+function jsTasks(filename){
+    return lazypipe()
+        .pipe(
+            plugins.concat,
+            filename + '.liquid'
+        )
+        .pipe(
+            plugins.uglify, 
+            {
+                compress: {
+                    'drop_debugger': true
+                }
+            }
+        )();
+}
+
+// modify some webpack config options
+var myDevConfig = Object.create(webpackConfig);
+myDevConfig.devtool = "sourcemap";
+myDevConfig.debug = true;
+
+// create a single instance of the compiler to allow caching
+var devCompiler = webpack(myDevConfig);
+
+gulp.task('scripts:webpack', (callback) => {
+    // run webpack to process app.js
+    devCompiler.run(function(err, stats) {
+	if(err) throw new plugins.util.PluginError("webpack:build-dev", err);
+	plugins.util.log("[webpack:build-dev]", stats.toString({
+	    colors: true
+	}));
+
+        callback();
+    });
+});
+
+gulp.task('scripts:old', /*['jshint'], */ (callback) => {
+    var merged = merge();
+
+    // process the old shop.js files
+    manifest.forEachDependency('js', function(dep) {
+        merged.add(
+            gulp.src(dep.globs)
+                .pipe(jsTasks(dep.name))
+        );
+    });
+    
+    return merged
         .pipe(plugins.flatten())
-        .pipe(gulp.dest(path.dist + 'assets'));
+        .pipe(
+            gulp.dest(
+                path.dist + 'assets'
+            )
+        );
+});
+
+gulp.task('scripts', ['jshint'], (callback) => {
+    runSequence(
+        ['scripts:old',
+        'scripts:webpack'],
+        callback
+    );
 });
 
 // ### Templates
@@ -136,7 +199,7 @@ gulp.task('videos', () => {
 gulp.task('fonts', () => {
     return gulp.src(globs.fonts)
         .pipe(plugins.flatten())
-        .pipe(gulp.dest(path.dist + 'assets'))
+        .pipe(gulp.dest(path.dist + 'assets'));
         // .pipe(browserSync.stream());
 });
 
@@ -149,7 +212,7 @@ gulp.task('images', () => {
             interlaced: true,
             svgoPlugins: [{removeUnknownsAndDefaults: false}, {cleanupIDs: false}]
         }))
-        .pipe(gulp.dest(`${path.dist}assets`))
+        .pipe(gulp.dest(`${path.dist}assets`));
         // .pipe(browserSync.stream());
 });
 
@@ -203,9 +266,7 @@ var shopifyPipe = (() => {
         var ext = getExtension(file.path);
 
         // if extension in whitelist and not in blacklist
-        if (ext !== null
-            && doesArrayContainAny(ext, whitelist)
-            && !doesArrayContainAny(ext, blacklist)){
+        if (ext !== null && doesArrayContainAny(ext, whitelist) && !doesArrayContainAny(ext, blacklist)){
             return true;
         }
         return false;
@@ -230,7 +291,7 @@ var shopifyPipe = (() => {
                 removeScriptTypeAttributes: true,
                 removeStyleLinkTypeAttributes: true,
                 useShortDoctype: true
-            }))
+            }));
         })
         .pipe(gulp.dest, path.dist);
 })();
