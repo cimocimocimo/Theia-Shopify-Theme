@@ -2818,3 +2818,14 @@ span#resultMessage {
         }
     }
 }
+
+.layout-bridal {
+    // add padding to get the page content right
+    @include at-query($min, $postMedium){
+        padding-top: $desktopHeaderMainRowHeight + $headerTopRowHeight;
+    }
+
+    @include at-query($max, $medium){
+        padding-top: $mobileHeaderMainRowHeight + $headerTopRowHeight;
+    }
+}

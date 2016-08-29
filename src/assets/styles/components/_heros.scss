@@ -357,7 +357,7 @@
     }
 }
 
-.collection-hero-carousel {
+%collection-hero-carousel-base {
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -373,6 +373,13 @@
         width: 100%;
         background-position: top center;
         background-size: cover;
+
+        img {
+            height: 100%;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+        }
     }
 
     .slick-prev,
@@ -402,6 +409,88 @@
         }
     }
 }
+
+.collection-hero-carousel {
+    @extend %collection-hero-carousel-base;
+}
+
+.bridal-page-hero {
+    .carousel-row {
+        /* Desktop */
+        @include at-query ($min, $postSmall) {
+            height: 588px;
+        }
+
+        @include at-query( null, $postMedium, $large ){
+            height: 532px;
+        }
+
+        @include at-query( null, $postSmall, $medium ){
+            height: 476px;
+        }
+
+        /* Mobile */
+        @include at-query ($max, $small) {
+            height: 420px;
+        }
+    }
+}
+
+.block-navigation-link-bridesmaids {
+    @extend %block-navigation-link-base;
+
+    &:before {
+        background-image: url({{'bridesmaids-collection-block-bg.jpg' | asset_url}});
+     }
+
+    .image {
+        background-image: url({{'bridesmaids-collection-block-bg.jpg' | asset_url}});
+    }
+}
+
+.block-navigation-link-bridal-runway-video {
+    @extend %block-navigation-link-base;
+
+    &:before {
+        background-image: url({{'bridal-fall-2016-runway-video-nav-bg.jpg' | asset_url}});
+    }
+
+    .image {
+        background-image: url({{'bridal-fall-2016-runway-video-nav-bg.jpg' | asset_url}});
+     }
+ }
+
+
+
+.bridal-page-hero-carousel {
+    @extend %collection-hero-carousel-base;
+
+    [class^="hero-slide-image-"] {
+        height: 100%;
+        display: none;
+        background-position: top center;
+        background-size: cover;
+    }
+
+    @media screen and (min-width: 1024px){
+        .hero-slide-image-desktop {
+            display: block;
+        }
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 1024px){
+        .hero-slide-image-tablet {
+            display: block;
+        }
+    }
+
+    @media screen and (max-width: 480px){
+        .hero-slide-image-mobile {
+            display: block;
+        }
+    }
+}
+
 
 .about-page-hero {
     @extend %hero-large;
