@@ -440,11 +440,11 @@
     @extend %block-navigation-link-base;
 
     &:before {
-        background-image: url({{'bridesmaids-collection-block-bg.jpg' | asset_url}});
+        background-image: unquote("url({{'bridesmaids-collection-block-bg.jpg' | asset_url}})");
      }
 
     .image {
-        background-image: url({{'bridesmaids-collection-block-bg.jpg' | asset_url}});
+        background-image: unquote("url({{'bridesmaids-collection-block-bg.jpg' | asset_url}})");
     }
 }
 
@@ -452,11 +452,11 @@
     @extend %block-navigation-link-base;
 
     &:before {
-        background-image: url({{'bridal-fall-2016-runway-video-nav-bg.jpg' | asset_url}});
+        background-image: unquote("url({{'bridal-fall-2016-runway-video-nav-bg.jpg' | asset_url}})");
     }
 
     .image {
-        background-image: url({{'bridal-fall-2016-runway-video-nav-bg.jpg' | asset_url}});
+        background-image: unquote("url({{'bridal-fall-2016-runway-video-nav-bg.jpg' | asset_url}})");
      }
  }
 
