@@ -26,11 +26,6 @@
 <!-- CSS ================================================== -->
 {{ 'main.css' | asset_url | stylesheet_tag }}
 
-{% if settings.ajax_cart and top-level-layout != 'simplified' %}
-  <!-- Ajaxify Cart Plugin ================================================== -->
-  <!-- {{ 'ajaxify.scss.css' | asset_url | stylesheet_tag }} -->
-{% endif %}
-
 <link rel="shortcut icon" href="{{ 'theia.ico' | asset_url }}" type="image/x-icon">
 
 <!-- Pinterest Verification -->
