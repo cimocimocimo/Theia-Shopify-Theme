@@ -1,159 +1,159 @@
 window.timber = window.timber || {};
 
-timber.cache = {
+window.timber.cache = {
     // General
-    $window: $(window),
-    $html: $('html'),
-    $body: $('body'),
+    $window: window.jQuery(window),
+    $html: window.jQuery('html'),
+    $body: window.jQuery('body'),
 
     // Navigation
-    $navigation: $('#accessibleNav'),
+    $navigation: window.jQuery('#accessibleNav'),
     
     // general page carousel
     // TODO: factor this out into page specific chunk
-    $carousel: $('.carousel'),
+    $carousel: window.jQuery('.carousel'),
     
     // Product Page
     productPage: {
-        $body: $('.template-product'),
-        $mobileHeaderLink: $('#mobileProductHeaderLink'),
-        $infoBlock: $('#productInfoBlock'),
-        $descriptionToggle: $('#descriptionToggle'),
-        $productOptions: $('.product-options-block'),
+        $body: window.jQuery('.template-product'),
+        $mobileHeaderLink: window.jQuery('#mobileProductHeaderLink'),
+        $infoBlock: window.jQuery('#productInfoBlock'),
+        $descriptionToggle: window.jQuery('#descriptionToggle'),
+        $productOptions: window.jQuery('.product-options-block'),
         gallery: {
-            $mainImageBlock: $('#mainImageBlock'),
-            $thumbBlock: $('#productThumbs')
+            $mainImageBlock: window.jQuery('#mainImageBlock'),
+            $thumbBlock: window.jQuery('#productThumbs')
         },
-        $backLink: $('.product-back-link')
+        $backLink: window.jQuery('.product-back-link')
     },
 
     // Mobile Slide Out Navigation
     mobileSideNav: {
-        $bodyContainer: $('#body-container'),
-        $headerContainer: $('#header-container'),
-        $bothContainers: $('#body-container, #header-container'),
-        $toggle: $('#sideNavToggle'),
-        $nav: $( '#mobileSideNav' ),
-        $subMenuLinks: $('#mobileSideNav .main-menu-link.js-has-sub-menu'),
-        $subMenus: $('.sub-menu-mobile')
+        $bodyContainer: window.jQuery('#body-container'),
+        $headerContainer: window.jQuery('#header-container'),
+        $bothContainers: window.jQuery('#body-container, #header-container'),
+        $toggle: window.jQuery('#sideNavToggle'),
+        $nav: window.jQuery( '#mobileSideNav' ),
+        $subMenuLinks: window.jQuery('#mobileSideNav .main-menu-link.js-has-sub-menu'),
+        $subMenus: window.jQuery('.sub-menu-mobile')
     },
 
     // homepage
     homepage: {
-        $body: $('body.template-index'),
-        $splashScroller: $('#homepage-splash-scroller'),
-        $hero: $('#homepage-hero'),
-        $splash: $('#homepage-splash'),
-        $headerWaypoint: $('.js-header-waypoint'),
-        $headerContainer: $('#header-container'),
-        $scrollBody: $('#body-container'),
-        $videoPlayButton: $('.js-play-video'),
-        $videoContainer: $('.block-navigation-video-container'),
-        $videoPlayer: $('#block-navigation-video-player')
+        $body: window.jQuery('body.template-index'),
+        $splashScroller: window.jQuery('#homepage-splash-scroller'),
+        $hero: window.jQuery('#homepage-hero'),
+        $splash: window.jQuery('#homepage-splash'),
+        $headerWaypoint: window.jQuery('.js-header-waypoint'),
+        $headerContainer: window.jQuery('#header-container'),
+        $scrollBody: window.jQuery('#body-container'),
+        $videoPlayButton: window.jQuery('.js-play-video'),
+        $videoContainer: window.jQuery('.block-navigation-video-container'),
+        $videoPlayer: window.jQuery('#block-navigation-video-player')
     },
 
     headerSubNav: {
-        $row: $('.site-header-sub-row'),
-        $subMenus: $('.js-header-sub-menu'),
-        $mainMenu: $('.site-header .main-menu')
+        $row: window.jQuery('.site-header-sub-row'),
+        $subMenus: window.jQuery('.js-header-sub-menu'),
+        $mainMenu: window.jQuery('.site-header .main-menu')
     },
 
     contactForm: {
-        $form: $('.contact-form'),
-        $styleNumberInput: $('#contactFormStyleNumber'),
-        $styleNumberInquiryBlock: $('#styleNumberInquiryBlock'),
-        $styleNumberInquiryBlockNumber: $('#styleNumberInquiryBlock .js-number')
+        $form: window.jQuery('.contact-form'),
+        $styleNumberInput: window.jQuery('#contactFormStyleNumber'),
+        $styleNumberInquiryBlock: window.jQuery('#styleNumberInquiryBlock'),
+        $styleNumberInquiryBlockNumber: window.jQuery('#styleNumberInquiryBlock .js-number')
     },
 
     collectionShop: {
-        $body: $('body.template-collection-shop'),
-        $carousel: $('.shop-hero-carousel')
+        $body: window.jQuery('body.template-collection-shop'),
+        $carousel: window.jQuery('.shop-hero-carousel')
     },
     
     collectionLookbook: {
-        $body: $('body.template-collection-lookbook')
+        $body: window.jQuery('body.template-collection-lookbook')
     },
 
     collectionPage: {
-        $body: $('body.template-collection'),
-        $itemContainer: $('#collection-items'),
-        $filterSelect: $('#product-tag-filter')
+        $body: window.jQuery('body.template-collection'),
+        $itemContainer: window.jQuery('#collection-items'),
+        $filterSelect: window.jQuery('#product-tag-filter')
     },
 
     heroCarousel: {
-        $carousel: $('.js-hero-carousel')
+        $carousel: window.jQuery('.js-hero-carousel')
     }
 };
 
 // used for passing in data from local pages through script tags
-timber.pageData = {
+window.timber.pageData = {
     productPage: {},
     loginPage: {}
 };
 
-timber.init = function () {
+window.timber.init = function () {
     // Run on load
-    timber.accessibleNav();
-    timber.loginFormInit();
-    timber.mobileSideNav();
-    timber.loader.init();
-    timber.homepageInit();
-    timber.headerSubNav();
-    timber.contactForm();
+    window.timber.accessibleNav();
+    window.timber.loginFormInit();
+    window.timber.mobileSideNav();
+    window.timber.loader.init();
+    window.timber.homepageInit();
+    window.timber.headerSubNav();
+    window.timber.contactForm();
     
     // product page
-    if (timber.cache.productPage.$body.length !== 0){
-        timber.productPage();
+    if (window.timber.cache.productPage.$body.length !== 0){
+        window.timber.productPage();
     }
     
     // collection pages (both lookbook and shop)
-    if (timber.cache.collectionPage.$body.length !== 0){
-        timber.collectionPage();
+    if (window.timber.cache.collectionPage.$body.length !== 0){
+        window.timber.collectionPage();
     }
     
     // initialize smooth scroll
-    smoothScroll.init();
+    window.smoothScroll.init();
 };
 
-timber.collectionPage = function(){
-    var pager = new timber.infiniteScroll();
+window.timber.collectionPage = function(){
+    var pager = new window.timber.infiniteScroll();
     
-    if (timber.cache.collectionPage.$filterSelect.length !== 0){
-        timber.productTagFilter();
+    if (window.timber.cache.collectionPage.$filterSelect.length !== 0){
+        window.timber.productTagFilter();
     }
     
     // lookbook pages
-    if (timber.cache.collectionLookbook.$body.length !== 0){
-        timber.lookbookPage(pager);
+    if (window.timber.cache.collectionLookbook.$body.length !== 0){
+        window.timber.lookbookPage(pager);
     }
     
     // shop pages
-    if (timber.cache.collectionShop.$body.length !== 0){
-        timber.shopPage(pager);
+    if (window.timber.cache.collectionShop.$body.length !== 0){
+        window.timber.shopPage(pager);
     }
 }
 
-timber.productTagFilter = function(){
-    var $filterSelect = timber.cache.collectionPage.$filterSelect;
+window.timber.productTagFilter = function(){
+    var $filterSelect = window.timber.cache.collectionPage.$filterSelect;
 
     $filterSelect.change(function(event){
-        var $select = $(this),
+        var $select = window.jQuery(this),
             $selectedOption = $select.find(':selected');
         
         window.location.href = $selectedOption.val();
     });
 }
 
-timber.lookbookPage = function(pager){
+window.timber.lookbookPage = function(pager){
     var pageElementSelector = '#collection-items',
         itemElementSelector = '.lookbook-grid-item',
-        carouselTemplate = Handlebars.compile(
-            $('#lookbook-modal-carousel-template').html()
+        carouselTemplate = window.Handlebars.compile(
+            window.jQuery('#lookbook-modal-carousel-template').html()
         ),
-        slideTemplate = Handlebars.compile(
-            $('#lookbook-carousel-slide-template').html()
+        slideTemplate = window.Handlebars.compile(
+            window.jQuery('#lookbook-carousel-slide-template').html()
         ),
-        $itemContainer = $(pageElementSelector),
+        $itemContainer = window.jQuery(pageElementSelector),
         $items = $itemContainer.find(itemElementSelector),
         $currentItem = null,
         $modal = null,
@@ -180,7 +180,7 @@ timber.lookbookPage = function(pager){
         event.preventDefault();
         
         // get the item index
-        var $clickedItem = $(this),
+        var $clickedItem = window.jQuery(this),
             clickedItemIndex = getAttrInt($clickedItem, 'data-item-index');
 
         // set the $currentItem
@@ -202,7 +202,7 @@ timber.lookbookPage = function(pager){
             beforeClose: function($vexContent){
                 // scroll to the current item on the page behind hte modal
                 // and have it vertically centered on the page.
-                $('body').scrollTop($currentItem.offset().top - (($(window).height() - $currentItem.height())/2));
+                window.jQuery('body').scrollTop($currentItem.offset().top - ((window.jQuery(window).height() - $currentItem.height())/2));
             },
             afterClose: function($vexContent){
                 $modal = null;
@@ -237,7 +237,7 @@ timber.lookbookPage = function(pager){
         $items
             .slice(startIndex, endIndex)
             .each(function(index){
-                var $item = $(this);
+                var $item = window.jQuery(this);
                 
                 slidesHtml += getSlideHtml($item);
             });
@@ -308,11 +308,11 @@ timber.lookbookPage = function(pager){
     }
 }
 
-timber.shopPage = function(pager){
-    var $itemContainer = timber.cache.collectionPage.$itemContainer,
+window.timber.shopPage = function(pager){
+    var $itemContainer = window.timber.cache.collectionPage.$itemContainer,
         scrollToTargetSelector = window.location.hash,
         scrollToElement = $itemContainer.find(scrollToTargetSelector),
-        $carousel = timber.cache.collectionShop.$carousel,
+        $carousel = window.timber.cache.collectionShop.$carousel,
         hasFoundScrollTarget = false;
     
     function isScrollElementLoaded(){
@@ -344,15 +344,15 @@ timber.shopPage = function(pager){
     
     // check for the carousel
     if ($carousel.length > 0){
-        timber.initShopCarousel();
+        window.timber.initShopCarousel();
     }
 }
 
-timber.contactForm = function(){
-    var styleNumber = timber.getUrlVars()['style_number'],
-        $block = timber.cache.contactForm.$styleNumberInquiryBlock,
-        $blockNumber = timber.cache.contactForm.$styleNumberInquiryBlockNumber,
-        $styleNumberInput = timber.cache.contactForm.$styleNumberInput;
+window.timber.contactForm = function(){
+    var styleNumber = window.timber.getUrlVars()['style_number'],
+        $block = window.timber.cache.contactForm.$styleNumberInquiryBlock,
+        $blockNumber = window.timber.cache.contactForm.$styleNumberInquiryBlockNumber,
+        $styleNumberInput = window.timber.cache.contactForm.$styleNumberInput;
     
     if (styleNumber){
         $styleNumberInput.val(styleNumber);
@@ -361,7 +361,7 @@ timber.contactForm = function(){
     }
 };
 
-timber.getUrlVars = function () {
+window.timber.getUrlVars = function () {
     var result = {};
     var location = window.location.href.split('#');
     var parts = location[0].replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -370,18 +370,18 @@ timber.getUrlVars = function () {
     return result ;
 };
 
-timber.homepageInit = function(){
+window.timber.homepageInit = function(){
     // if not on the homepage, return
-    if (timber.cache.homepage.$body.length === 0){
+    if (window.timber.cache.homepage.$body.length === 0){
         return;
     }
     
-    timber.homepageHeader();
-    timber.homepageSplash();
-    timber.homepageVideo();
+    window.timber.homepageHeader();
+    window.timber.homepageSplash();
+    window.timber.homepageVideo();
 };
 
-timber.homepageHeader = function(){
+window.timber.homepageHeader = function(){
     // on the home page we want to activate headroom.js when
     // scrolling up and the header hits the top of the screen.
     // then deactivate it at the same point on scroll down.
@@ -389,11 +389,11 @@ timber.homepageHeader = function(){
     // use headroom.js for showing hiding in the main body of the
     // page.
     
-    var $container = timber.cache.homepage.$headerContainer, // headroom.js is applied to this element
-        $waypoint = timber.cache.homepage.$headerWaypoint,
+    var $container = window.timber.cache.homepage.$headerContainer, // headroom.js is applied to this element
+        $waypoint = window.timber.cache.homepage.$headerWaypoint,
         // used as the context/scroller element for waypoints and headroom, needed to get around the full-viewport
         // css hacks used.
-        $scrollBody = timber.cache.homepage.$scrollBody,
+        $scrollBody = window.timber.cache.homepage.$scrollBody,
         headroomInstance = {}; // closure to hold the headroom instance between waypoint handler calls
     
     // create the waypoint for the header
@@ -412,28 +412,28 @@ timber.homepageHeader = function(){
             }
         },
         offset: function(){
-            return - $(this.element).height();
+            return - window.jQuery(this.element).height();
         }
     });
 };
 
 // currently not used on the site. Perhaps get rid of this code later.
-timber.homepageSplash = function(){
-    var $splash = timber.cache.homepage.$splash,
-        $scroll = timber.cache.homepage.$splashScroller,
-        $body = timber.cache.homepage.$body;
+window.timber.homepageSplash = function(){
+    var $splash = window.timber.cache.homepage.$splash,
+        $scroll = window.timber.cache.homepage.$splashScroller,
+        $body = window.timber.cache.homepage.$body;
     
     $scroll.click(function(event){
         event.preventDefault();
         
-        $('#body-container').animate({scrollTop: $splash.height()});
+        window.jQuery('#body-container').animate({scrollTop: $splash.height()});
     });
 };
 
-timber.homepageVideo = function(){
-    var $button = timber.cache.homepage.$videoPlayButton,
-        $playerContainer = timber.cache.homepage.$videoContainer,
-        player = new Vimeo.Player(timber.cache.homepage.$videoPlayer[0]);
+window.timber.homepageVideo = function(){
+    var $button = window.timber.cache.homepage.$videoPlayButton,
+        $playerContainer = window.timber.cache.homepage.$videoContainer,
+        player = new Vimeo.Player(window.timber.cache.homepage.$videoPlayer[0]);
     
     $button.click(function(event){
         event.preventDefault();
@@ -444,7 +444,7 @@ timber.homepageVideo = function(){
     });
 }
 
-timber.switchClass = function( $el, c1, c2){
+window.timber.switchClass = function( $el, c1, c2){
     if ( $el.hasClass(c1) ) {
         $el.removeClass(c1);
         $el.addClass(c2);
@@ -454,16 +454,16 @@ timber.switchClass = function( $el, c1, c2){
     }
 };
 
-timber.mobileSideNav = function(){
+window.timber.mobileSideNav = function(){
 
-    var $body = timber.cache.$body,
-        $bodyContainer = timber.cache.mobileSideNav.$bodyContainer,
-        $headerContainer = timber.cache.mobileSideNav.$headerContainer,
-        $bothContainers = timber.cache.mobileSideNav.$bothContainers,
-        $toggle = timber.cache.mobileSideNav.$toggle,
-        $nav = timber.cache.mobileSideNav.$nav,
-        $subMenuLinks = timber.cache.mobileSideNav.$subMenuLinks,
-        $subMenus = timber.cache.mobileSideNav.$subMenus,
+    var $body = window.timber.cache.$body,
+        $bodyContainer = window.timber.cache.mobileSideNav.$bodyContainer,
+        $headerContainer = window.timber.cache.mobileSideNav.$headerContainer,
+        $bothContainers = window.timber.cache.mobileSideNav.$bothContainers,
+        $toggle = window.timber.cache.mobileSideNav.$toggle,
+        $nav = window.timber.cache.mobileSideNav.$nav,
+        $subMenuLinks = window.timber.cache.mobileSideNav.$subMenuLinks,
+        $subMenus = window.timber.cache.mobileSideNav.$subMenus,
         isOpen = false;
 
     $toggle.click(function(e) {
@@ -471,16 +471,16 @@ timber.mobileSideNav = function(){
         e.stopPropagation();
 
         if (isOpen){
-            timber.mobileSideNav.close();
+            window.timber.mobileSideNav.close();
         } else {
-            timber.mobileSideNav.open();
+            window.timber.mobileSideNav.open();
         }
     });
 
     // close the side menu when user clicks on the body or the header when open.
     $bothContainers.click(function(e){
         if ( isOpen ){
-            timber.mobileSideNav.close();
+            window.timber.mobileSideNav.close();
         }
     });
 
@@ -505,7 +505,7 @@ timber.mobileSideNav = function(){
     // open the submenus.
     openSubMenus();
     $subMenus.each(function(i){
-        var $currMenu = $(this),
+        var $currMenu = window.jQuery(this),
             height = $currMenu.height();
 
         $currMenu.attr('data-height', height);
@@ -516,10 +516,10 @@ timber.mobileSideNav = function(){
         event.preventDefault();
 
         // get the target name, format the id, get the element
-        var $this = $(this),
+        var $this = window.jQuery(this),
             target = $this.data('target'),
             targetIdSelector = '#sub-menu-mobile-' + target,
-            $targetMenu = $(targetIdSelector);
+            $targetMenu = window.jQuery(targetIdSelector);
 
         if (isSubMenuOpen($targetMenu)){
             // close the menu and any others
@@ -553,18 +553,18 @@ timber.mobileSideNav = function(){
     }
 };
 
-timber.headerSubNav = function(){
+window.timber.headerSubNav = function(){
     
     // get elements
-    var $mainMenu = timber.cache.headerSubNav.$mainMenu,
-        $subNavRow = timber.cache.headerSubNav.$row,
-        $subMenus = timber.cache.headerSubNav.$subMenus,
+    var $mainMenu = window.timber.cache.headerSubNav.$mainMenu,
+        $subNavRow = window.timber.cache.headerSubNav.$row,
+        $subMenus = window.timber.cache.headerSubNav.$subMenus,
         $subMenuLinks = $mainMenu.find('.js-has-sub-menu'),
         $nonSubMenuLinks = $mainMenu.find('a:not(.js-has-sub-menu)'),
         menuClosetimeoutId,
         subMenuSelectorPrefix = '#header-sub-menu-',
         breakPointLarge = 1024,
-        windowWidth = $(window).width();
+        windowWidth = window.jQuery(window).width();
 
     // set the sub menu left offset to be the same as the link
     function setMenuHorizontalPositions(){
@@ -578,7 +578,7 @@ timber.headerSubNav = function(){
                 $currentLink = $subMenuLinks.eq(i);
                 currentOffset = $currentLink.offset().left;
                 currentTarget = $currentLink.attr('data-target');
-                $currentMenu = $(subMenuSelectorPrefix + currentTarget);
+                $currentMenu = window.jQuery(subMenuSelectorPrefix + currentTarget);
                 $currentMenu.css('left', currentOffset);
             }
         } else {
@@ -598,8 +598,8 @@ timber.headerSubNav = function(){
     setTimeout(setMenuHorizontalPositions, 350);
 
     // and set them anytime the window is resized.
-    $(window).resize(function(event){
-        windowWidth = $(window).width();
+    window.jQuery(window).resize(function(event){
+        windowWidth = window.jQuery(window).width();
         setMenuHorizontalPositions();
     });
 
@@ -608,7 +608,7 @@ timber.headerSubNav = function(){
         // if we are at breakpoint large or bigger
         if (windowWidth > breakPointLarge){
             // get the target name, format the id, get the element
-            var $menuLink = $(this);
+            var $menuLink = window.jQuery(this);
 
             openSubMenu($menuLink);
         }
@@ -616,7 +616,7 @@ timber.headerSubNav = function(){
     
     // when the user clicks on a sub menu link
     $subMenuLinks.click(function(event){
-        var $menuLink = $(this);
+        var $menuLink = window.jQuery(this);
 
         // if we are at breakpoint large or bigger
         // or if the link was manually disabled.
@@ -647,7 +647,7 @@ timber.headerSubNav = function(){
         // get the target name, format the id, get the element
         var target = $link.data('target'),
             targetIdSelector = subMenuSelectorPrefix + target,
-            $targetMenu = $(targetIdSelector);
+            $targetMenu = window.jQuery(targetIdSelector);
         
         // if another menu is open
         if ($subMenus.hasClass('js-open') && !$targetMenu.hasClass('js-open')){
@@ -669,8 +669,8 @@ timber.headerSubNav = function(){
     }
 };
 
-timber.loginFormInit = function(){
-    var resetSuccess = timber.pageData.loginPage.resetSuccess || false;
+window.timber.loginFormInit = function(){
+    var resetSuccess = window.timber.pageData.loginPage.resetSuccess || false;
     
     /*
      Show/hide the recover password form when requested.
@@ -682,15 +682,15 @@ timber.loginFormInit = function(){
             e.preventDefault();
         }
 
-        $('.recover-password-block').show();
-        $('.login-block').hide();
+        window.jQuery('.recover-password-block').show();
+        window.jQuery('.login-block').hide();
     }
 
     function hideRecoverPasswordForm(e) {
         e.preventDefault();
 
-        $('.recover-password-block').hide();
-        $('.login-block').show();
+        window.jQuery('.recover-password-block').hide();
+        window.jQuery('.login-block').show();
     }
 
     // Allow deep linking to the recover password form
@@ -698,11 +698,11 @@ timber.loginFormInit = function(){
         showRecoverPasswordForm();
     }
 
-    $('.forgot-passowrd-link').click(showRecoverPasswordForm);
-    $('.cancel-forgot-password-link').click(hideRecoverPasswordForm);
+    window.jQuery('.forgot-passowrd-link').click(showRecoverPasswordForm);
+    window.jQuery('.cancel-forgot-password-link').click(hideRecoverPasswordForm);
 };
 
-timber.infiniteScroll = function(settings){
+window.timber.infiniteScroll = function(settings){
     var defaults = {
         processFilteredData: false,
         processPage: false,
@@ -777,7 +777,7 @@ timber.infiniteScroll = function(settings){
     }
 
     function processNextPagePromise(data){
-        getPageDataFromHtml($(data).find(options.collectionBlockSelector));
+        getPageDataFromHtml(window.jQuery(data).find(options.collectionBlockSelector));
         
         // run callback
         if (typeof options.processFilteredData === 'function'){ 
@@ -795,17 +795,17 @@ timber.infiniteScroll = function(settings){
     }
     
     // get the container and wire the waypoint if there is a next page.
-    self.$itemContainer = $(options.collectionBlockSelector);
-    $('.back-to-top-block').removeClass('js-hidden');
-    $('.pagination-block').addClass('js-hidden');
+    self.$itemContainer = window.jQuery(options.collectionBlockSelector);
+    window.jQuery('.back-to-top-block').removeClass('js-hidden');
+    window.jQuery('.pagination-block').addClass('js-hidden');
     getPageDataFromHtml(self.$itemContainer);
     if (self.pageData.hasNextPage){
         wireWaypoint();
     }
 };
 
-timber.accessibleNav = function () {
-    var $nav = timber.cache.$navigation,
+window.timber.accessibleNav = function () {
+    var $nav = window.timber.cache.$navigation,
         $allLinks = $nav.find('a'),
         $topLevel = $nav.children('li').find('a'),
         $parents = $nav.find('.site-nav--has-dropdown'),
@@ -815,7 +815,7 @@ timber.accessibleNav = function () {
 
     // Mouseenter
     $parents.on('mouseenter touchstart', function(evt) {
-        var $el = $(this);
+        var $el = window.jQuery(this);
 
         if (!$el.hasClass(activeClass)) {
             evt.preventDefault();
@@ -826,7 +826,7 @@ timber.accessibleNav = function () {
 
     // Mouseout
     $parents.on('mouseleave', function() {
-        hideDropdown($(this));
+        hideDropdown(window.jQuery(this));
     });
 
     $subMenuLinks.on('touchstart', function(evt) {
@@ -835,7 +835,7 @@ timber.accessibleNav = function () {
     });
 
     $allLinks.focus(function() {
-        handleFocus($(this));
+        handleFocus(window.jQuery(this));
     });
 
     $allLinks.blur(function() {
@@ -846,7 +846,7 @@ timber.accessibleNav = function () {
     function handleFocus ($el) {
         var $subMenu = $el.next('ul');
         hasSubMenu = $subMenu.hasClass('sub-nav') ? true : false,
-        isSubItem = $('.site-nav--dropdown').has($el).length,
+        isSubItem = window.jQuery('.site-nav--dropdown').has($el).length,
         $newFocus = null;
 
         // Add focus class for top level items, or keep menu shown
@@ -863,7 +863,7 @@ timber.accessibleNav = function () {
         $el.addClass(activeClass);
 
         setTimeout(function() {
-            timber.cache.$body.on('touchstart', function() {
+            window.timber.cache.$body.on('touchstart', function() {
                 hideDropdown($el);
             });
         }, 250);
@@ -871,7 +871,7 @@ timber.accessibleNav = function () {
 
     function hideDropdown ($el) {
         $el.removeClass(activeClass);
-        timber.cache.$body.off('touchstart');
+        window.timber.cache.$body.off('touchstart');
     }
 
     function addFocus ($el) {
@@ -883,24 +883,24 @@ timber.accessibleNav = function () {
     }
 };
 
-timber.colorSwatch = function(){
-    var $colorSwatchInputs = $('.option-color-swatch input'),
-        $sizeSwatchInputs = $('.option-size-swatch input'),
-        isProductAvailable = timber.pageData.productPage.product.available,
+window.timber.colorSwatch = function(){
+    var $colorSwatchInputs = window.jQuery('.option-color-swatch input'),
+        $sizeSwatchInputs = window.jQuery('.option-size-swatch input'),
+        isProductAvailable = window.timber.pageData.productPage.product.available,
         firstSwatchColor = $colorSwatchInputs.first().attr('data-color');
 
     // Change dress color and show/hide the size inputs
     function changeDressColorTo(color){
-        $('body').trigger('colorChanged.productPage', {
+        window.jQuery('body').trigger('colorChanged.productPage', {
             color: color
         });
-        $('.color-name').html(color);
+        window.jQuery('.color-name').html(color);
     }
 
     function showSizesForColor(color){
         // show the size swatches for this color and hide the others
         $sizeSwatchInputs.each(function(){
-            var $input = $(this),
+            var $input = window.jQuery(this),
                 inputColor = $input.attr('data-color'),
                 inputSize = $input.attr('data-size'),
                 $swatchElement = $input.parent();
@@ -917,12 +917,12 @@ timber.colorSwatch = function(){
     
     // When a user changes the color swatch selection
     $colorSwatchInputs.change(function() {
-        var $colorInput = $(this),
+        var $colorInput = window.jQuery(this),
             color = $colorInput.attr('data-color');
         
         // select the first available size for this color
         $sizeSwatchInputs.each(function(){
-            var $sizeInput = $(this),
+            var $sizeInput = window.jQuery(this),
                 inputColor = $sizeInput.attr('data-color'),
                 inputSize = $sizeInput.attr('data-size'),
                 dataVariantAvailable = $sizeInput.attr('data-variant-available'),
@@ -945,7 +945,7 @@ timber.colorSwatch = function(){
     if (isProductAvailable){
         // find first size/color in stock
         $sizeSwatchInputs.each(function(){
-            var $input = $(this),
+            var $input = window.jQuery(this),
                 color = $input.attr('data-color'),
                 size = $input.attr('data-size'),
                 dataVariantAvailable = $input.attr('data-variant-available'),
@@ -958,7 +958,7 @@ timber.colorSwatch = function(){
                 
                 // select that color option
                 $colorSwatchInputs.each(function(){
-                    var $input = $(this),
+                    var $input = window.jQuery(this),
                         inputColor = $input.attr('data-color');
                     
                     if (inputColor === color){
@@ -983,8 +983,8 @@ timber.colorSwatch = function(){
     }
 };
 
-timber.productPage = function(){
-    var pageData = timber.pageData.productPage,
+window.timber.productPage = function(){
+    var pageData = window.timber.pageData.productPage,
         // Auto-select first available variant on page load. Otherwise the product looks sold out.
         foundVariantInStock = false,
         currentVariant = null,
@@ -1006,28 +1006,28 @@ timber.productPage = function(){
 
         // disable the radio button if the variant is not available
         if(!currentVariant.available){
-            $('input[id="'+ currentVariant.option1 +'-'+ currentVariant.option2 +'-select'+'"]').attr("disabled", "disabled");
+            window.jQuery('input[id="'+ currentVariant.option1 +'-'+ currentVariant.option2 +'-select'+'"]').attr("disabled", "disabled");
         }
 
         // select the first available variant
         if(currentVariant.available && !foundVariantInStock){
-            $('input[data-color="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
+            window.jQuery('input[data-color="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
             return foundVariantInStock = true;
         }
     })
 
     // if none are available select the the last variant color 
     if(foundVariantInStock === false){
-        $('input[data-color="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
+        window.jQuery('input[data-color="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
     }
 
-    $('.js-size-swatch-field').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">WHAT\'S MY SIZE </a>');
+    window.jQuery('.js-size-swatch-field').append('<a href="#modal-content-dress-size" id="dress-sizes-link" class="js-open-modal dress-sizing-link">WHAT\'S MY SIZE </a>');
 
     // wire the modal popup
-    $('.js-open-modal').click(function(event) {
+    window.jQuery('.js-open-modal').click(function(event) {
         event.preventDefault();
 
-        var $this = $(this),
+        var $this = window.jQuery(this),
             modalContentSelector = $this.attr('href');
 
         vex.open({
@@ -1037,29 +1037,29 @@ timber.productPage = function(){
             // default is two buttons, we don't want that.
             // you need the padding at the top else your close button infringes on the content.
             // dump the table into the modal
-            // content: $('#modal-content-dress-size').html(),
-            content: $(modalContentSelector).html(),
+            // content: window.jQuery('#modal-content-dress-size').html(),
+            content: window.jQuery(modalContentSelector).html(),
             className: 'vex-theme-wireframe'
         });
     });
     
-    timber.productImageGallery();
-    timber.mobileProductInfoBlock();
-    timber.productDescriptionBlock();
-    timber.productBackLink();
+    window.timber.productImageGallery();
+    window.timber.mobileProductInfoBlock();
+    window.timber.productDescriptionBlock();
+    window.timber.productBackLink();
     if( !isBridal() ){
-        timber.colorSwatch();
-        timber.productRecentlyViewedBlock();
+        window.timber.colorSwatch();
+        window.timber.productRecentlyViewedBlock();
     }
-    timber.productCarouselInit();
+    window.timber.productCarouselInit();
 }
 
-timber.productBackLink = function(){
-    var currentTagSlug = timber.getUrlVars()['tag'],
-        $backLink = timber.cache.productPage.$backLink,
+window.timber.productBackLink = function(){
+    var currentTagSlug = window.timber.getUrlVars()['tag'],
+        $backLink = window.timber.cache.productPage.$backLink,
         $targetLabel = $backLink.find('.link-target-label'),
         href = $backLink.attr('href'),
-        productTags = timber.pageData.productPage.tags,
+        productTags = window.timber.pageData.productPage.tags,
         currentTag,
         hashIndex,
         newHref;
@@ -1083,13 +1083,13 @@ timber.productBackLink = function(){
     $targetLabel.text(currentTag.name);
 };
 
-timber.productSelectCallback = function(variant, selector) {
-    var $body = $('body'),
-        addToCart = $('#addToCart'),
-        productPrice = $('#productPrice'),
-        comparePrice = $('#comparePrice'),
+window.timber.productSelectCallback = function(variant, selector) {
+    var $body = window.jQuery('body'),
+        addToCart = window.jQuery('#addToCart'),
+        productPrice = window.jQuery('#productPrice'),
+        comparePrice = window.jQuery('#comparePrice'),
         currency = "{{ shop.currency }}";
-        showProductWaitlist = timber.pageData.productPage.showProductWaitlist;
+        showProductWaitlist = window.timber.pageData.productPage.showProductWaitlist;
 
     if (showProductWaitlist) {
         addToCart.addClass('disabled').prop('disabled', true);
@@ -1128,7 +1128,7 @@ timber.productSelectCallback = function(variant, selector) {
     }
 };
 
-timber.productImageGallery = function(){
+window.timber.productImageGallery = function(){
     /*
      image gallery
 
@@ -1138,18 +1138,18 @@ timber.productImageGallery = function(){
      - clicking on a thumb shows the image in the main area
      */
     
-    var $mainBlock = timber.cache.productPage.gallery.$mainImageBlock,
-        $thumbBlock = timber.cache.productPage.gallery.$thumbBlock,
+    var $mainBlock = window.timber.cache.productPage.gallery.$mainImageBlock,
+        $thumbBlock = window.timber.cache.productPage.gallery.$thumbBlock,
         $mainImages = $mainBlock.find('.image-zoom-container'),
         $thumbLinks = $thumbBlock.find('a');
     
-    $('body').on('colorChanged.productPage', function(event, data){
+    window.jQuery('body').on('colorChanged.productPage', function(event, data){
         $thumbLinks.removeClass('js-hidden');
         $thumbLinks.filter(':not([data-image-color="' + data.color + '"])').addClass('js-hidden');
 
         $mainImages.addClass('js-hidden');
         $mainImages.each(function(index){
-            var $this = $(this),
+            var $this = window.jQuery(this),
                 attachedToVariant = ($this.attr('data-attached-to-variant') === 'true'),
                 imageColor = $this.attr('data-image-color');
             
@@ -1163,15 +1163,15 @@ timber.productImageGallery = function(){
     $thumbLinks.click(function(event){
         event.preventDefault();
 
-        var imageId = $(this).attr('data-target-image-id');
+        var imageId = window.jQuery(this).attr('data-target-image-id');
 
-        $('#' + imageId).removeClass('js-hidden');
+        window.jQuery('#' + imageId).removeClass('js-hidden');
         $mainImages.filter(':not(#' + imageId + ')').addClass('js-hidden');
     });
 
     $mainImages.each(function(index){
-        var $image = $(this),
-            width = $(window).width();
+        var $image = window.jQuery(this),
+            width = window.jQuery(window).width();
 
         if (width > 768){
             $image.zoom({
@@ -1181,7 +1181,7 @@ timber.productImageGallery = function(){
     });
 }
 
-timber.productRecentlyViewedBlock = function(){
+window.timber.productRecentlyViewedBlock = function(){
     var maxRecentProducts = 8,
         cookieName = 'theia-recent-products',
         recentProducts = [],
@@ -1189,12 +1189,12 @@ timber.productRecentlyViewedBlock = function(){
         maxCookieSize = 4000,
         cookieData,
         // create a Product object from current product
-        currentProduct = new Product(timber.pageData.productPage.product),
-        $recentProductsContainer = $('#recent-products-block'),
-        recentProductTemplate = Handlebars.compile(
-            $('#recent-product-template').html()
+        currentProduct = new Product(window.timber.pageData.productPage.product),
+        $recentProductsContainer = window.jQuery('#recent-products-block'),
+        recentProductTemplate = window.Handlebars.compile(
+            window.jQuery('#recent-product-template').html()
         ),
-        $hero = $('.recent-products-hero'),
+        $hero = window.jQuery('.recent-products-hero'),
         $carousel = $hero.find('.carousel-block');
     
     function Product(data){
@@ -1242,9 +1242,9 @@ timber.productRecentlyViewedBlock = function(){
     
     // on page load
     // check for for the cookie
-    if (Cookies.get(cookieName)){
+    if (window.Cookies.get(cookieName)){
         // load products from cookie
-        cookieData = Cookies.getJSON(cookieName);
+        cookieData = window.Cookies.getJSON(cookieName);
 
         // inistantiate Dresses from objects in array.
         if (cookieData !== undefined && cookieData.constructor === Array && cookieData.length > 0){
@@ -1288,7 +1288,7 @@ timber.productRecentlyViewedBlock = function(){
     }
     
     // save data to cookie
-    Cookies.set(cookieName, recentProducts);
+    window.Cookies.set(cookieName, recentProducts);
     
     // build the html for the block
     if (recentProducts.length > 2){
@@ -1301,10 +1301,10 @@ timber.productRecentlyViewedBlock = function(){
 };
 
 
-timber.productDescriptionBlock = function(){
+window.timber.productDescriptionBlock = function(){
 
-    var $toggle = timber.cache.productPage.$descriptionToggle,
-        $infoBlock = timber.cache.productPage.$infoBlock,
+    var $toggle = window.timber.cache.productPage.$descriptionToggle,
+        $infoBlock = window.timber.cache.productPage.$infoBlock,
         $icon = $toggle.find('.icon'),
         $content = $infoBlock.find('.content');
 
@@ -1313,33 +1313,33 @@ timber.productDescriptionBlock = function(){
 
         $content.scrollTop(0);
         $infoBlock.toggleClass('description-expanded');
-        timber.switchClass( $icon, 'up', 'down' );
+        window.timber.switchClass( $icon, 'up', 'down' );
     });
 };
 
-timber.mobileProductInfoBlock = function(){
+window.timber.mobileProductInfoBlock = function(){
 
-    var $toggle = timber.cache.productPage.$mobileHeaderLink,
+    var $toggle = window.timber.cache.productPage.$mobileHeaderLink,
         $icon = $toggle.find('.icon'),
-        $infoBlock = timber.cache.productPage.$infoBlock;
+        $infoBlock = window.timber.cache.productPage.$infoBlock;
 
     $toggle.click(function(e){
         e.preventDefault();
 
         // flip the arrow icon
-        timber.switchClass( $icon, 'up', 'down' );
+        window.timber.switchClass( $icon, 'up', 'down' );
 
         $infoBlock.toggleClass('expanded');
     });
 };
 
-timber.loader = {
+window.timber.loader = {
     element: '',
     selector: '.spinner',
 
     init: function(){
         // get loader template
-        timber.loader.element = $('#loaderAnimationTemplate').html();
+        window.timber.loader.element = window.jQuery('#loaderAnimationTemplate').html();
     },
 
     show: function( target ){
@@ -1349,7 +1349,7 @@ timber.loader = {
             return;
         }
 
-        $( target ).append( timber.loader.element );
+        window.jQuery( target ).append( window.timber.loader.element );
     },
 
     hide: function( target ){
@@ -1358,7 +1358,7 @@ timber.loader = {
         if ( typeof target === 'undefined' ) {
             return;
         } else {
-            $( target ).hide();
+            window.jQuery( target ).hide();
         }
     },
 
@@ -1368,16 +1368,16 @@ timber.loader = {
             return;
         } else {
             // hide and destroy the loader in the target element
-            $( target ).remove();
+            window.jQuery( target ).remove();
         }
     }
 };
 
-timber.isDefined = function(testVar){
+window.timber.isDefined = function(testVar){
     return typeof testVar !== 'undefined';
 }
 
 // Initialize Timber's JS on docready
-$(function() {
+window.jQuery(function() {
     window.timber.init();
 });
