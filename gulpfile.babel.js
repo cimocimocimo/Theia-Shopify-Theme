@@ -10,9 +10,12 @@ import runSequence from 'run-sequence';
 import lazypipe from 'lazypipe';
 import merge from 'merge-stream';
 import webpack from 'webpack';
+import browserSync from 'browser-sync';
+import proxy from 'http-proxy-middleware';
 import webpackConfig from './webpack.config.js';
 
 var plugins = gulpLoadPlugins(),
+    bs = browserSync.create(),
     manifest = Manifest('./src/assets/manifest.json'),
     
     // load private data
@@ -130,8 +133,8 @@ function jsTasks(filename){
 
 // modify some webpack config options
 var myDevConfig = Object.create(webpackConfig);
-myDevConfig.devtool = "sourcemap";
-myDevConfig.debug = true;
+// myDevConfig.devtool = "sourcemap";
+// myDevConfig.debug = true;
 
 // create a single instance of the compiler to allow caching
 var devCompiler = webpack(myDevConfig);
@@ -331,6 +334,42 @@ gulp.task('watch', () => {
             }
         ));
 });
+
+/**
+ * Configure proxy middleware
+ */
+
+/*
+ * Adds the password auth to the proxy requests. Manually copied from the cookie
+ * after entering the password. There should be a better way to do this.
+ */
+function onProxyReq(proxyReq, req, res){
+    proxyReq.setHeader('Cookie', 'storefront_digest=64eb6ecc441b67d1bd6c8a2d5af8c0b3be9ab802595bb601730a988fca353756');
+}
+
+var jsonPlaceholderProxy = proxy('/', {
+    target: 'https://theia2.myshopify.com',
+    changeOrigin: true,             // for vhosted sites, changes host header to
+    // match to target's host
+    logLevel: 'debug',
+    onProxyReq: onProxyReq
+});
+
+/**
+ * Devel
+ *
+ * Runs the dev server and proxies the development shopify store
+ */
+gulp.task('devel', () => {
+    return bs.init({
+        server: {
+            baseDir: './',
+            port: 3000,
+            middleware: [jsonPlaceholderProxy]
+        }
+    });
+});
+
 
 // ### Clean
 // `gulp clean` - Deletes the build folder entirely.

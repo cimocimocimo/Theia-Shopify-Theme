@@ -22,5 +22,8 @@
   "paths": {
     "source": "src/",
     "dist": "dist/"
+  },
+  "config": {
+    "shopifyUrl": "thiea2.myshopify.com"
   }
 }
