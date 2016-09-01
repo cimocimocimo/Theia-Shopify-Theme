@@ -338,21 +338,33 @@ gulp.task('watch', () => {
 /**
  * Configure proxy middleware
  */
-
+// TODO: Clean this block up. Find out why auth success at /password does not
+// redirect back to the home page.
 /*
  * Adds the password auth to the proxy requests. Manually copied from the cookie
  * after entering the password. There should be a better way to do this.
+ *
+ * I think I can configure the proxy to follow redirects properly. If that is
+ * the case I could set it up to go to the password page and have the cookie set
+ * correctly.
+ *
+ * This SO Q/A seems to have good info:
+ * http://stackoverflow.com/questions/38950292/http-proxy-middleware-how-to-copy-all-cookie-headers
+ * https://github.com/chimurai/http-proxy-middleware/issues/78
+ *
+ * 2016-09-01 - this is working with the redirect to the password page. On auth
+ * success the redirect back to the homepage does not work correctly. Need to
+ * investigate why not.
+ * TODO: add webpack dev server to this somehow as well.
+ * https://webpack.github.io/docs/webpack-dev-server.html
  */
-function onProxyReq(proxyReq, req, res){
-    proxyReq.setHeader('Cookie', 'storefront_digest=64eb6ecc441b67d1bd6c8a2d5af8c0b3be9ab802595bb601730a988fca353756');
-}
-
 var jsonPlaceholderProxy = proxy('/', {
     target: 'https://theia2.myshopify.com',
-    changeOrigin: true,             // for vhosted sites, changes host header to
-    // match to target's host
+    https: true,
+    secure: true,
+    changeOrigin: true,             
     logLevel: 'debug',
-    onProxyReq: onProxyReq
+    autoRewrite: true
 });
 
 /**
@@ -362,6 +374,7 @@ var jsonPlaceholderProxy = proxy('/', {
  */
 gulp.task('devel', () => {
     return bs.init({
+        https: true,
         server: {
             baseDir: './',
             port: 3000,
