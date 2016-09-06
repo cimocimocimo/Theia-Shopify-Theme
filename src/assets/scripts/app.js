@@ -14,8 +14,24 @@ import zoom from 'jquery-zoom';
 var timber = window.timber,
     $ = window.jQuery;
 
+// element cache
+var cache = {
+    // general page carousel
+    // TODO: factor this out into page specific chunk
+    $carousel: window.jQuery('.carousel'),
+
+    collectionShop: {
+        $body: window.jQuery('body.template-collection-shop'),
+        $carousel: window.jQuery('.shop-hero-carousel')
+    },
+
+    heroCarousel: {
+        $carousel: window.jQuery('.js-hero-carousel')
+    }
+};
+
 function heroCarousel(){
-    var $carousel = timber.cache.heroCarousel.$carousel;
+    var $carousel = cache.heroCarousel.$carousel;
 
     $carousel.slick({
         prevArrow: '<a href="#" class="slick-prev"></a>',
@@ -32,10 +48,10 @@ timber.initShopCarousel = function(){
     // TODO: replace this with https://github.com/alexanderdickson/waitForImages/blob/master/src/jquery.waitforimages.js
     // get the images in the carousel that have not yet loaded
     // show the carousel only after the images have loaded
-    var $carousel = timber.cache.collectionShop.$carousel,
-    $carouselImagesNotLoaded = $carousel.find('img').not(function(){
-        return this.complete;
-    }),
+    var $carousel = cache.collectionShop.$carousel,
+        $carouselImagesNotLoaded = $carousel.find('img').not(function(){
+            return this.complete;
+        }),
         // count them
         imageCount = $carouselImagesNotLoaded.length;
 
@@ -111,7 +127,7 @@ timber.productCarouselInit = function () {
 };
 
 function carouselInit() {
-    var $carousel = timber.cache.$carousel;
+    var $carousel = cache.$carousel;
 
     $carousel.slick({
         dots: true,
@@ -126,11 +142,11 @@ function carouselInit() {
 };
 
 function init() {
-    if (timber.cache.$carousel.length !== 0){
+    if (cache.$carousel.length !== 0){
         carouselInit();
     }
 
-    if (timber.cache.heroCarousel.$carousel.length !== 0){
+    if (cache.heroCarousel.$carousel.length !== 0){
         timber.heroCarousel();
     }
 };
