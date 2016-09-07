@@ -13355,48 +13355,56 @@ span#resultMessage {
     position: relative;
     overflow: hidden;
     height: 100vh;
+    padding-top: $headerHeightDesktop;
     
-    > * {
-        position: absolute;
-        top: 0;
+    .inner {
+        position: relative;
+        height: 100%;
+        width: 100%;
     }
     
     .image {
         height: 100%;
         width: 100%;
+        position: relative;
 
         background-repeat: no-repeat;
 
         // default to center horizontally on the focus point
-        height: 100%;
         background-size: cover;
     }
 
     .content {
         @include verticalCenterChildElements;
 
-        padding: $headerHeightDesktop $gutter 0;
+        position: absolute;
+        top: 0;
         height: 100%;
         min-width: 50%;
-        right: 0;
+        left: 0;
 
         > div {
             text-align: center;
             width: 100%;
+            padding: $gutter;
         }
+    }
 
-        @media screen and ($max, $medium){
-            padding: $headerHeightMobile $gutter 0;
-        }
+    @media screen and ($max, $medium){
+        padding-top: $headerHeightMobile;
     }
 
     @media screen and (max-width: $medium) and (max-aspect-ratio: 1/1){
         .content {
-            height: percentage(1/3);
+            height: auto;
+            min-height: percentage(1/3);
             width: 100%;
             bottom: 0;
             top: auto;
-            padding: $gutter;
+            
+            > div {
+                padding: $gutter;
+            }
         }
     }
 
@@ -13492,8 +13500,8 @@ span#resultMessage {
     $shadow: 2px 2px 7px rgba($colorBlack,0.33);
     
     // images: url, width, height, focus X, focus Y
-    $imageLandscape: "{{ 'fall-2016-hero.jpg' | asset_url }}" 2880 1800 (704*2) (313*2);
-    $imagePortrait: "{{ 'fall-2016-hero-portrait.jpg' | asset_url }}" (768*2) 2048 (373*2) (267*2);
+    $imageLandscape: "{{ 'fall-2016-hero-landscape.jpg' | asset_url }}" 2880 1800 1659 306;
+    $imagePortrait: "{{ 'fall-2016-hero-portrait.jpg' | asset_url }}" (768*2) 2048 1017 321;
     
     @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
 
