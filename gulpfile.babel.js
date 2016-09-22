@@ -338,8 +338,7 @@ gulp.task('watch', () => {
 /**
  * Configure proxy middleware
  */
-// TODO: Clean this block up. Find out why auth success at /password does not
-// redirect back to the home page.
+// TODO: Clean this block up.
 /*
  * Adds the password auth to the proxy requests. Manually copied from the cookie
  * after entering the password. There should be a better way to do this.
