@@ -48,11 +48,11 @@
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.9",
-    "http-proxy-middleware": "^0.17.1",
     "jshint": "^2.9.3",
     "jshint-stylish": "^2.2.1",
     "lazypipe": "^1.0.1",
     "run-sequence": "^1.2.2",
+    "serve-static": "^1.11.1",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.15.0"
   }

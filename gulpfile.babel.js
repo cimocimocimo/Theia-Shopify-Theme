@@ -11,8 +11,9 @@ import lazypipe from 'lazypipe';
 import merge from 'merge-stream';
 import webpack from 'webpack';
 import browserSync from 'browser-sync';
-import proxy from 'http-proxy-middleware';
 import webpackConfig from './webpack.config.js';
+import serveStatic from 'serve-static';
+
 
 var plugins = gulpLoadPlugins(),
     bs = browserSync.create(),
@@ -335,37 +336,10 @@ gulp.task('watch', () => {
         ));
 });
 
-/**
- * Configure proxy middleware
- */
-// TODO: Clean this block up.
 /*
- * Adds the password auth to the proxy requests. Manually copied from the cookie
- * after entering the password. There should be a better way to do this.
- *
- * I think I can configure the proxy to follow redirects properly. If that is
- * the case I could set it up to go to the password page and have the cookie set
- * correctly.
- *
- * This SO Q/A seems to have good info:
- * http://stackoverflow.com/questions/38950292/http-proxy-middleware-how-to-copy-all-cookie-headers
- * https://github.com/chimurai/http-proxy-middleware/issues/78
- *
- * 2016-09-01 - this is working with the redirect to the password page. On auth
- * success the redirect back to the homepage does not work correctly. Need to
- * investigate why not.
  * TODO: add webpack dev server to this somehow as well.
  * https://webpack.github.io/docs/webpack-dev-server.html
  */
-var jsonPlaceholderProxy = proxy('/', {
-    target: 'https://theia2.myshopify.com',
-    https: true,
-    secure: true,
-    changeOrigin: true,             
-    logLevel: 'debug',
-    autoRewrite: true
-});
-
 /**
  * Devel
  *
@@ -374,14 +348,21 @@ var jsonPlaceholderProxy = proxy('/', {
 gulp.task('devel', () => {
     return bs.init({
         https: true,
-        server: {
-            baseDir: './',
-            port: 3000,
-            middleware: [jsonPlaceholderProxy]
-        }
+        proxy: {
+            target: 'https://theia2.myshopify.com'
+        },
+        files: 'dist/assets/**',
+        middleware: serveStatic('dist'),
+        rewriteRules: [
+            {
+                match: /\/\/cdn\.shopify\.com\/s\/files\/.*?\/assets/g,
+                fn: (req, res, match) => {
+                    return '/assets';
+                }
+            }
+        ]
     });
 });
-
 
 // ### Clean
 // `gulp clean` - Deletes the build folder entirely.
