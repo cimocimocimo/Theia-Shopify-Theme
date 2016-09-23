@@ -2,8 +2,20 @@
 // Font Face
 // =============================================================================
 
+@function is-production() {
+    @if $environment == production {
+        @return true;
+    } @else {
+        @return false;
+    }
+}
+
 @function shopify-asset($filename){
-    @return "{{ '" + $filename + "' | asset_url }}";
+    @if is-production() {
+        @return "{{ '" + $filename + "' | asset_url }}";
+    } @else {
+        @return "./" + $filename;
+    }
 }
 
 @mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff ttf) {

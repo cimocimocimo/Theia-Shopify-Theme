@@ -13,11 +13,12 @@ import webpack from 'webpack';
 import browserSync from 'browser-sync';
 import webpackConfig from './webpack.config.js';
 import serveStatic from 'serve-static';
-
+import preprocess from 'gulp-preprocess';
 
 var plugins = gulpLoadPlugins(),
     bs = browserSync.create(),
     manifest = Manifest('./src/assets/manifest.json'),
+    environment = 'development', // override for production tasks
     
     // load private data
     privateData = require('./private.json'),
@@ -61,18 +62,26 @@ function styleTasks(filename){
     return lazypipe()
         .pipe(plugins.plumber)
         .pipe(
-            plugins.if,
-            '*.scss?(.liquid)',
-            plugins.sass({
-                outputStyle: 'nested', // libsass doesn't support expanded yet
+            preprocess,
+            {
+                context: {
+                    NODE_ENV: 'development'
+                },
+                extension: 'scss'
+            }
+        )
+        .pipe(
+            plugins.sass,
+            {
+                outputStyle: 'expanded', // libsass doesn't support expanded yet
                 precision: 10,
                 includePaths: ['.'],
                 errLogToConsole: true
-            })
+            }
         )
         .pipe(
             plugins.concat,
-            filename + '.liquid'
+            filename + (environment === 'production' ? '.liquid' : '')
         )
         .pipe(
             plugins.autoprefixer,
@@ -85,10 +94,12 @@ function styleTasks(filename){
             }
         )
         .pipe(
-            plugins.cssnano,
+            plugins.if,
+            environment === 'production',
+            plugins.cssnano(
             {
                 safe: true
-            }
+            })
         )();
 }
 
