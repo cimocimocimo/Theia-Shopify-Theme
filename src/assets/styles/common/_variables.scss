@@ -78,12 +78,6 @@ $drawerBorderColor: #454545;
 $modalBackgroundColor: #fff;
 $modalBorderColor: $borderColor;
 
-
-// Timber Colors
-/* $colorPrimary: {{ settings.color_primary }}; */
-/* $colorSecondary: {{ settings.color_secondary }}; */
-
-//
 $colorPrimary: $colorWarmDarkGray;
 $colorSecondary: $colorGold;
 
@@ -103,17 +97,12 @@ $colorLinkHover: #333;
 
 // Text colors
 $colorBody: #fff;
-/* $colorTextBody: {{ settings.color_body_text }}; */
 $colorTextBody: $colorWarmGray;
 $colorHeaders: $colorWarmGray;
 
 // Nav and dropdown link background
 $colorNav: #f2f2f2;
 $colorNavText: #333;
-
-// Footer
-/* $colorFooterBg: {{ settings.color_footer_bg }}; */
-/* $colorFooterText: {{ settings.color_footer_text }}; */
 
 // Helper colors
 $disabledGrey: #f6f6f6;
