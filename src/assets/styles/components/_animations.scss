@@ -38,7 +38,7 @@
     width: $gutter * 10;
     height: $gutter * 2;
     text-align: center;
-    background-image: unquote("url({{ 'wishlist-loading.gif' | asset_url }})");
+    background-image: url(shopify-asset('wishlist-loading.gif'));
     background-repeat: no-repeat;
     background-position: center;
 

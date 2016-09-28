@@ -81,6 +81,7 @@ function styleTasks(filename){
         )
         .pipe(
             plugins.concat,
+            // TODO: I don't think I need this, css is processed as liquid on the shopify servers
             filename + (environment === 'production' ? '.liquid' : '')
         )
         .pipe(
@@ -385,6 +386,7 @@ gulp.task('clean', () => {
 // `gulp build` - Run all the build tasks but don't clean up beforehand.
 // Generally you should be running `gulp` instead of `gulp build`.
 gulp.task('build', (callback) => {
+    environment = 'development';
     return runSequence(
         'styles',
         'scripts',
@@ -412,6 +414,7 @@ gulp.task('shopify-upload', () => {
 });
 
 gulp.task('deploy', () => {
+    environment = 'production';
     runSequence('clean', 'build', 'shopify-upload');
 });
 
