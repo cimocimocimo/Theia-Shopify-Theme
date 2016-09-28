@@ -309,7 +309,7 @@
     @extend %hero-large;
 
     background: {
-        image: unquote("url({{ 'list-collections-hero-bg.jpg' | asset_url }})");
+        image: url(shopify-asset('list-collections-hero-bg.jpg'));
         position: top center;
         repeat: repeat-x;
     }
@@ -440,11 +440,11 @@
     @extend %block-navigation-link-base;
 
     &:before {
-        background-image: unquote("url({{'bridesmaids-collection-block-bg.jpg' | asset_url}})");
+        background-image: url(shopify-asset('bridesmaids-collection-block-bg.jpg'));
      }
 
     .image {
-        background-image: unquote("url({{'bridesmaids-collection-block-bg.jpg' | asset_url}})");
+        background-image: url(shopify-asset('bridesmaids-collection-block-bg.jpg'));
     }
 }
 
@@ -452,11 +452,11 @@
     @extend %block-navigation-link-base;
 
     &:before {
-        background-image: unquote("url({{'bridal-fall-2016-runway-video-nav-bg.jpg' | asset_url}})");
+        background-image: url(shopify-asset('bridal-fall-2016-runway-video-nav-bg.jpg'));
     }
 
     .image {
-        background-image: unquote("url({{'bridal-fall-2016-runway-video-nav-bg.jpg' | asset_url}})");
+        background-image: url(shopify-asset('bridal-fall-2016-runway-video-nav-bg.jpg'));
      }
  }
 
@@ -499,7 +499,7 @@
         color: #000;
         repeat: no-repeat;
     }
-    background-image: unquote("url({{ 'about-page-hero-desktop.jpg' | asset_url }})");
+    background-image: url(shopify-asset('about-page-hero-desktop.jpg'));
     background-size: cover;
     background-position: top center;
 
@@ -509,12 +509,12 @@
     }
 
     @include at-query(null, $postSmall, $large){
-        background-image: unquote("url({{ 'about-page-hero-tablet.jpg' | asset_url }})");
+        background-image: url(shopify-asset('about-page-hero-tablet.jpg'));
     }
 
     /* Mobile */
     @include at-query ($max, $small) {
-        background-image: unquote("url({{ 'about-page-hero-mobile.jpg' | asset_url }})");
+        background-image: url(shopify-asset('about-page-hero-mobile.jpg'));
     }
 }
 
@@ -526,7 +526,7 @@
 
     background: {
         color: $heroBgColor;
-        image: unquote("url({{ 'contact-page-hero-bg.jpg' | asset_url}})");
+        image: url(shopify-asset('contact-page-hero-bg.jpg'));
         repeat: no-repeat;
         position: top center;
         size: cover;
@@ -573,7 +573,7 @@
 
     background: {
         color: $heroBgColor;
-        image: unquote("url({{ 'login-register-page-hero-bg.jpg' | asset_url}})");
+        image: url(shopify-asset('login-register-page-hero-bg.jpg'));
         position: top center;
         repeat: no-repeat;
     }
@@ -591,7 +591,7 @@
 
     background: {
         color: $heroBgColor;
-        image: unquote("url({{ 'customer-account-page-hero-bg.jpg' | asset_url}})");
+        image: url(shopify-asset('customer-account-page-hero-bg.jpg'));
         position: top center;
         repeat: no-repeat;
         size: 50%;
@@ -609,7 +609,7 @@
 
     background: {
         color: $heroBgColor;
-        image: unquote("url({{ 'search-results-page-hero-bg.jpg' | asset_url}})");
+        image: url(shopify-asset('search-results-page-hero-bg.jpg'));
         position: top center;
         repeat: no-repeat;
     }
@@ -711,7 +711,7 @@
 .hero-404 {
     background: {
         color: $colorWhite;
-        image: unquote("url({{ '404-hero-bg.jpg' | asset_url }})");
+        image: url(shopify-asset('404-hero-bg.jpg'));
         repeat: no-repeat;
         position: center top;
     }
@@ -1641,7 +1641,7 @@
 
     background: {
         color: $heroBgColor;
-        image: unquote("url({{ 'customer-account-page-hero-bg.jpg' | asset_url}})");
+        image: url(shopify-asset('customer-account-page-hero-bg.jpg'));
         position: top center;
         repeat: no-repeat;
     }
@@ -1913,15 +1913,15 @@
 .bridal-2017-collection-hero {
     @extend %hero-large;
 
-    background-image: unquote("url({{ 'bridal-spring-runway-2017-hero.jpg' | asset_url }})");
+    background-image: url(shopify-asset('bridal-spring-runway-2017-hero.jpg'));
     background-position: top right;
 
     @include at-query(null, $postMedium, $large){
-        background-image: unquote("url({{ 'bridal-spring-runway-2017-hero-1024.jpg' | asset_url }})");
+        background-image: url(shopify-asset('bridal-spring-runway-2017-hero-1024.jpg'));
     }
 
     @include at-query($max, $medium){
-        background-image: unquote("url({{ 'bridal-spring-runway-2017-hero-768.jpg' | asset_url }})");
+        background-image: url(shopify-asset('bridal-spring-runway-2017-hero-768.jpg'));
         background-position: top center;
     }
 }
@@ -1930,14 +1930,14 @@
 .bridesmaids-collection-hero {
     @extend %hero-large;
 
-    background-image: unquote("url({{ 'bridesmaids-collection-hero.jpg' | asset_url }})");
+    background-image: url(shopify-asset('bridesmaids-collection-hero.jpg'));
 
     @include at-query(null, $postMedium, $large){
-        background-image: unquote("url({{ 'bridesmaids-collection-hero-1024.jpg' | asset_url }})");
+        background-image: url(shopify-asset('bridesmaids-collection-hero-1024.jpg'));
     }
 
     @include at-query($max, $medium){
-        background-image: unquote("url({{ 'bridesmaids-collection-hero-768.jpg' | asset_url }})");
+        background-image: url(shopify-asset('bridesmaids-collection-hero-768.jpg'));
         background-position: top center;
     }
 }
@@ -2037,8 +2037,8 @@
     $shadow: 0 1px 10px rgba($colorBlack, 0.4);
 
     // images: url, width, height, focus X, focus Y
-    $imageLandscape: "{{ 'prefall-2016-hero.jpg' | asset_url }}" 2560 2192 748 752;
-    $imagePortrait: "{{ 'prefall-2016-hero-portrait.jpg' | asset_url }}" 1584 2632 736 748;
+    $imageLandscape: shoipfy-asset('prefall-2016-hero.jpg') 2560 2192 748 752;
+    $imagePortrait: shoipfy-asset('prefall-2016-hero-portrait.jpg') 1584 2632 736 748;
 
     @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
 
@@ -2086,8 +2086,8 @@
     $shadow: 2px 2px 7px rgba($colorBlack,0.33);
 
     // images: url, width, height, focus X, focus Y
-    $imageLandscape: "{{ 'fall-2016-hero.jpg' | asset_url }}" 2880 1800 (704*2) (313*2);
-    $imagePortrait: "{{ 'fall-2016-hero-portrait.jpg' | asset_url }}" (768*2) 2048 (373*2) (267*2);
+    $imageLandscape: shopify-asset('fall-2016-hero.jpg') 2880 1800 (704*2) (313*2);
+    $imagePortrait: shopify-asset('fall-2016-hero-portrait.jpg') (768*2) 2048 (373*2) (267*2);
 
     @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
 

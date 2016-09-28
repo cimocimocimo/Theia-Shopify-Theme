@@ -61,14 +61,14 @@
         overflow: hidden;
         background: {
             color: transparent;
-            image: unquote("url({{ 'theia-logo.png' | asset_url }})");
+            image: url(shopify-asset('theia-logo.png'));
             repeat: no-repeat;
             position: center center;
             size: contain;
         }
 
         .supports-svg & {
-            background-image: unquote("url({{ 'theia-logo.svg' | asset_url }})");
+            background-image: url(shopify-asset('theia-logo.svg'));
         }
     }
 

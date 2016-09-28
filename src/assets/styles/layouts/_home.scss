@@ -2,7 +2,7 @@
     @include transition(all 0.3s);
 
     background: {
-        image: unquote("url({{ 'homepage-splash-bg.jpg' | asset_url }})");
+        image: url(shopify-asset('homepage-splash-bg.jpg'));
         position: center center;
         repeat:  no-repeat;
         size: cover;
@@ -62,7 +62,7 @@
         margin-top: percentage((-248/940)*0.35)/2;
         left: percentage(66/2700);
         background: {
-            image: unquote("url({{ 'theia-logo.svg' | asset_url }})");
+            image: url(shopify-asset('theia-logo.svg'));
             position: center center;
             repeat: no-repeat;
             size: contain;
@@ -93,7 +93,7 @@
     height: 0;
     padding-top: percentage(1166/2560);
     background: {
-        image: unquote("url({{ 'homepage-hero-bg-1366.jpg' | asset_url }})");
+        image: url(shopify-asset('homepage-hero-bg-1366.jpg'));
         position: center center;
         repeat: no-repeat;
         size: cover;
@@ -134,7 +134,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    background-image: unquote("url({{ 'bridal-fall-2016-runway-video-still.jpg' | asset_url }})");
+    background-image: url(shopify-asset('bridal-fall-2016-runway-video-still.jpg'));
 
     .inner {
         @include transition(opacity 0.3s);
@@ -249,31 +249,31 @@
 
     // sizing for the fliud background image.
     padding-top: percentage(1166/2560);
-    background-image: unquote("url({{ 'homepage-hero-bg-1366.jpg' | asset_url }})");
+    background-image: url(shopify-asset('homepage-hero-bg-1366.jpg'));
 
     @include at-query($max, $medium){
         background: {
-            image: unquote("url({{ 'homepage-hero-bg-768.jpg' | asset_url }})");
+            image: url(shopify-asset('homepage-hero-bg-768.jpg'));
             position: top left;
         }
         padding-top: percentage(640/768);
     }
 
     @include at-query(null, $postMedium, $large){
-        background-image: unquote("url({{ 'homepage-hero-bg-1024.jpg' | asset_url }})");
+        background-image: url(shopify-asset('homepage-hero-bg-1024.jpg'));
         padding-top: percentage(700/1024);
     }
 
     @include at-query(null, $postLarge, $huge){
-        background-image: unquote("url({{ 'homepage-hero-bg-1366.jpg' | asset_url }})");
+        background-image: url(shopify-asset('homepage-hero-bg-1366.jpg'));
     }
 
     @include at-query(null, $postHuge, $gigantic){
-        background-image: unquote("url({{ 'homepage-hero-bg-1920.jpg' | asset_url }})");
+        background-image: url(shopify-asset('homepage-hero-bg-1920.jpg'));
     }
 
     @include at-query($min, $postGigantic){
-        background-image: unquote("url({{ 'homepage-hero-bg-2560.jpg' | asset_url }})");
+        background-image: url(shopify-asset('homepage-hero-bg-2560.jpg'));
     }
 
     .inner {
