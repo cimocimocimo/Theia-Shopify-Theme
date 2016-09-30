@@ -1,4 +1,4 @@
-/* jshint esversion: 6, node: true */ 
+/* jshint esversion: 6, node: true */
 
 'use strict';
 
@@ -15,13 +15,14 @@ import webpackConfig from './webpack.config.js';
 import serveStatic from 'serve-static';
 import preprocess from 'gulp-preprocess';
 
+// TODO: remove gulp-load-plugins, just import them manually
 var plugins = gulpLoadPlugins(),
     manifest = Manifest('./src/assets/manifest.json'),
     environment = 'development', // override for production tasks
-    
+
     // load private data
     shopifyStores = require('./private.json').shopifyStores,
-    
+
     // `path` - Paths to base asset directories. With trailing slashes.
     // - `path.source` - Path to the source files. Default: `assets/`
     // - `path.dist` - Path to the build directory. Default: `dist/`
@@ -103,7 +104,7 @@ function styleTasks(filename){
 gulp.task('styles', () => {
     // create empty merged stream to add css dependencies to
     var merged = merge();
-    
+
     // loop over all the css dependencies
     manifest.forEachDependency('css', (dep) => {
         merged.add(
@@ -111,7 +112,7 @@ gulp.task('styles', () => {
                 .pipe(styleTasks(dep.name))
         );
     });
-    
+
     return merged
         .pipe(plugins.flatten())
         .pipe(
@@ -131,7 +132,7 @@ function jsTasks(filename){
             filename + '.liquid'
         )
         .pipe(
-            plugins.uglify, 
+            plugins.uglify,
             {
                 compress: {
                     'drop_debugger': true
@@ -151,10 +152,10 @@ var devCompiler = webpack(myDevConfig);
 gulp.task('scripts:webpack', (callback) => {
     // run webpack to process app.js
     devCompiler.run(function(err, stats) {
-	if(err) throw new plugins.util.PluginError("webpack:build-dev", err);
-	plugins.util.log("[webpack:build-dev]", stats.toString({
-	    colors: true
-	}));
+        if(err) throw new plugins.util.PluginError("webpack:build-dev", err);
+        plugins.util.log("[webpack:build-dev]", stats.toString({
+            colors: true
+        }));
 
         callback();
     });
@@ -170,7 +171,7 @@ gulp.task('scripts:old', /*['jshint'], */ (callback) => {
                 .pipe(jsTasks(dep.name))
         );
     });
-    
+
     return merged
         .pipe(plugins.flatten())
         .pipe(
@@ -262,7 +263,7 @@ function doesArrayContainAny(haystack, needles){
     if (Array.isArray(haystack) && Array.isArray(needles)){
         return needles.some(v => haystack.indexOf(v) >= 0);
     }
-    
+
     throw new Error('function doesArrayContainAny requires 2 passed arrays.');
 }
 
@@ -272,7 +273,7 @@ var shopifyPipe = (() => {
     var liquidTagRegexes = [/\{\{[\s\S]*?\}\}/, /\{%[\s\S]*?%\}/],
         whitelist = ['liquid', 'html'],
         blacklist = ['js'];
-    
+
     // test for minification
     function shouldMinify(file){
         var ext = getExtension(file.path);
