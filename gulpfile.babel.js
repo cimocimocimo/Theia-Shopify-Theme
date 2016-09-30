@@ -16,15 +16,11 @@ import serveStatic from 'serve-static';
 import preprocess from 'gulp-preprocess';
 
 var plugins = gulpLoadPlugins(),
-    bs = browserSync.create(),
     manifest = Manifest('./src/assets/manifest.json'),
     environment = 'development', // override for production tasks
     
     // load private data
-    privateData = require('./private.json'),
-    
-    // set current shop data
-    shop = privateData.shopifyStores[privateData.currentShop],
+    shopifyStores = require('./private.json').shopifyStores,
     
     // `path` - Paths to base asset directories. With trailing slashes.
     // - `path.source` - Path to the source files. Default: `assets/`
@@ -313,18 +309,111 @@ var shopifyPipe = (() => {
 })();
 
 
-gulp.task('shopify', () => {
+gulp.task('shopify-templates', () => {
     return gulp.src(path.source + 'shopify_theme/**/*')
         .pipe(shopifyPipe());
 });
 
 
-// ### Watch
-// `gulp watch` - Use BrowserSync to proxy your dev server and synchronize code
-// changes across devices. Specify the hostname of your dev server at
-// `manifest.config.devUrl`. When a modification is made to an asset, run the
-// build step for that asset and inject the changes into the page.
-// See: http://www.browsersync.io
+/**
+ * Clean
+ *
+ * Deletes the build folder entirely.
+ */
+gulp.task('clean', () => {
+    return del([path.dist]);
+});
+
+/**
+ * Build
+ */
+gulp.task('build', (done) => {
+    return runSequence(
+        'styles',
+        'scripts',
+        ['fonts', 'images', 'templates', 'videos', 'shopify-templates'],
+        done
+    );
+});
+
+/**
+ * Upload
+ */
+gulp.task('upload', (done) => {
+    var uploadDirs = [
+        'assets',
+        'layout',
+        'config',
+        'snippets',
+        'templates',
+        'locales'
+    ];
+
+    // exclude assets dir in development
+    if (environment === 'development'){
+        uploadDirs.shift();
+    }
+
+    var srcGlob = path.dist + '+(' + uploadDirs.join('|') +')/**';
+
+    var shop = shopifyStores[environment];
+
+    return gulp.src(srcGlob)
+        .pipe(plugins.shopifyUploadWithCallbacks(
+            shop.api_key,
+            shop.password,
+            shop.url,
+            shop.id,
+            // null, // theme id is optional
+            {
+                'basePath': path.dist
+            }
+        ));
+});
+
+/**
+ * Deploy
+ */
+gulp.task('deploy', (done) => {
+    runSequence(
+        'clean',
+        'build',
+        'upload',
+        done
+    );
+});
+
+/**
+ * Serve
+ */
+/*
+ * TODO: add webpack dev server to this somehow as well.
+ * https://webpack.github.io/docs/webpack-dev-server.html
+ */
+gulp.task('serve', () => {
+    browserSync
+        .create()
+        .init({
+            https: true,
+            proxy: {
+                target: 'https://theia2.myshopify.com'
+            },
+            files: 'dist/assets/**',
+            middleware: serveStatic('dist'),
+            rewriteRules: [
+                {
+                    match: /\/\/cdn\.shopify\.com\/s\/files\/.*?\/assets/g,
+                    fn: (req, res, match) => {
+                        return '/assets';
+                    }
+                }
+            ]
+        });
+});
+
+/**
+ * Watch
+ */
 gulp.task('watch', () => {
     gulp.watch([path.source + 'assets/scripts/**/*.js?(.liquid)'], ['scripts']);
     gulp.watch([path.source + 'assets/styles/**/*.scss?(.liquid)'], ['styles']);
@@ -332,92 +421,76 @@ gulp.task('watch', () => {
     gulp.watch([path.source + 'assets/images/**/*'], ['images']);
     gulp.watch([path.source + 'assets/videos/**/*'], ['videos']);
     gulp.watch([path.source + 'assets/templates/**/*'], ['templates']);
-    
+
     plugins.watch(path.source + 'shopify_theme/**/*', {base: path.source + 'shopify_theme'})
         .pipe(shopifyPipe());
 
-    return plugins.watch(path.dist + '+(assets|layout|config|snippets|templates|locales)/**')
-        .pipe(plugins.shopifyUpload(
+    var shop = shopifyStores[environment];
+
+    // watch the shopify template dirs for changes and upload. Exclude assets
+    // directory.
+    return plugins.watch(path.dist + '+(layout|config|snippets|templates|locales)/**')
+        .pipe(plugins.shopifyUploadWithCallbacks(
             shop.api_key,
             shop.password,
             shop.url,
-            null, // theme id is optional
+            shop.id,
             {
                 'basePath': path.dist
             }
         ));
 });
 
-/*
- * TODO: add webpack dev server to this somehow as well.
- * https://webpack.github.io/docs/webpack-dev-server.html
- */
+
 /**
- * Devel
- *
- * Runs the dev server and proxies the development shopify store
+ * Main Tasks
  */
-gulp.task('devel', () => {
-    return bs.init({
-        https: true,
-        proxy: {
-            target: 'https://theia2.myshopify.com'
-        },
-        files: 'dist/assets/**',
-        middleware: serveStatic('dist'),
-        rewriteRules: [
-            {
-                match: /\/\/cdn\.shopify\.com\/s\/files\/.*?\/assets/g,
-                fn: (req, res, match) => {
-                    return '/assets';
-                }
-            }
-        ]
-    });
+
+// TODO: use gulp-git to create the hotfix and release branches with the correct version numbers
+// Also automate tagging the master branch when merging for deployment
+// use a file that stores the current version number
+
+// TODO: could I do a deploy of only the files that changed
+// build and deploy all the theme assets to the production Shopify
+/**
+ * Deploy Production
+ */
+gulp.task('deploy-production', () => {
+    environment = 'production';
+    runSequence('deploy');
 });
 
-// ### Clean
-// `gulp clean` - Deletes the build folder entirely.
-gulp.task('clean', () => {
-    return del([path.dist]);
+/**
+ * Deploy Staging
+ *
+ * Build and deploy all the theme assets to the staging shopify store. Uses the
+ * production settings but upload to a staging server incase there are
+ * minification bugs.
+ */
+gulp.task('deploy-staging', () => {
+    environment = 'staging';
+    runSequence('deploy');
 });
 
-// ### Build
-// `gulp build` - Run all the build tasks but don't clean up beforehand.
-// Generally you should be running `gulp` instead of `gulp build`.
-gulp.task('build', (callback) => {
+/**
+ * Deploy Development
+ */
+gulp.task('deploy-development', () => {
+    environment = 'development';
+    runSequence('deploy');
+});
+
+/**
+ * Develop
+ *
+ * Run the local dev server, build the assets and watch for changes.
+ */
+gulp.task('develop', (done) => {
     environment = 'development';
     return runSequence(
-        'styles',
-        'scripts',
-        ['fonts', 'images', 'templates', 'videos', 'shopify'],
-    callback);
+        'deploy',
+        ['serve', 'watch'],
+        done
+    );
 });
-
-gulp.task('clean-build', () => {
-    runSequence('clean', 'build');
-});
-
-// ### Deploy
-// `gulp deploy` - Cleans, builds, and uploads the theme to the current shop
-gulp.task('shopify-upload', () => {
-    return gulp.src(path.dist + '+(assets|layout|config|snippets|templates|locales)/**')
-        .pipe(plugins.shopifyUpload(
-            shop.api_key,
-            shop.password,
-            shop.url,
-            null, // theme id is optional
-            {
-                'basePath': path.dist
-            }
-        ));
-});
-
-gulp.task('deploy', () => {
-    environment = 'production';
-    runSequence('clean', 'build', 'shopify-upload');
-});
-
-// ### Gulp
-// `gulp` - Run a complete build. To compile for production run `gulp --production`.
-gulp.task('default', ['clean-build']);
+gulp.task('default', ['develop']);
