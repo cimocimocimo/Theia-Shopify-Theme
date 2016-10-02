@@ -129,7 +129,9 @@ function jsTasks(filename){
     return lazypipe()
         .pipe(
             plugins.concat,
-            filename + '.liquid'
+            // TODO: I might not need this, css is processed as liquid on the
+            // shopify servers, so js might be as well.
+            filename + (environment === 'production' ? '.liquid' : '')
         )
         .pipe(
             plugins.uglify,
@@ -162,6 +164,10 @@ gulp.task('scripts:webpack', (callback) => {
 });
 
 gulp.task('scripts:old', /*['jshint'], */ (callback) => {
+    // copy over the vendor files to assets
+    gulp.src(path.source + 'assets/scripts/vendor/**/*.js')
+        .pipe(gulp.dest(path.dist + 'assets'));
+
     var merged = merge();
 
     // process the old shop.js files
@@ -489,7 +495,6 @@ gulp.task('deploy-development', () => {
 gulp.task('develop', (done) => {
     environment = 'development';
     return runSequence(
-        'deploy',
         ['serve', 'watch'],
         done
     );
