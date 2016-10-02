@@ -1947,6 +1947,7 @@
     position: relative;
     overflow: hidden;
     height: 100vh;
+    padding-top: $headerHeightDesktop;
 
     .inner {
         position: relative;
@@ -2089,7 +2090,7 @@
     $shadow: 2px 2px 7px rgba($colorBlack,0.33);
 
     // images: url, width, height, focus X, focus Y
-    $imageLandscape: shopify-asset('fall-2016-hero.jpg') 2880 1800 (704*2) (313*2);
+    $imageLandscape: shopify-asset('fall-2016-hero-landscape.jpg') 2880 1800 (704*2) (313*2);
     $imagePortrait: shopify-asset('fall-2016-hero-portrait.jpg') (768*2) 2048 (373*2) (267*2);
 
     @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
