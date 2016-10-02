@@ -282,6 +282,10 @@ var shopifyPipe = (() => {
 
     // test for minification
     function shouldMinify(file){
+        if (environment === 'development'){
+            return false;
+        }
+
         var ext = getExtension(file.path);
 
         // if extension in whitelist and not in blacklist

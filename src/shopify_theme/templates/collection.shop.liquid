@@ -17,7 +17,7 @@ For more information on collection tags:
 
       {% comment %}These are the namespace keys for each of the slides in the collection metafields{% endcomment %}
       {% assign slide_names = 'slide1 slide2 slide3 slide4 slide5' | split: ' ' %}
-    {% comment %}Shortcut for the metafields{% endcomment %}
+      {% comment %}Shortcut for the metafields{% endcomment %}
       {% assign meta = collection.metafields %}
       {% for slide_name in slide_names %}
       {% assign slide = collection.metafields[slide_name] %}
