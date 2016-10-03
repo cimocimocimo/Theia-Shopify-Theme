@@ -418,7 +418,10 @@ gulp.task('serve', () => {
             proxy: {
                 target: 'https://theia2.myshopify.com'
             },
-            files: 'dist/assets/**',
+            files: [
+                'dist/assets/**',
+                '!dist/assets/*.map'
+            ],
             middleware: serveStatic('dist'),
             rewriteRules: [
                 {
