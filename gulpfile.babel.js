@@ -58,6 +58,9 @@ var plugins = gulpLoadPlugins(),
 function styleTasks(filename){
     return lazypipe()
         .pipe(plugins.plumber)
+        .pipe(function() {
+            return plugins.if(environment === 'development', plugins.sourcemaps.init());
+        })
         .pipe(
             preprocess,
             {
@@ -98,7 +101,13 @@ function styleTasks(filename){
             {
                 safe: true
             })
-        )();
+        )
+        .pipe(function() {
+            return plugins.if(environment === 'development', plugins.sourcemaps.write('.', {
+                sourceRoot: 'assets/styles/'
+            }));
+        })();
+
 }
 
 gulp.task('styles', () => {
