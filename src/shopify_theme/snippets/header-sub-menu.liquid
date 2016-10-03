@@ -8,8 +8,7 @@
       <a class="sub-menu-link" href="/blogs/blog/tagged/{{ tag | handle }}">{{ tag }}</a>
     {% endfor %}
     <a class="sub-menu-link" href="/blogs/blog/">View All</a>
-  {% endif %}
-  {% if coll.handle == 'bridal' %}
+  {% elsif coll.handle == 'bridal' %}
     {% for link in linklists.bridal-menu.links %}
       <a class="sub-menu-link" href="{{ link.url }}">{{ link.title }}</a>
     {% endfor %}
