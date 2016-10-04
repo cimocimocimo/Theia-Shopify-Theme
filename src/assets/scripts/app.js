@@ -9,6 +9,84 @@ import headroom from 'headroom.js';
 import Cookies from 'js-cookie';
 import vex from 'vex';
 import zoom from 'jquery-zoom';
+import Navigo from 'navigo';
+
+import ProductPage from 'pages/ProductPage';
+
+var router = new Navigo();
+
+router
+    .on(
+        /(?:collections\/(\w+)\/)?products\/([\w-]+)/,
+        (collectionHandle, productHandle) => {
+            console.log('product page route');
+            console.log( collectionHandle, productHandle );
+        })
+    .on(
+        /collections\/([\w-]+)\/?(?:([\w-]+)?\/?([\w-]+)?\/?([\w-]+)?\/?)?/,
+        (collectionHandle, ...tags) => {
+            // filter out the undefined tags
+            tags = tags.filter((el) => {
+                return el !== undefined;
+            });
+            console.log('collection route');
+            console.log(collectionHandle, tags);
+        }
+    )
+    .on(
+        /pages\/([\w-]+)\/?/,
+        (pageHandle) => {
+            console.log('page route');
+            console.log( 'pageHandle: ', pageHandle );
+        }
+    )
+    .on(
+        /blogs\/([\w-]+)\/?(?:tagged\/([\w-]+))/,
+        (blogHandle, tagHandle) => {
+            console.log('blog route');
+            console.log('blogHandle: ', blogHandle);
+            console.log('tagHandle: ', tagHandle);
+        }
+    )
+    .on(
+        /account\/login/,
+        () => {
+            console.log( 'account login route' );
+        }
+    )
+    .on(
+        /account\/addresses/,
+        () => {
+            console.log( 'account addresses route' );
+        }
+    ).
+    on(
+        /account\/?/,
+        () => {
+            console.log('account home');
+        }
+    )
+    .on({
+        '/search*': () => {
+            console.log( 'search route' );
+
+        },
+        '/': () => {
+            console.log('home route');
+        },
+        '*': () => {
+            console.log('default route');
+        }
+    })
+    .resolve();
+
+class Shop {
+    constructor(){
+        console.log('shop constructor');
+    }
+}
+
+var shop = new Shop();
 
 // import globals
 var timber = window.timber,
@@ -147,7 +225,7 @@ function init() {
     }
 
     if (cache.heroCarousel.$carousel.length !== 0){
-        timber.heroCarousel();
+        // timber.heroCarousel();
     }
 };
 

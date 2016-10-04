@@ -17,6 +17,7 @@
     "jquery-zoom": "^1.7.15",
     "js-cookie": "^2.1.0",
     "moment": "^2.14.1",
+    "navigo": "^3.0.0",
     "slick-carousel": "^1.6.0",
     "smoothscroll": "^0.2.2",
     "vex": "0.0.4",
