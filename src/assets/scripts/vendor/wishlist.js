@@ -435,18 +435,21 @@ var wishlist = (function($){
     }
 
     function loadWishlists(data){
-        wishlists = parseWishlists( data.value );
+        if (data.status !== 300){
+            
+            wishlists = parseWishlists( data.value );
 
-        var tmp;
-        // get the first matching wishlist with the name "Main"
-        tmp  = wishlists.filter(function(el){
-            return el.name === 'Main';
-        })[0];
+            var tmp;
+            // get the first matching wishlist with the name "Main"
+            tmp  = wishlists.filter(function(el){
+                return el.name === 'Main';
+            })[0];
 
-        defaultWishlist.name = tmp.name;
-        defaultWishlist.id = tmp.id;
-
-        $(document).trigger('wishlistsLoaded.wishlist');
+            defaultWishlist.name = tmp.name;
+            defaultWishlist.id = tmp.id;
+            
+            $(document).trigger('wishlistsLoaded.wishlist');
+        }
      }
 
     function parseWishlists( html ){

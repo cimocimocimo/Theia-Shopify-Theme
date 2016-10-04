@@ -28,37 +28,45 @@ into an external JS file
       {% comment %}
       Show the default address first
       {% endcomment %}
-
-      <h4>My current address</h4>
-
-      {% assign address = customer.default_address %}
-
-      {% assign submit_button_text = "Update address" %}
-      {% include 'customer-address-view-edit-block' %}
       
-      <h4>Other addresses</h4>
+      {% if customer.default_address.id != blank %}
+        <h4>My current address</h4>
 
-      {% comment %}
-      List all customer addresses with a unique edit form.
-      Also add pagination in case they have a large number of address (unlikely)
-      {% endcomment %}
-      {% paginate customer.addresses by 5 %}
-      {% for address in customer.addresses %}
+        {% assign address = customer.default_address %}
+        
+        {% assign submit_button_text = "Update address" %}
+        {% include 'customer-address-view-edit-block' %}
+        
+        <h4>Other addresses</h4>
 
-        {% if address != customer.default_address %}
-          {% assign submit_button_text = "Update address" %}
-          {% include 'customer-address-view-edit-block' %}
+        {% comment %}
+        List all customer addresses with a unique edit form.
+        Also add pagination in case they have a large number of address (unlikely)
+        {% endcomment %}
+        {% paginate customer.addresses by 5 %}
+        {% for address in customer.addresses %}
+
+          {% if address != customer.default_address %}
+            {% assign submit_button_text = "Update address" %}
+            {% include 'customer-address-view-edit-block' %}
+          {% endif %}
+
+        {% endfor %}
+
+        {% if paginate.pages > 1 %}
+          <div class="text-center">
+            {% include 'pagination-block' %}
+          </div>
         {% endif %}
 
-      {% endfor %}
+        {% endpaginate %}
+      
+      {% else %}
+      
+      you have no addresses added yet
 
-      {% if paginate.pages > 1 %}
-        <div class="text-center">
-          {% include 'pagination-block' %}
-        </div>
       {% endif %}
-
-      {% endpaginate %}
+      
 
       <div class="add-address-row">
 
