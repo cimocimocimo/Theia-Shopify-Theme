@@ -20,12 +20,15 @@
         {% endif %}
 
         var options = {
-            permanentDomain: '{{shop.permanent_domain}}',
+            // TODO: find a better solution for the split/join hack below
+            // split/replace is here to get around local development issues with browser sync
+            permanentDomain: '{{ shop.permanent_domain | split: '.' | join: ".' + '" }}',
             redirectUser: '{{ shop.metafields.wishlist_settings.wishlist_redirect }}' != '0',
             linkWishlist: '{{pages.wishlist.url}}',
             addButton: '{{ shop.metafields.wishlist_settings.wishlist_add_button }}' != '0',
-            shopDomain: '{{shop.domain}}',
-            appDomain: '//wishlist.shopfrogs.com/wishlist/call/',
+            // split/replace is here to get around local development issues with browser sync
+            shopDomain: '{{ shop.domain  | split: '.' | join: ".' + '" }}',
+            appDomain: 'http://wishlist.shopfrogs.com/wishlist/call/', // shopfrogs does not support https...
             customerCheckout: '{{ shop.metafields.wishlist_settings.wishlist_customer_checkout }}' != '0',
             currency: "{{shop.money_format | strip_html}}"
         };
