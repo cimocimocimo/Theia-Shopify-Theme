@@ -1,4 +1,6 @@
- module.exports = {
+import path from 'path';
+
+module.exports = {
      entry: './src/assets/scripts/app.js',
      output: {
          path: './dist/assets',
@@ -10,5 +12,10 @@
              exclude: /node_modules/,
              loader: 'babel-loader'
          }]
+     },
+     resolve: {
+         root: [
+             path.resolve('./src/assets/scripts')
+         ]
      }
  };
