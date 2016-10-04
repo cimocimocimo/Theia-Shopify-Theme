@@ -414,9 +414,8 @@ gulp.task('serve', () => {
     browserSync
         .create()
         .init({
-            https: true,
             proxy: {
-                target: 'https://theia2.myshopify.com'
+                target: 'http://theia2.myshopify.com'
             },
             files: [
                 'dist/assets/**',
