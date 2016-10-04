@@ -29,16 +29,18 @@ For more information on these Scheme.org tags, visit:
   {% endif %}
 {% endfor %}
 
-<div class="product-detail-hero {% if is_bridal %}bridal-collection{% endif %}{% if is_exclusive %} product-is-exclusive{% endif %}{% if on_sale %} on-sale{% endif %}" itemscope itemtype="http://schema.org/Product">
+<div class="product-detail-hero
+            {% if is_bridal %}bridal-collection{% endif %}
+            {% if is_exclusive %} product-is-exclusive{% endif %}
+            {% if on_sale %} on-sale{% endif %}"
+     itemscope itemtype="http://schema.org/Product">
 
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
   <meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'grande' }}">
   <meta itemprop="priceCurrency" content="{{ shop.currency }}">
-  {% if product.available %}
-    <link itemprop="availability" href="http://schema.org/InStock">
-  {% else %}
-    <link itemprop="availability" href="http://schema.org/OutOfStock">
-  {% endif %}
+  
+  <link itemprop="availability"
+        href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
 
   <div class="wrapper">
 
