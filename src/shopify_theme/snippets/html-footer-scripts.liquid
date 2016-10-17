@@ -25,7 +25,6 @@ JS Plugins
 
 {% comment %}main js file{% endcomment %}
 {{ 'shop.js' | asset_url | script_tag }}
-{{ 'app.bundle.js' | asset_url | script_tag }}
 
 {% comment %}
 Ajaxify your cart with this plugin. Adding a product will reveal a drawer, modal, or confirmation button.
@@ -143,3 +142,5 @@ Ajaxify Cart Documentation:
   </script>
 {% endif %}
 
+<!-- Load main app -->
+{{ 'app.bundle.js' | asset_url | script_tag }}

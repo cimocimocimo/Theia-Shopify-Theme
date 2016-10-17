@@ -1,7 +1,7 @@
 'use strict';
 
 import 'babel-polyfill';
-
+import $ from 'jquery';
 import slick from 'slick-carousel';
 import moment from 'moment';
 import smoothScroll from 'smoothscroll';
@@ -11,10 +11,19 @@ import vex from 'vex';
 import zoom from 'jquery-zoom';
 import Navigo from 'navigo';
 
+/**
+ * Import Components
+ */
 import ProductPage from 'pages/ProductPage';
 
-var router = new Navigo();
+// import globals
+// TODO: remove this once done transitioning code
+var timber = window.timber;
 
+/**
+ * Setup Routes
+ */
+var router = new Navigo();
 router
     .on(
         /(?:collections\/(\w+)\/)?products\/([\w-]+)/,
@@ -26,9 +35,7 @@ router
         /collections\/([\w-]+)\/?(?:([\w-]+)?\/?([\w-]+)?\/?([\w-]+)?\/?)?/,
         (collectionHandle, ...tags) => {
             // filter out the undefined tags
-            tags = tags.filter((el) => {
-                return el !== undefined;
-            });
+            tags = tags.filter((el) => el !== undefined);
             console.log('collection route');
             console.log(collectionHandle, tags);
         }
@@ -69,7 +76,6 @@ router
     .on({
         '/search*': () => {
             console.log( 'search route' );
-
         },
         '/': () => {
             console.log('home route');
@@ -87,10 +93,6 @@ class Shop {
 }
 
 var shop = new Shop();
-
-// import globals
-var timber = window.timber,
-    $ = window.jQuery;
 
 // element cache
 var cache = {
@@ -219,16 +221,14 @@ function carouselInit() {
     console.log('carousel init');
 };
 
-function init() {
-    if (cache.$carousel.length !== 0){
-        carouselInit();
-    }
 
-    if (cache.heroCarousel.$carousel.length !== 0){
-        // timber.heroCarousel();
-    }
-};
+/**
+ * Carousels
+ */
+if (cache.$carousel.length !== 0){
+    carouselInit();
+}
 
-$(() => {
-    init();
-});
+if (cache.heroCarousel.$carousel.length !== 0){
+    // timber.heroCarousel();
+}
