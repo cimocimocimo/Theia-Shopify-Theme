@@ -1,0 +1,1008 @@
+/*============================================================================
+  #Cart Page
+  ==============================================================================*/
+
+%money-format {
+    line-height: 1;
+    word-spacing: -0.2em;
+    white-space: nowrap;
+
+    .currency {
+        font-size: 0.5em;
+        vertical-align: top;
+    }
+}
+
+/* stying the '/cart' page */
+.cart-page-layout {
+
+    h2 {
+        text-align: center;
+    }
+
+}
+
+.shopping-cart {
+    @extend .clearfix;
+
+    h4 {
+        font-weight: 300;
+        margin: 0;
+    }
+
+    h6 {
+        @extend %smallish-arial-text;
+
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $colorMidGray;
+        margin-top: 0;
+    }
+
+    .cart-subtotal {
+        @extend %money-format;
+
+        font-family: $helveticaFontStack;
+        font-weight: 300;
+        color: $colorWarmDarkGray;
+        padding-top: 4px;
+        letter-spacing: -0.05em;
+    }
+
+    .checkout-button-row {
+        text-align: center;
+        border-bottom: 1px solid $colorLighterGray;
+        padding-bottom: $gutter / 2;
+        margin-bottom: $gutter;
+
+        a {
+            @extend %smallish-arial-text;
+            @extend %gray-hover-gold-link;
+            @extend %rsaquo;
+
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        button {
+            margin-bottom: $gutter;
+        }
+    }
+
+    .checkout-button {
+        width: 100%;
+        @extend %large-gold-arrow-button;
+    }
+
+    .update-cart-button {
+        width: 100%;
+        @extend %small-gray-button;
+    }
+
+
+    %order-info-item {
+        color: $colorMidGray;
+
+        .icon {
+            @extend %icon-base;
+
+            display: inline-block;
+        }
+
+        .label {
+            @extend %smallish-arial-text;
+
+            padding-top: 4px;
+            text-transform: uppercase;
+        }
+
+        > span {
+            vertical-align: middle;
+            display: inline-block;
+        }
+    }
+
+    .free-shipping {
+        @extend %order-info-item;
+
+        .icon {
+            @extend .icon-gift;
+
+            font-size: 18px;
+
+            height: 18px;
+        }
+    }
+
+    .shipped-by-date {
+        @extend %order-info-item;
+
+        margin-bottom: $gutter / 2;
+
+        .icon {
+            @extend .icon-calendar;
+
+            height: 16px;
+        }
+    }
+
+    .accepted-credit-cards {
+        @extend .clearfix;
+
+        > img {
+            display: block;
+            float: left;
+            margin-left: 4px;
+
+            &:first-of-type {
+                margin: 0;
+            }
+        }
+    }
+
+    .cart-subtotal-row {
+        margin-bottom: $gutter;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postMedium) {
+        h4 {
+            font-size: 1.25em; /* ~20px */
+        }
+
+        /* Cart Layout */
+
+        %cart-column {
+            float: left;
+            padding-top: $gutter;
+            padding-bottom: $gutter / 2;
+        }
+
+        .main-col {
+            @extend %cart-column;
+
+            width: 912px;
+            padding-left: $gutter;
+            padding-right: $gutter * 2;
+        }
+
+        .side-col {
+            @extend %cart-column;
+
+            width: 240px;
+            padding-left: ( $gutter * 2 ) - 1px;
+            padding-right: $gutter;
+            border-left: 1px solid $colorLighterGray;
+        }
+
+        .cart-terms-row {
+            margin-top: $gutter * 2;
+        }
+
+        .cart-subtotal {
+            font-size: 2.5em;
+        }
+
+    }
+
+    @include at-query (null, $postMedium, $xLarge) {
+        .main-col {
+            width: 528px;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $medium) {
+        .main-col, .side-col {
+            padding: 0 $gutter;
+        }
+
+        .main-col {
+            border-bottom: 1px solid $colorLighterGray;
+        }
+
+        .side-col {
+            margin-top: $gutter;
+        }
+
+        h4 {
+            font-size: 1.5625em; /* ~25px */
+            line-height: 1.32;
+        }
+
+        h6 {
+            font-size: 10px;
+        }
+
+        .cart-subtotal-row {
+            h6 {
+                margin-bottom: $gutter / 2;
+            }
+        }
+
+        .cart-subtotal {
+            font-size: 1.875em;
+        }
+
+        .order-info-row,
+        .accepted-credit-cards {
+            display: none;
+        }
+
+        .checkout-button-row {
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
+    }
+}
+
+
+/* Line Items */
+
+%line-item-base {
+    @extend .clearfix;
+
+    position: relative;
+
+    .style-number {
+        @extend %item-info-icon-text;
+
+        .icon {
+            @extend .icon-info-circle;
+        }
+    }
+
+    /* .line-item layout */
+    .header-row {
+        @extend .clearfix;
+
+        margin-bottom: 16px;
+    }
+
+    .options-row {
+        @extend .clearfix;
+    }
+
+    .info-column {
+        margin-right: 16px;
+    }
+
+    [class$="-column"] {
+        float: left;
+
+        h6 {
+            line-height: 18px;
+            margin: 0;
+        }
+
+        p {
+            @extend %small-bold-arial-text;
+
+            color: $colorDarkGray;
+            margin: 0;
+            line-height: 18px;
+        }
+    }
+
+    .remove-item-link {
+        @extend %item-info-icon-text;
+        @extend %warmLightGray-hover-red-link;
+
+        display: block;
+
+        .icon {
+            @extend .icon-cross-circle;
+        }
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+
+    }
+}
+
+%line-item-image-base {
+    overflow: hidden;
+
+    a {
+        display: block;
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+.search-result-item {
+    @extend %line-item-base;
+
+    padding-bottom: $gutter;
+    border-bottom: 1px solid $colorLighterGray;
+    margin: 0 $gutter $gutter;
+
+    h4 {
+        font-weight: 300;
+        margin: 0;
+        color: $colorDarkerGray;
+
+        a {
+            @extend %darkerGray-hover-darkerGold-link;
+        }
+    }
+
+    .line-price {
+        @extend %money-format;
+
+        font-family: $helveticaFontStack;
+        font-weight: 300;
+        color: $colorWarmDarkGray;
+        font-size: 1.875em;
+        padding-top: 4px;
+    }
+
+    .info-column,
+    .size-column,
+    .color-column {
+        margin-right: $gutter;
+        min-height: 10px;
+    }
+
+    .info-column,
+    .size-column,
+    .color-column {
+        width: 133px;
+    }
+
+    .button-column {
+        width: 160px;
+    }
+
+    .button {
+        @extend %small-gray-arrow-button;
+
+        text-align: center;
+        width: 160px;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        h4 {
+            font-size: 1.25em;
+        }
+
+        .info-options-column {
+            width: 640px;
+            padding: 0 0 0 32px;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        h4 {
+            padding-top: 4px;
+            font-size: 1.5em;
+            line-height: 1.3333;
+            height: 64px;
+            overflow: hidden;
+        }
+
+        .header-row {
+            padding-left: 64px + 20px;
+        }
+
+        .info-column {
+            margin-bottom: $gutter;
+        }
+    }
+}
+
+.search-result-item-image {
+    @extend %line-item-image-base;
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        height: auto;
+        width: 96px;
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: auto;
+        width: 64px;
+    }
+}
+
+.cart-item {
+    @extend %line-item-base;
+
+    padding-bottom: $gutter;
+    border-bottom: 1px solid $colorLighterGray;
+    margin-bottom: $gutter;
+
+    .line-price {
+        @extend %money-format;
+
+        font-family: $helveticaFontStack;
+        font-weight: 300;
+        color: $colorWarmDarkGray;
+        font-size: 1.875em;
+        padding-top: 4px;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postMedium) {
+        /* layout */
+
+        .image-column {
+            width: 96px;
+        }
+
+        .info-options-column {
+            width: 768px;
+            padding: 0 0 0 32px;
+        }
+
+        .quantity-column {
+            width: 128px;
+            margin-right: 16px;
+            min-height: 10px;
+        }
+
+        .info-column {
+            width: 464px;
+        }
+
+        .price-column {
+            width: 112px;
+        }
+    }
+
+    @include at-query (null, $postMedium, $xLarge) {
+        .info-options-column {
+            width: 384px;
+        }
+
+        .info-column {
+            margin-bottom: $gutter;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $medium) {
+        h4 {
+            font-size: 25px;
+        }
+
+        /* layout */
+
+        .image-column {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 64px;
+        }
+
+        .header-row {
+            min-height: 64px;
+            padding: 0 0 0 ( 64px + $gutter );
+        }
+
+        .info-column {
+            float: none;
+            width: auto;
+            margin: 0 0 ($gutter / 2);
+        }
+
+        .quantity-column,
+        .price-column {
+            width: 50%;
+        }
+
+        .quantity-column {
+            padding-right: ($gutter / 2);
+        }
+
+        .price-column {
+            padding-left: ($gutter / 2);
+        }
+    }
+}
+
+.cart-item-image {
+    @extend %line-item-image-base;
+
+    /* Desktop */
+    @include at-query ($min, $postMedium) {
+        height: 96px;
+        width: 96px;
+    }
+
+    /* Mobile */
+    @include at-query ($max, $medium) {
+        height: 64px;
+        width: 64px;
+    }
+}
+
+.cart-terms {
+    list-style: disc;
+    margin-left: $gutter;
+
+    li {
+        @extend %smallest-helvetica-text;
+        color: $colorWarmLightGray;
+        line-height: (16/12);
+        margin: 4px 0;
+    }
+}
+
+.order-line-item {
+    @extend %line-item-base;
+
+    h4 {
+        margin: 0;
+        font-size: 1.25em;
+        font-weight: 300;
+    }
+
+    h6 {
+        color: $colorWarmLightGray;
+        margin: 0 0 ($gutter / 2);
+        line-height: 1;
+        text-transform: uppercase;
+        font-size: 12px;
+        font-family: $bodyFontStack;
+        font-weight: 700;
+    }
+
+    .fulfillment-status {
+        @extend %smallish-arial-text;
+
+        color: $colorWarmLightGray;
+        line-height: 18px;
+        text-transform: uppercase;
+
+        .shipped-date {
+            color: $colorGreen;
+        }
+
+        a {
+            @extend %rsaquo;
+            @extend %gray-hover-underline-link;
+        }
+    }
+
+    /* layout */
+    .image-column {
+        width: 64px;
+    }
+
+    .info-options-column {
+        padding: 0 0 0 $gutter;
+    }
+
+    .header-row {
+        margin-bottom: $gutter / 2;
+    }
+
+    @include at-query( $max, $small ){
+        .image-column {
+            float: none;
+            position: absolute;
+            left: 0;
+        }
+
+        .info-options-column {
+            padding-left: $gutter * 5;
+        }
+
+        .size-column,
+        .color-column {
+            display: none;
+        }
+
+        .header-row {
+
+        }
+
+
+    }
+
+    @include at-query( $min, $postLarge ){
+        .info-options-column {
+            width: 556px;
+        }
+
+        .info-column {
+            width: 176px;
+        }
+    }
+}
+
+.order-line-item-image {
+    @extend %line-item-image-base;
+
+    height: 64px;
+    width: 64px;
+    border: 1px solid $colorLighterGray;
+}
+
+
+
+/*================================================================================
+  # Ajaxify Cart Styles
+  ================================================================================*/
+
+/*============================================================================
+  Shopify Ajax Cart
+  Copyright 2014 Shopify Inc.
+  Author Carson Shold @cshold
+  Built with Sass - http://sass-lang.com/
+
+Some things to know about this file:
+- This file uses the same grid as timber.scss.liquid.
+- If you want to use this separately, please include the following sections from timber.scss.liquid:
+* #Breakpoint and Grid Variables
+* #Grid Setup
+- You may need to massage the code so it doesn't reference any non-existent mixins.
+
+This file includes
+- Sass helpers
+- Colour variables to customize
+- Styles for cart drawer, modal, and the flipped add to cart button
+==============================================================================*/
+
+.ajaxify-grey {
+    color: $ajaxifyGrey;
+}
+
+/*============================================================================
+  General Styles
+  ==============================================================================*/
+@include at-query ($max, $small) {
+    body.ajaxify-modal-visible {
+        overflow: hidden;
+    }
+}
+
+.ajaxifyCart-loader {
+    display: none;
+    opacity: 0;
+    position: absolute;
+    right: -24px;
+    top: 50%;
+    margin-top: -5px;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+    @include transition(opacity 0.1s);
+    background-repeat: no-repeat;
+    background-color: #fff;
+    background-image: url("data:image/gif;base64,R0lGODlhEAAQAPQAAP///5mZmfj4+M/Pz/Ly8rS0tMnJyZmZmbu7u6enp93d3eTk5KCgoNfX15qamq6ursLCwgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH+GkNyZWF0ZWQgd2l0aCBhamF4bG9hZC5pbmZvACH5BAAKAAAAIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAAQAAAFdyAgAgIJIeWoAkRCCMdBkKtIHIngyMKsErPBYbADpkSCwhDmQCBethRB6Vj4kFCkQPG4IlWDgrNRIwnO4UKBXDufzQvDMaoSDBgFb886MiQadgNABAokfCwzBA8LCg0Egl8jAggGAA1kBIA1BAYzlyILczULC2UhACH5BAAKAAEALAAAAAAQABAAAAV2ICACAmlAZTmOREEIyUEQjLKKxPHADhEvqxlgcGgkGI1DYSVAIAWMx+lwSKkICJ0QsHi9RgKBwnVTiRQQgwF4I4UFDQQEwi6/3YSGWRRmjhEETAJfIgMFCnAKM0KDV4EEEAQLiF18TAYNXDaSe3x6mjidN1s3IQAh+QQACgACACwAAAAAEAAQAAAFeCAgAgLZDGU5jgRECEUiCI+yioSDwDJyLKsXoHFQxBSHAoAAFBhqtMJg8DgQBgfrEsJAEAg4YhZIEiwgKtHiMBgtpg3wbUZXGO7kOb1MUKRFMysCChAoggJCIg0GC2aNe4gqQldfL4l/Ag1AXySJgn5LcoE3QXI3IQAh+QQACgADACwAAAAAEAAQAAAFdiAgAgLZNGU5joQhCEjxIssqEo8bC9BRjy9Ag7GILQ4QEoE0gBAEBcOpcBA0DoxSK/e8LRIHn+i1cK0IyKdg0VAoljYIg+GgnRrwVS/8IAkICyosBIQpBAMoKy9dImxPhS+GKkFrkX+TigtLlIyKXUF+NjagNiEAIfkEAAoABAAsAAAAABAAEAAABWwgIAICaRhlOY4EIgjH8R7LKhKHGwsMvb4AAy3WODBIBBKCsYA9TjuhDNDKEVSERezQEL0WrhXucRUQGuik7bFlngzqVW9LMl9XWvLdjFaJtDFqZ1cEZUB0dUgvL3dgP4WJZn4jkomWNpSTIyEAIfkEAAoABQAsAAAAABAAEAAABX4gIAICuSxlOY6CIgiD8RrEKgqGOwxwUrMlAoSwIzAGpJpgoSDAGifDY5kopBYDlEpAQBwevxfBtRIUGi8xwWkDNBCIwmC9Vq0aiQQDQuK+VgQPDXV9hCJjBwcFYU5pLwwHXQcMKSmNLQcIAExlbH8JBwttaX0ABAcNbWVbKyEAIfkEAAoABgAsAAAAABAAEAAABXkgIAICSRBlOY7CIghN8zbEKsKoIjdFzZaEgUBHKChMJtRwcWpAWoWnifm6ESAMhO8lQK0EEAV3rFopIBCEcGwDKAqPh4HUrY4ICHH1dSoTFgcHUiZjBhAJB2AHDykpKAwHAwdzf19KkASIPl9cDgcnDkdtNwiMJCshACH5BAAKAAcALAAAAAAQABAAAAV3ICACAkkQZTmOAiosiyAoxCq+KPxCNVsSMRgBsiClWrLTSWFoIQZHl6pleBh6suxKMIhlvzbAwkBWfFWrBQTxNLq2RG2yhSUkDs2b63AYDAoJXAcFRwADeAkJDX0AQCsEfAQMDAIPBz0rCgcxky0JRWE1AmwpKyEAIfkEAAoACAAsAAAAABAAEAAABXkgIAICKZzkqJ4nQZxLqZKv4NqNLKK2/Q4Ek4lFXChsg5ypJjs1II3gEDUSRInEGYAw6B6zM4JhrDAtEosVkLUtHA7RHaHAGJQEjsODcEg0FBAFVgkQJQ1pAwcDDw8KcFtSInwJAowCCA6RIwqZAgkPNgVpWndjdyohACH5BAAKAAkALAAAAAAQABAAAAV5ICACAimc5KieLEuUKvm2xAKLqDCfC2GaO9eL0LABWTiBYmA06W6kHgvCqEJiAIJiu3gcvgUsscHUERm+kaCxyxa+zRPk0SgJEgfIvbAdIAQLCAYlCj4DBw0IBQsMCjIqBAcPAooCBg9pKgsJLwUFOhCZKyQDA3YqIQAh+QQACgAKACwAAAAAEAAQAAAFdSAgAgIpnOSonmxbqiThCrJKEHFbo8JxDDOZYFFb+A41E4H4OhkOipXwBElYITDAckFEOBgMQ3arkMkUBdxIUGZpEb7kaQBRlASPg0FQQHAbEEMGDSVEAA1QBhAED1E0NgwFAooCDWljaQIQCE5qMHcNhCkjIQAh+QQACgALACwAAAAAEAAQAAAFeSAgAgIpnOSoLgxxvqgKLEcCC65KEAByKK8cSpA4DAiHQ/DkKhGKh4ZCtCyZGo6F6iYYPAqFgYy02xkSaLEMV34tELyRYNEsCQyHlvWkGCzsPgMCEAY7Cg04Uk48LAsDhRA8MVQPEF0GAgqYYwSRlycNcWskCkApIyEAOwAAAAAAAAAAAA==");
+}
+
+/*============================================================================
+  Ajaxify Cart - General
+  ==============================================================================*/
+.ajax-cart-container {
+    @include perspective(1000px);
+    @include transform-style(preserve-3d);
+    @include transition(all 450ms cubic-bezier(0.57,.06,.05,.95));
+    @extend %wrapper-base;
+
+    position: relative;
+    padding-top: $gutter;
+
+    h2 {
+        text-align: center;
+    }
+
+    .is-visible & {
+        @include transition(all 550ms cubic-bezier(0.57, 0.06, 0.05, 0.95));
+    }
+
+    form {
+        margin-bottom: 0;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        padding-bottom: $gutter;
+    }
+
+    /* most phones in portrait */
+    /* portrait tablet, landscape phones */
+    @include at-query ($max, $medium) {
+        border-bottom: 1px solid $colorLighterGray;
+        max-width: $small;
+    }
+
+    /* landscape tablet, small desktops */
+    /* medium desktops */
+    @include at-query (null, $postMedium, $xLarge) {
+        max-width: $medium;
+    }
+
+    /* large desktops */
+    @include at-query ($min, $xLarge) {
+        max-width: $siteWidth;
+    }
+}
+
+// Row and column spacing
+.ajaxifyCart--products {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.ajaxifyCart--product {
+    position: relative;
+    padding: 10px 0;
+
+    &:first-child {
+        padding-top: 0;
+    }
+}
+
+.ajaxifyCart--product,
+.cart-row {
+    @include transform-origin(top);
+    @include transition(all 650ms cubic-bezier(0.57, 0.06, 0.05, 0.95));
+    @include rotateX(0deg);
+    max-height: 500px;
+    visibility: visible;
+
+    &.is-removed {
+        overflow: hidden;
+        opacity: 0;
+        padding: 0;
+        margin: -$gutter 0 0;
+        visibility: hidden;
+        @include rotateX(-92deg);
+        @include backface(hidden);
+        @include transition(all 450ms cubic-bezier(0.57,.06,.05,.95));
+        max-height: 0;
+    }
+}
+
+.ajaxifyCart--row {
+    clear: both;
+    @include clearfix;
+}
+
+.ajaxCart--product-image {
+    display: block;
+    overflow: hidden;
+    margin-bottom: 15px;
+
+    img {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+}
+
+
+/*============================================================================
+  #Quantity Selectors
+  ==============================================================================*/
+.js-qty {
+    position: relative;
+    min-width: 75px;
+    overflow: visible;
+    @include backface(hidden);
+
+    input[type="text"] {
+        @extend %smaller-arial-text;
+
+        display: block;
+        background: $colorLightestGray;
+        border: 1px solid $colorWarmLightGray;
+        text-align: center;
+        width: 100%;
+        padding: 5px 25px;
+        margin: 0;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        input[type="text"] {
+            height: 30px;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+
+        input[type="text"] {
+            height: 44px;
+        }
+    }
+}
+
+.js--qty-adjuster {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    padding: 0;
+    font-size: 12px;
+    text-align: center;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select:    none;
+    -ms-user-select:     none;
+    -o-user-select:      none;
+    user-select:         none;
+    @include transition(all 0.2s ease-out);
+
+    &:hover {
+        background-color: $borderColor;
+        color: #fff;
+    }
+
+    &:active {
+        background-color: darken($borderColor, 10%);
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        line-height: 30px;
+        width: 30px;
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        line-height: 44px;
+        width: 44px;
+    }
+}
+
+.js--add {
+    right: 0;
+    // border-left: 1px solid $borderColor;
+}
+
+.js--minus {
+    left: 0;
+    // border-right: 1px solid $borderColor;
+}
+
+/*============================================================================
+  #Quantity Selectors in the Ajax Cart
+  ==============================================================================*/
+.ajaxifyCart--qty {
+    @extend .js-qty;
+    margin: 0;
+
+    .ajaxifyCart--is-loading & {
+        opacity: 0.5;
+        @include transition(none);
+    }
+}
+
+.ajaxifyCart--num {
+    @include transition(all 0.1s ease-out);
+
+    .supports-no-touch & {
+        border: 1px solid rgba(0,0,0,0);
+    }
+}
+
+.ajaxifyCart--qty-adjuster {
+    @extend .js--qty-adjuster;
+
+    .cart-row:hover &,
+    .ajaxifyCart--product:hover &,
+    .supports-touch & {
+        opacity: 1;
+        @include transition(background-color 0.2s ease-out);
+    }
+
+    &:hover {
+        background-color: $ajaxifyGreyDark;
+    }
+
+    &:active {
+        background-color: darken($ajaxifyGreyDark, 10%);
+    }
+
+    // Turn off animation on initial hover
+    .ajaxifyCart--product:hover &:hover {
+        @include transition(none);
+    }
+}
+
+.ajaxifyCart--add {
+    @extend .js--add;
+}
+
+.ajaxifyCart--minus {
+    @extend .js--minus;
+}
+
+/*============================================================================
+  Ajaxify Drawer
+  ==============================================================================*/
+.ajax-drawer-container {
+    background-color: $drawerBackgroundColor;
+    height: 0px;
+    overflow: hidden;
+    @include perspective (1000px);
+    @include transform-style(preserve-3d);
+    @include transition(all 600ms cubic-bezier(0.47, 0.5, 0, 0.95));
+    @include box-shadow(inset 0 -4px 3px -3px rgba(0,0,0,0.08));
+
+    &.is-visible {
+        @include transition(all 550ms cubic-bezier(0.47, 0, 0, 0.95));
+    }
+
+    .update-cart {
+        display: none!important;
+    }
+
+    // Drawer colors and general styles
+    .ajax-cart-container {
+        margin: 0 auto;
+        opacity: 0;
+        overflow: hidden;
+        color: $colorDarkGray;
+
+        @include transform-origin(top);
+        @include rotateX(-90deg);
+    }
+
+    &.is-visible .ajax-cart-container {
+        opacity: 1;
+        @include rotateX(0deg);
+    }
+
+    // Quantity selector colors in the drawer
+    .js-qty {
+        margin: 0 auto;
+    }
+}
+
+.ajaxifyDrawer-caret {
+    position: relative;
+    display: block;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+
+    .is-visible + & {
+        opacity: 1;
+        overflow: visible;
+    }
+
+    & > span {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        display: block;
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid $drawerBackgroundColor;
+        margin-left: -6px;
+        opacity: 0;
+        @include transform(translate(0,-12px));
+        @include transition(all 0.25s ease-in-out 0.2s);
+    }
+
+    .is-visible + & > span {
+        @include transform(translate(0,0));
+        opacity: 1;
+    }
+}

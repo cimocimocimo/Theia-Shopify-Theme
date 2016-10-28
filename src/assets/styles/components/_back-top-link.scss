@@ -1,0 +1,73 @@
+.back-to-top-block,
+.back-block {
+    text-align: center;
+    margin: $gutter * 4 0;
+}
+
+%back-link-base {
+    @extend %gray-hover-gold-link;
+    @extend %small-mid-arial-text;
+
+    display: inline-block;
+    height: 40px;
+    width: 192px;
+    border-top: 1px solid $borderColor;
+    border-bottom: 1px solid $borderColor;
+    text-transform: uppercase;
+    line-height: 38px;
+    font-weight: 700;
+}
+
+.back-to-top-link {
+    @extend %back-link-base;
+    @extend %icon-suffix-base;
+    @extend .icon-arrow-up-suffix;
+}
+
+.back-link {
+    @extend %back-link-base;
+    @extend %icon-base;
+    @extend .icon-arrow-left;
+}
+
+
+.scroll-button-disc {
+    @extend %icon-base;
+    @extend .icon-arrow-down-large;
+    @include transition(all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275));
+    @include box-shadow(0 2px 3px rgba(0,0,0,0.05));
+    @include transform(scale(1));
+    @include transform-origin(bottom center);
+
+    position: absolute;
+    bottom: $gutter;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin-left: -25px;
+    background: white;
+    text-decoration: none;
+    text-align: center;
+    line-height: 57px;
+    color: $colorDarkGold;
+    font-size: 25px;
+    border-radius: 25px;
+    opacity: 0.75;
+    z-index: 2;
+
+    &:hover {
+        @include transform(scale(1.1));
+
+        opacity: 1;
+    }
+
+    &.out {
+        @include transform(scale(0));
+
+        opacity: 0;
+    }
+
+    &.initial {
+        display: none;
+    }
+}

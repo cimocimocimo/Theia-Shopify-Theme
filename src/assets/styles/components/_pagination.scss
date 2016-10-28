@@ -1,0 +1,142 @@
+/*============================================================================
+  #Pagination
+  ==============================================================================*/
+.pagination-block {
+    @extend .clearfix;
+
+    position: relative;
+    margin-bottom: 0;
+    border-top: 1px solid $borderColor;
+    border-bottom: 1px solid $borderColor;
+
+    > li {
+        display: inline-block;
+        margin: 0;
+
+        > a,
+        > span {
+            @extend %gray-hover-gold-link;
+            @extend %small-mid-arial-text;
+
+            display: inline-block;
+            position: relative;
+            padding: 11px 5px 9px;
+            margin-left: -1px;
+            line-height: 1.42;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* Previous Link */
+        &:first-child > a,
+        &:first-child > span {
+            margin-left: 0;
+            padding-left: $gutter * 3;
+            padding-right: $gutter;
+        }
+
+        /* Next Link */
+        &:last-child > a,
+        &:last-child > span {
+            padding-left: $gutter;
+            padding-right: $gutter * 3;
+        }
+    }
+
+    > .active {
+        > a,
+        > span,
+        > a:hover,
+        > span:hover,
+        > a:focus,
+        > span:focus {
+            z-index: 2;
+            color: $colorGold;
+            cursor: default;
+        }
+    }
+
+    > .disabled {
+        > span,
+        > a,
+        > a:hover,
+        > a:focus {
+            color: #999999;
+            cursor: not-allowed;
+        }
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        display: inline-block;
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        > li {
+
+            &:first-child,
+            &:last-child {
+                position: absolute;
+                top: 0;
+            }
+
+            &:first-child {
+                left: 0;
+            }
+
+            &:last-child {
+                right: 0;
+            }
+
+            > a,
+            > span {
+                padding: 11px 5px 9px;
+                font-size: 15px;
+
+                /* hide the label in the nested span on mobile */
+                > span {
+                    display: none;
+                }
+            }
+
+            /* Previous Link */
+            &:first-child > a,
+            &:first-child > span {
+                margin-left: 0;
+                padding-left: 0;
+                padding-right: $gutter;
+            }
+
+            /* Next Link */
+            &:last-child > a,
+            &:last-child > span {
+                padding-left: $gutter;
+                padding-right: 0;
+            }
+        }
+
+        > .active {
+            > a,
+            > span,
+            > a:hover,
+            > span:hover,
+            > a:focus,
+            > span:focus {
+                z-index: 2;
+                color: $colorGold;
+                cursor: default;
+            }
+        }
+
+        > .disabled {
+            > span,
+            > a,
+            > a:hover,
+            > a:focus {
+                color: #999999;
+                cursor: not-allowed;
+            }
+        }
+    }
+}

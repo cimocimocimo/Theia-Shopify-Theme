@@ -1,0 +1,353 @@
+/*============================================================================
+  #Blogs and Comments
+  ==============================================================================*/
+.comment {
+    margin-bottom: $gutter;
+
+    & + & {
+        border-top: 1px solid $borderColor;
+        padding-top: $gutter;
+    }
+}
+
+
+// blog
+%blog-article-base {
+    .header-block {
+        text-align: center;
+        margin-bottom: 38px;
+
+        .tags {
+            font-size: 18px;
+            font-style: italic;
+            text-decoration: underline;
+            color: $colorDarkerMidGray
+        }
+
+        a {
+            color: $colorDarkerMidGray;
+        }
+
+        h2, h3 {
+            font-weight: 700;
+            margin: 10px 0 17px;
+        }
+
+        h2 {
+            font-size: 42px;
+            line-height: 48px;
+        }
+
+        h3 {
+            font-size: 36px;
+            line-height: 42px;
+        }
+
+        .article-meta {
+            font-size: 14px;
+            font-style: italic;
+            color: $colorDarkerMidGray;
+        }
+    }
+
+    .image-block {
+        margin-bottom: 38px;
+
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    }
+
+    .body-block {
+        margin-bottom: $gutter * 4;
+
+        p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 23px;
+            color: $colorDarkerMidGray;
+        }
+    }
+
+    @include at-query($max, $medium){
+        .header-block {
+            margin-bottom: 38px*0.85;
+
+            .tags {
+                font-size: 18px*0.85;
+            }
+
+            h2, h3 {
+                margin: 10px*0.85 0 17px*0.85;
+            }
+
+            h2 {
+                font-size: 42px*0.75;
+                line-height: 48px*0.75;
+            }
+
+            h3 {
+                font-size: 36px*0.75;
+                line-height: 42px*0.75;
+            }
+
+            .article-meta {
+                font-size: 14px*0.85;
+            }
+        }
+
+        .image-block {
+            margin-bottom: $gutter;
+        }
+
+        .body-block {
+            margin-bottom: $gutter * 2;
+        }
+    }
+
+    @include at-query($max, $small){
+        .body-block {
+            p {
+                font-size: 15px*0.85;
+                line-height: 23px*0.85;
+            }
+        }
+    }
+}
+
+.blog-sidebar {
+    h4 {
+        margin: 0 0 $gutter/2;
+    }
+
+    @include at-query($max, $medium){
+        text-align: center;
+    }
+}
+
+%blog-sidebar-row-base {
+    margin: 0 0 $gutter;
+
+    @include at-query($max, $medium){
+        margin-bottom: $gutter*2;
+    }
+}
+
+.blog-sidebar-tags {
+    @extend %blog-sidebar-row-base;
+
+    a,
+    span {
+        display: inline-block;
+        text-transform: uppercase;
+        font-size: 14px;
+        text-decoration: none;
+        font-weight: 700;
+        color: $colorGray;
+
+        &:hover {
+            color: $colorGold;
+        }
+    }
+
+    .active a {
+        color: $colorGold;
+    }
+
+    @include at-query($min, $postMedium){
+        border-right: 1px solid $colorLightGray;
+        text-align: right;
+        padding: $gutter $gutter*3 $gutter $gutter;
+
+        a {
+            display: block;
+            margin: 0 0 $gutter/2;
+        }
+    }
+
+    @include at-query($max, $medium){
+        a {
+            padding: $gutter/2 $gutter*1.25;
+        }
+    }
+}
+
+.blog-index {
+    @extend .wrapper-8-col;
+    @extend %clearfix;
+
+    margin-top: $gutter*4;
+    margin-bottom: $gutter*4;
+
+    hr {
+        margin: $gutter*3 0;
+    }
+
+    .pagination-row {
+        margin: $gutter*4 0 0;
+        text-align: center;
+    }
+
+    .newsletter-signup-row {
+        margin: $gutter*4 0;
+        text-align: center;
+    }
+
+    // position sidebar to left on desktop
+    @include at-query($min, $postMedium){
+        .blog-sidebar,
+        .blog-index-articles {
+            float: left;
+        }
+
+        .blog-sidebar {
+            width: 33%;
+            padding-right: $gutter*1.5;
+        }
+
+        .blog-index-articles {
+            width: 67%;
+            padding-left: $gutter*1.5;
+        }
+    }
+
+    @include at-query(null, $postMedium, $large){
+        margin-top: $gutter*3;
+        margin-bottom: $gutter*3;
+
+        hr {
+            margin: $gutter*3 0;
+        }
+
+        .pagination-row {
+            margin: $gutter*3 0 0;
+        }
+
+        .newsletter-signup-row {
+            margin: $gutter*3 0;
+        }
+    }
+
+    @include at-query($max, $medium){
+        margin-top: $gutter*2;
+        margin-bottom: $gutter*2;
+
+        hr {
+            margin: $gutter*2 0;
+        }
+
+        .pagination-row {
+            margin: $gutter*2 0 0;
+        }
+
+        .newsletter-signup-row {
+            margin: $gutter*2 0;
+        }
+    }
+}
+
+.blog-index-article-block,
+.blog-index-featured-article {
+    @extend %blog-article-base;
+    @extend %clearfix;
+
+    .button-row {
+        text-align: center;
+
+        .button {
+            @extend %large-gray-arrow-button;
+        }
+    }
+
+    @include at-query($max, $medium){
+        .button-row {
+            .button {
+                font-size: 1.25em;
+                height: 44px;
+                line-height: 42px;
+
+                .icon {
+                    font-size: 0.625em;
+                    top: -1px;
+                }
+            }
+        }
+    }
+}
+
+.blog-article {
+    @extend .wrapper-8-col;
+    @extend %blog-article-base;
+    @extend %clearfix;
+
+    margin-top: $gutter*4;
+
+    .body-block {
+        img {
+            display: block;
+            margin: $gutter*2 auto;
+            max-width: 100%;
+            height: auto;
+        }
+    }
+
+    .pagination-row,
+    .newsletter-signup-row {
+        margin-top: $gutter*3;
+        text-align: center;
+    }
+
+    @include at-query($max, $medium){
+        margin-top: $gutter*2;
+
+        .body-block {
+            img {
+                margin: $gutter auto;
+            }
+        }
+
+        .pagination-row,
+        .newsletter-signup-row {
+            margin-top: $gutter*2;
+        }
+    }
+}
+
+.blog-share-block {
+    border-top: 1px solid $colorLightGray;
+    border-bottom: 1px solid $colorLightGray;
+    padding: 12px 0 14px;
+    margin: 0 auto;
+    max-width: $small;
+    text-align: center;
+
+    > div {
+        display: inline-block;
+        line-height: 1;
+        vertical-align: middle;
+
+    }
+
+    .share-buttons > * {
+        margin: 0 $gutter/4;
+    }
+
+    .label {
+        @extend %smallish-arial-text;
+
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $colorWarmLightGray;
+        padding-top: 2px;
+        margin-right: 8px;
+    }
+
+    /* Mobile */
+    @include at-query ($max, $large) {
+        .label {
+            display: none;
+        }
+    }
+}

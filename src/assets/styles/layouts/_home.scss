@@ -1,0 +1,509 @@
+.homepage-splash {
+    @include transition(all 0.3s);
+
+    background: {
+        image: url(shopify-asset('homepage-splash-bg.jpg'));
+        position: center center;
+        repeat:  no-repeat;
+        size: cover;
+    }
+    position: relative;
+    z-index: 13000;
+
+    .eye-level-wide {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+
+        .inner {
+            position: absolute;
+            top: percentage(475/1709);
+            height: 0;
+            width: 100%;
+        }
+    }
+
+    .eye-level-narrow {
+        position: absolute;
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+
+        .inner {
+            position: absolute;
+            top: -9999px;
+            bottom: -9999px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            padding-top: percentage(1709/2560);
+            height: 0;
+        }
+
+        .inner-2 {
+            position: absolute;
+            top: percentage(479/1709);
+            height: 0;
+            width: 100%;
+        }
+    }
+
+    .logo {
+        height: 0;
+        width: 35%;
+        padding-top: percentage((248/940)*0.35);
+        position: absolute;
+        top: 0;
+        margin-top: percentage((-248/940)*0.35)/2;
+        left: percentage(66/2700);
+        background: {
+            image: url(shopify-asset('theia-logo.svg'));
+            position: center center;
+            repeat: no-repeat;
+            size: contain;
+        }
+    }
+
+    &.js-splash-hidden {
+        @include transform(translateY(-100%));
+        opacity: 0;
+    }
+
+    @media screen and (min-aspect-ratio: 2560/1709){
+        .eye-level-wide {
+            display: none;
+        }
+    }
+
+    @media screen and (max-aspect-ratio: 2560/1709){
+        .eye-level-narrow {
+            display: none;
+        }
+    }
+}
+
+%homepage-hero-base {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-top: percentage(1166/2560);
+    background: {
+        image: url(shopify-asset('homepage-hero-bg-1366.jpg'));
+        position: center center;
+        repeat: no-repeat;
+        size: cover;
+    }
+    text-align: center;
+
+    .inner {
+        @include verticalCenterChildElements();
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    .content {
+        position: relative;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    h2 {
+        font-family: $centuryGothicFontStack;
+        font-size: 46px;
+    }
+
+    a {
+        font-family: $centuryGothicFontStack;
+        font-size: 30px;
+        text-decoration: none;
+    }
+}
+
+.homepage-video-hero {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url(shopify-asset('bridal-fall-2016-runway-video-still.jpg'));
+
+    .inner {
+        @include transition(opacity 0.3s);
+
+        opacity: 0;
+
+        &.active {
+            opacity: 1;
+        }
+    }
+
+    .content {
+        display: inline-block;
+        width: auto;
+        max-width: none;
+    }
+
+    h2 {
+        background: rgba(255,255,255,0.75);
+        display: inline-block;
+        line-height: 64px;
+        padding: $gutter*3 $gutter*5;
+        color: $colorWarmDarkGray;
+        margin: 0 0 1px 0;
+    }
+
+    .link-row {
+        @extend %clearfix;
+    }
+
+    .link-column {
+        width: 50%;
+        float: left;
+
+        &:first-of-type {
+            padding-right: 1px;
+        }
+    }
+
+    a {
+        @include transition(all 0.3s);
+
+        background: rgba(255,255,255,0.75);
+        display: block;
+        color: $colorWarmDarkGray;
+        margin: 0;
+        padding: $gutter 0;
+        font-style: normal;
+        font-weight: 400;
+
+        &:hover {
+            background: $colorDarkGold;
+            color: $colorWhite;
+        }
+    }
+
+    @include at-query(null, $postLarge, $xLarge){
+        h2 {
+            font-size: 42px;
+            line-height: 58px;
+            padding: $gutter*3*7/8 $gutter*5*7/8;
+        }
+
+        a {
+            font-size: 26px;
+            padding: $gutter 0;
+        }
+    }
+
+    @include at-query(null, $postMedium, $large){
+        h2 {
+            font-size: 34px;
+            line-height: 47px;
+            padding: $gutter*3*3/4 $gutter*5*3/4;
+        }
+
+        a {
+            font-size: 22px;
+            padding: $gutter 0;
+        }
+    }
+
+    @include at-query(null, $postSmall, $medium){
+        h2 {
+            font-size: 29px;
+            line-height: 40px;
+            padding: $gutter*3*5/8 $gutter*5*5/8;
+        }
+
+        a {
+            font-size: 19px;
+            padding: $gutter*3/4 0;
+        }
+    }
+
+    @include at-query($max, $small){
+        h2 {
+            font-size: 23px;
+            line-height: 32px;
+            padding: $gutter*3/2 $gutter*5/2;
+        }
+
+        a {
+            font-size: 15px;
+            padding: $gutter*3/4 0;
+        }
+    }
+}
+
+.homepage-hero {
+    @extend %homepage-hero-base;
+
+    // sizing for the fliud background image.
+    padding-top: percentage(1166/2560);
+    background-image: url(shopify-asset('homepage-hero-bg-1366.jpg'));
+
+    @include at-query($max, $medium){
+        background: {
+            image: url(shopify-asset('homepage-hero-bg-768.jpg'));
+            position: top left;
+        }
+        padding-top: percentage(640/768);
+    }
+
+    @include at-query(null, $postMedium, $large){
+        background-image: url(shopify-asset('homepage-hero-bg-1024.jpg'));
+        padding-top: percentage(700/1024);
+    }
+
+    @include at-query(null, $postLarge, $huge){
+        background-image: url(shopify-asset('homepage-hero-bg-1366.jpg'));
+    }
+
+    @include at-query(null, $postHuge, $gigantic){
+        background-image: url(shopify-asset('homepage-hero-bg-1920.jpg'));
+    }
+
+    @include at-query($min, $postGigantic){
+        background-image: url(shopify-asset('homepage-hero-bg-2560.jpg'));
+    }
+
+    .inner {
+        @include verticalCenterChildElements();
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        padding-top: 10%;
+    }
+
+    .content {
+        position: absolute;
+        width: 45%;
+        right: 15%;
+        max-width: 640px;
+        padding: $gutter $gutter*2;
+        background: rgba(255,255,255,0.60);
+    }
+
+    h2 {
+        color: $colorWarmDarkGray;
+        text-transform: uppercase;
+        margin: 0 0 $gutter*2;
+    }
+
+    a {
+        @extend %icon-suffix-base;
+        @extend .icon-arrow-right-solid-suffix;
+
+        color: $colorGold;
+        font-style: italic;
+        font-weight: 700;
+
+        &:after {
+            font-size: 21px;
+            margin-left: $gutter/2;
+        }
+    }
+
+    /* @include at-query(); */
+    @include at-query($max, $small){
+        text-align: right;
+
+        .inner {
+            padding-top: 16%;
+        }
+
+        .content {
+            width: 50%;
+            right: 0;
+            height: auto;
+            padding: $gutter;
+        }
+
+        h2 {
+            font-size: 21px;
+            margin: 0 0 $gutter;
+        }
+
+        p {
+            font-size: 11px;
+        }
+
+        a {
+            font-size: 13px;
+
+            &:after {
+                font-size: 9px;
+                margin-left: $gutter/4;
+            }
+        }
+    }
+
+    @include at-query(null, $postSmall, $medium){
+        text-align: right;
+
+        .inner {
+            padding-top: 20%;
+        }
+
+        .content {
+            right: 5%;
+            width: 50%;
+        }
+
+        h2 {
+            font-size: 32px;
+            margin: 0 0 21px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        a {
+            font-size: 20px;
+
+            &:after {
+                font-size: 14;
+                margin-left: 6px;
+            }
+        }
+    }
+
+    @include at-query(null, $postMedium, $large){
+        text-align: right;
+
+        .inner {
+            padding-top: 15%;
+        }
+
+        .content {
+            right: 10%;
+            width: 50%;
+        }
+
+        h2 {
+            font-size: 46px * $scalePostMediumLarge;
+            margin: 0 0 $gutter*2 * $scalePostMediumLarge;
+        }
+
+        p {
+            font-size: 24px * $scalePostMediumLarge;
+        }
+
+        a {
+            font-size: 30px * $scalePostMediumLarge;
+
+            &:after {
+                font-size: 21px * $scalePostMediumLarge;
+                margin-left: $gutter/2 * $scalePostMediumLarge;
+            }
+        }
+    }
+
+    @include at-query(null, $postLarge, $xLarge){
+        .content {
+            max-width: 640px * $scalePostLargeXLarge;
+            padding: $gutter*$scalePostLargeXLarge $gutter*2*$scalePostLargeXLarge;
+        }
+
+        h2 {
+            font-size: 46px * $scalePostLargeXLarge;
+            margin: 0 0 $gutter*2 * $scalePostLargeXLarge;
+        }
+
+        p {
+            font-size: 24px * $scalePostLargeXLarge;
+        }
+
+        a {
+            font-size: 30px * $scalePostLargeXLarge;
+
+            &:after {
+                font-size: 21px * $scalePostLargeXLarge;
+                margin-left: $gutter/2 * $scalePostLargeXLarge;
+            }
+        }
+    }
+}
+
+
+.homepage-press-releases {
+    span {
+        font-size: 0.75em;
+        width: $gridGutter;
+        color: $colorGold;
+        padding-top: 1px;
+        text-align: center;
+    }
+
+    h3 {
+        @extend %medium-helvetica-text;
+        @include overflowEllipsis;
+
+        margin: 0;
+        width: 400px;
+        font-weight: 400;
+
+        a {
+            @extend %gray-underline-hover-gold-link;
+        }
+    }
+
+    time {
+        @extend %smaller-arial-text;
+
+        text-transform: uppercase;
+        padding-left: $gridGutter;
+        color: $colorMidGray;
+    }
+
+    .row {
+        @extend .clearfix;
+
+        > *  {
+            float: left;
+            display: block;
+        }
+    }
+
+    .press-release {
+        margin: 0 0 20px;
+    }
+
+    .read-more {
+        @extend %small-bold-arial-text;
+        @extend %gold-hover-underline-link;
+        @extend %rsaquo;
+
+        padding-left: $gutter * 0.75;
+        text-transform: uppercase;
+    }
+}
+
+.media-events-contact-block {
+    .contact-block {
+        margin-bottom: $gridGutter;
+    }
+}
+
+.contact-block {
+    margin-bottom: $gutter * 1.5;
+
+    p {
+        @extend %small-helvetica-text;
+    }
+}

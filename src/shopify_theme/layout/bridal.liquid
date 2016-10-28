@@ -1,0 +1,46 @@
+{% assign top-level-layouts = 'bridal,main' | split: ',' %}<!doctype html>
+<!--[if lt IE 9]><html class="lt-ie9 lt-ie10 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 lt-ie10 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+
+    {% include 'html-head-common' %}
+
+    <!-- Header hook for plugins ================================================== -->
+    {{ content_for_header }}
+
+    {% include 'html-head-scripts' %}
+
+  </head>
+
+  {% comment %}
+  Add the page template as a class for easy page or template specific styling.
+  {% endcomment %}
+  <body {% include 'html-body-attributes' %}>
+
+    {% include 'html-body-top-scripts' %}
+
+    {% include 'mobile-side-nav' %}
+
+    <div data-headroom data-offset="160" id="header-container" class="header-container">
+
+      {% include 'header' %}
+
+    </div>
+
+    <div id="body-container" class="body-container">
+
+      <main class="main-content" role="main">
+
+        {{ content_for_layout }}
+
+      </main>
+
+      {% include 'footer' %}
+
+    </div>
+
+    {% include 'html-footer-scripts' %}
+
+  </body>
+</html>

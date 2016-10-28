@@ -42,13 +42,8 @@ Thumbs.db
 *.sass-cache*
 config.yml
 config-*.yml
-/_site
-assets/logo.png
 node_modules/
-/src/checkout-master-concat.css.liquid
-/src/checkout-master.css
-/src/checkout-master.css.liquid
-/src/checkout-master.css.map
 .#*
 *~
 /private.json
+/dist/

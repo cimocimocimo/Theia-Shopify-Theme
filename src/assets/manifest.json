@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "main.css": {
+      "files": [
+        "assets/styles/main.scss.liquid"
+      ],
+      "main": true
+    },
+    "shop.js": {
+      "files": [
+        "assets/scripts/shop.js.liquid"
+      ],
+      "main": true
+    },
+    "fonts": {
+      "files": ["assets/fonts/**/*"]
+    },
+    "images": {
+      "files": ["assets/images/**/*"]
+    }
+  },
+  "paths": {
+    "source": "src/",
+    "dist": "dist/"
+  },
+  "config": {
+    "shopifyUrl": "thiea2.myshopify.com"
+  }
+}

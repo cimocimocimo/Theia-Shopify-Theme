@@ -1,0 +1,18 @@
+{
+  "name": "Theia-Shopify-Theme",
+  "description": "Theia Shopify Theme =====================",
+  "main": "src/assets/main.js",
+  "authors": [
+    "Aaron Cimolini <aaron@cimolini.com>"
+  ],
+  "license": "(MIT OR Apache-2.0)",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

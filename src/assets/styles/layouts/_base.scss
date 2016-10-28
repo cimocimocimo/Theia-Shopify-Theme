@@ -1,0 +1,184 @@
+/*================================================================================
+  # Layouts
+  ================================================================================*/
+
+%wrapper-base {
+    @extend .clearfix;
+
+    position: relative;
+    margin: 0 auto;
+}
+
+.wrapper-14-col {
+    @extend %wrapper-base;
+
+    max-width: $siteWidth14col;
+}
+
+.wrapper {
+    @extend %wrapper-base;
+
+    max-width: $siteWidth;
+
+    @include at-query(null, $postLarge, $preXLarge){
+        max-width: $large;
+    }
+}
+
+.wrapper-10-col {
+    @extend %wrapper-base;
+
+    @include at-query($max, $preLarge){
+        margin: 0 $gutter;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $large) {
+        max-width: $siteWidth10Col;
+    }
+}
+
+.wrapper-9-col {
+    @extend %wrapper-base;
+
+    max-width: $siteWidth9Col;
+}
+
+.wrapper-8-col {
+    @extend %wrapper-base;
+
+    $breakPoint: $siteWidth8Col + ($gutter * 2);
+    $preBreakPoint: $breakPoint - 1px;
+
+    @include at-query($max, $preBreakPoint){
+        margin: 0 $gutter;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $breakPoint) {
+        max-width: $siteWidth8Col;
+    }
+}
+
+%row-base {
+    @extend .clearfix;
+
+    position: relative;
+
+    /* Desktop */
+    @include at-query ($min, $postMedium) {
+        .divider {
+            height: 100%;
+            width: 0;
+            position: absolute;
+            border-right: 1px solid $colorLightestGray;
+        }
+
+        .col {
+            float: left;
+        }
+    }
+
+    @include at-query( $max, $small ){
+        .divider {
+            margin: ($gutter * 2) $gutter;
+        }
+    }
+
+    @include at-query( null, $postSmall, $medium ){
+        .divider {
+            max-width: $small - ($gutter * 2);
+            margin: ($gutter * 2) auto;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $medium) {
+        .divider {
+            width: auto;
+            height: 0;
+            position: relative;
+            border-bottom: 1px solid $colorLightestGray;
+        }
+
+        .col {
+            width: auto;
+            max-width: $small;
+            float: none;
+            margin: 0 auto;
+        }
+    }
+}
+
+.row-2-col {
+    @extend %row-base;
+
+    /* Desktop */
+    @include at-query ($min, $postMedium) {
+        .divider {
+            left: 50%;
+        }
+
+        .col {
+            width: 50%;
+            padding: ( $gutter / 2 ) $gutter ( $gutter / 2 ) ( $gutter * 3 );
+
+            &:first-of-type {
+                padding-right: $gutter * 3;
+                padding-left: $gutter;
+            }
+        }
+    }
+}
+
+.row-3-col {
+    @extend %row-base;
+
+    /* Desktop */
+    @include at-query ($min, $postMedium) {
+        .divider {
+            left: percentage(1/3);
+
+            & ~ .divider {
+                left: percentage(2/3);
+            }
+        }
+
+        .col {
+            padding: ( $gutter / 2 ) ( $gutter * 2 ) ( $gutter / 2 );
+            width: percentage(1/3);
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $medium) {
+    }
+}
+
+/* Main Content Layout */
+
+/* This contains all the blocks that are not the header, footer, cart, or slide out side bar. */
+.site-content {
+    @extend .clearfix;
+    display: block;
+
+    .layout-simplified & {
+        text-align: center;
+        overflow-y: visible;
+    }
+}
+
+/* Just a wrapper for hooking onto the page content and styling it. */
+.page-content {
+    @extend .wrapper;
+}
+
+// for the full height/width image on the homepage.
+html.full-viewport {
+    &,
+    body,
+    .body-container,
+    .full-viewport {
+        height: 100%;
+    }
+}

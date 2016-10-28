@@ -1,0 +1,296 @@
+/*============================================================================
+  Carousel
+  ============================================================================*/
+
+// Default Variables
+
+$slick-arrow-color: white !default;
+$slick-dot-color: $colorWarmLightGray;
+$slick-dot-color-active: $colorWarmDarkGray;
+$slick-dot-size: 6px !default;
+$opacity-default: .75;
+$opacity-on-hover: 1;
+$opacity-not-active: .25;
+
+/* Slider */
+
+.slick-slider {
+    @include prefix('user-select', 'none');
+
+    position: relative;
+    display: block;
+    -webkit-touch-callout: none;
+    -ms-touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.slick-list {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    margin: 0;
+    padding: 0;
+
+    &:focus {
+        outline: none;
+    }
+
+    .slick-loading & {
+        background: #fff;
+    }
+
+    &.dragging {
+        cursor: pointer;
+        cursor: hand;
+    }
+}
+
+.slick-slider .slick-list,
+.slick-track,
+.slick-slide,
+.slick-slide img {
+    @include transform('translate3d(0, 0, 0)');
+}
+
+.slick-track {
+    @extend .clearfix;
+
+    position: relative;
+    left: 0;
+    top: 0;
+    display: block;
+
+    .slick-loading & {
+        visibility: hidden;
+    }
+}
+
+.slick-slide {
+    float: left;
+    height: 100%;
+    min-height: 1px;
+
+    img {
+        display: block;
+    }
+
+    &.slick-loading img {
+        display: none;
+    }
+
+    display: none;
+
+    &.dragging img {
+        pointer-events: none;
+    }
+
+    .slick-initialized & {
+        display: block;
+    }
+
+    .slick-loading & {
+        visibility: hidden;
+    }
+
+    .slick-vertical & {
+        display: block;
+        height: auto;
+        border: 1px solid transparent;
+    }
+}
+
+/* Arrows */
+
+%carousel-arrow-base {
+    @extend %icon-base;
+
+    position: absolute;
+    display: block;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+    color: $colorLightGray;
+    opacity: $opacity-default;
+    z-index: 1;
+
+    &:hover,
+    &:focus {
+        outline: none;
+        background: transparent;
+        color: $colorGold;
+
+        &:before {
+            opacity: $opacity-on-hover;
+        }
+    }
+
+    &.slick-disabled:before {
+        opacity: $opacity-not-active;
+    }
+}
+
+/* Dots */
+
+.slick-dots {
+    $diameter: 18px;
+    $radius: $diameter / 2;
+
+    position: absolute;
+    bottom: -104px;
+    height: $diameter;
+    list-style: none;
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    z-index: 0;
+
+    li {
+        position: relative;
+        display: inline-block;
+        margin: 0 4px;
+        padding: 0;
+        cursor: pointer;
+        vertical-align: top;
+
+        a {
+            border: 0;
+            background: $slick-dot-color;
+            display: block;
+            height: $diameter;
+            width: $diameter;
+            outline: none;
+            line-height: 1;
+            font-size: 0;
+            color: transparent;
+            padding: 0;
+            cursor: pointer;
+            @include prefix( 'border-radius', $radius);
+            opacity: $opacity-not-active;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+
+            &:hover,
+            &:focus {
+                outline: none;
+                opacity: $opacity-on-hover;
+            }
+        }
+
+        &.slick-active a {
+            color: $slick-dot-color-active;
+            opacity: $opacity-default;
+        }
+    }
+}
+
+
+// recently viewed and related products carousels
+
+.recent-products-hero,
+.related-products-hero {
+    @extend %grid-block-base;
+}
+
+.recent-products-hero {
+    margin-top: 100px;
+    h2{
+        font-size: 1.75em;
+    }
+}
+
+// TODO select a single class to use for this block.
+.recently-viewed-products-block,
+.carousel-block {
+    width: 100%;
+
+    %arrow-box-base {
+        min-width: 100px;
+        width: auto;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        z-index: 100;
+        text-decoration: none;
+        color: $colorGold;
+        font-size: 110px;
+        font-family: "theia-icons";
+
+        @include at-query($max, $small){
+            padding-top: 75px;
+        }
+
+        @include at-query($min, $postSmall){
+            padding-top: 150px;
+        }
+    }
+
+    .arrow-box-left {
+        @extend %arrow-box-base;
+        @extend .icon-arrow-left-xlarge;
+
+        left: 0;
+    }
+
+    .arrow-box-right {
+        @extend %arrow-box-base;
+        @extend .icon-arrow-right-xlarge;
+
+        right: 0;
+    }
+
+    @include at-query ($min, $postLarge) {
+        .arrow-blox-left {
+            margin-left: -50px;
+        }
+
+        .arrow-box-right {
+            margin-right: -50px;
+        }
+    }
+}
+
+%recent-related-product-grid-item-base {
+    @extend .product-grid-item;
+
+    width: 262px;
+
+    .meta-row{
+        margin: 20px auto 0;
+        width: 260px;
+
+        @include at-query ($max, $small) {
+            width: 200px;
+        }
+    }
+
+    .header-row {
+        width: 260px;
+        margin: 0 auto;
+
+        @include at-query ($max, $small) {
+            width: 200px;
+        }
+    }
+
+    .button-block{
+        margin-bottom: 30px;
+    }
+
+    @include at-query ($max, $small) {
+        .image-row {
+            min-height: 300px;
+        }
+    }
+}
+
+.recent-product-grid-item {
+    @extend %recent-related-product-grid-item-base;
+}
+
+.related-product-grid-item {
+    @extend %recent-related-product-grid-item-base;
+}

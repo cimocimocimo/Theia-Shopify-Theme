@@ -1,0 +1,438 @@
+/*============================================================================
+#Vex Modal
+  ============================================================================*/
+
+// Overlay/content animations
+@mixin keyframes-vex-fadein {
+    @include keyframes-prefix("vex-fadein") {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+}
+
+@mixin keyframes-vex-fadeout {
+    @include keyframes-prefix("vex-fadeout") {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+}
+
+// Content animations
+
+@mixin keyframes-vex-flyin {
+    @include keyframes-prefix("vex-flyin") {
+        0% {
+            opacity: 0;
+            @include transform(translateY(-40px));
+        }
+        100% {
+            opacity: 1;
+            @include transform(translateY(0));
+        }
+    }
+}
+
+@mixin keyframes-vex-flyout {
+    @include keyframes-prefix("vex-flyout") {
+        0% {
+            opacity: 1;
+            @include transform(translateY(0));
+        }
+        100% {
+            opacity: 0;
+            @include transform(translateY(-40px));
+        }
+    }
+}
+
+@mixin keyframes-vex-dropin {
+    @include keyframes-prefix("vex-dropin") {
+        // We start at 0 first and, while hidden
+        // move to -800px, where the animation
+        // really begins. This was necessary because
+        // otherwise, when starting the animation
+        // at -800px, the browser scrolls up 800px
+        // to try to display this object positioned
+        // above the page.
+        // https://github.com/HubSpot/vex/issues/21
+        0% {
+            @include transform(translateY(0));
+            opacity: 0;
+        }
+        1% {
+            @include transform(translateY(-800px));
+            opacity: 0;
+        }
+        // Real animation begins here
+        2% {
+            @include transform(translateY(-800px));
+            opacity: 1;
+        }
+        100% {
+            @include transform(translateY(0));
+            opacity: 1;
+        }
+    }
+}
+
+@mixin keyframes-vex-dropout {
+    @include keyframes-prefix("vex-dropout") {
+        0% {
+            @include transform(translateY(0));
+        }
+        100% {
+            @include transform(translateY(-800px));
+        }
+    }
+}
+
+@mixin keyframes-vex-slideup {
+    @include keyframes-prefix("vex-slideup") {
+        // We start at 0 first and, while hidden
+        // move to -800px, where the animation
+        // really begins. This was necessary because
+        // otherwise, when starting the animation
+        // at -800px, the browser scrolls up 800px
+        // to try to display this object positioned
+        // above the page.
+        // https://github.com/HubSpot/vex/issues/21
+        0% {
+            @include transform(translateY(0));
+            opacity: 0;
+        }
+        1% {
+            @include transform(translateY(800px));
+            opacity: 0;
+        }
+        // Real animation begins here
+        2% {
+            @include transform(translateY(800px));
+            opacity: 1;
+        }
+        100% {
+            @include transform(translateY(0));
+            opacity: 1;
+        }
+    }
+}
+
+@mixin keyframes-vex-slidedown {
+    @include keyframes-prefix("vex-slidedown") {
+        0% {
+            @include transform(translateY(0));
+        }
+        100% {
+            @include transform(translateY(800px));
+        }
+    }
+}
+
+@mixin keyframes-vex-flipin-horizontal {
+    @include keyframes-prefix("vex-flipin-horizontal") {
+        0% {
+            opacity: 0;
+            @include transform(rotateY(-90deg));
+        }
+        100% {
+            opacity: 1;
+            @include transform(rotateY(0deg));
+        }
+    }
+}
+
+@mixin keyframes-vex-flipout-horizontal {
+    @include keyframes-prefix("vex-flipout-horizontal") {
+        0% {
+            opacity: 1;
+            @include transform(rotateY(0deg));
+        }
+        100% {
+            opacity: 0;
+            @include transform(rotateY(90deg));
+        }
+    }
+}
+
+// Spinner animations
+
+@mixin keyframes-vex-rotation {
+    @include keyframes-prefix("vex-rotation") {
+        0% {
+            @include transform(rotate(0deg));
+        }
+        100% {
+            @include transform(rotate(359deg));
+        }
+    }
+}
+
+// Button animations
+
+@mixin keyframes-vex-pulse {
+    @include keyframes-prefix("vex-pulse") {
+        0% {
+            @include box-shadow(inset 0 0 0 300px transparent);
+        }
+        70% {
+            @include box-shadow(inset 0 0 0 300px rgba(255, 255, 255, 0.25));
+        }
+        100% {
+            @include box-shadow(inset 0 0 0 300px transparent);
+        }
+    }
+}
+
+// default vex styles
+
+@include keyframes-vex-fadein;
+@include keyframes-vex-fadeout;
+@include keyframes-vex-rotation;
+
+.vex {
+    position: fixed;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: $zindexModal;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.vex-scrollbar-measure {
+    position: absolute;
+    top: -9999px;
+    width: 50px;
+    height: 50px;
+    overflow: scroll;
+}
+
+.vex-overlay {
+    @include animation-prefix(vex-fadein 0.5s);
+    position: fixed;
+    background: rgba(0, 0, 0, 0.4);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    .vex-closing & {
+        @include animation-prefix(vex-fadeout 0.5s);
+    }
+}
+
+.vex-content {
+    @include animation-prefix(vex-fadein 0.5s);
+
+    background: #fff;
+
+    .vex-closing & {
+        @include animation-prefix(vex-fadeout 0.5s);
+    }
+}
+
+.vex-close:before {
+    font-family: Arial, sans-serif;
+    content: "x";
+}
+
+.vex-dialog-form {
+    margin: 0;
+}
+
+.vex-dialog-button {
+    text-rendering: optimizeLegibility;
+    @include appearance(none);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.vex-loading-spinner {
+    @include animation-prefix(vex-rotation 0.7s linear infinite);
+    @include box-shadow(0 0 1em rgba(0, 0, 0, 0.1));
+    position: fixed;
+    z-index: 1112;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2em;
+    width: 2em;
+    background: #fff;
+}
+
+// Prevent background scrolling when vex is open
+// https://github.com/HubSpot/vex/issues/18
+body.vex-open {
+    overflow: hidden;
+}
+
+// vex-theme-wireframe.scss
+// edited to suit our needs.
+
+// Overlay/content animations
+@include keyframes-vex-pulse;
+
+.vex-theme-wireframe {
+    .vex-overlay {
+        background: rgba(255, 255, 255, 0.6);
+    }
+
+    .vex-content {
+        font-family: "Helvetica Neue", sans-serif;
+        background: #fff;
+        color: #000;
+        border: 1px solid $colorGray;
+        padding: $gutter*4;
+        margin: auto;
+
+        height: 80%;
+        width: 80%;
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+
+        font-size: 1.1em;
+        line-height: 1.5em;
+
+        h1, h2, h3, h4, h5, h6, p, ul, li {
+            color: $colorDarkGray;
+        }
+    }
+
+    .vex-content-inner {
+        overflow-y: scroll;
+        height: 100%;
+        width: 100%;
+    }
+
+    .vex-close {
+        @extend %icon-base;
+        @extend .icon-cross;
+
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+
+        &:before {
+            font-size: 32px;
+            height: $gutter*4;
+            width: $gutter*4;
+            line-height: $gutter*4 !important;
+            text-align: center;
+            color: $colorDarkGold;
+            display: inline-block !important;
+        }
+
+        &:hover:before,
+        &:active:before {
+            color: #000;
+        }
+    }
+
+    @include at-query($max, $medium){
+        .vex-content {
+            padding: $gutter*2;
+            height: 90%;
+            width: 90%;
+        }
+
+        .vex-close {
+            &:before {
+                font-size: 16px;
+                height: $gutter*2;
+                width: $gutter*2;
+                line-height: $gutter*2 !important;
+            }
+        }
+    }
+
+    .vex-dialog-form {
+        .vex-dialog-message {
+            margin-bottom: 0.5em;
+        }
+
+        .vex-dialog-input {
+            margin-bottom: 1em;
+            textarea,
+            input[type="date"],
+            input[type="datetime"],
+            input[type="datetime-local"],
+            input[type="email"],
+            input[type="month"],
+            input[type="number"],
+            input[type="password"],
+            input[type="search"],
+            input[type="tel"],
+            input[type="text"],
+            input[type="time"],
+            input[type="url"],
+            input[type="week"] {
+                background: #fff;
+                width: 100%;
+                padding: 0.25em 0.67em;
+                font-family: inherit;
+                font-weight: inherit;
+                font-size: inherit;
+                min-height: 2.5em;
+                margin: 0 0 0.25em;
+                border: 2px solid #000;
+                &:focus {
+                    border-style: dashed;
+                    outline: none;
+                }
+            }
+        }
+        .vex-dialog-buttons {
+            @extend %clearfix;
+        }
+    }
+    .vex-dialog-button {
+        @include border-radius(0);
+        border: 0;
+        float: right;
+        margin: 0 0 0 0.5em;
+        font-family: inherit;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.8em;
+        line-height: 1em;
+        padding: 0.75em 2em;
+        &.vex-last {
+            margin-left: 0;
+        }
+        &:focus {
+            @include animation-prefix(vex-pulse 1.1s infinite);
+            outline: none;
+            // vex-pulse uses -webkit-filter which
+            // doesn't play so nice in mobile webkit
+            @media (max-width: 568px) {
+                @include animation-prefix(none);
+            }
+        }
+        &.vex-dialog-button-primary {
+            background: #000;
+            color: #fff;
+            border: 2px solid transparent;
+        }
+        &.vex-dialog-button-secondary {
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+        }
+    }
+}
+
+.vex-loading-spinner.vex-theme-wireframe {
+    height: 2.5em;
+    width: 2.5em;
+}
+// end vex

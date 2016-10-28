@@ -1,0 +1,177 @@
+/* # Logos */
+
+%logo-base {
+    text-align: center;
+    margin: 0;
+
+    a,
+    a:hover,
+    a:focus {
+        text-decoration: none;
+    }
+
+    a, img {
+        display: block;
+    }
+
+    img {
+        margin: 0 auto;
+        height: 100%;
+        width: 100%;
+    }
+
+    /* Fallback .png support for IE8 */
+    [src*=".svg"] {
+        display: none;
+    }
+
+    .supports-svg & {
+        [src*=".png"] {
+            display: none;
+        }
+
+        [src*=".svg"] {
+            display: block;
+        }
+    }
+}
+
+/*================================================================================
+  # Blocks
+  ================================================================================*/
+
+.site-logo {
+    text-align: center;
+    margin: 0;
+
+    a {
+        display: block;
+        height: 100%;
+        width: 100%;
+
+        &,
+        &:hover,
+        &:focus {
+            text-decoration: none;
+        }
+
+        /* hide the text */
+        text-indent: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        background: {
+            color: transparent;
+            image: url(shopify-asset('theia-logo.png'));
+            repeat: no-repeat;
+            position: center center;
+            size: contain;
+        }
+
+        .supports-svg & {
+            background-image: url(shopify-asset('theia-logo.svg'));
+        }
+    }
+
+    .layout-simplified & {
+        height: 40px;
+        width: 154px;
+
+        @include at-query ( $max, $small ) {
+            height: 22px;
+            width: 84px;
+        }
+    }
+
+    .layout-main & {
+        height: 40px;
+        width: 154px;
+
+        @include at-query ( $max, $medium ) {
+            height: 22px;
+            width: 84px;
+        }
+    }
+}
+
+
+@mixin logo-responsive-sizes( $baseHeight, $baseWidth ){
+    /* specific sizes, based on height or width ratios from the PSD. */
+    $mobileLogoRatio: (304/960);
+    $aboutUsMobileRatio: (108/216);
+    $collectionMobileRatio: (85/162);
+
+    /* ratios based on breakpoints for defaults */
+    $smallLogoRatio: ($small/$xLarge);
+    $mediumLogoRatio: ($medium/$xLarge);
+    $largeLogoRatio: ($large/$xLarge);
+
+    /* Small, most phones in landscape */
+    @include at-query ($max, $small) {
+        height: $baseHeight * $smallLogoRatio;
+        width: $baseWidth * $smallLogoRatio;
+
+        .template-index & {
+            height: $baseHeight * $mobileLogoRatio;
+            width: $baseWidth * $mobileLogoRatio;
+        }
+
+        .template-list-collections &,
+        .template-collection & {
+            height: $baseHeight * $collectionMobileRatio;
+            width: $baseWidth * $collectionMobileRatio;
+        }
+
+        #about-us & {
+            height: $baseHeight * $aboutUsMobileRatio;
+            width: $baseWidth * $aboutUsMobileRatio;
+        }
+    }
+
+    /* Medium, portrait tablet */
+    @include at-query (null, $postSmall, $medium) {
+        height: $baseHeight * $mediumLogoRatio;
+        width: $baseWidth * $mediumLogoRatio;
+    }
+
+    /* Large, landscape tablet, small desktops */
+    @include at-query (null, $postMedium, $large) {
+        height: $baseHeight * $largeLogoRatio;
+        width: $baseWidth * $largeLogoRatio;
+    }
+
+    /* Large and up, most desktops */
+    @include at-query ($min, $postLarge) {
+        height: $baseHeight;
+        width: $baseWidth;
+    }
+}
+
+.in-style-logo {
+    @extend %logo-base;
+
+    @include logo-responsive-sizes( $baseHeight: 49px, $baseWidth: 206px );
+}
+
+.style-com-logo {
+    @extend %logo-base;
+
+    @include logo-responsive-sizes( $baseHeight: 38px, $baseWidth: 269px );
+}
+
+.the-new-york-times-logo {
+    @extend %logo-base;
+
+    @include logo-responsive-sizes( $baseHeight: 38px, $baseWidth: 266px );
+}
+
+.vogue-logo {
+    @extend %logo-base;
+
+    @include logo-responsive-sizes( $baseHeight: 52px, $baseWidth: 195px );
+}
+
+.womens-wear-daily-logo {
+    @extend %logo-base;
+
+    @include logo-responsive-sizes( $baseHeight: 68px, $baseWidth: 148px );
+}

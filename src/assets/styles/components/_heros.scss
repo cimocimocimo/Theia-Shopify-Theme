@@ -1,0 +1,2173 @@
+/* heros */
+
+%hero-base {
+    position: relative;
+    color: #fff;
+
+    .wrapper {
+        height: 100%;
+    }
+
+    /* White image mask */
+    &:before,
+    &:after {
+        content: '';
+        height: 0px;
+        width: 50%;
+        display: block;
+        position: absolute;
+        bottom: 0px;
+        border-top: 0;
+        border-bottom: {
+            style: solid;
+            color: #fff;
+        }
+        z-index: 1000;
+    }
+
+    &:before {
+        left: 0px;
+        border-left: 0;
+        border-right: {
+            style: solid;
+            color: transparent;
+        }
+    }
+
+    &:after {
+        right: 0px;
+        border-right: 0;
+        border-left: {
+            style: solid;
+            color: transparent;
+        }
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        &:before,
+        &:after {
+            border-bottom-width: 38px;
+        }
+
+        &:before {
+            border-right-width: 48px;
+        }
+
+        &:after {
+            border-left-width: 48px;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        &:before,
+        &:after {
+            border-bottom-width: 20px;
+        }
+
+        &:before {
+            border-right-width: 20px;
+        }
+
+        &:after {
+            border-left-width: 20px;
+        }
+    }
+}
+
+%hero-large {
+    @extend %hero-base;
+
+    background-size: auto 100%;
+    background-position: top center;
+    background-repeat: repeat-x;
+
+    h2 {
+        line-height: 1;
+    }
+
+    p {
+        line-height: (25/16);
+        margin-bottom: 1em;
+    }
+
+    [class*='wrapper'] {
+        height: 100%;
+
+        > div {
+            position: absolute;
+            left: $gutter;
+        }
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        height: 588px;
+
+        h2 {
+            font-size: 5.625em;
+            margin: 0 0 ( $gutter * 3.75 );
+        }
+
+        .content {
+            top: $gutter * 6.75;
+            width: 544px;
+        }
+
+        .logo {
+            bottom: $gutter * 5;
+        }
+    }
+
+    @include at-query( null, $postMedium, $large ){
+        height: 532px;
+
+        h2 {
+            font-size: 4.6875em;
+            margin: 0 0 ( $gutter * 3.75 );
+        }
+
+        .content {
+            top: $gutter * 6.75;
+            width: 544px;
+        }
+
+        .logo {
+            bottom: $gutter * 5;
+        }
+    }
+
+    @include at-query( null, $postSmall, $medium ){
+        height: 476px;
+
+        h2 {
+            font-size: 3.75em;
+        }
+
+        .content {
+            width: 466px;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        background-position: 90% 0%;
+        height: 420px;
+
+        h2 {
+            font-size: 2.8125em;
+            margin: 0;
+        }
+
+        .content {
+            top: $gutter * 6.75;
+            width: 222px;
+        }
+
+        .logo {
+            bottom: $gutter * 3.875;
+        }
+    }
+}
+
+%hero-medium {
+    @extend %hero-base;
+
+    background-size: auto 100%;
+    background-position: top center;
+    background-repeat: repeat-x;
+
+    h2,
+    h3 {
+        line-height: 1;
+    }
+
+    h3 {
+        margin: 0;
+        letter-spacing: -0.2px;
+    }
+
+    .content {
+        position: absolute;
+        left: $gutter;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        height: 338px;
+
+        h2 {
+            margin: 0 0 10px;
+        }
+
+        h3 {
+            font-size: 2.8125em;
+        }
+
+        .content {
+            top: $gutter * 6.25;
+            width: 544px;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        height: 260px;
+
+        h2 {
+            font-size: 2.8125em;
+            margin: 0 0 $gutter / 2;
+        }
+
+        h3 {
+            font-size: 2.1825em;
+        }
+
+        .content {
+            top: $gutter * 3.75;
+            width: 165px;
+        }
+    }
+}
+
+%hero-small {
+    @extend %hero-base;
+
+    h2 {
+        position: relative;
+        margin: 0;
+        text-align: center;
+        color: $colorOffWhite;
+        text-shadow: 0 0 $colorOffWhite;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        height: 168px;
+
+        h2 {
+            top: 42px;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        height: 131px;
+
+        .wrapper {
+            margin: 0 $gutter;
+        }
+
+        h2 {
+            top: 17px;
+            font-size: 45px;
+        }
+    }
+}
+
+%hero-edge-fade-base {
+    /* gradient fade at edges of image */
+    &:before,
+    &:after {
+        content: '';
+        height: 100%;
+        display: block;
+        position: absolute;
+        top: 0px;
+    }
+}
+
+@mixin heroEdgeFade( $fadeColor, $width: 99px, $offset: $width ){
+    @extend %hero-edge-fade-base;
+
+    &:before, &:after {
+                  width: $width;
+              }
+
+    &:before {
+        @include gradient(rtl, transparent, $fadeColor, $fadeColor);
+
+        left: -$offset;
+    }
+
+    &:after {
+        @include gradient(ltr, transparent, $fadeColor, $fadeColor);
+
+        right: -$offset;
+    }
+}
+
+
+/* Heros */
+
+.page-header {
+    text-align: center;
+}
+
+.list-collections-page-hero {
+    @extend %hero-large;
+
+    background: {
+        image: url(shopify-asset('list-collections-hero-bg.jpg'));
+        position: top center;
+        repeat: repeat-x;
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        background-size: auto 100%;
+        background-position: -64% 0;
+    }
+}
+
+.collection-page-hero {
+    @extend %hero-large;
+
+    .content {
+        top: $gutter * 3.75;
+    }
+}
+
+.shop-page-hero {
+    @extend %hero-medium;
+
+    background-image: none !important;
+    background-color: $colorGray;
+    overflow: hidden;
+
+    .content {
+        top: $gutter * 3.75;
+    }
+}
+
+.shop-hero-carousel {
+    transition: opacity .3s;
+    opacity: 0 !important;
+
+    &.js-carousel-loaded {
+        opacity: 1 !important;
+    }
+
+    @include at-query($max, $small){
+        img {
+            height: 260px;
+            width: auto;
+        }
+    }
+}
+
+%collection-hero-carousel-base {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+
+    .slick-list,
+    .slick-track,
+    .hero-slide,
+    & {
+        height: 100%;
+    }
+
+    .hero-slide {
+        width: 100%;
+        background-position: top center;
+        background-size: cover;
+
+        img {
+            height: 100%;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    }
+
+    .slick-prev,
+    .slick-next {
+        color: $colorDarkGray;
+    }
+
+    .slick-prev {
+        @extend %lookbook-carousel-nav-base;
+
+        left: $gutter*2;
+
+        &:before {
+            /* .icon-arrow-left-xlarge:before */
+            content: "\e608";
+        }
+    }
+
+    .slick-next {
+        @extend %lookbook-carousel-nav-base;
+
+        right: $gutter*2;
+
+        &:before {
+            /* .icon-arrow-right-xlarge:before */
+            content: "\e607";
+        }
+    }
+}
+
+.collection-hero-carousel {
+    @extend %collection-hero-carousel-base;
+}
+
+.bridal-page-hero {
+    .carousel-row {
+        /* Desktop */
+        @include at-query ($min, $postSmall) {
+            height: 588px;
+        }
+
+        @include at-query( null, $postMedium, $large ){
+            height: 532px;
+        }
+
+        @include at-query( null, $postSmall, $medium ){
+            height: 476px;
+        }
+
+        /* Mobile */
+        @include at-query ($max, $small) {
+            height: 420px;
+        }
+    }
+}
+
+.block-navigation-link-bridesmaids {
+    @extend %block-navigation-link-base;
+
+    &:before {
+        background-image: url(shopify-asset('bridesmaids-collection-block-bg.jpg'));
+    }
+
+    .image {
+        background-image: url(shopify-asset('bridesmaids-collection-block-bg.jpg'));
+    }
+}
+
+.block-navigation-link-bridal-runway-video {
+    @extend %block-navigation-link-base;
+
+    &:before {
+        background-image: url(shopify-asset('bridal-runway-fall-2017-video-still.jpg'));
+    }
+
+    .image {
+        background-image: url(shopify-asset('bridal-runway-fall-2017-video-still.jpg'));
+    }
+}
+
+
+
+.bridal-page-hero-carousel {
+    @extend %collection-hero-carousel-base;
+
+    [class^="hero-slide-image-"] {
+        height: 100%;
+        display: none;
+        background-position: top center;
+        background-size: cover;
+    }
+
+    @media screen and (min-width: 1024px){
+        .hero-slide-image-desktop {
+            display: block;
+        }
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 1024px){
+        .hero-slide-image-tablet {
+            display: block;
+        }
+    }
+
+    @media screen and (max-width: 480px){
+        .hero-slide-image-mobile {
+            display: block;
+        }
+    }
+}
+
+
+.about-page-hero {
+    @extend %hero-large;
+
+    background: {
+        color: #000;
+        repeat: no-repeat;
+    }
+    background-image: url(shopify-asset('about-page-hero-desktop.jpg'));
+    background-size: cover;
+    background-position: top center;
+
+    /* Desktop */
+    @include at-query ($min, $large) {
+
+    }
+
+    @include at-query(null, $postSmall, $large){
+        background-image: url(shopify-asset('about-page-hero-tablet.jpg'));
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        background-image: url(shopify-asset('about-page-hero-mobile.jpg'));
+    }
+}
+
+.contact-page-hero,
+.page-hero{
+    @extend %hero-medium;
+
+    $heroBgColor: #868d8a;
+
+    background: {
+        color: $heroBgColor;
+        image: url(shopify-asset('contact-page-hero-bg.jpg'));
+        repeat: no-repeat;
+        position: top center;
+        size: cover;
+    }
+
+    .content {
+        text-shadow: 0 1px rgba(0,0,0, 0.44);
+        top: $gutter * 4.125;
+        margin: 0;
+    }
+
+    .wrapper {
+        @include heroEdgeFade( $heroBgColor, $width: 160px, $offset: 99px );
+
+        background-color: rgba($heroBgColor, 0.2);
+        height: 100%;
+    }
+}
+
+.contact-page-form-hero {
+    h2 {
+        margin: ( $gutter * 2 ) 0;
+    }
+
+    header {
+        text-align: center;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        margin-bottom: $gutter * 3;
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        margin-bottom: $gutter * 2;
+    }
+}
+
+.login-register-page-hero {
+    @extend %hero-small;
+
+    $heroBgColor: #7f8a8d;
+
+    background: {
+        color: $heroBgColor;
+        image: url(shopify-asset('login-register-page-hero-bg.jpg'));
+        position: top center;
+        repeat: no-repeat;
+    }
+
+    .wrapper {
+        @include heroEdgeFade( $heroBgColor, $width: 160px, $offset: 99px );
+    }
+}
+
+.search-results-page-hero,
+.customer-account-page-hero {
+    @extend %hero-small;
+
+    $heroBgColor: #897456;
+
+    background: {
+        color: $heroBgColor;
+        image: url(shopify-asset('customer-account-page-hero-bg.jpg'));
+        position: top center;
+        repeat: no-repeat;
+    }
+
+    .wrapper {
+        @include heroEdgeFade( $heroBgColor, $width: 160px, $offset: 99px );
+    }
+}
+
+.search-results-page-hero {
+    @extend %hero-small;
+
+    $heroBgColor: #d2d0d1;
+
+    background: {
+        color: $heroBgColor;
+        image: url(shopify-asset('search-results-page-hero-bg.jpg'));
+        position: top center;
+        repeat: no-repeat;
+    }
+
+    .wrapper {
+        @include heroEdgeFade( $heroBgColor, $width: 160px, $offset: 99px );
+    }
+
+    h2 {
+        color: $colorDarkGray;
+    }
+}
+
+.customer-account-content-hero {
+    @extend .content-hero;
+
+    h2, h3 {
+        text-align: center;
+
+        &:first-child {
+            margin-top: 42px;
+        }
+    }
+
+    h3 {
+        font-weight: 300;
+        letter-spacing: -0.2px;
+    }
+
+    h4 {
+        margin: 0 0 $gutter;
+    }
+
+    h5 {
+        @extend %smaller-helvetica-text;
+
+        color: $colorWarmDarkGray;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    h6 {
+        @extend %smallish-arial-text;
+
+        text-transform: uppercase;
+        color: $colorLightGray;
+        margin: 0 0 $gutter;
+    }
+
+    .back-link {
+        @extend %lsaquo-prefix;
+        @extend %small-helvetica-text;
+        @extend %gold-hover-underline-link;
+    }
+
+    .previous-link {
+        @extend %lsaquo-prefix;
+    }
+
+    .next-link {
+        @extend %rsaquo;
+    }
+
+    .shipping-account-info-block {
+        a {
+            @extend %rdaquo;
+            @extend %smallish-arial-text;
+            @extend %warmGray-underline-hover-gold-link;
+
+            text-transform: uppercase;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        h2 {
+            font-size: 2.1875em;
+        }
+
+        h3 {
+            font-size: 1.25em;
+        }
+
+        .shipping-account-info-block {
+            p {
+                font-size: 0.9375em;
+            }
+        }
+
+        .divider {
+            margin: {
+                top: ($gutter * 2.25);
+                bottom: ($gutter * 2.25);
+            }
+        }
+    }
+}
+
+.hero-404 {
+    background: {
+        color: $colorWhite;
+        image: url(shopify-asset('404-hero-bg.jpg'));
+        repeat: no-repeat;
+        position: center top;
+    }
+    position: relative;
+    border-bottom: 1px solid #f6f6f6;
+
+    .supports-boxshadow & {
+        border-bottom: 0;
+    }
+
+    .supports-csstransforms.supports-cssanimations & {
+        @include prefix('animation', 'fadein 2s ease');
+    }
+
+    > div {
+        position: relative;
+        margin: 0 auto;
+        font-weight: 100;
+        font-family: $headerFontStack;
+        line-height: 1;
+        color: #f2f2f2;
+        letter-spacing: -8px;
+
+        span {
+            opacity: 0.3;
+        }
+
+        .supports-csstransforms.supports-cssanimations & {
+            @include prefix('animation', 'scaledown 1s ease-out');
+        }
+    }
+
+    @include at-query ($min, $postSmall) {
+        height: 400px;
+
+        .supports-boxshadow & {
+            @include prefix('box-shadow', 'inset 0 -10px 9px -6px rgba(0,0,0,0.04)');
+        }
+
+        > div {
+            top: 100px;
+            left: -5px;
+            height: 264px;
+            width: 582px;
+            font-size: 362px;
+            overflow: hidden;
+        }
+    }
+
+    @include at-query ($max, $small) {
+        height: 218px;
+        background-size: 76px;
+
+        .supports-boxshadow & {
+            @include prefix('box-shadow', 'inset 0 -5px 4px -3px rgba(0,0,0,0.04)');
+        }
+
+        > div {
+            top: 42px;
+            left: -5px;
+            height: 111px;
+            width: 247px;
+            font-size: 164px;
+        }
+    }
+}
+
+.content-hero {
+    margin: $gutter*3 auto;
+    padding-bottom: $gutter * 3;
+
+    h2 {
+        margin: ( $gutter * 2 ) 0;
+    }
+
+    h2, h3 {
+        text-align: center;
+    }
+
+    h3 {
+        font-weight: 300;
+    }
+
+    h4 {
+        font-weight: 400;
+    }
+
+    header {
+        text-align: center;
+
+        p {
+            color: $colorWarmLightGray;
+        }
+    }
+
+    main {
+
+        h4 {
+            margin: ($gutter * 3.5) 0 ($gutter * 1.5);
+            line-height: 1.125;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        p {
+            margin-bottom: $gutter;
+
+            a {
+                @extend %gold-hover-gray-underline-link;
+            }
+        }
+
+        li {
+            list-style-type: disc;
+            margin-left: $gutter * 2;
+        }
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postMedium) {
+        header {
+            padding: 0 $gutter;
+            margin: 0 auto ($gutter * 2.5);
+
+            p {
+                font-size: 1.25em;
+                line-height: 1.3;
+            }
+        }
+    }
+
+    @include at-query( $max, $medium ){
+        header {
+            max-width: $small;
+        }
+    }
+
+    @include at-query( null, $postSmall, $medium ){
+        header {
+            margin: 0 auto ($gutter * 2.5);
+
+            p {
+                font-size: 1.125em;
+            }
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        header {
+            margin: 0 $gutter $gutter * 2.5;
+
+            p {
+                font-size: 0.9375em;
+                line-height: 1.5;
+            }
+        }
+    }
+}
+
+
+.other-enquires-hero {
+    @extend .content-hero;
+
+    h3 {
+        margin-top: 0;
+    }
+
+    h4 {
+        font-weight: 300;
+        color: $colorWarmDarkGray;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        margin-bottom: $gutter * 6;
+
+        h3 {
+            margin-bottom: $gutter * 3.5;
+        }
+
+        h4 {
+            font-size: 1.125em;
+            padding-left: 20px;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        padding-bottom: 0;
+        margin-bottom: $gutter * 2;
+
+        h3 {
+            font-size: 1.25em;
+            text-align: left;
+            margin: {
+                left: $gutter;
+                right: $gutter;
+                bottom: $gutter * 1.5;
+            }
+        }
+
+        h4 {
+            font-size: 0.9375em;
+            margin: 0 0 $gutter;
+        }
+
+        .col {
+            margin-bottom: $gutter * 1.25;
+        }
+    }
+}
+
+
+%login-register-form-hero-base {
+    @extend .content-hero;
+
+    margin-top: 12px;
+
+    h2 {
+        margin-bottom: 36px;
+    }
+
+    h4 {
+        color: $colorWarmDarkGray;
+        font-weight: 400;
+        margin-bottom: $gutter * 1.75;
+    }
+
+    h6 {
+        @extend %smallish-arial-text;
+
+        text-transform: uppercase;
+        color: $colorWarmLightGray;
+        margin: ( $gutter / 2 ) 0;
+    }
+
+    ul {
+        list-style-type: disc;
+    }
+
+    li {
+        line-height: 1.375;
+        margin: ( $gutter / 2 ) 0;
+    }
+
+    p a {
+        @extend %rsaquo;
+        @extend %warmGray-underline-hover-gold-link;
+    }
+
+    form {
+        input[type="radio"], input[type="checkbox"] {
+            @extend %checkbox-radio-icon;
+        }
+    }
+
+    @include at-query( $max, $medium ){
+        ul {
+            padding-left: $gutter;
+        }
+    }
+}
+
+.login-form-hero, .register-form-hero, .password-reset-form-hero {
+    @extend %login-register-form-hero-base;
+
+    .col {
+        .facebook-login-button,
+        .register-button,
+        button {
+            margin-bottom: $gutter * 1.5;
+        }
+    }
+
+    .register-button, .login-submit-button, .reset-password-button, .register-submit-button {
+        @extend %medium-gold-rsaquo-button;
+
+        min-width: 198px;
+    }
+
+    .login-form-fields-block, .register-benefits-block {
+        @extend .clearfix;
+
+        height: 204px;
+    }
+
+    .register-form-field-row {
+        @extend .row-2-col;
+
+        margin-bottom: $gutter * 3.25;
+    }
+
+    .register-submit-button-block {
+        text-align: center;
+
+        button {
+            margin-bottom: $gutter;
+        }
+    }
+}
+
+
+
+
+
+.social-link-newsletter-hero {
+    @extend %clearfix;
+    @include verticalCenterChildElements();
+
+    text-align: center;
+    padding: $gutter * 3 0;
+
+    .wrapper {
+
+    }
+
+    .template-index & {
+        .wrapper {
+            max-width: none;
+        }
+    }
+
+    h2 {
+        letter-spacing: -1px;
+    }
+
+    @include at-query( $min, $postSmall ){
+        h2 {
+            margin: 0 0 $gutter;
+        }
+    }
+
+    @include at-query( $max, $small ){
+        h2 {
+            font-size: 35px;
+            margin-bottom: $gutter * 2;
+        }
+    }
+}
+
+.social-link-newsletter-column {
+    width: 50%;
+    padding: $gutter * 3 $gutter;
+    text-align: center;
+
+    @include at-query($max, $medium){
+        width: auto;
+    }
+}
+
+.social-link-block {
+    @extend %inline-list-base;
+
+    ul {
+        text-align: center;
+    }
+
+    a {
+        position: relative;
+        display: block;
+        text-decoration: none;
+
+        [class$='-icon'] {
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            border-color: $colorMidGray;
+            color: $colorMidGray;
+            transition: all 0.3s;
+
+            &:hover {
+                @include prefix('transform', 'scale( 1.1 )');
+
+                color: $colorGold;
+                border-color: $colorGold;
+            }
+        }
+    }
+
+    li {
+        margin: 0 6px;
+    }
+
+    @include at-query( $min, $postSmall ){
+        a {
+            $desktopCircumfrence: 3.375em;
+
+            height: $desktopCircumfrence;
+            width: $desktopCircumfrence;
+        }
+    }
+
+    @include at-query( $max, $small ){
+        margin: 0 8px;
+
+        a {
+            $smallCircumfrence: 2.66em;
+
+            height: $smallCircumfrence;
+            width: $smallCircumfrence;
+        }
+    }
+}
+
+/* **todo** clean the newsletter block up. Do we need two different layouts for the interior pages vs. the home page? */
+.newsletter-signup-block {
+    display: inline-block;
+
+    h4 {
+        color: $colorWarmGray;
+        margin: 0;
+    }
+
+    h4 {
+        font-weight: 300;
+        line-height: 1.25;
+    }
+
+    .form-block {
+        margin: 0 auto;
+    }
+
+    @include at-query( $min, $postSmall ){
+
+        h4 {
+            font-size: 1.75em;
+        }
+
+        .header-block {
+            max-width: 416px;
+            margin: 0 auto ( $gutter / 2 );
+        }
+
+        .form-block {
+            max-width: 352px;
+        }
+    }
+
+    @include at-query( null, $postSmall, $medium) {
+        max-width: $small - $gutter;
+
+        h4 {
+            font-size: 1.5em;
+        }
+    }
+
+    @include at-query( $max, $small ){
+        width: 100%;
+
+        border-left: 0;
+        border-right: 0;
+
+        h4 {
+            font-size: 1.25em;
+        }
+
+        .header-block {
+            margin: 0 auto $gutter;
+        }
+    }
+}
+
+
+.events-press-releases-hero {
+    .wrapper {
+        @extend .wrapper-10-col;
+    }
+
+    h2 {
+        margin-top: 0;
+        text-align: center;
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        .wrapper > div {
+            float: left;
+            width: 50%;
+        }
+
+        .press-releases-column {
+            border-right: 1px solid $colorLightestGray;
+        }
+
+        .media-events-contact-column {
+            padding-left: $gutter * 3;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        .wrapper {
+            margin: 0 $gutter;
+        }
+    }
+}
+
+
+.order-items-hero {
+    h5 {
+        @extend %smaller-helvetica-text;
+
+        text-transform: uppercase;
+        font-weight: 700;
+        color: $colorWarmDarkGray;
+        margin: 0 0 $gutter;
+    }
+
+    .order-table-block {
+        border: 1px solid $colorLightGray;
+        padding: 0 $gutter;
+    }
+
+    table {
+        border: 0;
+        width: 100%;
+    }
+
+    .item-row {
+        border-bottom: 1px solid $colorLightestGray;
+
+        td {
+            padding: $gutter 0;
+            font-weight: 700;
+        }
+    }
+
+    tr {
+        &:last-child {
+            font-weight: 700;
+            border-top: 1px solid $colorLightestGray;
+        }
+    }
+
+    %order-pricing-line-base {
+        height: 24px;
+    }
+
+    .subtotal-line {
+        td {
+            padding-top: 12px;
+            height: 24px;
+        }
+    }
+
+    .discount-line {
+        @extend %order-pricing-line-base;
+    }
+
+    .shipping-cost-line {
+        @extend %order-pricing-line-base;
+    }
+
+    .tax-line {
+        @extend %order-pricing-line-base;
+    }
+
+    .tax-line-last td {
+        padding-bottom: 12px;
+    }
+
+
+    .grand-total {
+        border-top: 1px solid $colorLightestGray;
+        height: 48px;
+    }
+
+    td {
+        border: 0;
+        padding: 0;
+        vertical-align: middle;
+
+        &:last-child {
+            text-align: right;
+        }
+    }
+
+    @include at-query( $max, $small ){
+        .item-row {
+            td {
+                display: block;
+
+                &:first-child {
+                    padding-bottom: 0;
+                }
+            }
+        }
+    }
+}
+
+.carousel-hero {
+    @extend %hero-base;
+
+    background: #000;
+
+    .content {
+        z-index: 1;
+    }
+
+    h2 {
+        margin-top: 0;
+        line-height: 1;
+        margin-bottom: 0;
+    }
+
+    h3 {
+        margin-top: 0;
+        line-height: 1;
+        margin-bottom: 18px;
+    }
+
+    header {
+        @extend .clearfix;
+
+        margin-bottom: 24px;
+
+        p {
+            color: $colorWarmGray;
+            margin: 18px 0;
+            letter-spacing: 0.3px;
+            word-spacing: -0.8px;
+        }
+    }
+
+    .slide {
+        p {
+            line-height: 1.4375;
+            margin: 0 0 10px;
+            letter-spacing: 0.2px;
+            word-spacing: 0.1px;
+        }
+    }
+
+    img {
+        position: absolute;
+        display: block;
+        z-index: 0;
+    }
+
+    .slick-slide {
+        position: relative;
+    }
+
+    .slick-next,
+    .slick-prev {
+        @extend %carousel-arrow-base;
+    }
+
+    @include at-query( $min, $postLarge ){
+        .wrapper {
+            height: 820px;
+        }
+
+        .content {
+            top: $gutter * 3.5;
+            left: $gutter * 7;
+            width: $gutter * 34;
+        }
+
+        header {
+            p {
+                font-size: 20px;
+            }
+        }
+
+        .carousel {
+            width: 394px + ($gutter * 2);
+            height: 256px;
+        }
+
+        $slickNextPrevWidth: 56px;
+
+        .slick-next,
+        .slick-prev {
+            width: $slickNextPrevWidth;
+            height: 110px;
+            top: 70px;
+
+            &:before {
+                font-size: 110px;
+                /* correct for the whitespace on either side of the icon */
+                margin: 0 -27px;
+            }
+        }
+
+        .slick-prev {
+            left: -$slickNextPrevWidth - ($gutter * 2);
+
+            &:before {
+                /* .icon-arrow-left-xlarge:before */
+                content: "\e608";
+            }
+        }
+
+        .slick-next {
+            right: -$slickNextPrevWidth - ($gutter * 2);
+
+            &:before {
+                /* .icon-arrow-right-xlarge:before */
+                content: "\e607";
+            }
+        }
+    }
+
+    /* small desktops */
+    @include at-query( null, $postLarge, $xLarge){
+        header {
+            width: 480px;
+
+            p {
+                font-size: 18px;
+            }
+        }
+    }
+
+    /* landscape tablets */
+    @include at-query( null, $postMedium, $large ){
+        .wrapper {
+            height: 720px;
+            max-width: (($large - $medium)/2) + $medium;
+        }
+
+        .content {
+            top: $gutter * 2;
+            left: $gutter * 2;
+            width: $gutter * 34;
+        }
+
+        header {
+            width: 368px;
+            margin-bottom: $gutter / 2;
+
+            p {
+                font-size: 15px;
+            }
+        }
+
+        .slide p {
+            font-size: 13px;
+        }
+
+        .carousel {
+            width: 336px;
+        }
+
+        .slick-dots {
+            bottom: -40px;
+        }
+
+        .slick-next,
+        .slick-prev {
+            width: 20px;
+            height: 40px;
+            bottom: -50px;
+
+            &:before {
+                font-size: 40px;
+                /* correct for the whitespace on either side of the icon */
+                margin: 0 -10px;
+            }
+        }
+
+        .slick-prev {
+            left: $gutter;
+        }
+
+        .slick-next {
+            right: $gutter;
+        }
+
+        .slick-prev:before {
+            /* .icon-arrow-left-large:before */
+            content: "\e61e";
+        }
+
+        .slick-next:before {
+            /* .icon-arrow-right-large:before */
+            content: "\e621";
+        }
+    }
+
+    @include at-query( $min, $postMedium ){
+        img {
+            right: -96px;
+            height: 100%;
+        }
+    }
+
+    /* portrait tablets, landscape phones */
+    @include at-query( null, $postSmall, $medium ){
+
+        .wrapper {
+            max-width: $small;
+            height: 876px;
+        }
+
+        .content {
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            max-width: $small;
+            padding: 0 $gutter;
+            margin: ($gutter*2.5) auto $gutter;
+
+            h2 {
+                margin-bottom: $gutter/2;
+            }
+
+            p {
+                font-size: 16px;
+                margin: $gutter/2 0;
+            }
+        }
+
+        .carousel {
+            width: 55%;
+        }
+
+        .slick-dots {
+            bottom: -28px;
+        }
+
+        .slide p {
+            font-size: 14px;
+        }
+
+        img {
+            right: -176px;
+            height: 63%;
+        }
+    }
+
+    /* portrait phones */
+    @include at-query( $max, $small ){
+
+        .slick-next,
+        .slick-prev {
+            display: none;
+        }
+
+    }
+
+    /* Desktop */
+    @include at-query ($min, $postSmall) {
+        .content {
+            position: absolute;
+        }
+
+        header {
+            p {
+                line-height: 1.3;
+            }
+        }
+
+        .slide {
+            padding: 0 $gutter;
+        }
+
+        img {
+            bottom: 0;
+        }
+    }
+
+    /* Mobile */
+    @include at-query ($max, $small) {
+        .wrapper {
+            height: 832px;
+            max-width: 320px;
+        }
+
+        .content {
+            position: relative;
+            padding: ($gutter * 2) $gutter 0;
+        }
+
+        header {
+            text-align: center;
+
+            h2 {
+                margin-bottom: $gutter/2;
+            }
+
+            p {
+                font-size: 13px;
+                line-height: 1.4;
+                margin: $gutter/2 0;
+            }
+        }
+
+        .carousel {
+            width: 192px + 32px;
+        }
+
+        .slide {
+            padding-right: 32px;
+        }
+
+        .slick-dots {
+            bottom: -28px;
+            left: 0;
+        }
+
+        .slick-next,
+        .slick-prev {
+            display: none;
+        }
+
+        img {
+            height: 300px;
+            right: -120px;
+            bottom: 0;
+        }
+    }
+}
+
+
+
+.sizing-page-hero {
+    @extend %hero-small;
+    $heroBgColor: #7f8a8d;
+
+    background: {
+        color: $heroBgColor;
+        image: url(shopify-asset('customer-account-page-hero-bg.jpg'));
+        position: top center;
+        repeat: no-repeat;
+    }
+
+    .wrapper {
+        @include heroEdgeFade( $heroBgColor, $width: 160px, $offset: 99px );
+    }
+}
+
+.valentines-promo-hero {
+    text-align: center;
+    background: $colorPink linear-gradient($colorLightPink, $colorPink);
+    height: auto;
+    padding: $gutter*3 0 $gutter*6;
+
+    .sketch-heart-block {
+        margin-bottom: $gutter;
+    }
+
+    h2 {
+        html:not(.lt-ie10) & {
+            @include animation-prefix(fade-in 1s ease-in-out 0s forwards);
+
+            opacity: 0;
+        }
+
+        font-size: 36px;
+        line-height: 1.2;
+        color: $colorWhite;
+        letter-spacing: (10/1000)*1em;
+
+        br {
+            display: none;
+        }
+    }
+
+    hr {
+        html:not(.lt-ie10) & {
+            @include animation-prefix(fade-in 1s ease-in-out 0.5s forwards);
+
+            opacity: 0;
+        }
+
+        height: 3px;
+        background: $colorWhite;
+        width: 340px;
+        margin: $gutter auto;
+    }
+
+    p {
+        html:not(.lt-ie10) & {
+            @include animation-prefix(fade-in 1s ease-in-out 1s forwards);
+
+            opacity: 0;
+        }
+
+        font-size: 27px;
+        line-height: 1.2;
+        letter-spacing: (10/1000)*1em;
+        color: $colorWhite;
+        margin-bottom: $gutter*2.5;
+
+        br {
+            display: none;
+        }
+
+        br.show-all {
+            display: initial;
+        }
+    }
+
+    .cta-block {
+        html:not(.lt-ie10) & {
+            @include animation-prefix(fade-in 1s ease-in-out 1.5s forwards);
+
+            opacity: 0;
+        }
+
+        font-size: 25px;
+        line-height: 2;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: (10/1000)*1em;
+        border: 1px solid $colorWhite;
+        display: inline-block;
+        padding: 0 $gutter*2;
+
+        br {
+            display: none;
+        }
+    }
+
+    @include at-query(null, $postMedium, $large){
+        padding: $gutter*2 0 $gutter*5;
+
+        .sketch-heart-block {
+            margin-bottom: $gutter*$scalePostMediumLarge;
+            height: 85px*$scalePostMediumLarge;
+            width: 85px*$scalePostMediumLarge;
+        }
+
+        h2 {
+            font-size: 36px*$scalePostMediumLarge;
+        }
+
+        hr {
+            width: 340px*$scalePostMediumLarge;
+            height: 2px;
+            margin: $gutter*$scalePostMediumLarge auto;
+        }
+
+        p {
+            font-size: 27px*$scalePostMediumLarge;
+            margin-bottom: $gutter*1.75;
+        }
+
+        .cta-block {
+            font-size: round(25px*$scalePostMediumLarge);
+            padding: 0 round($gutter*2*$scalePostMediumLarge);
+        }
+    }
+
+    @include at-query(null, $postSmall, $medium){
+        $scalePostSmallMedium: 0.7;
+
+        padding: $gutter*2.5 $gutter*2 $gutter*5.5;
+
+        .sketch-heart-block {
+            margin-bottom: $gutter*$scalePostSmallMedium;
+            height: 75px;
+            width: 75px;
+        }
+
+        h2 {
+            font-size: 32px;
+        }
+
+        hr {
+            width: 340px*$scalePostSmallMedium;
+            height: 2px;
+            margin: $gutter*1.5 auto;
+        }
+
+        p {
+            font-size: 24px;
+            margin-bottom: $gutter*2;
+        }
+
+        .cta-block {
+            font-size: 18px;
+            line-height: 25px;
+            padding: $gutter*0.75 $gutter*2;
+        }
+    }
+
+    @include at-query($max, $small){
+        $scaleSmall: 0.5;
+
+        padding: $gutter*1.5 0 $gutter*3.5;
+
+        .sketch-heart-block {
+            margin-bottom: $gutter;
+            height: 60px;
+            width: 60px;
+        }
+
+        h2 {
+            font-size: 21px;
+        }
+
+        hr {
+            width: 340px*$scaleSmall;
+            height: 1px;
+            margin: $gutter auto;
+        }
+
+        p {
+            font-size: 17px;
+            margin-bottom: $gutter*1.5;
+        }
+
+        .cta-block {
+            font-size: 14px;
+            line-height: 20px;
+            padding: 6px $gutter*1.5;
+        }
+    }
+
+    @include at-query($min, $postMedium){
+        p {
+            br.show-postMedium {
+                display: initial;
+            }
+        }
+    }
+
+    @include at-query($max, $medium){
+        h2 {
+            br {
+                display: initial;
+            }
+        }
+
+        p {
+            br.show-small-medium {
+                display: initial;
+            }
+        }
+
+        .cta-block {
+            br {
+                display: initial;
+            }
+        }
+    }
+}
+
+.sketch-heart-block {
+    @include transform-origin(50% 50%);
+    transform: scale(1);
+    display: inline-block;
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    html:not(.lt-ie10) &:hover {
+        @include animation-prefix(heartbeat 1.6s ease-in-out 0s infinite normal);
+
+        opacity: 1;
+    }
+}
+
+@include keyframes-prefix(heartbeat) {
+    0%  {
+        transform: scale(1);
+    }
+    20%  {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.1);
+    }
+    32% {
+        transform: scale(1);
+    }
+    38% {
+        transform: scale(1.04);
+    }
+    48% {
+        transform: scale(1);
+    }
+}
+
+@include keyframes-prefix(fade-in){
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+// bridal 2017 hero
+.bridal-2017-collection-hero {
+    @extend %hero-large;
+
+    background-image: url(shopify-asset('bridal-spring-runway-2017-hero.jpg'));
+    background-position: top right;
+
+    @include at-query(null, $postMedium, $large){
+        background-image: url(shopify-asset('bridal-spring-runway-2017-hero-1024.jpg'));
+    }
+
+    @include at-query($max, $medium){
+        background-image: url(shopify-asset('bridal-spring-runway-2017-hero-768.jpg'));
+        background-position: top center;
+    }
+}
+
+// bridal 2017 hero
+.bridesmaids-collection-hero {
+    @extend %hero-large;
+
+    background-image: url(shopify-asset('bridesmaids-collection-hero.jpg'));
+
+    @include at-query(null, $postMedium, $large){
+        background-image: url(shopify-asset('bridesmaids-collection-hero-1024.jpg'));
+    }
+
+    @include at-query($max, $medium){
+        background-image: url(shopify-asset('bridesmaids-collection-hero-768.jpg'));
+        background-position: top center;
+    }
+}
+
+// 100% height hero
+%hero-100-height {
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    padding-top: $headerHeightDesktop;
+
+    .inner {
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+
+    .image {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        background-repeat: no-repeat;
+        // default to center horizontally on the focus point
+        background-size: cover;
+    }
+
+    .content {
+        @include verticalCenterChildElements;
+
+        position: absolute;
+        top: 0;
+        height: 100%;
+        min-width: 50%;
+        left: 0;
+
+        > div {
+            text-align: center;
+            width: 100%;
+            padding: $gutter;
+        }
+    }
+
+    @media screen and ($max: $medium){
+        padding-top: $headerHeightMobile;
+    }
+
+    @media screen and (max-width: $medium) and (max-aspect-ratio: 1/1){
+        .content {
+            height: auto;
+            min-height: percentage(1/3);
+            width: 100%;
+            bottom: 0;
+            top: auto;
+
+            > div {
+                padding: $gutter;
+            }
+        }
+    }
+
+    @media screen and (max-width: $medium) and (min-aspect-ratio: 1/1){
+        height: auto;
+        padding-top: 100%;
+    }
+}
+
+@mixin position100HeightHeroBGImage($imageLandscape, $imagePortrait){
+    // unpack variables
+    $landscapeUrl: nth($imageLandscape, 1);
+    $landscapeWidth: nth($imageLandscape, 2);
+    $landscapeHeight: nth($imageLandscape, 3);
+    $landscapeFocusX: nth($imageLandscape, 4);
+    $landscapeFocusY: nth($imageLandscape, 5);
+
+    $portraitUrl: nth($imagePortrait, 1);
+    $portraitWidth: nth($imagePortrait, 2);
+    $portraitHeight: nth($imagePortrait, 3);
+    $portraitFocusX: nth($imagePortrait, 4);
+    $portraitFocusY: nth($imagePortrait, 5);
+
+    .image {
+        background-image: url($landscapeUrl);
+
+        // default to center horizontally on the focus point
+        background-position: percentage($landscapeFocusX/$landscapeWidth) percentage($landscapeFocusY/$landscapeHeight);
+    }
+
+    @media screen and (max-width: $medium) and (max-aspect-ratio: 1/1){
+        .image {
+            background-image: url($portraitUrl);
+
+            // default to center horizontally on the focus point
+            background-position: percentage($portraitFocusX/$portraitWidth) percentage($portraitFocusY/$portraitHeight);
+        }
+    }
+}
+
+.prefall-2016-hero {
+    @extend %hero-100-height;
+
+    $shadow: 0 1px 10px rgba($colorBlack, 0.4);
+
+    // images: url, width, height, focus X, focus Y
+    $imageLandscape: "{{ 'fall-2016-hero-landscape.jpg' | asset_url }}" 2880 1800 1659 306;
+    $imagePortrait: "{{ 'fall-2016-hero-portrait.jpg' | asset_url }}" (768*2) 2048 1017 321;
+
+    @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
+
+    .content {
+        background: rgba($colorWhite, 0.4);
+
+        h2 {
+            color: $colorWhite;
+            text-shadow: $shadow;
+            font-size: 60px;
+            font-weight: 700;
+            line-height: 72px;
+            margin-top: 0;
+        }
+
+        a {
+            @extend %large-white-arrow-button;
+            @include box-shadow($shadow);
+
+            font-weight: 700;
+        }
+    }
+
+    @media screen and (max-width: $medium) and (max-aspect-ratio: 1/1){
+        .content {
+            h2 {
+                font-size: 36px;
+                line-height: 1.1;
+            }
+        }
+    }
+
+    @media screen and (min-width: $postSmall) and (max-width: $large){
+        .content {
+            h2 {
+                font-size: 42px;
+            }
+        }
+    }
+}
+
+.fall-2016-hero {
+    @extend %hero-100-height;
+
+    $shadow: 2px 2px 7px rgba($colorBlack,0.33);
+
+    // images: url, width, height, focus X, focus Y
+    $imageLandscape: shopify-asset('fall-2016-hero-landscape.jpg') 2880 1800 (704*2) (313*2);
+    $imagePortrait: shopify-asset('fall-2016-hero-portrait.jpg') (768*2) 2048 (373*2) (267*2);
+
+    @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
+
+    .content {
+        min-width: 33%;
+
+        h2,
+        a {
+            text-transform: uppercase;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        h2 {
+            color: $colorWhite;
+            font-size: 46px;
+            line-height: 1.2;
+            margin-top: 0;
+            text-shadow: $shadow;
+        }
+
+        a {
+            @extend %large-white-arrow-button;
+            @include box-shadow($shadow);
+
+            font-size: 30px;
+            color: $colorDarkerMidGray;
+            padding: 9px 48px 0px;
+            height: auto;
+
+            .icon {
+                font-size: 22px;
+            }
+
+            &:hover {
+                color: $colorWhite;
+                background-color: $colorDarkerMidGray;
+            }
+        }
+    }
+
+    @media screen and (max-width: $medium) and (max-aspect-ratio: 1/1){
+        .content {
+            h2 {
+                font-size: 36px;
+                line-height: 1.1;
+            }
+
+            a {
+                font-size: 21px;
+                padding: 7px 32px 0px;
+
+                .icon {
+                    font-size: 18px;
+                    top: -1px;
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+
+    @media screen and (min-width: $postSmall) and (max-width: $large){
+        .content {
+            h2 {
+                font-size: 36px;
+            }
+
+            a {
+                font-size: 21px;
+                padding: 7px 32px 0px;
+
+                .icon {
+                    font-size: 18px;
+                    top: -1px;
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+}
