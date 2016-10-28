@@ -1,0 +1,377 @@
+{% comment %}
+
+Rich snippets (itemscope, itemtype, etc.) for products are a theme requirement,
+and allow search engines to easily understand what the content is.
+
+For more information on these Scheme.org tags, visit:
+- http://schema.org/docs/gs.html
+
+{% endcomment %}
+
+{% include 'capture-style-number' %}
+{% include 'capture-product-on-sale' %}
+{% if product.type contains 'Shop' %}
+  {% assign is_exclusive = false %}
+{% else %}
+  {% assign is_exclusive = true %}
+{% endif %}
+
+{% if product.tags contains 'Bridal' %}
+  {% assign is_bridal = true %}
+{% endif %}
+
+{% assign has_product_swatches = false %}
+{% for image in product.images %}
+  {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+  {% if image_type == 'swatch' %}
+    {% assign has_product_swatches = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+<div class="product-detail-hero
+            {% if is_bridal %}bridal-collection{% endif %}
+            {% if is_exclusive %} product-is-exclusive{% endif %}
+            {% if on_sale %} on-sale{% endif %}"
+     itemscope itemtype="http://schema.org/Product">
+
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'grande' }}">
+  <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+  
+  <link itemprop="availability"
+        href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+  <div class="wrapper">
+
+    <div class="product-mobile-header-block">
+       <h5> {{ product.title }} </h5>
+    </div>
+
+    <div class="product-gallery-overflow">
+    
+      <div class="product-gallery-block">
+
+        <div class="product-gallery-image-block" id="mainImageBlock">
+
+          {% for image in product.images %}
+            {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+            {% if image_type != 'swatch' %}
+              <div class="image-zoom-container{% if forloop.first != true %} js-hidden{% endif %}"
+                   {% if image_color %}data-image-color="{{ image_color }}"{% endif %}
+                   data-attached-to-variant="{{ image.attached_to_variant? }}"
+                   id="image-{{ image.id }}">
+                <img src="{{ image.src | product_img_url: 'master' }}"
+                     alt="{{ image_alt_text | escape }}"
+                     class="product-gallery-main-image">
+              </div>
+            {% endif %}
+          {% endfor %}
+
+        </div>
+
+      {% if product.images.size > 1 %}
+
+        <div class="product-image-thumbs-block">
+
+          <ul id="productThumbs">
+
+            {% for image in product.images %}
+              {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+              {% if image_type != 'swatch' %}
+                <li>
+                  <a href="{{ image.src | product_img_url: 'master' }}"
+                     class="product-photo-thumb"
+                     {% if image_color %} data-image-color="{{ image_color }}"{% endif %}
+                     data-target-image-id="image-{{ image.id }}">
+                    <img src="{{ image.src | product_img_url: 'large' }}"
+                         alt="{{ image_alt | escape }}">
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+
+          </ul>
+
+        </div>
+
+      {% endif %}
+      </div>
+    </div>
+
+    <div id="productInfoBlock" class="product-info-block" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+
+      <div class="tablet-column-row">
+        <div class="tablet-column">
+
+          <div class="product-meta-block">
+
+            <h2 itemprop="name">{{ product.title }}</h2>
+
+            {% if product.price > 0 and product.type contains 'Shop' %}
+              <div class="product-price">
+                {% if product.available != true %}
+                  <span class="productPrice"> {{ shop.currency }} {{ product.price | money }} Sold Out</span>
+                {% endif %}
+                {% if product.available == true %} 
+                  {% if on_sale %}
+                    Now: <span id="productPrice" itemprop="price"> {{ shop.currency }} {{ product.price | money }}</span>
+                    <span class="compare-at-price"> {{ product.compare_at_price | money }}</span>
+                  {% else %}
+                    <span id="shopCurrency">{{ shop.currency }}</span><span id="productPrice" itemprop="price"> {{ product.price | money }}</span>
+                  {% endif %}
+                {% endif %}
+              </div>
+            {% endif %}
+
+            {% if style_number != 0 %}
+              <div class="product-style-number">
+                Style #: {{ style_number }}
+              </div>
+            {% endif %}
+
+          </div>
+
+          <div id="productPurchaseBlock" class="product-purchase-block">
+
+            {% comment %}
+            ID addToCartForm is a selector for the ajaxify cart plugin
+            {% endcomment %}
+            <form action="/cart/add" method="post" enctype="multipart/form-data" id="addToCartForm">
+
+              {% comment %}
+              Add product variants as a dropdown.
+              - By default, each variant (or combination of variants) will display as its own <option>
+              - To separate these into multiple steps, which we suggest, use option_selection.js (see below)
+
+              You can leverage jQuery to add a callback on page load and each time the select element changes:
+              - Include option_selection.js (as seen at the bottom of this file)
+              - This allows you to use JavaScript anytime the variant dropdown changes
+              - This also separates out your variant options (ie. size, color, etc.) to separate select elements
+
+              For more information on products with multiple options, visit:
+              - http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options#update-product-liquid
+
+              {% endcomment %}
+
+              {% if is_exclusive %}
+
+                <div class="call-to-action-block">
+                  <a class="contact-sales-button" href="/pages/contact?style_number={{ style_number }}">
+                    <span class="label">Contact Sales</span>
+                    <span class="icon"></span>
+                  </a>
+                </div>
+
+              {% else %}
+
+                <div class="product-options-block">
+
+                  {% if product.variants.size > 1 %}
+                    
+                    {% if has_product_swatches %}
+                      
+                      {% include 'variant-swatch' %}
+                      
+                    {% endif %}
+                    
+                  {% else %}
+
+                    <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                    
+                  {% endif %}
+
+                </div>
+
+                <div class="call-to-action-block">
+                  
+                  <button type="submit" name="add" class="add-to-cart-button{% unless product.available %} disabled{% endunless %}" id="addToCart"{% unless product.available %} disabled="disabled"{% endunless %}>
+                    <span class="label">{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</span>
+                  </button>
+                  
+                </div>
+
+                <div class="add-to-lists-block">
+                  {% if product.tags contains 'waitlist' and product.available == false %}
+                    <a href="#add-to-waitlist-modal" id="add-to-waitlist-link" class="js-open-modal add-to-waitlist-link">Notify When Available</a>
+                  {% else %}
+                    <a href="/account" class="add-to-wishlist-link" id="add-to-wishlist-link" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">Add To Favourites </a>
+                  {% endif %}
+                </div>
+
+              {% endif %}
+
+            </form>
+
+            {% if is_exclusive == false %}
+
+              <div class="product-offer-block">
+
+                <span class="icon"></span>
+                <span class="text">Free shipping available on all orders.</span>
+
+              </div>
+
+            {% endif %}
+
+          </div>
+
+        </div>
+        {% if product.description.size == 0 %}
+          <div class="tablet-clearfix"></div>
+        {% endif %}
+        <div class="tablet-column">
+          
+          {% if product.description.size > 0 %}
+            <div class="product-description-block" style="position: relative;" itemprop="description">
+              <h6>Details:</h6>
+              <div class="content">
+                {{ product.description }}
+              </div>
+            </div>
+          {% endif %}
+          <div class="product-share-block">
+            <div class="label">Share:</div>
+
+            {% include 'social-sharing-buttons' %}
+
+          </div>
+        </div>
+        
+        <div class="product-back-link-row">
+
+          <nav class="product-back-link-block" role="navigation">
+            <a href="/collections/{{ collection.handle }}/#style-{{ style_number }}" class="product-back-link" title="Back to collection">
+              Back to
+              <span class="link-target-label">
+                {% if collection.handle == 'shop' %}
+                  the Shop
+                {% else %}
+                  {{ collection.title }}
+                {% endif %}
+              </span>
+            </a>
+          </nav>
+
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+
+{% comment %}
+If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)
+in the URL, we can show next/previous links to other products in the collection.
+{% endcomment %}
+{% if collection and collection.handle != 'bridal' %}
+
+  {% comment %}
+  TODO decide how we are going to be defining the related products for each product.
+  {% endcomment %}
+  {% comment %}
+  
+  <div class="related-products-hero">
+
+    <div class="wrapper">
+
+      <h2>You may also like:</h2>
+
+      <div class="carousel-block">
+
+        {% comment %}
+        Use class grid-uniform to have evenly sized columns clear
+        each other properly at each breakpoint.
+        {% endcomment %}
+
+        {% comment %}
+        Loop through our products in the current collection.
+        See the snippet 'product-grid-item' for the layout.
+        {% endcomment %}
+
+        {% comment %}
+        Capture the current product for this page. This allows the loop to use the name 'product'
+        {% endcomment %}
+        {% assign this_product = product %}
+
+        {% for product in collection.products limit:20 %}
+
+          {% if product.id != this_product.id %}
+            {% include 'product-grid-item' with block_class='related-product-grid-item' %}
+          {% endif %}
+
+        {% endfor %}
+
+        {% if paginate.pages > 1 %}
+          <div class="text-center">
+            {% include 'pagination-custom' %}
+          </div>
+        {% endif %}
+
+        {% comment %}
+        Restore the current page product.
+        {% endcomment %}
+        {% assign product = this_product %}
+
+      </div>
+
+    </div>
+
+  </div>
+  
+  {% endcomment %}
+  
+  
+  <div class="recent-products-hero js-hidden">
+
+    <div class="wrapper">
+
+      <h2>You Recently Viewed:</h2>
+
+      <div class="carousel-block recently-viewed-products-block">
+
+      </div>
+
+    </div>
+
+  </div>
+  
+{% endif %}
+
+
+{% include 'social-link-newsletter-hero' %}
+
+<div class="modal-content-block hidden" id="modal-content-dress-size">
+  <div class="vex-content-inner">
+
+    {{ pages['dress-sizes'].content }}
+
+  </div>
+</div>
+
+<div class="modal-content-block hidden" id="add-to-waitlist-modal">
+  <div class="vex-content-inner">
+
+    <h3>{{ pages['add-to-waitlist'].title }}</h3>
+
+    {{ pages['add-to-waitlist'].content }}
+
+    {% include 'capture-style-number' %}
+
+    <div class="waitlist-signup-form-block">
+
+      {% include 'waitlist-signup-form' %}
+
+    </div>
+
+  </div>
+</div>
+
+<script id="recent-product-template" type="text/x-handlebars-template">
+
+  {% include 'recently-viewed-grid-item' %}
+
+</script>

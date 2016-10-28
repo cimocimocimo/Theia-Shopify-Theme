@@ -1,0 +1,413 @@
+/*============================================================================
+  #Links and Buttons
+  ==============================================================================*/
+
+*:active,
+*:focus {
+    outline: none;
+}
+
+%button-base {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    color: #fff;
+
+    > * {
+        line-height: 1;
+    }
+
+    &:active,
+    &:focus {
+        outline: none;
+    }
+
+    &[disabled],
+    &.disabled {
+        cursor: default;
+    }
+}
+
+%extra-large-button-base {
+    height: 64px;
+    padding: 12px ( $gutter * 1.25 ) 0;
+    font-size: 1.5em;
+    line-height: 1;
+    font-weight: 400;
+    font-family: $helveticaFontStack;
+}
+
+%large-button-base {
+    height: 50px;
+    padding: 4px $gutter 0;
+    font-size: 1.5625em;
+    line-height: 48px;
+    font-weight: 300;
+    font-family: $helveticaFontStack;
+}
+
+%large-2-line-button-base {
+    height: 80px;
+    padding: 15px $gutter 0;
+    font-size: 1.5625em;
+    line-height: 28px;
+    font-weight: 300;
+    font-family: $helveticaFontStack;
+    white-space: normal;
+}
+
+%medium-button-base {
+    height: 44px;
+    padding: 6px $gutter;
+    line-height: 36px;
+
+    font-size: 1.125em;
+    font-weight: 400;
+    font-family: $helveticaFontStack;
+}
+
+%small-button-base {
+    @extend %smallish-century-gothic-text;
+
+    height: 31px;
+    line-height: 30px;
+    padding: 1px 12px 0;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+%mini-button-base {
+    font-family: $helveticaFontStack;
+    font-weight: 700;
+    font-size: 10px;
+    height: 26px;
+    line-height: 26px;
+    padding: 1px 12px 0;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+
+%gold-button-base {
+    @extend %gold-outline-block-small;
+}
+
+%gray-button-base {
+    @include transition(background-color 0.3s);
+
+    background-color: $colorDarkerMidGray;
+    color: $colorWhite;
+
+    &:hover {
+        background-color: $colorDarkGold;
+    }
+}
+
+%white-button-base {
+    @include transition(background-color 0.3s);
+
+    background-color: $colorWhite;
+    color: $colorDarkGray;
+
+    &:hover {
+        background-color: $colorDarkGray;
+        color: $colorWhite;
+    }
+}
+
+%gray-outline-button-base {
+    @include transition(background-color 0.3s);
+
+    background-color: $colorWhite;
+    color: $colorBlack;
+    border: 2px solid $colorBlack;
+
+    &:hover {
+        background-color: $colorBlack;
+        color: $colorWhite;
+    }
+}
+
+
+%small-gray-outline-button-base {
+    @extend %smallish-century-gothic-text;
+    @include transition(all 0.3s);
+
+    // small outline base
+
+    height: 33px;
+    border: 2px solid $colorGray;
+    color: $colorGray;
+    line-height: 28px;
+    padding: 1px 12px 0;
+    text-transform: uppercase;
+    font-weight: 700;
+
+    &:hover {
+        border-color: $colorDarkGold;
+        background-color: $colorDarkGold;
+        color: $colorWhite;
+    }
+}
+
+%icon-button-base {
+    .icon {
+        @extend %icon-base;
+
+        position: relative;
+    }
+}
+
+%arrow-icon-button-base {
+    @extend %icon-button-base;
+
+    .icon {
+        @extend .icon-arrow-right-solid;
+
+        font-size: 12px;
+    }
+}
+
+%rsaquo-button-base {
+    @extend %icon-button-base;
+
+    .icon {
+        @extend .icon-arrow-right-large;
+        font-size: 12px;
+    }
+}
+
+/* gold, large button with solid arrow icon */
+%large-gold-arrow-button {
+    @extend %button-base;
+    @extend %large-button-base;
+    @extend %gray-button-base;
+    @extend %arrow-icon-button-base;
+
+    .icon {
+        padding-left: 2px;
+        top: -2px;
+    }
+}
+
+%large-gray-arrow-button {
+    @extend %button-base;
+    @extend %large-button-base;
+    @extend %gray-button-base;
+    @extend %arrow-icon-button-base;
+
+    .icon {
+        padding-left: 2px;
+        top: -2px;
+    }
+}
+
+%large-white-arrow-button {
+    @extend %button-base;
+    @extend %large-button-base;
+    @extend %white-button-base;
+    @extend %arrow-icon-button-base;
+
+    .icon {
+        padding-left: 2px;
+        top: -2px;
+    }
+}
+
+%large-2-line-gray-arrow-button {
+    @extend %button-base;
+    @extend %large-2-line-button-base;
+    @extend %gray-button-base;
+    @extend %arrow-icon-button-base;
+
+    .icon {
+        padding-left: 2px;
+        top: -2px;
+    }
+}
+
+%small-black-outline-button {
+    @extend %button-base;
+    @extend %darkGray-outline-block-medium;
+}
+
+/* gold, small button with solid arrow icon */
+%small-gold-arrow-button {
+    @extend %button-base;
+    @extend %small-button-base;
+    @extend %gold-button-base;
+    @extend %arrow-icon-button-base;
+
+    .icon {
+        top: 1px;
+    }
+}
+
+/* gray, small button with solid arrow icon */
+%small-gray-arrow-button {
+    @extend %button-base;
+    @extend %small-button-base;
+    @extend %gray-button-base;
+    @extend %arrow-icon-button-base;
+
+    .icon {
+        top: 1px;
+    }
+}
+
+/* gray outline, small button with solid arrow icon */
+%small-gray-outline-arrow-button {
+    @extend %button-base;
+    @extend %small-gray-outline-button-base;
+    @extend %arrow-icon-button-base;
+
+    text-align: center;
+
+    .icon {
+        top: 1px;
+    }
+}
+
+
+/* gold, medium button with rsaquo */
+%large-gold-rsaquo-button {
+    @extend %button-base;
+    @extend %large-button-base;
+    @extend %gray-button-base;
+    @extend %rsaquo;
+}
+
+/* gold, medium button with rsaquo  */
+%medium-gold-rsaquo-button {
+    @extend %button-base;
+    @extend %medium-button-base;
+    @extend %gray-button-base;
+    @extend %rsaquo-button-base;
+
+    .icon {
+        margin-left: -3px;
+    }
+}
+
+/* gold, small button with rsaquo  */
+%small-gold-rsaquo-button {
+
+}
+
+/* gray, medium button with rsaquo */
+%large-gray-rsaquo-button {
+
+}
+
+/* gray, medium button with rsaquo  */
+%medium-gray-rsaquo-button {
+
+}
+
+/* gray, small button with rsaquo  */
+%small-gray-rsaquo-button {
+
+}
+
+/* gray, medium button */
+%medium-gray-button,
+.medium-gray-button {
+    @extend %button-base;
+    @extend %medium-button-base;
+    @extend %gray-button-base;
+}
+
+/* gray, small button */
+%small-gray-button {
+    @extend %button-base;
+    @extend %small-button-base;
+    @extend %gray-button-base;
+
+    padding-top: 2px;
+}
+
+
+/* light gray, small button */
+%small-lightGray-button {
+}
+
+
+/* extra large gold button */
+%extra-large-gold-button {
+    @extend %button-base;
+    @extend %extra-large-button-base;
+    @extend %gray-button-base;
+}
+
+%medium-gold-button {
+    @extend %button-base;
+    @extend %medium-button-base;
+    @extend %gray-button-base;
+}
+
+%small-gold-button {
+    @extend %button-base;
+    @extend %small-button-base;
+    @extend %gray-button-base;
+}
+
+%mini-gray-button {
+    @extend %button-base;
+    @extend %mini-button-base;
+    @extend %gray-button-base;
+}
+
+%large-black-outline-button {
+    @extend %button-base;
+    @extend %large-button-base;
+    @extend %gray-outline-button-base;
+}
+
+/* custom buttons */
+
+.facebook-login-button {
+    @extend %extra-large-gold-button;
+    @extend %icon-button-base;
+
+    padding-top: 12px;
+
+    span {
+        vertical-align: middle;
+    }
+
+    .label {
+
+    }
+
+    /* facebook f icon */
+    .icon:first-of-type {
+        @extend .icon-facebook-f;
+
+        font-size: 34px;
+        right: 6px;
+    }
+
+    /* rsaquo icon */
+    .icon ~ .icon {
+        @extend .icon-arrow-right-large;
+
+        font-size: 15px;
+        left: -4px;
+        bottom: 1px;
+    }
+}
+
+
+/*================ Force an input/button to look like a text link ================*/
+.text-link {
+    display: inline;
+    border: 0 none;
+    background: none;
+    padding: 0;
+    margin: 0;
+}

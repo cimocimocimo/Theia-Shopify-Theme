@@ -1,0 +1,103 @@
+{% comment %}
+
+The {{ content_for_header }} in theme.liquid will output the following stylesheet just for this page:
+- <link rel="stylesheet" href="/global/search.css" type="text/css">
+
+It has a few helpers in there, but this theme writes its own styles so there
+are no dependencies or conflicts. You can ignore that file.
+
+Return only products or pages in results:
+- http://docs.shopify.com/manual/configuration/store-customization/return-only-product-in-storefront-search-results
+- Or manually add type=product or type=page to the search URL as a parameter
+
+{% endcomment %}
+
+{% comment %}
+Check to enforce respond.js
+{% endcomment %}
+{% assign respond_js_secret_key = (shop.domain | md5) %}
+
+{% unless search.terms == respond_js_secret_key %}
+
+  {% if search.performed %}
+    {% paginate search.results by 4 %}
+
+    <div class="search-results-page-hero">
+      <div class="wrapper">
+        <h2>{{ search.results_count }} Results for &ldquo;{{ search.terms }}&rdquo;</h2>
+      </div>
+    </div>
+
+    <div class="search-results-hero">
+      <div class="wrapper-8-col">
+
+        {% comment %}
+        Avoid accessing search.results before the opening paginate tag.
+        If you do, the pagination of results will be broken.
+        {% endcomment %}
+
+
+        {% comment %}
+        We don't have any results to show. Feel free to show off featured products
+        or suggested searches here.
+        {% endcomment %}
+        {% if search.results_count == 0 %}
+
+          <h2 class="text-center">Your search for "{{ search.terms }}" did not yield any results.</h2>
+
+          <div class="search-bar-row">
+            {% include 'search-bar' %}
+          </div>
+
+        {% else %}
+
+          <div class="search-bar-row">
+            {% include 'search-bar' %}
+          </div>
+
+          <div class="search-results-row">
+            {% for item in search.results %}
+              {% include 'search-result-item' %}
+            {% endfor %}
+          </div>
+
+        {% endif %}
+
+        {% if paginate.pages > 1 %}
+
+          <div class="pagination-row">
+            {% include 'pagination-block' %}
+          </div>
+
+        {% endif %}
+
+        {% endpaginate %}
+
+      </div>
+    </div>
+
+
+  {% else %}
+
+
+
+    {% comment %}
+    If search.performed is false, someone either accessed the page without
+    the q parameter, or it was blank.
+    Be sure to show a search form here, along with anything else you want to showcase.
+    {% endcomment %}
+    <h2 class="text-center">Search for products on our site</h2>
+    {% include 'search-bar' %}
+
+
+  {% endif %}
+
+
+
+{% else %}
+
+  {% include 'respond.js' %}
+  {% layout none %}
+  
+  
+{% endunless %}

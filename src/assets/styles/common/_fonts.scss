@@ -1,0 +1,54 @@
+// =============================================================================
+// Font Face
+// =============================================================================
+
+@function is-production() {
+    @if $environment == production {
+        @return true;
+    } @else {
+        @return false;
+    }
+}
+
+@function shopify-asset($filename){
+    @if is-production() {
+        @return "{{ '" + $filename + "' | asset_url }}";
+    } @else {
+        @return "./" + $filename;
+    }
+}
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff ttf) {
+    $src: null;
+
+    $formats: (
+        otf: "opentype",
+        woff: "woff",
+        ttf: "truetype",
+    );
+
+    @each $ext in $exts {
+        $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+        $src: append($src, url(shopify-asset($path + "." + $ext)) format(quote($format)), comma);
+    }
+
+    @font-face {
+        font-family: quote($name);
+        @if $style {
+            font-style: $style;
+        }
+        @if $weight {
+            font-weight: $weight;
+        }
+        src: $src;
+    }
+}
+
+@include font-face('HelveticaNeueLT', 'HelveticaNeueLTPro-Roman', 400, normal);
+@include font-face('HelveticaNeueLT', 'HelveticaNeueLTPro-Lt', 300, normal);
+@include font-face('HelveticaNeueLT', 'HelveticaNeueLTPro-UltLt', 100, normal);
+
+@include font-face('Century Gothic', 'century-gothic', 400, normal);
+@include font-face('Century Gothic', 'century-gothic-bold', 700, normal);
+@include font-face('Century Gothic', 'century-gothic-bold-italic', 700, italic);
+@include font-face('Century Gothic', 'century-gothic-italic', 400, italic);

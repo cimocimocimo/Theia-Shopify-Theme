@@ -1,0 +1,56 @@
+.social-media-feed-item {
+    position: relative;
+    height: 238px;
+    width: 348px;
+    background: $colorDarkGray;
+    display: inline-block;
+    margin: -1px 1px;
+    color: #fff;
+    text-align: left;
+
+    > * {
+        position: absolute;
+    }
+
+    .content {
+        padding: $gutter * 2;
+
+        p {
+            @extend %medium-helvetica-text;
+
+            line-height: 1.25;
+        }
+
+        a {
+            @extend %gold-hover-underline-link;
+        }
+    }
+
+    .source {
+        @include overflowEllipsis();
+
+        bottom: 0;
+        padding: ( $gutter * 1.5 ) ( $gutter * 2 );
+        width: 288px;
+
+        a {
+            @extend %white-underline-hover-gold-link;
+            @extend %small-helvetica-text;
+        }
+    }
+
+    img {
+        width: 100%;
+        top: 0;
+        left: 0;
+    }
+
+    [class$=-icon] {
+        font-size: 0.7408em;
+        bottom: 20px;
+        right: 20px;
+        color: #fff;
+        border-color: #fff;
+        border-width: 2px;
+    }
+}

@@ -1,0 +1,45 @@
+/*================ Address Block ================*/
+
+address {
+    @extend %small-mid-arial-text;
+
+    a {
+        @extend %gold-hover-underline-link;
+    }
+
+    %address-item-base {
+        @extend .clearfix;
+        @extend %icon-base;
+
+        position: relative;
+        padding-left: 20px;
+        margin: ( $gutter / 2 ) 0;
+        line-height: 1.4285714285714286;
+
+        /* icon */
+        &:before {
+            position: absolute;
+            top: 3px;
+            left: 0;
+        }
+    }
+
+    .email {
+        @extend %address-item-base;
+        @extend .icon-stamp;
+
+        &:before {
+            color: $colorGold;
+        }
+    }
+
+    .address {
+        @extend %address-item-base;
+        @extend .icon-map-pin;
+    }
+
+    .phone {
+        @extend %address-item-base;
+        @extend .icon-telephone-handset;
+    }
+}

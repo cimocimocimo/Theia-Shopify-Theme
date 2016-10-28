@@ -1,0 +1,80 @@
+/*================================================================================
+  # Animations
+  ================================================================================*/
+
+@include keyframes-prefix('scaledown'){
+    0% {
+        opacity: 0;
+        @include prefix('transform', 'scale(12)');
+    }
+
+    40% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+        @include prefix('transform', 'scale(1)');
+    }
+}
+
+@include keyframes-prefix('fadein'){
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+/*============================================================================
+  # Loader Animation
+  ============================================================================*/
+
+.spinner {
+    margin: 0 auto;
+    width: $gutter * 10;
+    height: $gutter * 2;
+    text-align: center;
+    background-image: url(shopify-asset('wishlist-loading.gif'));
+    background-repeat: no-repeat;
+    background-position: center;
+
+    > div {
+        display: none;
+    }
+
+    .supports-cssanimations & {
+        background: none;
+
+        > div {
+            @include prefix('animation', 'bouncedelay 1.5s infinite ease-in-out both');
+
+            width: $gutter * 2;
+            height: $gutter * 2;
+            margin: 0 $gutter/2;
+            display: inline-block;
+            border: 1px solid $colorDarkGray;
+            border-radius: 100%;
+        }
+
+        .bounce1 {
+            @include prefix('animation-delay', '-0.5s');
+        }
+
+        .bounce2 {
+            @include prefix('animation-delay', '-0.1s');
+        }
+    }
+}
+
+@include keyframes-prefix( bouncedelay ){
+    0%, 80%, 100% {
+        @include prefix( 'transform', 'scale(0.0)' );
+    }
+    40% {
+        @include prefix( 'transform', 'scale(1.0)' );
+    }
+}

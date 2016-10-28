@@ -1,0 +1,100 @@
+{% comment %}
+Color Swatches
+
+The last option is the one that sends the product id 
+{% endcomment %}
+
+{% for option in product.options %}
+  
+  {% comment %}Defaults{% endcomment %}
+  {% assign show_selected_option_name = false %}
+  
+  {% if option == 'Color' %}
+    {% assign fieldset_classes = 'option-color-swatches js-color-swatch-field' %}
+    {% assign show_selected_option_name = true %}
+  {% elsif option == 'Size' %}
+    {% assign fieldset_classes = 'option-size-swatches js-size-swatch-field' %}
+  {% endif %}
+  
+  <fieldset class="{{ fieldset_classes }}"> 
+    <legend>{{ option }}:</legend>
+    <div class="swatch-container">
+      {% assign used = '' %}
+      {% assign isFirstColor = true %}
+      
+      {% for variant in product.variants %}
+        
+        {% if option == 'Color' %}
+          {% assign element_classes = 'option-color-swatch' %}
+          {% capture input_id %}{{ variant.option1 }}-select{% endcapture %}
+          {% assign input_classes = 'input-color' %}
+        {% elsif option == 'Size' %}
+          {% capture element_classes %}option-size-swatch {% if variant.available %}size-available{% else %}disabled{% endif %} js-hidden{% endcapture %}
+          {% capture input_id %}{{ variant.option2 }}-{{ variant.option1 }}-select{% endcapture %}
+          {% assign input_classes = 'input-color' %}
+        {% endif %}
+        
+        {% if option == 'Color' %}
+          
+          {% unless used contains variant.option1 %}
+            
+            <div class="{{ element_classes }}" data-color="{{ variant.option1 }} ">
+              
+              <input type="radio"
+                     id="{{ input_id }}"
+                     name="dress-color"
+                     value="{{ variant.option1 }}"
+                     class="{{ input_classes }}"
+                     data-color="{{ variant.option1 }}"
+                     {% if isFirstColor %}checked="checked"{% endif %}/>
+              <label class="color-label"
+                     for="{{ input_id }}">
+                
+                {% include 'swatch-image' swatch_color: variant.option1 %}
+
+              </label>
+
+            </div>
+
+            {% capture used %}{{ used }} {{ variant.option1 }}{% endcapture %}
+            
+            {% assign isFirstColor = false %}
+            
+          {% endunless %}                      
+          
+        {% elsif option == 'Size' %}
+          
+          <div class="{{ element_classes }}">
+            {% if variant.available == false %}
+              <div class="sold-out"></div>
+            {% endif %}
+            <input type="radio"
+                   id="{{ input_id }}"
+                   name="id"
+                   value="{{ variant.id }}"
+                   class="{{ input_classes }}"
+                   data-color="{{ variant.option1 }}"
+                   data-size="{{ variant.option2 }}"
+                   data-variant-available="{{ variant.available }}"
+                   {% unless variant.available %}disabled="disabled"{% endunless %}/>
+
+            <label class="size-label" 
+                   for="{{ input_id }}">
+              <span>{{ variant.option2 }}</span>
+            </label>
+            
+          </div>
+
+        {% endif %}
+
+      {% endfor %}
+
+      
+      {% if show_selected_option_name %}
+        <p class="color-name"> color </p>
+      {% endif %}
+      
+    </div>
+  </fieldset>
+  
+{% endfor %}
