@@ -14,11 +14,15 @@ import Navigo from 'navigo';
 /**
  * Import Components
  */
-import ProductPage from 'pages/ProductPage';
+import PageFactory from 'pages/PageFactory';
 
 // import globals
 // TODO: remove this once done transitioning code
 var timber = window.timber;
+
+var page = PageFactory.create(window.theia.pageData);
+
+console.log('created:', page.constructor.name);
 
 /**
  * Setup Routes
@@ -26,6 +30,7 @@ var timber = window.timber;
 var router = new Navigo();
 router
     .on(
+        // Product Page
         /(?:collections\/(\w+)\/)?products\/([\w-]+)/,
         (collectionHandle, productHandle) => {
             console.log('product page route');

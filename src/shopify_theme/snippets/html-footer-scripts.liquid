@@ -142,5 +142,51 @@ Ajaxify Cart Documentation:
   </script>
 {% endif %}
 
+<!-- Pass data from Shoipfy liquid environment to javascript app -->
+<script>
+    /* 
+     * This data is used in the Page constructor, keep the structure as close to
+     * the Shopify objects as possible.
+     */
+    window.theia = window.theia || {};
+    window.theia.pageData = {
+        // load the global objects
+        canonical_url: {{ canonical_url | json }},
+        current_page: {{ current_page | json }},
+        handle: {{ handle | json }},
+        page_description: {{ page_description | json }},
+        page_title: {{ page_title | json }},
+        settings: {{ settings | json }},
+        template: {{ template | json }},
+        cart: {{ cart | json }},
+        order: {{ order | json }},
+        search: {{ search | json }},
+        billing_address: {{ billing_address | json }},
+        shipping_address: {{ shipping_address | json }},
+        current_tags: {{ current_tags | json }},
+        page: {{ page | json }},
+        theme: {{ theme | json }},
+        article: {{ article | json }},
+        collection: {{ collection | json }},
+        customer_address: {{ customer_address | json }},
+        blog: {
+            all_tags: [{% for tag in blog.all_tags %}"{{ tag }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
+            articles: {{ blog.articles | json }},
+            articles_count: {{ blog.articles_count | json }},
+            are_comments_enabled: {{ blog.comments_enabled? | json }},
+            handle: {{ blog.handle | json }},
+            id: {{ blog.id | json }},
+            is_moderated: {{ blog.moderated? | json }},
+            next_article: {{ blog.next_article | json }},
+            previous_article: {{ blog.previous_article | json }},
+            tags: [{% for tag in blog.tags %}"{{ tag }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
+            title: {{ blog.title | json }},
+            url: {{ blog.url | json }},
+        },
+        customer: {{ customer | json }},
+        product: {{ product | json }}
+    };
+</script>
+
 <!-- Load main app -->
 {{ 'app.bundle.js' | asset_url | script_tag }}
