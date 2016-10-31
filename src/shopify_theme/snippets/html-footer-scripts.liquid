@@ -84,14 +84,21 @@ Ajaxify Cart Documentation:
   {{ 'option_selection.js' | shopify_asset_url | script_tag }}
   <script>
       timber.pageData.productPage = {
-       
+
+          {% if is_bridesmaids %}
+          isBridesmaidsPage: true,
+          {% elsif is_bridal %}
+          isBridalPage: true,
+          {% else %}
+          isShopPage: true,
+          {% endif %}
 
           {% if product.tags contains 'waitlist' and product.available == false %}
           showProductWaitlist: true,
           {% else %}
           showProductWaitlist: false,
           {% endif %}
-          
+
           {% comment %}
           Add label if only one product option and it isn't 'Title'. Could be 'Size'.
           {% endcomment %}
@@ -112,7 +119,7 @@ Ajaxify Cart Documentation:
           {% endif %}
 
           product: {{ product | json }},
-              
+
           {% comment %}
           used to pass the non-handle tag names with their associated handles/slugs
           {% endcomment %}
@@ -132,7 +139,7 @@ Ajaxify Cart Documentation:
       product.style_number = "{{ style_number }}";
   </script>
 
-{% elsif template contains 'login' %}  
+{% elsif template contains 'login' %}
   <script>
       timber.pageData.loginPage = {
           {% if reset_success %}
@@ -144,7 +151,7 @@ Ajaxify Cart Documentation:
 
 <!-- Pass data from Shoipfy liquid environment to javascript app -->
 <script>
-    /* 
+    /*
      * This data is used in the Page constructor, keep the structure as close to
      * the Shopify objects as possible.
      */
@@ -186,6 +193,24 @@ Ajaxify Cart Documentation:
         customer: {{ customer | json }},
         product: {{ product | json }}
     };
+
+  {% assign shopify_image_sizes = "pico icon thumb small compact medium large grande original master"  | split: ' ' %}
+  {% if product %}
+  window.theia.pageData.product.images = [
+      {% for image in product.images %}
+      {
+          "alt": "{{ image.alt }}",
+          "is_attached_to_variant": {{ image.attached_to_variant? }},
+          "id": {{ image.id }},
+          "product_id": {{ image.product_id }},
+          "position": {{ image.position }},
+          "src": {
+              {% for size in shopify_image_sizes %}"{{ size }}": "{{ image | img_url: size }}",{% endfor %}
+          }
+      },
+      {% endfor %}
+  ]
+  {% endif %}
 </script>
 
 <!-- Load main app -->

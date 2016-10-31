@@ -2,12 +2,15 @@
 
 import $ from 'jquery';
 import {Page} from './Page.js';
+import Product from '../shopify/Product.js';
 
 class ProductPage extends Page {
-    constructor(){
-        super();
+    constructor(data){
+        super(data);
 
         console.log('ProductPage constructor')
+
+        this.product = new Product(data.product);
     }
 
     static is(data){
@@ -16,12 +19,10 @@ class ProductPage extends Page {
 }
 
 class BridesmaidsPage extends ProductPage {
-    constructor(){
-        super();
+    constructor(data){
+        super(data);
 
         console.log( 'BridesmaidsPage constructor' );
-        // hide the size swatches if they're there
-        $('.js-size-swatch-field').addClass('js-hidden');
     }
 
     static is(data){

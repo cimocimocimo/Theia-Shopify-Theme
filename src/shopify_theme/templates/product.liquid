@@ -20,6 +20,10 @@ For more information on these Scheme.org tags, visit:
   {% assign is_bridal = true %}
 {% endif %}
 
+{% if product.tags contains 'Bridesmaids' %}
+  {% assign is_bridesmaids = true %}
+{% endif %}
+
 {% assign has_product_swatches = false %}
 {% for image in product.images %}
   {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
@@ -38,7 +42,7 @@ For more information on these Scheme.org tags, visit:
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
   <meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'grande' }}">
   <meta itemprop="priceCurrency" content="{{ shop.currency }}">
-  
+
   <link itemprop="availability"
         href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
 
@@ -49,7 +53,7 @@ For more information on these Scheme.org tags, visit:
     </div>
 
     <div class="product-gallery-overflow">
-    
+
       <div class="product-gallery-block">
 
         <div class="product-gallery-image-block" id="mainImageBlock">
@@ -70,7 +74,7 @@ For more information on these Scheme.org tags, visit:
 
         </div>
 
-      {% if product.images.size > 1 %}
+      {% if product.images.size > 1 and is_bridesmaids == false %}
 
         <div class="product-image-thumbs-block">
 
@@ -113,7 +117,7 @@ For more information on these Scheme.org tags, visit:
                 {% if product.available != true %}
                   <span class="productPrice"> {{ shop.currency }} {{ product.price | money }} Sold Out</span>
                 {% endif %}
-                {% if product.available == true %} 
+                {% if product.available == true %}
                   {% if on_sale %}
                     Now: <span id="productPrice" itemprop="price"> {{ shop.currency }} {{ product.price | money }}</span>
                     <span class="compare-at-price"> {{ product.compare_at_price | money }}</span>
@@ -156,6 +160,13 @@ For more information on these Scheme.org tags, visit:
 
               {% if is_exclusive %}
 
+                {% if has_product_swatches %}
+
+
+                  {% include 'variant-swatch' %}
+
+                {% endif %}
+
                 <div class="call-to-action-block">
                   <a class="contact-sales-button" href="/pages/contact?style_number={{ style_number }}">
                     <span class="label">Contact Sales</span>
@@ -168,27 +179,27 @@ For more information on these Scheme.org tags, visit:
                 <div class="product-options-block">
 
                   {% if product.variants.size > 1 %}
-                    
+
                     {% if has_product_swatches %}
-                      
+
                       {% include 'variant-swatch' %}
-                      
+
                     {% endif %}
-                    
+
                   {% else %}
 
                     <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-                    
+
                   {% endif %}
 
                 </div>
 
                 <div class="call-to-action-block">
-                  
+
                   <button type="submit" name="add" class="add-to-cart-button{% unless product.available %} disabled{% endunless %}" id="addToCart"{% unless product.available %} disabled="disabled"{% endunless %}>
                     <span class="label">{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</span>
                   </button>
-                  
+
                 </div>
 
                 <div class="add-to-lists-block">
@@ -221,7 +232,7 @@ For more information on these Scheme.org tags, visit:
           <div class="tablet-clearfix"></div>
         {% endif %}
         <div class="tablet-column">
-          
+
           {% if product.description.size > 0 %}
             <div class="product-description-block" style="position: relative;" itemprop="description">
               <h6>Details:</h6>
@@ -237,7 +248,7 @@ For more information on these Scheme.org tags, visit:
 
           </div>
         </div>
-        
+
         <div class="product-back-link-row">
 
           <nav class="product-back-link-block" role="navigation">
@@ -273,7 +284,7 @@ in the URL, we can show next/previous links to other products in the collection.
   TODO decide how we are going to be defining the related products for each product.
   {% endcomment %}
   {% comment %}
-  
+
   <div class="related-products-hero">
 
     <div class="wrapper">
@@ -321,10 +332,10 @@ in the URL, we can show next/previous links to other products in the collection.
     </div>
 
   </div>
-  
+
   {% endcomment %}
-  
-  
+
+
   <div class="recent-products-hero js-hidden">
 
     <div class="wrapper">
@@ -338,7 +349,7 @@ in the URL, we can show next/previous links to other products in the collection.
     </div>
 
   </div>
-  
+
 {% endif %}
 
 
