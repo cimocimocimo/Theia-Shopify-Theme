@@ -3,13 +3,9 @@
 import 'babel-polyfill';
 import $ from 'jquery';
 import slick from 'slick-carousel';
-import moment from 'moment';
-import smoothScroll from 'smoothscroll';
-import headroom from 'headroom.js';
-import Cookies from 'js-cookie';
-import vex from 'vex';
-import zoom from 'jquery-zoom';
 import Navigo from 'navigo';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 /**
  * Import Components
@@ -20,9 +16,8 @@ import PageFactory from 'pages/PageFactory';
 // TODO: remove this once done transitioning code
 var timber = window.timber;
 
+// create page object
 var page = PageFactory.create(window.theia.pageData);
-
-console.log('created:', page.constructor.name);
 
 /**
  * Setup Routes

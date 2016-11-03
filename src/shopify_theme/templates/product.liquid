@@ -25,13 +25,28 @@ For more information on these Scheme.org tags, visit:
 {% endif %}
 
 {% assign has_product_swatches = false %}
+{% assign numb_swatches = 0 %}
+{% assign numb_product_images = 0 %}
 {% for image in product.images %}
   {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
   {% if image_type == 'swatch' %}
-    {% assign has_product_swatches = true %}
-    {% break %}
+    {% assign numb_swatches = numb_swatches | plus: 1 %}
+  {% elsif image_type == 'productImage' %}
+    {% assign numb_product_images = numb_product_images | plus: 1 %}
   {% endif %}
 {% endfor %}
+
+{% if numb_product_images > 0 %}
+  {% assign has_product_images = true %}
+{% endif %}
+{% if numb_swatches > 0 %}
+  {% assign has_swatches = true %}
+{% endif %}
+
+{% assign show_thumbnails = false %}
+{% if numb_product_images > 1 %}
+  {% assign show_thumbnails = false %}
+{% endif %}
 
 <div class="product-detail-hero
             {% if is_bridal %}bridal-collection{% endif %}
@@ -49,7 +64,7 @@ For more information on these Scheme.org tags, visit:
   <div class="wrapper">
 
     <div class="product-mobile-header-block">
-       <h5> {{ product.title }} </h5>
+      <h5> {{ product.title }} </h5>
     </div>
 
     <div class="product-gallery-overflow">
@@ -74,32 +89,27 @@ For more information on these Scheme.org tags, visit:
 
         </div>
 
-      {% if product.images.size > 1 and is_bridesmaids == false %}
+        {% if show_thumbnails %}
+          <div class="product-image-thumbs-block">
+            <ul id="productThumbs">
+              {% for image in product.images %}
+                {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
+                {% if image_type != 'swatch' %}
+                  <li>
+                    <a href="{{ image.src | product_img_url: 'master' }}"
+                       class="product-photo-thumb"
+                       {% if image_color %} data-image-color="{{ image_color }}"{% endif %}
+                       data-target-image-id="image-{{ image.id }}">
+                      <img src="{{ image.src | product_img_url: 'large' }}"
+                           alt="{{ image_alt | escape }}">
+                    </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
 
-        <div class="product-image-thumbs-block">
-
-          <ul id="productThumbs">
-
-            {% for image in product.images %}
-              {% include 'unpack_image_alt_data', raw_alt_text: image.alt %}
-              {% if image_type != 'swatch' %}
-                <li>
-                  <a href="{{ image.src | product_img_url: 'master' }}"
-                     class="product-photo-thumb"
-                     {% if image_color %} data-image-color="{{ image_color }}"{% endif %}
-                     data-target-image-id="image-{{ image.id }}">
-                    <img src="{{ image.src | product_img_url: 'large' }}"
-                         alt="{{ image_alt | escape }}">
-                  </a>
-                </li>
-              {% endif %}
-            {% endfor %}
-
-          </ul>
-
-        </div>
-
-      {% endif %}
       </div>
     </div>
 
@@ -160,10 +170,13 @@ For more information on these Scheme.org tags, visit:
 
               {% if is_exclusive %}
 
-                {% if has_product_swatches %}
+                {% if has_swatches %}
 
+                  {% if is_bridesmaids %}
 
-                  {% include 'variant-swatch' %}
+                    <div id="color-swatches"></div>
+
+                  {% endif %}
 
                 {% endif %}
 
@@ -180,7 +193,7 @@ For more information on these Scheme.org tags, visit:
 
                   {% if product.variants.size > 1 %}
 
-                    {% if has_product_swatches %}
+                    {% if has_swatches %}
 
                       {% include 'variant-swatch' %}
 

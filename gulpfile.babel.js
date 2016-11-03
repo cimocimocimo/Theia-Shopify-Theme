@@ -437,7 +437,7 @@ gulp.task('serve', () => {
  * Watch
  */
 gulp.task('watch', () => {
-    gulp.watch([path.source + 'assets/scripts/**/*.js?(.liquid)'], ['scripts']);
+    gulp.watch([path.source + 'assets/scripts/**/*.js?(x)?(.liquid)'], ['scripts']);
     gulp.watch([path.source + 'assets/styles/**/*.scss?(.liquid)'], ['styles']);
     gulp.watch([path.source + 'assets/fonts/**/*'], ['fonts']);
     gulp.watch([path.source + 'assets/images/**/*'], ['images']);

@@ -1,14 +1,16 @@
 'use strict';
 
 import $ from 'jquery';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 import {Page} from './Page.js';
 import Product from '../shopify/Product.js';
+import {SwatchFieldset} from '../components/SwatchFieldset.jsx';
 
 class ProductPage extends Page {
     constructor(data){
         super(data);
-
-        console.log('ProductPage constructor')
 
         this.product = new Product(data.product);
     }
@@ -22,7 +24,18 @@ class BridesmaidsPage extends ProductPage {
     constructor(data){
         super(data);
 
-        console.log( 'BridesmaidsPage constructor' );
+        var swatches = this.product.swatchImages.map(img => {
+            return {
+                color: img.color,
+                src: img.src.icon,
+                key: img.color
+            };
+        });
+
+        ReactDOM.render(
+            <SwatchFieldset swatches={swatches} legendLabel="Color" />,
+            document.getElementById('color-swatches')
+        );
     }
 
     static is(data){
@@ -33,10 +46,8 @@ class BridesmaidsPage extends ProductPage {
 }
 
 class BridalPage extends ProductPage {
-    constructor(){
-        super();
-
-        console.log( 'BridalPage constructor' );
+    constructor(data){
+        super(data);
     }
 
     static is(data){
@@ -47,10 +58,8 @@ class BridalPage extends ProductPage {
 }
 
 class ShopPage extends ProductPage {
-    constructor(){
-        super();
-
-        console.log( 'ShopPage constructor' );
+    constructor(data){
+        super(data);
     }
 
     static is(data){

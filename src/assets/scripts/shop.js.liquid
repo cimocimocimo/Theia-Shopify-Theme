@@ -889,6 +889,10 @@ window.timber.colorSwatch = function(){
         isProductAvailable = window.timber.pageData.productPage.product.available,
         firstSwatchColor = $colorSwatchInputs.first().attr('data-color');
 
+    if ($colorSwatchInputs.length < 1 && $sizeSwatchInputs.length < 1){
+        return;
+    }
+
     // Change dress color and show/hide the size inputs
     function changeDressColorTo(color){
         window.jQuery('body').trigger('colorChanged.productPage', {
