@@ -207,13 +207,16 @@ input[type="radio"] {
     padding: 0;
 
     legend {
-        float: left;
         color: $colorBlack;
         margin-top: 5px;
         display: block;
         margin: 0;
         line-height: 32px;
         color: black;
+
+        .selected-swatch-value {
+            margin-left: $gutter/2;
+        }
     }
 
     .swatch-container {
