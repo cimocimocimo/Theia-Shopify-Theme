@@ -8,11 +8,11 @@ window.timber.cache = {
 
     // Navigation
     $navigation: window.jQuery('#accessibleNav'),
-    
+
     // general page carousel
     // TODO: factor this out into page specific chunk
     $carousel: window.jQuery('.carousel'),
-    
+
     // Product Page
     productPage: {
         $body: window.jQuery('.template-product'),
@@ -69,7 +69,7 @@ window.timber.cache = {
         $body: window.jQuery('body.template-collection-shop'),
         $carousel: window.jQuery('.shop-hero-carousel')
     },
-    
+
     collectionLookbook: {
         $body: window.jQuery('body.template-collection-lookbook')
     },
@@ -100,33 +100,33 @@ window.timber.init = function () {
     window.timber.homepageInit();
     window.timber.headerSubNav();
     window.timber.contactForm();
-    
+
     // product page
     if (window.timber.cache.productPage.$body.length !== 0){
         window.timber.productPage();
     }
-    
+
     // collection pages (both lookbook and shop)
     if (window.timber.cache.collectionPage.$body.length !== 0){
         window.timber.collectionPage();
     }
-    
+
     // initialize smooth scroll
     window.smoothScroll.init();
 };
 
 window.timber.collectionPage = function(){
     var pager = new window.timber.infiniteScroll();
-    
+
     if (window.timber.cache.collectionPage.$filterSelect.length !== 0){
         window.timber.productTagFilter();
     }
-    
+
     // lookbook pages
     if (window.timber.cache.collectionLookbook.$body.length !== 0){
         window.timber.lookbookPage(pager);
     }
-    
+
     // shop pages
     if (window.timber.cache.collectionShop.$body.length !== 0){
         window.timber.shopPage(pager);
@@ -139,7 +139,7 @@ window.timber.productTagFilter = function(){
     $filterSelect.change(function(event){
         var $select = window.jQuery(this),
             $selectedOption = $select.find(':selected');
-        
+
         window.location.href = $selectedOption.val();
     });
 }
@@ -160,32 +160,32 @@ window.timber.lookbookPage = function(pager){
         pageSize = getAttrInt($itemContainer, 'data-page-size'),
         totalPages = getAttrInt($itemContainer, 'data-total-pages'),
         totalItems = getAttrInt($itemContainer, 'data-total-items');
-    
+
     // wire the initial modal callbacks
     $items.click(openModal);
-    
+
     // set callback to wire modals opening on page load
     pager.setOptions({
         processFilteredData: function($items){
             return $items.click(openModal);
         }
     })
-    
+
     $itemContainer.on('pageLoadDone.infiniteScroll', function(event){
         console.log('page loaded');
         refresh$items();
     });
-    
+
     function openModal(event){
         event.preventDefault();
-        
+
         // get the item index
         var $clickedItem = window.jQuery(this),
             clickedItemIndex = getAttrInt($clickedItem, 'data-item-index');
 
         // set the $currentItem
         $currentItem = $clickedItem;
-        
+
         vex.open({
             showCloseButton: true,
             escapeButtonCloses: true,
@@ -194,9 +194,9 @@ window.timber.lookbookPage = function(pager){
             // events
             afterOpen: function($vexContent){
                 $vexContent.append(carouselTemplate({}));
-                
+
                 $modal = $vexContent;
-                
+
                 initCarousel(clickedItemIndex);
             },
             beforeClose: function($vexContent){
@@ -212,7 +212,7 @@ window.timber.lookbookPage = function(pager){
     }
 
     function initCarousel(selectedIndex){
-        
+
         // gather the needed slide data from the page items
         var slidesHtml = '',
             numberFlanking = 2, // number of slides ahead and behind the current slide
@@ -222,29 +222,29 @@ window.timber.lookbookPage = function(pager){
             startIndex = selectedIndex - numberFlankingBehind,
             endIndex = selectedIndex + numberFlankingAhead, // .slice() works with the indexes between the elements
             $carousel = $modal.find('.lookbook-carousel');
-        
+
         if (startIndex < 0){
             startIndex = 0;
         }
-        
+
         if (endIndex >= $items.length){
             endIndex = $items.length; // .slice() works with indexes beteen elements.
         }
-        
+
         // load another page of items if needed
-        
+
         // create the first set of slides for the carousel
         $items
             .slice(startIndex, endIndex)
             .each(function(index){
                 var $item = window.jQuery(this);
-                
+
                 slidesHtml += getSlideHtml($item);
             });
 
         // add the slides html
         $carousel.html(slidesHtml);
-        
+
         // init the carousel
         $carousel.slick({
             prevArrow: '<a href="#" class="slick-prev"></a>',
@@ -259,13 +259,13 @@ window.timber.lookbookPage = function(pager){
 
             // save the current item
             $currentItem = $items.eq(currentItemIndex);
-            
+
             // if we pass the item waypoint in the carousel
             // get next page
             if ($currentItem.is(pager.waypoint.element)){
                 pager.getNextPage();
             }
-            
+
             // add slides if needed
             if (slick.$slides.length - currentSlideIndex < numberFlankingAhead
                    && currentItemIndex + numberFlankingAhead <= $items.length){
@@ -273,7 +273,7 @@ window.timber.lookbookPage = function(pager){
                 var slideHtmlAhead = getSlideHtml($items.eq(currentItemIndex + numberFlanking));
                 $carousel.slick('slickAdd', slideHtmlAhead);
             }
-            
+
             // if current Slide index is less than the number of flanking slides
             // we should add a slide to the beginning of the carousel
             // and only if the item index (of items on the page) is greater than the flanking number
@@ -288,17 +288,17 @@ window.timber.lookbookPage = function(pager){
             }
 
         });
-        
+
         function getSlideHtml($item){
             return slideTemplate({
                 title: $item.attr('data-title'),
                 styleNumber: $item.attr('data-style-number'),
                 imageUrl: $item.attr('data-image-url'),
                 itemIndex: $item.attr('data-item-index')
-            });            
+            });
         }
     }
-    
+
     function refresh$items(){
         $items = $itemContainer.find(itemElementSelector);
     }
@@ -314,15 +314,15 @@ window.timber.shopPage = function(pager){
         scrollToElement = $itemContainer.find(scrollToTargetSelector),
         $carousel = window.timber.cache.collectionShop.$carousel,
         hasFoundScrollTarget = false;
-    
+
     function isScrollElementLoaded(){
         return $itemContainer.find(scrollToTargetSelector).length !== 0;
     }
-    
+
     function scrollToTarget(selector){
         smoothScroll.animateScroll(null, selector, {});
     }
-    
+
     function getPageUntillScrollElementLoaded(){
         if (pager.hasNextPage() && !isScrollElementLoaded()){
             pager.getNextPage().done(function(data){
@@ -337,11 +337,11 @@ window.timber.shopPage = function(pager){
     if (isScrollElementLoaded()){
         scrollToTarget(scrollToTargetSelector);
         hasFoundScrollTarget = true;
-        
+
     } else if (scrollToTargetSelector !== '') {
         getPageUntillScrollElementLoaded()
     }
-    
+
     // check for the carousel
     if ($carousel.length > 0){
         window.timber.initShopCarousel();
@@ -353,7 +353,7 @@ window.timber.contactForm = function(){
         $block = window.timber.cache.contactForm.$styleNumberInquiryBlock,
         $blockNumber = window.timber.cache.contactForm.$styleNumberInquiryBlockNumber,
         $styleNumberInput = window.timber.cache.contactForm.$styleNumberInput;
-    
+
     if (styleNumber){
         $styleNumberInput.val(styleNumber);
         $blockNumber.text(styleNumber);
@@ -375,7 +375,7 @@ window.timber.homepageInit = function(){
     if (window.timber.cache.homepage.$body.length === 0){
         return;
     }
-    
+
     window.timber.homepageHeader();
     window.timber.homepageSplash();
     window.timber.homepageVideo();
@@ -388,14 +388,14 @@ window.timber.homepageHeader = function(){
     // this allows the header to sit below the homepage splash but still
     // use headroom.js for showing hiding in the main body of the
     // page.
-    
+
     var $container = window.timber.cache.homepage.$headerContainer, // headroom.js is applied to this element
         $waypoint = window.timber.cache.homepage.$headerWaypoint,
         // used as the context/scroller element for waypoints and headroom, needed to get around the full-viewport
         // css hacks used.
         $scrollBody = window.timber.cache.homepage.$scrollBody,
         headroomInstance = {}; // closure to hold the headroom instance between waypoint handler calls
-    
+
     // create the waypoint for the header
     var headerWaypoint = $waypoint.waypoint({
         context: $scrollBody[0],
@@ -422,10 +422,10 @@ window.timber.homepageSplash = function(){
     var $splash = window.timber.cache.homepage.$splash,
         $scroll = window.timber.cache.homepage.$splashScroller,
         $body = window.timber.cache.homepage.$body;
-    
+
     $scroll.click(function(event){
         event.preventDefault();
-        
+
         window.jQuery('#body-container').animate({scrollTop: $splash.height()});
     });
 };
@@ -434,10 +434,10 @@ window.timber.homepageVideo = function(){
     var $button = window.timber.cache.homepage.$videoPlayButton,
         $playerContainer = window.timber.cache.homepage.$videoContainer,
         player = new Vimeo.Player(window.timber.cache.homepage.$videoPlayer[0]);
-    
+
     $button.click(function(event){
         event.preventDefault();
-        
+
         $playerContainer.removeClass('hidden')
         $playerContainer.addClass('active');
         player.play();
@@ -554,7 +554,7 @@ window.timber.mobileSideNav = function(){
 };
 
 window.timber.headerSubNav = function(){
-    
+
     // get elements
     var $mainMenu = window.timber.cache.headerSubNav.$mainMenu,
         $subNavRow = window.timber.cache.headerSubNav.$row,
@@ -572,7 +572,7 @@ window.timber.headerSubNav = function(){
             currentOffset,
             currentTarget,
             $currentMenu;
-        
+
         if (windowWidth > breakPointLarge){
             for (var i = 0; i<$subMenuLinks.length; i++){
                 $currentLink = $subMenuLinks.eq(i);
@@ -588,7 +588,7 @@ window.timber.headerSubNav = function(){
         }
     }
     setMenuHorizontalPositions();
-    
+
     // **hack**
     // Safari is loading the page oddly. When the page first loads all the elements are to the left side
     // then they slide to the right into their correct positions. This causes the initial posistions of
@@ -613,7 +613,7 @@ window.timber.headerSubNav = function(){
             openSubMenu($menuLink);
         }
     });
-    
+
     // when the user clicks on a sub menu link
     $subMenuLinks.click(function(event){
         var $menuLink = window.jQuery(this);
@@ -625,7 +625,7 @@ window.timber.headerSubNav = function(){
             openSubMenu($menuLink);
         }
     });
-    
+
     // when the user mouses away from the main nav or the open sub nav menu start a timeout
     // when the time out finishes
     $mainMenu.mouseleave(function(event){
@@ -640,29 +640,29 @@ window.timber.headerSubNav = function(){
     $subMenus.mouseenter(function(event){
         window.clearTimeout(menuClosetimeoutId);
     });
-    
+
     $nonSubMenuLinks.mouseenter(closeSubMenus);
-    
+
     function openSubMenu($link){
         // get the target name, format the id, get the element
         var target = $link.data('target'),
             targetIdSelector = subMenuSelectorPrefix + target,
             $targetMenu = window.jQuery(targetIdSelector);
-        
+
         // if another menu is open
         if ($subMenus.hasClass('js-open') && !$targetMenu.hasClass('js-open')){
             $subMenus.removeClass('js-open');
             $subMenuLinks.removeClass('active');
             $targetMenu.addClass('js-open');
             $link.addClass('active');
-            
+
         } else if (!$subMenus.hasClass('js-open')) {
             // no menus are open, so open the target
             $targetMenu.addClass('js-open');
             $link.addClass('active');
         }
     }
-    
+
     function closeSubMenus(){
         $subMenus.removeClass('js-open');
         $subMenuLinks.removeClass('active');
@@ -671,7 +671,7 @@ window.timber.headerSubNav = function(){
 
 window.timber.loginFormInit = function(){
     var resetSuccess = window.timber.pageData.loginPage.resetSuccess || false;
-    
+
     /*
      Show/hide the recover password form when requested.
      I'd suggest using some CSS3 transitions to make this change look cool,
@@ -710,24 +710,24 @@ window.timber.infiniteScroll = function(settings){
     },
         options = $.extend({}, defaults, settings),
         self = this;
-    
+
     // public methods
     this.setOptions = function(settings){
         options = $.extend(options, settings);
     }
-    
+
     this.getNextPage = function(){
         // disable the current waypoint so that it doesn't trigger when scrolled past.
         self.waypoint.disable();
-        
+
         // get next page
         return getNextPage();
     }
-    
+
     this.hasNextPage = function(){
         return this.pageData.hasNextPage;
     }
-    
+
     // private methods
     function getPageDataFromHtml($page){
         // run callback
@@ -736,13 +736,13 @@ window.timber.infiniteScroll = function(settings){
         }
 
         self.pageData = {};
-        
+
         self.pageData.hasNextPage = $page.attr('data-has-next-page') === 'true';
         self.pageData.nextPageUrl = self.pageData.hasNextPage ? $page.attr('data-next-page-url') : null;
         self.pageData.$items = $page.children();
         self.pageData.$waypointElement = $page.children().first();
     }
-    
+
     function wireWaypoint(){
         // add a way point to the last item currently shown on the page.
         self.waypoint = self.pageData.$waypointElement.waypoint({
@@ -753,11 +753,11 @@ window.timber.infiniteScroll = function(settings){
             offset: '100%'
         })[0];
     }
-    
+
     function waypointCallback() {
         // disables current waypoint
         this.disable();
-        
+
         getNextPage();
     }
 
@@ -767,7 +767,7 @@ window.timber.infiniteScroll = function(settings){
                 .done(processNextPagePromise);
         }
     }
-    
+
     function getNextPagePromise(){
         return $.ajax({
             type: 'GET',
@@ -778,22 +778,22 @@ window.timber.infiniteScroll = function(settings){
 
     function processNextPagePromise(data){
         getPageDataFromHtml(window.jQuery(data).find(options.collectionBlockSelector));
-        
+
         // run callback
-        if (typeof options.processFilteredData === 'function'){ 
+        if (typeof options.processFilteredData === 'function'){
             self.pageData.$items = options.processFilteredData(self.pageData.$items);
         }
-        
+
         // append the items to the container
         self.$itemContainer.append(self.pageData.$items);
-        
+
         if (self.pageData.hasNextPage){
             wireWaypoint();
         }
 
         self.$itemContainer.trigger('pageLoadDone.infiniteScroll');
     }
-    
+
     // get the container and wire the waypoint if there is a next page.
     self.$itemContainer = window.jQuery(options.collectionBlockSelector);
     window.jQuery('.back-to-top-block').removeClass('js-hidden');
@@ -889,6 +889,10 @@ window.timber.colorSwatch = function(){
         isProductAvailable = window.timber.pageData.productPage.product.available,
         firstSwatchColor = $colorSwatchInputs.first().attr('data-color');
 
+    if ($colorSwatchInputs.length < 1 && $sizeSwatchInputs.length < 1){
+        return;
+    }
+
     // Change dress color and show/hide the size inputs
     function changeDressColorTo(color){
         window.jQuery('body').trigger('colorChanged.productPage', {
@@ -914,12 +918,12 @@ window.timber.colorSwatch = function(){
             }
         });
     }
-    
+
     // When a user changes the color swatch selection
     $colorSwatchInputs.change(function() {
         var $colorInput = window.jQuery(this),
             color = $colorInput.attr('data-color');
-        
+
         // select the first available size for this color
         $sizeSwatchInputs.each(function(){
             var $sizeInput = window.jQuery(this),
@@ -927,21 +931,21 @@ window.timber.colorSwatch = function(){
                 inputSize = $sizeInput.attr('data-size'),
                 dataVariantAvailable = $sizeInput.attr('data-variant-available'),
                 isAvailable = dataVariantAvailable === 'true' ? true : false;
-            
+
             if (inputColor === color && isAvailable){
                 $sizeInput.prop('checked', true);
-                
+
                 // break from loop early
                 return false;
             }
         });
-        
+
         // show the size swatches for this color and hide the others
         showSizesForColor(color);
         // change the name of the color and trigger color changed event
         changeDressColorTo(color);
     });
-    
+
     if (isProductAvailable){
         // find first size/color in stock
         $sizeSwatchInputs.each(function(){
@@ -950,17 +954,17 @@ window.timber.colorSwatch = function(){
                 size = $input.attr('data-size'),
                 dataVariantAvailable = $input.attr('data-variant-available'),
                 isAvailable = dataVariantAvailable === 'true' ? true : false;
-            
+
             // first available
             if (isAvailable){
                 // select that variant color/size option
                 $input.prop('checked', true);
-                
+
                 // select that color option
                 $colorSwatchInputs.each(function(){
                     var $input = window.jQuery(this),
                         inputColor = $input.attr('data-color');
-                    
+
                     if (inputColor === color){
                         $input.prop('checked', true);
                     }
@@ -989,7 +993,7 @@ window.timber.productPage = function(){
         foundVariantInStock = false,
         currentVariant = null,
         variants = pageData.product.variants;
-    
+
     // checks to see if the has a Bridal or bridal tag.
     function isBridal(){
         for(var i = 0; i < pageData.product.tags.length; i++){
@@ -997,10 +1001,10 @@ window.timber.productPage = function(){
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     variants.forEach(function(i){
         currentVariant = i;
 
@@ -1016,7 +1020,7 @@ window.timber.productPage = function(){
         }
     })
 
-    // if none are available select the the last variant color 
+    // if none are available select the the last variant color
     if(foundVariantInStock === false){
         window.jQuery('input[data-color="'+ currentVariant.option2 +'"]').attr("checked","checked").change();
     }
@@ -1042,7 +1046,7 @@ window.timber.productPage = function(){
             className: 'vex-theme-wireframe'
         });
     });
-    
+
     window.timber.productImageGallery();
     window.timber.mobileProductInfoBlock();
     window.timber.productDescriptionBlock();
@@ -1063,11 +1067,11 @@ window.timber.productBackLink = function(){
         currentTag,
         hashIndex,
         newHref;
-    
+
     if (typeof currentTagSlug === 'undefined' || typeof productTags === 'undefined'){
         return;
     }
-    
+
     // get the current tag with it's unhandlized name, Could have
     // passed this through the query string but wanted to keep
     // the url clean.
@@ -1078,7 +1082,7 @@ window.timber.productBackLink = function(){
     // split the query string off
     hashIndex= href.indexOf('#');
     newHref = href.substring(0, hashIndex) + currentTagSlug + '/' + href.substring(hashIndex);
-    
+
     $backLink.attr('href', newHref);
     $targetLabel.text(currentTag.name);
 };
@@ -1116,7 +1120,7 @@ window.timber.productSelectCallback = function(variant, selector) {
         //   - http://docs.shopify.com/manual/configuration/store-customization/advanced-navigation/linked-product-options
         addToCart.val('Unavailable').addClass('disabled').prop('disabled', true);
     }
-   
+
     // trigger event for selected color
     var currentSelector = {};
     for (var i = 0; i < selector.selectors.length; i++){
@@ -1137,12 +1141,12 @@ window.timber.productImageGallery = function(){
      - preload the images so they switch faster
      - clicking on a thumb shows the image in the main area
      */
-    
+
     var $mainBlock = window.timber.cache.productPage.gallery.$mainImageBlock,
         $thumbBlock = window.timber.cache.productPage.gallery.$thumbBlock,
         $mainImages = $mainBlock.find('.image-zoom-container'),
         $thumbLinks = $thumbBlock.find('a');
-    
+
     window.jQuery('body').on('colorChanged.productPage', function(event, data){
         $thumbLinks.removeClass('js-hidden');
         $thumbLinks.filter(':not([data-image-color="' + data.color + '"])').addClass('js-hidden');
@@ -1152,14 +1156,14 @@ window.timber.productImageGallery = function(){
             var $this = window.jQuery(this),
                 attachedToVariant = ($this.attr('data-attached-to-variant') === 'true'),
                 imageColor = $this.attr('data-image-color');
-            
+
             if (attachedToVariant && imageColor === data.color){
                 $this.removeClass('js-hidden');
                 return;
             }
         });
     });
-    
+
     $thumbLinks.click(function(event){
         event.preventDefault();
 
@@ -1196,12 +1200,12 @@ window.timber.productRecentlyViewedBlock = function(){
         ),
         $hero = window.jQuery('.recent-products-hero'),
         $carousel = $hero.find('.carousel-block');
-    
+
     function Product(data){
         if (data === undefined){
             return;
         }
-        
+
         this.title = data.title;
         this.id = data.id;
         this.handle = data.handle;
@@ -1211,15 +1215,15 @@ window.timber.productRecentlyViewedBlock = function(){
         this.style_number = data.style_number;
         this.sold_out = !data.available;
     }
-    
+
     Product.prototype.has_style_number = function(){
         return this.style_number > 0;
     }
-    
+
     Product.prototype.has_price = function(){
         return this.price > 0;
     }
-    
+
     Product.prototype.on_sale = function(){
         return this.comape_at_price > this.price;
     }
@@ -1239,7 +1243,7 @@ window.timber.productRecentlyViewedBlock = function(){
 
         return baseUrl + collectionProducts + this.handle;
     }
-    
+
     // on page load
     // check for for the cookie
     if (window.Cookies.get(cookieName)){
@@ -1254,15 +1258,15 @@ window.timber.productRecentlyViewedBlock = function(){
             recentProductsLoaded = true;
         }
     }
-    
+
     // check to see if Products have been defined yet
     if (!recentProductsLoaded){
         // add the first product as a cookie because there are no cookies
         recentProducts[0] = currentProduct;
-    } else { 
+    } else {
         // existing product in recentProducts
 
-        // add the current dress to the array if it isn't all ready there 
+        // add the current dress to the array if it isn't all ready there
         if (currentProduct.id !== recentProducts[0].id){
             recentProducts.unshift(currentProduct);
         }
@@ -1277,7 +1281,7 @@ window.timber.productRecentlyViewedBlock = function(){
 
     // resize array to fit in cookie
     // this counts the bytes of a string, use JSON.stringify()
-    function byteCount(s) { 
+    function byteCount(s) {
         return encodeURI(s).split(/%..|./).length - 1;
     }
     function isRecentProducstTooBigToSave(products){
@@ -1286,10 +1290,10 @@ window.timber.productRecentlyViewedBlock = function(){
     while (isRecentProducstTooBigToSave(recentProducts)){
         recentProducts.pop();
     }
-    
+
     // save data to cookie
     window.Cookies.set(cookieName, recentProducts);
-    
+
     // build the html for the block
     if (recentProducts.length > 2){
         for(var j = 1; j < recentProducts.length; j++){

@@ -3,22 +3,21 @@
 import 'babel-polyfill';
 import $ from 'jquery';
 import slick from 'slick-carousel';
-import moment from 'moment';
-import smoothScroll from 'smoothscroll';
-import headroom from 'headroom.js';
-import Cookies from 'js-cookie';
-import vex from 'vex';
-import zoom from 'jquery-zoom';
 import Navigo from 'navigo';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 /**
  * Import Components
  */
-import ProductPage from 'pages/ProductPage';
+import PageFactory from 'pages/PageFactory';
 
 // import globals
 // TODO: remove this once done transitioning code
 var timber = window.timber;
+
+// create page object
+var page = PageFactory.create(window.theia.pageData);
 
 /**
  * Setup Routes
@@ -26,6 +25,7 @@ var timber = window.timber;
 var router = new Navigo();
 router
     .on(
+        // Product Page
         /(?:collections\/(\w+)\/)?products\/([\w-]+)/,
         (collectionHandle, productHandle) => {
             console.log('product page route');
