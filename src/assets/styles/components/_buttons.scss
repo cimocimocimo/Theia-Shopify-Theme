@@ -120,6 +120,18 @@
     }
 }
 
+%black-button-base {
+    @include transition(background-color 0.3s);
+
+    background-color: $colorBlack;
+    color: $colorWhite;
+
+    &:hover {
+        background-color: $colorDarkGray;
+        color: $colorWhite;
+    }
+}
+
 %gray-outline-button-base {
     @include transition(background-color 0.3s);
 
@@ -211,6 +223,18 @@
     @extend %button-base;
     @extend %large-button-base;
     @extend %white-button-base;
+    @extend %arrow-icon-button-base;
+
+    .icon {
+        padding-left: 2px;
+        top: -2px;
+    }
+}
+
+%large-black-arrow-button {
+    @extend %button-base;
+    @extend %large-button-base;
+    @extend %black-button-base;
     @extend %arrow-icon-button-base;
 
     .icon {

@@ -2113,7 +2113,7 @@
         }
 
         a {
-            @extend %large-white-arrow-button;
+            @extend %large-black-arrow-button;
             @include box-shadow($shadow);
 
             font-size: 30px;
@@ -2161,6 +2161,93 @@
             a {
                 font-size: 21px;
                 padding: 7px 32px 0px;
+
+                .icon {
+                    font-size: 18px;
+                    top: -1px;
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+}
+
+.resort-2017-hero {
+    @extend %hero-100-height;
+
+    $shadow: 2px 2px 7px rgba($colorWhite,0.33);
+
+    // images: url, width, height, focus X, focus Y
+    $imageLandscape: shopify-asset('resort-2017-hero-landscape.jpg') 1920 1080 1083 197;
+    $imagePortrait: shopify-asset('resort-2017-hero-portrait.jpg') 1080 1920 445 227;
+
+    @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
+
+    .content {
+        min-width: 50%;
+
+        h2,
+        a {
+            text-transform: uppercase;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        h2 {
+            color: $colorBlack;
+            font-size: 46px;
+            line-height: 1.2;
+            margin-top: 0;
+            text-shadow: $shadow;
+        }
+
+        a {
+            @extend %large-black-arrow-button;
+            @include box-shadow($shadow);
+
+            font-size: 30px;
+            padding: 9px 48px 0px;
+            height: auto;
+
+            .icon {
+                font-size: 22px;
+            }
+        }
+    }
+
+    @media screen and (max-width: $medium) and (max-aspect-ratio: 1/1){
+        .content {
+            h2 {
+                font-size: 36px;
+                line-height: 1.1;
+            }
+
+            a {
+                font-size: 21px;
+                padding: 7px 32px 0px;
+
+                .icon {
+                    font-size: 18px;
+                    top: -1px;
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+
+    @media screen and (min-width: $postSmall) and (max-width: $large){
+        .content {
+            h2 {
+                font-size: 36px;
+                color: $colorWhite;
+                text-shadow: 0px 2px 16px $colorBlack;
+            }
+
+            a {
+                font-size: 21px;
+                padding: 7px 32px 0px;
+                background: $colorWhite !important;
+                color: $colorBlack;
 
                 .icon {
                     font-size: 18px;
