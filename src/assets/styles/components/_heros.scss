@@ -2208,10 +2208,6 @@
             font-size: 30px;
             padding: 9px 48px 0px;
             height: auto;
-
-            .icon {
-                font-size: 22px;
-            }
         }
     }
 
@@ -2225,12 +2221,6 @@
             a {
                 font-size: 21px;
                 padding: 7px 32px 0px;
-
-                .icon {
-                    font-size: 18px;
-                    top: -1px;
-                    padding-left: 0;
-                }
             }
         }
     }
@@ -2248,12 +2238,6 @@
                 padding: 7px 32px 0px;
                 background: $colorWhite !important;
                 color: $colorBlack;
-
-                .icon {
-                    font-size: 18px;
-                    top: -1px;
-                    padding-left: 0;
-                }
             }
         }
     }

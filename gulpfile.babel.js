@@ -290,18 +290,22 @@ var shopifyPipe = (() => {
         blacklist = ['js'];
 
     // test for minification
+    // TODO: HTML minification is breaking the shop carousel for some reason.
+    // enable minification again and troubleshoot in development.
     function shouldMinify(file){
-        if (environment === 'development'){
-            return false;
-        }
-
-        var ext = getExtension(file.path);
-
-        // if extension in whitelist and not in blacklist
-        if (ext !== null && doesArrayContainAny(ext, whitelist) && !doesArrayContainAny(ext, blacklist)){
-            return true;
-        }
         return false;
+
+        // if (environment === 'development'){
+        //     return false;
+        // }
+
+        // var ext = getExtension(file.path);
+
+        // // if extension in whitelist and not in blacklist
+        // if (ext !== null && doesArrayContainAny(ext, whitelist) && !doesArrayContainAny(ext, blacklist)){
+        //     return true;
+        // }
+        // return false;
     }
 
     // return the lazypipe
