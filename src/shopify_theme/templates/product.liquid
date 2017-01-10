@@ -265,13 +265,13 @@ For more information on these Scheme.org tags, visit:
         <div class="product-back-link-row">
 
           <nav class="product-back-link-block" role="navigation">
-            <a href="/collections/{{ collection.handle }}/#style-{{ style_number }}" class="product-back-link" title="Back to collection">
+            <a href="/collections/{% if collection.handle %}{{ collection.handle }}{% else %}shop{% endif %}/#style-{{ style_number }}" class="product-back-link" title="Back to collection">
               Back to
               <span class="link-target-label">
-                {% if collection.handle == 'shop' %}
-                  the Shop
+                {% if collection.handle %}
+                    {{ collection.title }}
                 {% else %}
-                  {{ collection.title }}
+                    the Shop
                 {% endif %}
               </span>
             </a>
