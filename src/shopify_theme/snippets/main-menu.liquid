@@ -10,6 +10,12 @@
         {% assign link_id = link.title | handle %}
         {% assign menu_target = false %}
       {% endif %}
+      {% if link.object.handle == 'bridal' %}
+        {% assign link_href = '/collections/bridal/lookbook/' %}
+      {% else %}
+        {% assign link_href = '/collections/bridal/lookbook/' %}
+      {% endif %}
+
       {% assign link_disabled = false %}
       {% comment %}disable click action for bridal{% endcomment %}
       {% comment %}
@@ -22,19 +28,19 @@
       <li>
         <a id="{{ link_id }}-footer-main-menu-link"
            class="main-menu-link"
-           href="{{ link.url }}">{{ link.title }}</a>
+           href="{{ link_href }}">{{ link.title }}</a>
       </li>
       {% when 'header' %}
       <li>
         <a id="{{ link_id }}-header-main-menu-link"
            class="main-menu-link{% if menu_target %} js-has-sub-menu{% endif %}{% if link_disabled %} js-disabled{% endif %}"
            {% if menu_target %}data-target="{{ menu_target }}"{% endif %}
-           href="{{ link.url }}">{{ link.title }}</a>
+          href="{{ link_href }}">{{ link.title }}</a>
       </li>
       {% when 'side-nav' %}
       {% comment %}showing these main menu links in the header now on mobile.{% endcomment %}
       {% else %}
-      <li><a class="main-menu-link{% if link_disabled %} js-disabled{% endif %}" href="{{ link.url }}">{{ link.title }}</a></li>
+      <li><a class="main-menu-link{% if link_disabled %} js-disabled{% endif %}" href="{{ link_href }}">{{ link.title }}</a></li>
       {% endcase %}
     {% endfor %}
     {% if collections.shop.tags contains 'Sale' %}
