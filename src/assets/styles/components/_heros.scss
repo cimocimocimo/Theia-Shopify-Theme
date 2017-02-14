@@ -460,8 +460,6 @@
     }
 }
 
-
-
 .bridal-page-hero-carousel {
     @extend %collection-hero-carousel-base;
 
@@ -491,7 +489,6 @@
     }
 }
 
-
 .about-page-hero {
     @extend %hero-large;
 
@@ -519,7 +516,7 @@
 }
 
 .contact-page-hero,
-.page-hero{
+.page-hero {
     @extend %hero-medium;
 
     $heroBgColor: #868d8a;
@@ -873,7 +870,6 @@
     }
 }
 
-
 .other-enquires-hero {
     @extend .content-hero;
 
@@ -925,7 +921,6 @@
         }
     }
 }
-
 
 %login-register-form-hero-base {
     @extend .content-hero;
@@ -1014,10 +1009,6 @@
         }
     }
 }
-
-
-
-
 
 .social-link-newsletter-hero {
     @extend %clearfix;
@@ -1177,7 +1168,6 @@
     }
 }
 
-
 .events-press-releases-hero {
     .wrapper {
         @extend .wrapper-10-col;
@@ -1211,7 +1201,6 @@
         }
     }
 }
-
 
 .order-items-hero {
     h5 {
@@ -1631,8 +1620,6 @@
         }
     }
 }
-
-
 
 .sizing-page-hero {
     @extend %hero-small;
@@ -2172,14 +2159,14 @@
     }
 }
 
-.resort-2017-hero {
+.homepage-collection-hero {
     @extend %hero-100-height;
 
-    $shadow: 2px 2px 7px rgba($colorWhite,0.33);
+    $shadow: 2px 2px 7px rgba($colorBlack,0.33);
 
     // images: url, width, height, focus X, focus Y
-    $imageLandscape: shopify-asset('resort-2017-hero-landscape.jpg') 1920 1080 1083 197;
-    $imagePortrait: shopify-asset('resort-2017-hero-portrait.jpg') 1080 1920 445 227;
+    $imageLandscape: shopify-asset('spring-2017-hero-landscape.jpg') 1920 1080 1437 225;
+    $imagePortrait: shopify-asset('spring-2017-hero-portrait.jpg') 1080 1920 823 312;
 
     @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
 
@@ -2194,7 +2181,7 @@
         }
 
         h2 {
-            color: $colorBlack;
+            color: $colorWhite;
             font-size: 46px;
             line-height: 1.2;
             margin-top: 0;
@@ -2202,12 +2189,13 @@
         }
 
         a {
-            @extend %large-black-arrow-button;
+            @extend %large-white-button;
             @include box-shadow($shadow);
 
             font-size: 30px;
             padding: 9px 48px 0px;
             height: auto;
+            color: $colorBlack;
         }
     }
 
@@ -2229,8 +2217,7 @@
         .content {
             h2 {
                 font-size: 36px;
-                color: $colorWhite;
-                text-shadow: 0px 2px 16px $colorBlack;
+                text-shadow: 0px 2px 16px $colorWhite;
             }
 
             a {

@@ -219,6 +219,12 @@
     }
 }
 
+%large-white-button {
+  @extend %button-base;
+  @extend %large-button-base;
+  @extend %white-button-base;
+}
+
 %large-white-arrow-button {
     @extend %button-base;
     @extend %large-button-base;
