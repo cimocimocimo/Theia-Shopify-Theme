@@ -332,7 +332,7 @@
 .shop-page-hero {
     @extend %hero-medium;
 
-    background-image: none !important;
+    background-image: url(shopify-asset('spring-2017-shop-hero.jpg')) !important;
     background-color: $colorGray;
     overflow: hidden;
 

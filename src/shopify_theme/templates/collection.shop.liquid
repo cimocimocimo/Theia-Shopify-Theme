@@ -130,12 +130,14 @@ page.
 {% endif %}
 
 <div id="top" class="shop-page-hero">
+  {% comment %}
   <div class="shop-hero-carousel">
     {% assign carousel_images = 'shop-carousel-01.jpg shop-carousel-02.jpg shop-carousel-03.jpg shop-carousel-04.jpg shop-carousel-05.jpg shop-carousel-06.jpg shop-carousel-07.jpg shop-carousel-08.jpg shop-carousel-09.jpg shop-carousel-10.jpg shop-carousel-11.jpg shop-carousel-12.jpg shop-carousel-13.jpg shop-carousel-14.jpg shop-carousel-15.jpg shop-carousel-16.jpg' | split: ' ' %}
     {% for image in carousel_images %}
       <img src="{{ image | asset_url }}" />
     {% endfor %}
   </div>
+  {% endcomment %}
 </div>
 
 <div class="product-grid-hero">
