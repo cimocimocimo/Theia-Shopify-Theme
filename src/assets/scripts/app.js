@@ -232,14 +232,3 @@ if (cache.$carousel.length !== 0){
 if (cache.heroCarousel.$carousel.length !== 0){
     // timber.heroCarousel();
 }
-
-// hide the page loader once the images have loaded.
-window.jQuery(window).load(() => {
-  $('.page-loader')
-    .addClass('images-loaded')
-    .one(
-      'transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd',
-      function() {
-        $(this).hide()
-      })
-})
