@@ -419,7 +419,7 @@ gulp.task('serve', () => {
         .create()
         .init({
             proxy: {
-                target: 'http://theia2.myshopify.com'
+                target: 'https://theia2.myshopify.com'
             },
             files: [
                 'dist/assets/**',
