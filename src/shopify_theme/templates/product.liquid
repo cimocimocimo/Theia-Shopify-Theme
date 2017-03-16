@@ -218,8 +218,10 @@ For more information on these Scheme.org tags, visit:
                 <div class="add-to-lists-block">
                   {% if product.tags contains 'waitlist' and product.available == false %}
                     <a href="#add-to-waitlist-modal" id="add-to-waitlist-link" class="js-open-modal add-to-waitlist-link">Notify When Available</a>
-                  {% else %}
-                    <a href="/account" class="add-to-wishlist-link" id="add-to-wishlist-link" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">Add To Favourites </a>
+                    {% comment %}
+                      {% else %}
+                      <a href="/account" class="add-to-wishlist-link" id="add-to-wishlist-link" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">Add To Favourites </a>
+                    {% endcomment %}
                   {% endif %}
                 </div>
 
