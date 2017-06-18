@@ -14,10 +14,30 @@
         "info": "Used for landscape orientation displays (desktops)."
       },
       {
+        "type": "text",
+        "id": "hero_image_landscape_focusX",
+        "label": "Landscape Focus Point X"
+      },
+      {
+        "type": "text",
+        "id": "hero_image_landscape_focusY",
+        "label": "Landscape Focus Point Y"
+      },
+      {
         "type": "image_picker",
         "id": "hero_image_portrait",
         "label": "Portrait Image",
         "info": "Used for portrait orientation displays (phones, etc.),"
+      },
+      {
+        "type": "text",
+        "id": "hero_image_portrait_focusX",
+        "label": "Portrait Focus Point X"
+      },
+      {
+        "type": "text",
+        "id": "hero_image_portrait_focusY",
+        "label": "Portrait Focus Point Y"
       },
       {
         "type": "text",

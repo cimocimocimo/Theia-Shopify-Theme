@@ -370,7 +370,8 @@ gulp.task('upload', (done) => {
         'config',
         'snippets',
         'templates',
-        'locales'
+        'locales',
+        'sections'
     ];
 
     // exclude assets dir in development
