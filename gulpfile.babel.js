@@ -455,7 +455,7 @@ gulp.task('watch', () => {
 
     // watch the shopify template dirs for changes and upload. Exclude assets
     // directory.
-    return plugins.watch(path.dist + '+(layout|config|snippets|templates|locales)/**')
+    return plugins.watch(path.dist + '+(layout|config|snippets|templates|locales|sections)/**')
         .pipe(plugins.shopifyUploadWithCallbacks(
             shop.api_key,
             shop.password,

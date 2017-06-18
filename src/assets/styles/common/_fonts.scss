@@ -10,6 +10,7 @@
     }
 }
 
+// allows for serving assets locally during development
 @function shopify-asset($filename){
     @if is-production() {
         @return "{{ '" + $filename + "' | asset_url }}";
