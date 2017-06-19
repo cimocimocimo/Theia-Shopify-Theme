@@ -2238,13 +2238,6 @@
     // images: url, width, height, focus X, focus Y
     $imageLandscape: shopify-asset('spring-2017-hero-landscape.jpg') 1920 1080 1437 225;
     $imagePortrait: shopify-asset('spring-2017-hero-portrait.jpg') 1080 1920 823 312;
-    /* // override variables if production */
-    /* @if is-production() { */
-    /*   $imageLandscape: "{{ settings.hero_image_landscape }}" "{{ settings.hero_image_landscape.width }}" "{{ settings.hero_image_landscape.height }}" "{{ settings.hero_image_landscape_focusX }}" "{{ settings.hero_image_landscape_focusY }}"; */
-    /*   $imagePortrait: "{{ settings.hero_image_portrait }}" "{{ settings.hero_image_portrait.width }}" "{{ settings.hero_image_portrait.height }}" "{{ settings.hero_image_portrait_focusX }}" "{{ settings.hero_image_portrait_focusY }}"; */
-    /* } */
-    /* $imageLandscape: "{{ settings.hero_image_landscape }}" "{{ settings.hero_image_landscape.width }}" "{{ settings.hero_image_landscape.height }}" "{{ settings.hero_image_landscape_focusX }}" "{{ settings.hero_image_landscape_focusY }}"; */
-    /* $imagePortrait: "{{ settings.hero_image_portrait }}" "{{ settings.hero_image_portrait.width }}" "{{ settings.hero_image_portrait.height }}" "{{ settings.hero_image_portrait_focusX }}" "{{ settings.hero_image_portrait_focusY }}"; */
 
     @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
 
@@ -2295,14 +2288,11 @@
         .content {
             h2 {
                 font-size: 36px;
-                text-shadow: 0px 2px 16px $colorWhite;
             }
 
             a {
                 font-size: 21px;
                 padding: 7px 32px 0px;
-                background: $colorWhite !important;
-                color: $colorBlack;
             }
         }
     }
