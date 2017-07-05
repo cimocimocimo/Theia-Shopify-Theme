@@ -1,5 +1,19 @@
-<div class="inner">
-  <div class="image">
+
+{% if section.blocks.size > 0 %}
+<div style="height:100px">
+  <div id="carousel-{{ section.id }}" class="carousel" data-slick='{"autoplay": true, "autoplaySpeed": {{ section.settings.slider_speed }} }'>
+    {% for block in section.blocks %}
+        <div class="carousel-slide--{{ block.id }}" style="width:100%">
+            {% if block.settings.carousel_image != blank %}
+                    <img class="carousel_image" src="{{ block.settings.carousel_image | img_url: '1920x' }}">
+            {% endif %}
+
+<!-- Can have a default image when a new slide is created with with an image -->
+<!--             {% if block.settings.carousel_image == blank %}
+                <img class="carousel_image" src="" >
+            {% endif %} -->
+        </div>
+    {% endfor %}
   </div>
   <div class="content">
     <div>
@@ -9,58 +23,15 @@
       </a>
     </div>
   </div>
-</div>
 
-<style type="text/css" media="screen">
-  .homepage-collection-hero-new .image {
-    background-image: url("{{ section.settings.hero_image_landscape | img_url: '1920x' }}");
-    background-position: {{ section.settings.hero_image_landscape_focusX }}% {{ section.settings.hero_image_landscape_focusY }}%;
-  }
-  @media screen and (max-width: 768px) and (max-aspect-ratio: 1/1){
-    .homepage-collection-hero-new .image {
-      background-image: url("{{ section.settings.hero_image_portrait | img_url: '1080x' }}");
-      background-position: {{ section.settings.hero_image_portrait_focusX }}% {{ section.settings.hero_image_portrait_focusY }}%;
-    }
-  }
-</style>
+</div>
+{% endif %}
 
 {% schema %}
   {
     "name": "Slideshow",
     "class": "homepage-collection-hero-new",
     "settings": [
-      {
-        "type": "image_picker",
-        "id": "hero_image_landscape",
-        "label": "Landscape Image",
-        "info": "Used for landscape orientation displays (desktops)."
-      },
-      {
-        "type": "text",
-        "id": "hero_image_landscape_focusX",
-        "label": "Landscape Focus Point X"
-      },
-      {
-        "type": "text",
-        "id": "hero_image_landscape_focusY",
-        "label": "Landscape Focus Point Y"
-      },
-      {
-        "type": "image_picker",
-        "id": "hero_image_portrait",
-        "label": "Portrait Image",
-        "info": "Used for portrait orientation displays (phones, etc.),"
-      },
-      {
-        "type": "text",
-        "id": "hero_image_portrait_focusX",
-        "label": "Portrait Focus Point X"
-      },
-      {
-        "type": "text",
-        "id": "hero_image_portrait_focusY",
-        "label": "Portrait Focus Point Y"
-      },
       {
         "type": "text",
         "id": "hero_text",
@@ -77,7 +48,81 @@
         "type": "url",
         "id": "hero_cta_link",
         "label": "CTA Link"
+      },
+      {
+        "type": "text",
+        "id": "slider_speed",
+        "label": "Slider speed"
       }
-    ]
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "carousel_image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "hero_image_portrait_focusX",
+            "label": "Portrait Focus Point X"
+          },
+          {
+            "type": "text",
+            "id": "hero_image_portrait_focusY",
+            "label": "Portrait Focus Point Y"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "carousel",
+      "category": "Image",
+      "settings": {
+
+  },
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }]
   }
 {% endschema %}
+
+{% stylesheet %}
+
+  .slick-next,.slick-prev{top:auto;bottom:35%;z-index:999}
+  .slick-prev{left:37%}
+  .slick-next{right:37%}
+
+  .carousel_image {
+    width:100%;
+    display:inline-block;
+    z-index:0;
+  }
+
+{% endstylesheet %}
+
+
+
+{% javascript %}
+{% endjavascript %}
