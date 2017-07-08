@@ -1,0 +1,14 @@
+{% comment %}
+Don't edit this file.
+This snippet is auto generated and will be overwritten.
+{% endcomment %}
+
+<script id="back-in-stock-helper">
+  var _BISConfig = _BISConfig || {};
+{% if product %}
+  _BISConfig.product = {{ product | json }};
+{% endif %}
+{% if customer %}
+  _BISConfig.customer = { email: {{ customer.email | json }} };
+{% endif %}
+</script>

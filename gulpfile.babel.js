@@ -255,10 +255,6 @@ gulp.task('jshint', () => {
         .pipe(plugins.if(true, plugins.jshint.reporter('fail')));
 });
 
-// var liquidAttrWrapOpen = /\{\{(#|\^)[^}]+\}\}/;
-// var hbAttrWrapClose = /\{\{\/[^}]+\}\}/;
-// var hbAttrWrapPair = [hbAttrWrapOpen, hbAttrWrapClose];
-
 // gets all file extensions
 // ('./some/where/something.html.liquid') => ['html', 'liquid']
 // returns null if no extension
@@ -290,18 +286,22 @@ var shopifyPipe = (() => {
         blacklist = ['js'];
 
     // test for minification
+    // TODO: HTML minification is breaking the shop carousel for some reason.
+    // enable minification again and troubleshoot in development.
     function shouldMinify(file){
-        if (environment === 'development'){
-            return false;
-        }
-
-        var ext = getExtension(file.path);
-
-        // if extension in whitelist and not in blacklist
-        if (ext !== null && doesArrayContainAny(ext, whitelist) && !doesArrayContainAny(ext, blacklist)){
-            return true;
-        }
         return false;
+
+        // if (environment === 'development'){
+        //     return false;
+        // }
+
+        // var ext = getExtension(file.path);
+
+        // // if extension in whitelist and not in blacklist
+        // if (ext !== null && doesArrayContainAny(ext, whitelist) && !doesArrayContainAny(ext, blacklist)){
+        //     return true;
+        // }
+        // return false;
     }
 
     // return the lazypipe
@@ -328,7 +328,6 @@ var shopifyPipe = (() => {
         .pipe(gulp.dest, path.dist);
 })();
 
-
 gulp.task('shopify-templates', () => {
     return gulp.src(path.source + 'shopify_theme/**/*')
         .pipe(shopifyPipe());
@@ -341,7 +340,13 @@ gulp.task('shopify-templates', () => {
  * Deletes the build folder entirely.
  */
 gulp.task('clean', () => {
-    return del([path.dist]);
+    // remove everything in the dist dir except for the config.yml file
+    var args = [
+        path.dist + '**',
+        '!' + path.dist.replace(/\/$/, ''), // need to trim the trailing slash to ignore the directory
+        '!' + path.dist + 'config.yml'
+    ];
+    return del(args);
 });
 
 /**
@@ -359,49 +364,50 @@ gulp.task('build', (done) => {
 /**
  * Upload
  */
-gulp.task('upload', (done) => {
-    var uploadDirs = [
-        'assets',
-        'layout',
-        'config',
-        'snippets',
-        'templates',
-        'locales'
-    ];
+// gulp.task('upload', (done) => {
+//     var uploadDirs = [
+//         'assets',
+//         'layout',
+//         'config',
+//         'snippets',
+//         'templates',
+//         'locales',
+//         'sections'
+//     ];
 
-    // exclude assets dir in development
-    if (environment === 'development'){
-        uploadDirs.shift();
-    }
+//     // exclude assets dir in development
+//     if (environment === 'development'){
+//         uploadDirs.shift();
+//     }
 
-    var srcGlob = path.dist + '+(' + uploadDirs.join('|') +')/**';
+//     var srcGlob = path.dist + '+(' + uploadDirs.join('|') +')/**';
 
-    var shop = shopifyStores[environment];
+//     var shop = shopifyStores[environment];
 
-    return gulp.src(srcGlob)
-        .pipe(plugins.shopifyUploadWithCallbacks(
-            shop.api_key,
-            shop.password,
-            shop.url,
-            shop.id,
-            // null, // theme id is optional
-            {
-                'basePath': path.dist
-            }
-        ));
-});
+//     return gulp.src(srcGlob)
+//         .pipe(plugins.shopifyUploadWithCallbacks(
+//             shop.api_key,
+//             shop.password,
+//             shop.url,
+//             shop.id,
+//             // null, // theme id is optional
+//             {
+//                 'basePath': path.dist
+//             }
+//         ));
+// });
 
 /**
  * Deploy
  */
-gulp.task('deploy', (done) => {
-    runSequence(
-        'clean',
-        'build',
-        'upload',
-        done
-    );
-});
+// gulp.task('deploy', (done) => {
+//     runSequence(
+//         'clean',
+//         'build',
+//         'upload',
+//         done
+//     );
+// });
 
 /**
  * Serve
@@ -415,7 +421,7 @@ gulp.task('serve', () => {
         .create()
         .init({
             proxy: {
-                target: 'http://theia2.myshopify.com'
+                target: 'https://' + shopifyStores.development.url
             },
             files: [
                 'dist/assets/**',
@@ -447,20 +453,20 @@ gulp.task('watch', () => {
     plugins.watch(path.source + 'shopify_theme/**/*', {base: path.source + 'shopify_theme'})
         .pipe(shopifyPipe());
 
-    var shop = shopifyStores[environment];
+    // var shop = shopifyStores[environment];
 
     // watch the shopify template dirs for changes and upload. Exclude assets
     // directory.
-    return plugins.watch(path.dist + '+(layout|config|snippets|templates|locales)/**')
-        .pipe(plugins.shopifyUploadWithCallbacks(
-            shop.api_key,
-            shop.password,
-            shop.url,
-            shop.id,
-            {
-                'basePath': path.dist
-            }
-        ));
+    // return plugins.watch(path.dist + '+(layout|config|snippets|templates|locales|sections)/**')
+    //     .pipe(plugins.shopifyUploadWithCallbacks(
+    //         shop.api_key,
+    //         shop.password,
+    //         shop.url,
+    //         shop.id,
+    //         {
+    //             'basePath': path.dist
+    //         }
+    //     ));
 });
 
 
@@ -474,33 +480,33 @@ gulp.task('watch', () => {
 
 // TODO: could I do a deploy of only the files that changed
 // build and deploy all the theme assets to the production Shopify
-/**
- * Deploy Production
- */
-gulp.task('deploy-production', () => {
-    environment = 'production';
-    runSequence('deploy');
-});
+// /**
+//  * Deploy Production
+//  */
+// gulp.task('deploy-production', () => {
+//     environment = 'production';
+//     runSequence('deploy');
+// });
 
-/**
- * Deploy Staging
- *
- * Build and deploy all the theme assets to the staging shopify store. Uses the
- * production settings but upload to a staging server incase there are
- * minification bugs.
- */
-gulp.task('deploy-staging', () => {
-    environment = 'staging';
-    runSequence('deploy');
-});
+// /**
+//  * Deploy Staging
+//  *
+//  * Build and deploy all the theme assets to the staging shopify store. Uses the
+//  * production settings but upload to a staging server incase there are
+//  * minification bugs.
+//  */
+// gulp.task('deploy-staging', () => {
+//     environment = 'staging';
+//     runSequence('deploy');
+// });
 
-/**
- * Deploy Development
- */
-gulp.task('deploy-development', () => {
-    environment = 'development';
-    runSequence('deploy');
-});
+// /**
+//  * Deploy Development
+//  */
+// gulp.task('deploy-development', () => {
+//     environment = 'development';
+//     runSequence('deploy');
+// });
 
 /**
  * Develop

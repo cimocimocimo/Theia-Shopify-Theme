@@ -1,0 +1,533 @@
+[
+  {
+    "name": "Homepage",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Hero",
+        "info": "Content for the main hero block."
+      },
+      {
+        "type": "image_picker",
+        "id": "hero_image_landscape",
+        "label": "Landscape Image",
+        "info": "Used for landscape orientation displays (desktops)."
+      },
+      {
+        "type": "text",
+        "id": "hero_image_landscape_focusX",
+        "label": "Landscape Focus Point X"
+      },
+      {
+        "type": "text",
+        "id": "hero_image_landscape_focusY",
+        "label": "Landscape Focus Point Y"
+      },
+      {
+        "type": "image_picker",
+        "id": "hero_image_portrait",
+        "label": "Portrait Image",
+        "info": "Used for portrait orientation displays (phones, etc.),"
+      },
+      {
+        "type": "text",
+        "id": "hero_image_portrait_focusX",
+        "label": "Portrait Focus Point X"
+      },
+      {
+        "type": "text",
+        "id": "hero_image_portrait_focusY",
+        "label": "Portrait Focus Point Y"
+      },
+      {
+        "type": "text",
+        "id": "hero_text",
+        "label": "Text",
+        "default": "Welcome to our store"
+      },
+      {
+        "type": "text",
+        "id": "hero_cta_text",
+        "label": "CTA Text",
+        "default": "Our Products"
+      },
+      {
+        "type": "url",
+        "id": "hero_cta_link",
+        "label": "CTA Link"
+      },
+      {
+        "type": "header",
+        "content": "Left Block",
+        "info": "Content for the left navigation block."
+      },
+      {
+        "type": "radio",
+        "id": "left_block_type",
+        "label": "Background Type",
+        "options": [
+          { "value": "image", "label": "Image" },
+          { "value": "video", "label": "Video" }
+        ],
+        "default": "image",
+        "info": "Either an image or video"
+      },
+      {
+        "type": "image_picker",
+        "id": "left_block_image",
+        "label": "Image",
+        "info": "Required, will be used as a screenshot of the video."
+      },
+      {
+        "type": "video_url",
+        "id": "left_block_video",
+        "label": "Video",
+        "accept": ["youtube", "vimeo"]
+      },
+      {
+        "type": "text",
+        "id": "left_block_text",
+        "label": "Text"
+      },
+      {
+        "type": "url",
+        "id": "left_block_link",
+        "label": "Link"
+      },
+      {
+        "type": "header",
+        "content": "Right Block",
+        "info": "Content for the right navigation block."
+      },
+      {
+        "type": "radio",
+        "id": "right_block_type",
+        "label": "Background Type",
+        "options": [
+          { "value": "image", "label": "Image" },
+          { "value": "video", "label": "Video" }
+        ],
+        "info": "Either an image or video"
+      },
+      {
+        "type": "image_picker",
+        "id": "right_block_image",
+        "label": "Image",
+        "info": "Required, will be used as a screenshot of the video."
+      },
+      {
+        "type": "video_url",
+        "id": "right_block_video",
+        "label": "Video",
+        "accept": ["youtube", "vimeo"]
+      },
+      {
+        "type": "text",
+        "id": "right_block_text",
+        "label": "Text"
+      },
+      {
+        "type": "url",
+        "id": "right_block_link",
+        "label": "Link"
+      }
+    ]
+  },
+  {
+    "name": "Welcome",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Timber Theme Framework by [Shopify](http://www.shopify.com)"
+      },
+      {
+        "type": "paragraph",
+        "content": "this is a para Theme settings allow designers to provide an easy way for any user to customize the look and feel of their shop without having to delve into HTML or CSS code. Please see our [help page on theme settings](http://docs.shopify.com/themes/theme-templates/settings) to learn more about how you can make the theme customizable."
+      },
+      {
+        "type": "paragraph",
+        "content": "If you require any support for Timber, please review the [documentation](http://shopify.github.io/Timber/) or contact us at [timber@shopify.com](mailto:timber@shopify.com)"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Use class=\"color\" on a an input tag to bring up the color picker. Only a few colors have been included here as an example."
+      },
+      {
+        "type": "header",
+        "content": "General Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Color",
+        "default": "#204a80",
+        "info": "Used for text links and primary buttons"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary Color",
+        "default": "#dcdcdc",
+        "info": "Used for secondary buttons"
+      },
+      {
+        "type": "header",
+        "content": "Body Text"
+      },
+      {
+        "type": "color",
+        "id": "color_body_text",
+        "label": "Body Text",
+        "default": "#333333"
+      },
+      {
+        "type": "header",
+        "content": "Footer"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_bg",
+        "label": "Footer Background",
+        "default": "#f2f2f2"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_text",
+        "label": "Footer Text",
+        "default": "#636363"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_social_link",
+        "label": "Social Icons",
+        "default": "#bbbbbb"
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "logo_use_image",
+        "label": "Use Custom Logo"
+      },
+      {
+        "type": "image",
+        "id": "logo.png",
+        "label": "Custom Logo",
+        "max-width": 450,
+        "max-height": 200,
+        "info": "Maximum logo dimensions are 450px wide by 200px high. The uploaded file will be resized to fit within those constraints."
+      },
+      {
+        "type": "text",
+        "id": "logo_max_width",
+        "label": "Max Logo Width",
+        "default": "450px",
+        "info": "Defines the CSS max-width."
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "footer_display_quicklinks",
+        "label": "Show quick links"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_quicklinks_linklist",
+        "label": "Quick links link list"
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_display_social",
+        "label": "Show social media links"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter link"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook link"
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_display_newsletter",
+        "label": "Show Newsletter Field"
+      },
+      {
+        "type": "text",
+        "id": "mailing_list_form_action",
+        "label": "MailChimp Form Action URL",
+        "info": "[Where do I find my MailChimp form action URL?](http://docs.shopify.com/support/configuration/store-customization/where-do-i-get-my-mailchimp-form-action)"
+      }
+    ]
+  },
+  {
+    "name": "Home Page",
+    "settings": [
+      {
+        "type": "image",
+        "id": "homepage-hero-desktop-img.jpg",
+        "label": "Homepage Hero Desktop/Tablet Image",
+        "info": "Background image for the hero block on the homepage. Must be at least 620px high and have a solid black background at the left and right edges."
+      },
+      {
+        "type": "image",
+        "id": "homepage-hero-mobile-img.jpg",
+        "label": "Homepage Hero Mobile Image",
+        "info": "Background image for the hero block on the homepage. Must be at least 620px high and have a solid black background at the left and right edges."
+      }
+    ]
+  },
+  {
+    "name": "Contact Info",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Sales Contact"
+      },
+      {
+        "type": "text",
+        "id": "contact_sales_full_name",
+        "label": "Full Name"
+      },
+      {
+        "type": "text",
+        "id": "contact_sales_email",
+        "label": "Email"
+      },
+      {
+        "type": "text",
+        "id": "contact_sales_address1",
+        "label": "Address Line 1"
+      },
+      {
+        "type": "text",
+        "id": "contact_sales_address2",
+        "label": "Address Line 2"
+      },
+      {
+        "type": "text",
+        "id": "contact_sales_phone",
+        "label": "Phone"
+      },
+      {
+        "type": "header",
+        "content": "Press & Media Contact"
+      },
+      {
+        "type": "text",
+        "id": "contact_events_full_name",
+        "label": "Full Name"
+      },
+      {
+        "type": "text",
+        "id": "contact_events_email",
+        "label": "Email"
+      },
+      {
+        "type": "text",
+        "id": "contact_events_address1",
+        "label": "Address Line 1"
+      },
+      {
+        "type": "text",
+        "id": "contact_events_address2",
+        "label": "Address Line 2"
+      },
+      {
+        "type": "text",
+        "id": "contact_events_phone",
+        "label": "Phone"
+      }
+    ]
+  },
+  {
+    "name": "Product Pages",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social Media Meta Tags"
+      },
+      {
+        "type": "paragraph",
+        "content": "Social meta tags include [Facebook](https://developers.facebook.com/docs/opengraph/using-objects/) and [Pinterest](https://developers.pinterest.com/rich_pins/) Open Graph Tags and [Twitter Cards](https://dev.twitter.com/docs/cards/types/product-card) . These are enabled by default to make the store more accessible on different platforms, and more readable for search engines."
+      },
+      {
+        "type": "text",
+        "id": "twittercard_handle",
+        "label": "The Site's Twitter Handle",
+        "info": "E.g. @Shopify. Required for Twitter Cards."
+      }
+    ]
+  },
+  {
+    "name": "Cart Page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cart_notes",
+        "label": "Allow notes with orders"
+      },
+      {
+        "type": "checkbox",
+        "id": "ajax_cart",
+        "label": "Enable Ajaxify Cart",
+        "info": "[View Documentation](http://shopify.com/timber#ajax-cart)"
+      },
+      {
+        "type": "select",
+        "id": "ajax_cart_method",
+        "label": "Ajax Cart Type",
+        "options": [
+          {
+            "value": "drawer",
+            "label": "Drawer"
+          },
+          {
+            "value": "flip",
+            "label": "Flip"
+          },
+          {
+            "value": "modal",
+            "label": "Modal"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Wishlist Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Wishlist Page"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_content_header_colour",
+        "label": "Headers",
+        "default": "#3a3a3a"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_content_text_colour",
+        "label": "Text",
+        "default": "#4d4d4d"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_content_border_colour",
+        "label": "Border colour",
+        "default": "#7d7d7d"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_table_bg_colour",
+        "label": "Table header background",
+        "default": "#b2b2b2"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_content_link_colour",
+        "label": "Links",
+        "default": "#636363"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_content_link_hover_colour",
+        "label": "Link hover",
+        "default": "#6db038"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_popup_bg_colour",
+        "label": "Popup background colour",
+        "default": "#e5e5e5"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_tab_bg_colour",
+        "label": "Active tab background colour",
+        "default": "#fff"
+      },
+      {
+        "type": "header",
+        "content": "Buttons"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_btn_colour",
+        "label": "Button colour",
+        "default": "#69696a"
+      },
+      {
+        "type": "text",
+        "id": "wishlist_btn_font_size",
+        "label": "Button font size",
+        "default": "12"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_btn_text_colour",
+        "label": "Button text colour",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_btn_hover_colour",
+        "label": "Button colour on hover",
+        "default": "#6db038"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_btn_hover_text_colour",
+        "label": "Button text colour on hover",
+        "default": "#ffffff"
+      },
+      {
+        "type": "select",
+        "id": "wishlist_btn_float",
+        "label": "Button float (for detail product page)",
+        "options": [
+          {
+            "value": "right",
+            "label": "Right"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "wishlist_btn_float_list",
+        "label": "Button float (for list products)",
+        "options": [
+          {
+            "value": "right",
+            "label": "Right"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -332,7 +332,7 @@
 .shop-page-hero {
     @extend %hero-medium;
 
-    background-image: none !important;
+    background-image: url(shopify-asset('spring-2017-shop-hero.jpg')) !important;
     background-color: $colorGray;
     overflow: hidden;
 
@@ -460,8 +460,6 @@
     }
 }
 
-
-
 .bridal-page-hero-carousel {
     @extend %collection-hero-carousel-base;
 
@@ -491,7 +489,6 @@
     }
 }
 
-
 .about-page-hero {
     @extend %hero-large;
 
@@ -519,7 +516,7 @@
 }
 
 .contact-page-hero,
-.page-hero{
+.page-hero {
     @extend %hero-medium;
 
     $heroBgColor: #868d8a;
@@ -873,7 +870,6 @@
     }
 }
 
-
 .other-enquires-hero {
     @extend .content-hero;
 
@@ -925,7 +921,6 @@
         }
     }
 }
-
 
 %login-register-form-hero-base {
     @extend .content-hero;
@@ -1014,10 +1009,6 @@
         }
     }
 }
-
-
-
-
 
 .social-link-newsletter-hero {
     @extend %clearfix;
@@ -1177,7 +1168,6 @@
     }
 }
 
-
 .events-press-releases-hero {
     .wrapper {
         @extend .wrapper-10-col;
@@ -1211,7 +1201,6 @@
         }
     }
 }
-
 
 .order-items-hero {
     h5 {
@@ -1631,8 +1620,6 @@
         }
     }
 }
-
-
 
 .sizing-page-hero {
     @extend %hero-small;
@@ -2113,7 +2100,7 @@
         }
 
         a {
-            @extend %large-white-arrow-button;
+            @extend %large-black-arrow-button;
             @include box-shadow($shadow);
 
             font-size: 30px;
@@ -2167,6 +2154,145 @@
                     top: -1px;
                     padding-left: 0;
                 }
+            }
+        }
+    }
+}
+
+.homepage-collection-hero {
+    @extend %hero-100-height;
+
+    $shadow: 2px 2px 7px rgba($colorBlack,0.33);
+
+    // images: url, width, height, focus X, focus Y
+    $imageLandscape: shopify-asset('spring-2017-hero-landscape.jpg') 1920 1080 1437 225;
+    $imagePortrait: shopify-asset('spring-2017-hero-portrait.jpg') 1080 1920 823 312;
+
+    @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
+
+    .content {
+        min-width: 50%;
+
+        h2,
+        a {
+            text-transform: uppercase;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        h2 {
+            color: $colorWhite;
+            font-size: 46px;
+            line-height: 1.2;
+            margin-top: 0;
+            text-shadow: $shadow;
+        }
+
+        a {
+            @extend %large-white-button;
+            @include box-shadow($shadow);
+
+            font-size: 30px;
+            padding: 9px 48px 0px;
+            height: auto;
+            color: $colorBlack;
+        }
+    }
+
+    @media screen and (max-width: $medium) and (max-aspect-ratio: 1/1){
+        .content {
+            h2 {
+                font-size: 36px;
+                line-height: 1.1;
+            }
+
+            a {
+                font-size: 21px;
+                padding: 7px 32px 0px;
+            }
+        }
+    }
+
+    @media screen and (min-width: $postSmall) and (max-width: $large){
+        .content {
+            h2 {
+                font-size: 36px;
+                text-shadow: 0px 2px 16px $colorWhite;
+            }
+
+            a {
+                font-size: 21px;
+                padding: 7px 32px 0px;
+                background: $colorWhite !important;
+                color: $colorBlack;
+            }
+        }
+    }
+}
+
+.homepage-collection-hero-new {
+    @extend %hero-100-height;
+
+    $shadow: 2px 2px 7px rgba($colorBlack,0.33);
+
+    // images: url, width, height, focus X, focus Y
+    $imageLandscape: shopify-asset('spring-2017-hero-landscape.jpg') 1920 1080 1437 225;
+    $imagePortrait: shopify-asset('spring-2017-hero-portrait.jpg') 1080 1920 823 312;
+
+    @include position100HeightHeroBGImage($imageLandscape, $imagePortrait);
+
+    .content {
+        min-width: 50%;
+
+        h2,
+        a {
+            text-transform: uppercase;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        h2 {
+            color: $colorWhite;
+            font-size: 46px;
+            line-height: 1.2;
+            margin-top: 0;
+            text-shadow: $shadow;
+        }
+
+        a {
+            @extend %large-white-button;
+            @include box-shadow($shadow);
+
+            font-size: 30px;
+            padding: 9px 48px 0px;
+            height: auto;
+            color: $colorBlack;
+        }
+    }
+
+    @media screen and (max-width: $medium) and (max-aspect-ratio: 1/1){
+        .content {
+            h2 {
+                font-size: 36px;
+                line-height: 1.1;
+            }
+
+            a {
+                font-size: 21px;
+                padding: 7px 32px 0px;
+            }
+        }
+    }
+
+    @media screen and (min-width: $postSmall) and (max-width: $large){
+        .content {
+            h2 {
+                font-size: 36px;
+            }
+
+            a {
+                font-size: 21px;
+                padding: 7px 32px 0px;
             }
         }
     }
