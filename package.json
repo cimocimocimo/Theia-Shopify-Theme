@@ -22,7 +22,7 @@
     "react-dom": "^15.3.2",
     "slick-carousel": "^1.6.0",
     "smoothscroll": "^0.2.2",
-    "vex": "0.0.4",
+    "vex": "^0.0.4",
     "waypoints": "^4.0.0"
   },
   "devDependencies": {

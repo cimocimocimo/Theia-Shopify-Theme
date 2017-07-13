@@ -143,7 +143,7 @@ window.timber.productTagFilter = function(){
         window.location.href = $selectedOption.val();
     });
 }
-
+// X and esc not working
 window.timber.lookbookPage = function(pager){
     var pageElementSelector = '#collection-items',
         itemElementSelector = '.lookbook-grid-item',
@@ -193,23 +193,36 @@ window.timber.lookbookPage = function(pager){
             closeClassName: 'lookbook-modal-close',
             // events
             afterOpen: function($vexContent){
-                $vexContent.append(carouselTemplate({}));
 
+                $vexContent.append(carouselTemplate({}));
+                console.log('VEX AFTER OPEN');
                 $modal = $vexContent;
+
+                //$(this.$modal).append(carouselTemplate({}));
 
                 initCarousel(clickedItemIndex);
             },
             beforeClose: function($vexContent){
                 // scroll to the current item on the page behind hte modal
                 // and have it vertically centered on the page.
+                
                 window.jQuery('body').scrollTop($currentItem.offset().top - ((window.jQuery(window).height() - $currentItem.height())/2));
+                console.log('VEX BEFORE CLOSE');
+                console.log($vexContent.data().vex.id);
+                                  
             },
+            
             afterClose: function($vexContent){
+                console.log('VEX AFTER CLOSE');
                 $modal = null;
                 $currentItem = null;
+                
             }
         });
+
     }
+
+
 
     function initCarousel(selectedIndex){
 

@@ -27,34 +27,35 @@
     </div>
 
 {% schema %}
+
   {
-    "name": "Image",
-    "class": "homepage-collection-image-new",
-    "settings": [
-      {
-        "type": "text",
-        "id": "line_1",
-        "label": "Line 1",
-        "default": "Browse Our"
-      },
-      {
-        "type": "text",
-        "id": "line_2",
-        "label": "Line 2",
-        "default": "Bridal Collection"
-      },
-      {
-        "type": "text",
-        "id": "picture_url",
-        "label": "Relative Link",
-        "default": "/collections/bridal/lookbook/"
+    "blocks": [    
+	    {
+        "type": "image",
+        "name": "Image",
+        "limit": 2,
+        "settings": [
+          {
+            "type": "text",
+            "id": "line_1",
+            "label": "Line 1",
+            "default": "Browse Our"
+          },
+          {
+            "type": "text",
+            "id": "line_2",
+            "label": "Line 2",
+            "default": "Bridal Collection"
+          },
+          {
+            "type": "text",
+            "id": "picture_url",
+            "label": "Relative Link",
+            "default": "/collections/bridal/lookbook/"
+          }
+        ]
       }
-  ]
+	  ]
   }
+    
 {% endschema %}
-
-{% stylesheet %}
-{% endstylesheet %}
-
-{% javascript %}
-{% endjavascript %}
