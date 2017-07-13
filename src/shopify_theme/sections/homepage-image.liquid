@@ -27,14 +27,15 @@
     </div>
 
 {% schema %}
-
   {
-    "blocks": [    
-	    {
+    "name": "Content",
+    "max_blocks": 2,
+    "blocks": [
+    	{
         "type": "image",
         "name": "Image",
         "limit": 2,
-        "settings": [
+		    "settings": [
           {
             "type": "text",
             "id": "line_1",
@@ -54,7 +55,32 @@
             "default": "/collections/bridal/lookbook/"
           }
         ]
-      }
+      },
+	    {
+        "type": "video",
+        "name": "Video",
+        "limit": 2,
+        "settings": [
+          {
+            "type": "text",
+            "id": "line_1",
+            "label": "Line 1",
+            "default": "Spring 2018"
+          },
+          {
+            "type": "text",
+            "id": "line_2",
+            "label": "Line 2",
+            "default": "Bridal Runway Show"
+          },
+          {
+            "type": "text",
+            "id": "Vimeo_id",
+            "label": "Vimeo Video ID",
+            "default": "214503954"
+          }
+        ]
+      }	
 	  ]
   }
     
