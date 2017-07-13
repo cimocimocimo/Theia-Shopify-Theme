@@ -1,9 +1,9 @@
 
 {% if section.blocks.size > 0 %}
   <div class="inner">
-    <div id="carousel-{{ section.id }}" class="image" data-slick='{"autoplay": true, "autoplaySpeed": {{ section.settings.slider_speed }} }'>
+    <div id="carousel-{{ section.id }}" class="carousel" data-slick='{"autoplay": true, "adaptiveHeight":false, "autoplaySpeed": {{ section.settings.slider_speed }} }'>
       {% for block in section.blocks %}
-        <div class="image" id ="{{ block.id }}">
+        <div id ="image-{{ block.id }}">
         </div>
       {% endfor %}
     </div>
@@ -18,25 +18,27 @@
   </div>
 {% endif %}
 
-{% for block in section.blocks %}
   <style type="text/css" media="screen">
-    .homepage-collection-hero-new #{{ block.id }}{
+{% for block in section.blocks %}
+    .homepage-collection-hero-new #image-{{ block.id }}{
+      height:550px;
       background-image: url("{{ block.settings.hero_image_landscape | img_url: '1920x' }}");
       background-position: {{ block.settings.hero_image_landscape_focusX }}% {{ block.settings.hero_image_landscape_focusY }}%;
     }
     @media screen and (max-width: 768px) and (max-aspect-ratio: 1/1){
-      .homepage-collection-hero-new #{{ block.id }}{
+      .homepage-collection-hero-new #image-{{ block.id }}{
+        height:550px;
         background-image: url("{{ block.settings.hero_image_portrait | img_url: '1080x' }}");
         background-position: {{ block.settings.hero_image_portrait_focusX }}% {{ block.settings.hero_image_portrait_focusY }}%;
       }
     }
-  </style>
 {% endfor %}
+  </style>
 
 {% schema %}
   {
     "name": "Slideshow",
-    class": "homepage-collection-hero-new",
+    "class": "homepage-collection-hero-new",
     "settings": [
       {
         "type": "text",
