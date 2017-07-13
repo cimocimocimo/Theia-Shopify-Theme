@@ -3,7 +3,7 @@
   <div class="inner">
     <div id="carousel-{{ section.id }}" class="carousel" data-slick='{"autoplay": true, "adaptiveHeight":false, "autoplaySpeed": {{ section.settings.slider_speed }} }'>
       {% for block in section.blocks %}
-        <div id ="image-{{ block.id }}">
+        <div id ="image-{{ block.id }}" class="carousel-slide">
         </div>
       {% endfor %}
     </div>
@@ -18,22 +18,20 @@
   </div>
 {% endif %}
 
-  <style type="text/css" media="screen">
-{% for block in section.blocks %}
+<style type="text/css" media="screen">
+  {% for block in section.blocks %}
     .homepage-collection-hero-new #image-{{ block.id }}{
-      height:550px;
       background-image: url("{{ block.settings.hero_image_landscape | img_url: '1920x' }}");
       background-position: {{ block.settings.hero_image_landscape_focusX }}% {{ block.settings.hero_image_landscape_focusY }}%;
     }
     @media screen and (max-width: 768px) and (max-aspect-ratio: 1/1){
       .homepage-collection-hero-new #image-{{ block.id }}{
-        height:550px;
         background-image: url("{{ block.settings.hero_image_portrait | img_url: '1080x' }}");
         background-position: {{ block.settings.hero_image_portrait_focusX }}% {{ block.settings.hero_image_portrait_focusY }}%;
       }
     }
-{% endfor %}
-  </style>
+  {% endfor %}
+</style>
 
 {% schema %}
   {
@@ -130,3 +128,21 @@
     }]
   }
 {% endschema %}
+
+{% javascript %}
+
+  $(document).ready(function(){
+    resizeCarouselSize();
+  });
+
+  $(window).bind('resize', function () {
+    resizeCarouselSize();
+  });
+
+  function resizeCarouselSize() {
+    var innerHeight = $( ".inner" ).height();
+    $( ".carousel" ).height(innerHeight);
+    $( ".carousel-slide" ).height(innerHeight);
+  }
+
+{% endjavascript %}
