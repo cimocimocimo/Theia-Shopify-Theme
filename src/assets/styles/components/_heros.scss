@@ -2230,8 +2230,24 @@
     }
 }
 
+.homepage-slideshow {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  padding-top: $headerHeightDesktop;
+
+  .slick-slider,
+  .slick-list,
+  .slick-track {
+    height: 100%;
+  }
+}
+
 .homepage-collection-hero-new {
     @extend %hero-100-height;
+
+    height: 100%;
+    padding-top: 0;
 
     $shadow: 2px 2px 7px rgba($colorBlack,0.33);
 

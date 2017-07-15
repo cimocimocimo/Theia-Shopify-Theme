@@ -1,44 +1,47 @@
-
 {% if section.blocks.size > 0 %}
-  <div class="inner">
-    <div id="carousel-{{ section.id }}" class="carousel" data-slick='{"autoplay": true, "adaptiveHeight":false, "autoplaySpeed": {{ section.settings.slider_speed }} }'>
-      {% for block in section.blocks %}
-        <div id ="image-{{ block.id }}" class="carousel-slide">
-          <div class="content">
-            <div>
-              <h2>{{ block.settings.hero_text }}</h2>
-              <a href="{{ section.settings.hero_cta_link }}">
-                {{ block.settings.hero_cta_text }}
-              </a>
+  <div class="js-homepage-carousel"
+    data-slick='{
+              "autoplaySpeed": {{ section.settings.slider_speed }}
+              }'>
+    {% for block in section.blocks %}
+      <div>
+        <div class="homepage-collection-hero-new">
+          <div class="inner">
+            <div id="homepage-hero-slider-image-{{ block.id }}" class="image"></div>
+            <div class="content">
+              <div>
+                <h2>{{ block.settings.hero_text }}</h2>
+                <a href="{{ block.settings.hero_cta_link }}">
+                  {{ block.settings.hero_cta_text }}
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      {% endfor %}
-    </div>
+      </div>
+    {% endfor %}
   </div>
 {% endif %}
 
 <style type="text/css" media="screen">
   {% for block in section.blocks %}
-    .homepage-collection-hero-new #image-{{ block.id }}{
-      z-index:0;
-      background-image: url("{{ block.settings.hero_image_landscape | img_url: '1920x' }}");
-      background-position: {{ block.settings.hero_image_landscape_focusX }}% {{ block.settings.hero_image_landscape_focusY }}%;
+  #homepage-hero-slider-image-{{ block.id }} {
+    background-image: url("{{ block.settings.hero_image_landscape | img_url: '1920x' }}");
+    background-position: {{ block.settings.hero_image_landscape_focusX }}% {{ block.settings.hero_image_landscape_focusY }}%;
+  }
+  @media screen and (max-width: 768px) and (max-aspect-ratio: 1/1) {
+    #homepage-hero-slider-image-{{ block.id }} {
+      background-image: url("{{ block.settings.hero_image_portrait | img_url: '1080x' }}");
+      background-position: {{ block.settings.hero_image_portrait_focusX }}% {{ block.settings.hero_image_portrait_focusY }}%;
     }
-    @media screen and (max-width: 768px) and (max-aspect-ratio: 1/1){
-      .homepage-collection-hero-new #image-{{ block.id }}{
-        z-index:0;
-        background-image: url("{{ block.settings.hero_image_portrait | img_url: '1080x' }}");
-        background-position: {{ block.settings.hero_image_portrait_focusX }}% {{ block.settings.hero_image_portrait_focusY }}%;
-      }
-    }
+  }
   {% endfor %}
 </style>
 
 {% schema %}
   {
     "name": "Slideshow",
-    "class": "homepage-collection-hero-new",
+    "class": "homepage-slideshow",
     "settings": [
       {
         "type": "text",
@@ -60,12 +63,14 @@
           {
             "type": "text",
             "id": "hero_image_landscape_focusX",
-            "label": "Landscape Focus Point X"
+            "label": "Landscape Focus Point X",
+            "info": "Percentage value, calculated by dividing the focus point X position in pixels by the width of the image multiplied by 100."
           },
           {
             "type": "text",
             "id": "hero_image_landscape_focusY",
-            "label": "Landscape Focus Point Y"
+            "label": "Landscape Focus Point Y",
+            "info": "Percentage value, calculated by dividing the focus point Y position in pixels by the height of the image multiplied by 100."
           },
           {
             "type": "image_picker",
@@ -76,12 +81,14 @@
           {
             "type": "text",
             "id": "hero_image_portrait_focusX",
-            "label": "Portrait Focus Point X"
+            "label": "Portrait Focus Point X",
+            "info": "Percentage value, calculated by dividing the focus point X position in pixels by the width of the image multiplied by 100."
           },
           {
             "type": "text",
             "id": "hero_image_portrait_focusY",
-            "label": "Portrait Focus Point Y"
+            "label": "Portrait Focus Point Y",
+            "info": "Percentage value, calculated by dividing the focus point Y position in pixels by the height of the image multiplied by 100."
           },
           {
             "type": "text",
@@ -102,49 +109,9 @@
           }
         ]
       }
-    ],
-    "presets": [{
-      "name": "carousel",
-      "category": "Image",
-      "settings": {},
-      "blocks": [
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        },
-        {
-          "type": "image"
-        }
-      ]
-    }]
+    ]
   }
 {% endschema %}
 
 {% javascript %}
-
-  $(document).ready(function(){
-    resizeCarouselSize();
-  });
-
-  $(window).bind('resize', function () {
-    resizeCarouselSize();
-  });
-
-  function resizeCarouselSize() {
-    var innerHeight = $( ".inner" ).height();
-    $( ".carousel" ).height(innerHeight);
-    $( ".carousel-slide" ).height(innerHeight);
-  }
-
 {% endjavascript %}
