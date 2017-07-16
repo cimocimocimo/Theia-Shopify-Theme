@@ -1,17 +1,7 @@
-    <div class="block-navigation-column">
+<div class="block-navigation-column">
       <div class="inner">
-
-        {% comment %}
-        <a class="block-navigation-link-collection" href="/collections/shop/evening-gowns/">
-          <div class="image"></div>
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>
-              Browse Our<br/>Evening Wear Collection
-            </h3>
-          </div>
-        </a>
-        {% endcomment %}
+{% for block in section.blocks %}
+{% if block.type == 'image' %}
 
         <a class="block-navigation-link-bridal" href="{{ section.settings.picture_url }}">
           <div class="image"></div>
@@ -26,6 +16,43 @@
       </div>
     </div>
 
+ 
+{% elsif block.type == 'video' %}
+
+
+        <div id="block-navigation-video-player" class="block-navigation-video-player">
+          <div class="image"></div>
+          <div class="overlay">
+
+          </div>
+          <div class="content">
+            <div class="content-title-wrapper">
+              <h3>
+                {{ section.settings.line_1 }}<br>{{ section.settings.line_2 }}
+              </h3>
+            </div>
+            <a href="#" class="play-link js-play-video"></a>
+          </div>
+
+          <div id="block-navigation-video-container" class="block-navigation-video-container hidden">
+            
+            {% assign vimeo_player_id = "homepage-video-player" %}
+            {% assign vimeo_video_id = "{{ section.settings.vimeo_id }}" %}
+            <iframe src="https://player.vimeo.com/video/{{ vimeo_video_id }}?title=0&byline=0&portrait=0&player_id={{ vimeo_player_id }}"
+                    id="{{ vimeo_player_id }}"
+                    frameborder="0" width="100%" height="100%"
+                    webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          </div>
+        </div>
+
+   
+ {% endif %}
+{% endfor %}
+
+   </div>
+    </div>
+
+
 {% schema %}
   {
     "name": "Content",
@@ -38,7 +65,7 @@
 		    "settings": [
           {
             "type": "text",
-            "id": "line_1",
+            "id": "ine_1",
             "label": "Line 1",
             "default": "Browse Our"
           },
