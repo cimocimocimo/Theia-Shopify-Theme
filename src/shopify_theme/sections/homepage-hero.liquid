@@ -4,7 +4,7 @@
               "autoplaySpeed": {{ section.settings.slider_speed }}
               }'>
     {% for block in section.blocks %}
-      <div>
+      <div id="homepage-hero-slide-{{ block.id }}">
         <div class="homepage-collection-hero-new">
           <div class="inner">
             <div id="homepage-hero-slider-image-{{ block.id }}" class="image"></div>
@@ -25,6 +25,16 @@
 
 <style type="text/css" media="screen">
   {% for block in section.blocks %}
+  #homepage-hero-slide-{{ block.id }} .content {
+    {% comment %}The default is left so we don't need to override it here{% endcomment %}
+    {% if block.settings.content_position_landscape == 'centre' %}
+    min-width: 100%;
+    {% elsif block.settings.content_position_landscape == 'right' %}
+    left: auto;
+    right: 0;
+    {% endif %}
+  }
+
   #homepage-hero-slider-image-{{ block.id }} {
     background-image: url("{{ block.settings.hero_image_landscape | img_url: '1920x' }}");
     background-position: {{ block.settings.hero_image_landscape_focusX }}% {{ block.settings.hero_image_landscape_focusY }}%;
@@ -33,6 +43,15 @@
     #homepage-hero-slider-image-{{ block.id }} {
       background-image: url("{{ block.settings.hero_image_portrait | img_url: '1080x' }}");
       background-position: {{ block.settings.hero_image_portrait_focusX }}% {{ block.settings.hero_image_portrait_focusY }}%;
+    }
+    #homepage-hero-slide-{{ block.id }} .content {
+      {% comment %}The default is bottom so we don't need to override it here{% endcomment %}
+      {% if block.settings.content_position_portrait == 'middle' %}
+      height: 100%;
+      {% elsif block.settings.content_position_portrait == 'top' %}
+      bottom: auto;
+      top: 0;
+      {% endif %}
     }
   }
   {% endfor %}
@@ -106,6 +125,46 @@
             "type": "url",
             "id": "hero_cta_link",
             "label": "CTA Link"
+          },
+          {
+            "type":      "select",
+            "id":        "content_position_landscape",
+            "label":     "Landscape Content Position",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "centre",
+                "label": "Centre"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+            ],
+            "default":   "left"
+          },
+          {
+            "type":      "select",
+            "id":        "content_position_portrait",
+            "label":     "Portrait Content Position",
+            "options": [
+              {
+                "value": "top",
+                "label": "Top"
+              },
+              {
+                "value": "middle",
+                "label": "Middle"
+              },
+              {
+                "value": "bottom",
+                "label": "Bottom"
+              }
+            ],
+            "default":   "bottom"
           }
         ]
       }
