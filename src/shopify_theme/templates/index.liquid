@@ -16,7 +16,6 @@
   </div>
 </div>
 {% endcomment %}
-
 {% comment %}
 <!-- keep this as a template for other press headings -->
 <div id="homepage-hero" class="golden-globes-feature-hero">
@@ -47,80 +46,9 @@
     </div>
     {% endcomment %}
 
-    <div class="block-navigation-column">
-      <div class="inner">
+  {% section 'homepage-video' %}
 
-        <div id="block-navigation-video-player" class="block-navigation-video-player">
-          <div class="image"></div>
-          <div class="overlay">
-            
-          </div>
-          <div class="content">
-            <div class="content-title-wrapper">
-              <h3>
-                Spring 2018<br>Bridal Runway Show
-              </h3>
-            </div>
-            <a href="#" class="play-link js-play-video"></a>
-          </div>
-          
-          <div id="block-navigation-video-container" class="block-navigation-video-container hidden">
-            {% comment %}
-            if the player iframe has an id then you need to pass it in the url for the api to work.
-            http://stackoverflow.com/questions/6537415/vimeo-froogaloop-api-not-recognizing-an-event
-            {% endcomment %}
-            {% assign vimeo_player_id = "homepage-video-player" %}
-            {% assign vimeo_video_id = "214503954" %}
-            <iframe src="https://player.vimeo.com/video/{{ vimeo_video_id }}?title=0&byline=0&portrait=0&player_id={{ vimeo_player_id }}"
-                    id="{{ vimeo_player_id }}"
-                    frameborder="0" width="100%" height="100%"
-                    webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-          </div>
-        </div>
-
-
-        {% comment %}
-        <a class="block-navigation-link-shop" href="/collections/shop/new-arrivals">
-          <div class="image"></div>
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>
-              Shop<br/>New Arrivals
-            </h3>
-          </div>
-        </a>
-        {% endcomment %}
-
-      </div>
-    </div>
-
-    <div class="block-navigation-column">
-      <div class="inner">
-
-        {% comment %}
-        <a class="block-navigation-link-collection" href="/collections/shop/evening-gowns/">
-          <div class="image"></div>
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>
-              Browse Our<br/>Evening Wear Collection
-            </h3>
-          </div>
-        </a>
-        {% endcomment %}
-
-        <a class="block-navigation-link-bridal" href="/collections/bridal/lookbook/">
-          <div class="image"></div>
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>
-              Browse Our<br/>Bridal Collection
-            </h3>
-          </div>
-        </a>
-
-      </div>
-    </div>
+  {% section 'homepage-image' %}
 
     {% comment %}
     <div class="block-navigation-column">

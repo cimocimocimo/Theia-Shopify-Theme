@@ -1,83 +1,176 @@
-<div class="inner">
-  <div class="image">
+{% if section.blocks.size > 0 %}
+  <div class="js-homepage-carousel"
+    data-slick='{
+              "autoplaySpeed": {{ section.settings.slider_speed }}
+              }'>
+    {% for block in section.blocks %}
+      <div id="homepage-hero-slide-{{ block.id }}">
+        <div class="homepage-collection-hero-new">
+          <div class="inner">
+            <div id="homepage-hero-slider-image-{{ block.id }}" class="image"></div>
+            <div class="content">
+              <div>
+                <h2>{{ block.settings.hero_text }}</h2>
+                <a href="{{ block.settings.hero_cta_link }}">
+                  {{ block.settings.hero_cta_text }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
   </div>
-  <div class="content">
-    <div>
-      <h2>{{ section.settings.hero_text }}</h2>
-      <a href="{{ section.settings.hero_cta_link }}">
-        {{ section.settings.hero_cta_text }}
-      </a>
-    </div>
-  </div>
-</div>
+{% endif %}
 
 <style type="text/css" media="screen">
-  .homepage-collection-hero-new .image {
-    background-image: url("{{ section.settings.hero_image_landscape | img_url: '1920x' }}");
-    background-position: {{ section.settings.hero_image_landscape_focusX }}% {{ section.settings.hero_image_landscape_focusY }}%;
+  {% for block in section.blocks %}
+  #homepage-hero-slide-{{ block.id }} .content {
+    {% comment %}The default is left so we don't need to override it here{% endcomment %}
+    {% if block.settings.content_position_landscape == 'centre' %}
+    min-width: 100%;
+    {% elsif block.settings.content_position_landscape == 'right' %}
+    left: auto;
+    right: 0;
+    {% endif %}
   }
-  @media screen and (max-width: 768px) and (max-aspect-ratio: 1/1){
-    .homepage-collection-hero-new .image {
-      background-image: url("{{ section.settings.hero_image_portrait | img_url: '1080x' }}");
-      background-position: {{ section.settings.hero_image_portrait_focusX }}% {{ section.settings.hero_image_portrait_focusY }}%;
+
+  #homepage-hero-slider-image-{{ block.id }} {
+    background-image: url("{{ block.settings.hero_image_landscape | img_url: '1920x' }}");
+    background-position: {{ block.settings.hero_image_landscape_focusX }}% {{ block.settings.hero_image_landscape_focusY }}%;
+  }
+  @media screen and (max-width: 768px) and (max-aspect-ratio: 1/1) {
+    #homepage-hero-slider-image-{{ block.id }} {
+      background-image: url("{{ block.settings.hero_image_portrait | img_url: '1080x' }}");
+      background-position: {{ block.settings.hero_image_portrait_focusX }}% {{ block.settings.hero_image_portrait_focusY }}%;
+    }
+    #homepage-hero-slide-{{ block.id }} .content {
+      {% comment %}The default is bottom so we don't need to override it here{% endcomment %}
+      {% if block.settings.content_position_portrait == 'middle' %}
+      height: 100%;
+      {% elsif block.settings.content_position_portrait == 'top' %}
+      bottom: auto;
+      top: 0;
+      {% endif %}
     }
   }
+  {% endfor %}
 </style>
 
 {% schema %}
   {
     "name": "Slideshow",
-    "class": "homepage-collection-hero-new",
+    "class": "homepage-slideshow",
     "settings": [
       {
-        "type": "image_picker",
-        "id": "hero_image_landscape",
-        "label": "Landscape Image",
-        "info": "Used for landscape orientation displays (desktops)."
-      },
-      {
         "type": "text",
-        "id": "hero_image_landscape_focusX",
-        "label": "Landscape Focus Point X"
-      },
+        "id": "slider_speed",
+        "label": "Slider speed"
+      }
+    ],
+    "blocks": [
       {
-        "type": "text",
-        "id": "hero_image_landscape_focusY",
-        "label": "Landscape Focus Point Y"
-      },
-      {
-        "type": "image_picker",
-        "id": "hero_image_portrait",
-        "label": "Portrait Image",
-        "info": "Used for portrait orientation displays (phones, etc.),"
-      },
-      {
-        "type": "text",
-        "id": "hero_image_portrait_focusX",
-        "label": "Portrait Focus Point X"
-      },
-      {
-        "type": "text",
-        "id": "hero_image_portrait_focusY",
-        "label": "Portrait Focus Point Y"
-      },
-      {
-        "type": "text",
-        "id": "hero_text",
-        "label": "Text",
-        "default": "Welcome to our store"
-      },
-      {
-        "type": "text",
-        "id": "hero_cta_text",
-        "label": "CTA Text",
-        "default": "Our Products"
-      },
-      {
-        "type": "url",
-        "id": "hero_cta_link",
-        "label": "CTA Link"
+        "type": "image",
+        "name": "Image slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "hero_image_landscape",
+            "label": "Landscape Image",
+            "info": "Used for landscape orientation displays (desktops)."
+          },
+          {
+            "type": "text",
+            "id": "hero_image_landscape_focusX",
+            "label": "Landscape Focus Point X",
+            "info": "Percentage value, calculated by dividing the focus point X position in pixels by the width of the image multiplied by 100."
+          },
+          {
+            "type": "text",
+            "id": "hero_image_landscape_focusY",
+            "label": "Landscape Focus Point Y",
+            "info": "Percentage value, calculated by dividing the focus point Y position in pixels by the height of the image multiplied by 100."
+          },
+          {
+            "type": "image_picker",
+            "id": "hero_image_portrait",
+            "label": "Portrait Image",
+            "info": "Used for portrait orientation displays (phones, etc.),"
+          },
+          {
+            "type": "text",
+            "id": "hero_image_portrait_focusX",
+            "label": "Portrait Focus Point X",
+            "info": "Percentage value, calculated by dividing the focus point X position in pixels by the width of the image multiplied by 100."
+          },
+          {
+            "type": "text",
+            "id": "hero_image_portrait_focusY",
+            "label": "Portrait Focus Point Y",
+            "info": "Percentage value, calculated by dividing the focus point Y position in pixels by the height of the image multiplied by 100."
+          },
+          {
+            "type": "text",
+            "id": "hero_text",
+            "label": "Hero Text",
+            "default": "Welcome to our store"
+          },
+          {
+            "type": "text",
+            "id": "hero_cta_text",
+            "label": "CTA Text",
+            "default": "Our Products"
+          },
+          {
+            "type": "url",
+            "id": "hero_cta_link",
+            "label": "CTA Link"
+          },
+          {
+            "type":      "select",
+            "id":        "content_position_landscape",
+            "label":     "Landscape Content Position",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "centre",
+                "label": "Centre"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+            ],
+            "default":   "left"
+          },
+          {
+            "type":      "select",
+            "id":        "content_position_portrait",
+            "label":     "Portrait Content Position",
+            "options": [
+              {
+                "value": "top",
+                "label": "Top"
+              },
+              {
+                "value": "middle",
+                "label": "Middle"
+              },
+              {
+                "value": "bottom",
+                "label": "Bottom"
+              }
+            ],
+            "default":   "bottom"
+          }
+        ]
       }
     ]
   }
 {% endschema %}
+
+{% javascript %}
+{% endjavascript %}
