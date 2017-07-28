@@ -625,26 +625,14 @@
     }
 }
 
-.block-navigation-link-bridal {
+.block-navigation-image-link {
     @extend %block-navigation-link-base;
-
-    &:before {
-        background-image: url(shopify-asset('bridal-collection-block-bg.jpg'));
-    }
-
-    .image {
-        background-image: url(shopify-asset('bridal-collection-block-bg.jpg'));
-    }
 }
 
 .block-navigation-video-player {
     @extend %block-navigation-link-base;
 
     background: $colorBlack;
-
-    .image {
-        background-image: url(shopify-asset('bridal2018runwayvideoimg.jpg'));
-    }
 
     &.hide-inner {
         .image,
