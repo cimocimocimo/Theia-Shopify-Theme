@@ -3,23 +3,51 @@
     data-slick='{
               "autoplaySpeed": {{ section.settings.slider_speed }}
               }'>
-    {% for block in section.blocks %}
-      <div id="homepage-hero-slide-{{ block.id }}">
-        <div class="homepage-collection-hero-new">
-          <div class="inner">
-            <div id="homepage-hero-slider-image-{{ block.id }}" class="image"></div>
-            <div class="content">
-              <div>
-                <h2>{{ block.settings.hero_text }}</h2>
-                <a href="{{ block.settings.hero_cta_link }}">
-                  {{ block.settings.hero_cta_text }}
-                </a>
+    {% if section.settings.clickable_picture == false %}
+
+      {% for block in section.blocks %}
+        <div id="homepage-hero-slide-{{ block.id }}">
+          <div class="homepage-collection-hero-new">
+            <div class="inner">
+              <div id="homepage-hero-slider-image-{{ block.id }}" class="image"></div>
+              <div class="content">
+                <div>
+                  <h2>{{ block.settings.hero_text }}</h2>
+                  <a href="{{ block.settings.hero_cta_link }}">
+                    {{ block.settings.hero_cta_text }}
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    
+    {% else %}
+
+      {% for block in section.blocks %}
+        
+        <div id="homepage-hero-slide-{{ block.id }}">
+          <a href="{{ block.settings.hero_cta_link }}">
+            <div class="homepage-collection-hero-new">
+              <div class="inner">  
+                <div id="homepage-hero-slider-image-{{ block.id }}" class="image"></div>             
+                  <div class="content">
+                    <div>
+                      <h2>{{ block.settings.hero_text }}</h2>
+                      <h2>{{ block.settings.hero_cta_text }}</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+          
+      {% endfor %}
+
+    {% endif %}
+
   </div>
 {% endif %}
 
