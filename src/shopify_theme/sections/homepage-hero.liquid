@@ -3,23 +3,29 @@
     data-slick='{
               "autoplaySpeed": {{ section.settings.slider_speed }}
               }'>
-    {% for block in section.blocks %}
-      <div id="homepage-hero-slide-{{ block.id }}">
-        <div class="homepage-collection-hero-new">
-          <div class="inner">
-            <div id="homepage-hero-slider-image-{{ block.id }}" class="image"></div>
-            <div class="content">
-              <div>
-                <h2>{{ block.settings.hero_text }}</h2>
-                <a href="{{ block.settings.hero_cta_link }}">
-                  {{ block.settings.hero_cta_text }}
-                </a>
+
+      {% for block in section.blocks %}
+        <div id="homepage-hero-slide-{{ block.id }}">
+          <div class="homepage-collection-hero-new">
+            {% if block.settings.clickable_picture %}<a href="{{ block.settings.hero_cta_link }}">{% endif %}
+            <div class="inner">
+              <div id="homepage-hero-slider-image-{{ block.id }}" class="image"></div>
+              <div class="content">
+                <div>
+                  <h2>{{ block.settings.hero_text }}</h2>
+                  {% unless block.settings.clickable_picture %}
+                    <a href="{{ block.settings.hero_cta_link }}">
+                      {{ block.settings.hero_cta_text }}
+                    </a>
+                  {% endunless %}
+                </div>
               </div>
             </div>
+            {% if block.settings.clickable_picture %}</a>{% endif %}
           </div>
         </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+
   </div>
 {% endif %}
 
@@ -125,6 +131,11 @@
             "type": "url",
             "id": "hero_cta_link",
             "label": "CTA Link"
+          },
+          {
+            "type": "checkbox",
+            "id": "clickable_picture",
+            "label": "Clickable Picture"
           },
           {
             "type":      "select",
