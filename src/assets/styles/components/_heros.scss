@@ -2311,3 +2311,23 @@
         }
     }
 }
+
+.featured-press-hero {
+  text-align: center;
+
+  .logo-row {
+
+  }
+
+  .logo-column {
+    display: inline-block;
+    padding: $gutter;
+    vertical-align: middle;
+  }
+
+  @include at-query ($min, $postMedium) {
+    .logo-column {
+      padding: $gridGutter;
+    }
+  }
+}
