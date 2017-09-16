@@ -1794,7 +1794,6 @@ $lookbookModalHeaderHeight: $gutter*8;
 
     .image-row {
         overflow: hidden;
-        border: 1px solid $colorLightGray;
     }
 
     img {
@@ -2023,8 +2022,6 @@ $lookbookModalHeaderHeight: $gutter*8;
         }
     }
 
-
-
     .info-block {
         @extend %smallish-arial-text;
 
@@ -2095,9 +2092,14 @@ $lookbookModalHeaderHeight: $gutter*8;
 }
 
 .order-grid-item {
-    @extend %grid-item-2-col;
+  @extend %grid-item-2-col;
 
-    text-align: left;
+  height: auto;
+
+  .image-row {
+    height: auto;
+  }
+
     .meta-row {
         > div {
             @extend %smallish-arial-text;
@@ -2109,17 +2111,11 @@ $lookbookModalHeaderHeight: $gutter*8;
     }
 
     .button {
-        @extend %small-gold-arrow-button;
-    }
-
-    /* Desktop */
-    @include at-query ($min, $postSmall) {
-        height: 282px;
+      @extend %small-gray-outline-arrow-button;
     }
 
     /* Mobile */
     @include at-query ($max, $small) {
-
 
         .meta-row > div {
             font-size: 9px;
@@ -2129,7 +2125,6 @@ $lookbookModalHeaderHeight: $gutter*8;
             display: block;
             width: auto;
             height: 33px;
-            padding-top: 7px;
             font-size: 0.625em;
 
             .icon {
