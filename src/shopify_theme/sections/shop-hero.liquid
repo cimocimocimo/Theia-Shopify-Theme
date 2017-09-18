@@ -1,0 +1,28 @@
+<style type="text/css" media="screen">
+  .shop-page-hero {
+    background-image: url('{{ section.settings.image | img_url: "2560x338", crop: "center" }}');
+  }
+
+  @media screen and (max-width: 1024px){
+    .shop-page-hero {
+      background-image: url('{{ section.settings.image | img_url: "1024x338", crop: "center" }}');
+    }
+  }
+</style>
+
+<div id="top" class="shop-page-hero"></div>
+
+{% schema %}
+  {
+    "name": "Shop Hero",
+    "class": "shop-page-hero",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Desktop Image",
+        "info": "Should be wider than 2560px and exactly 338px high."
+      }
+    ]
+  }
+{% endschema %}
