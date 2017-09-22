@@ -12,12 +12,6 @@
 
     {% capture gravitar_url %}//www.gravatar.com/avatar/{{ customer.email | remove: ' ' | strip_newlines | downcase | md5 }}?s=44&d=mm{% endcapture %}
 
-    {% if ( //www.gravatar.com/avatar/{{ customer.email | remove: ' ' | strip_newlines | downcase | md5 }}?s=44&d=404 ) == 404 %}
-
-      {% capture gravitar_url %}//www.gravatar.com/avatar/{{ customer.email | remove: ' ' | strip_newlines | downcase | md5 }}?s=44&d={{ default_profile_url }}{% endcapture %}
-
-    {% endif %}  
-
     <a class="customer-menu-link customer-profile-link" href="/account">
       <img alt="{{ customer.first_name }}s gravitar" src="{{ gravitar_url }}" />
       <span class="label">{{ customer.first_name }} {{ customer.last_name }}</span>
