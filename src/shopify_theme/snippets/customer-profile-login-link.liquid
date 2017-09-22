@@ -5,10 +5,18 @@
     There is no urlencoding provided in shopify liquid. This is a hack to simply
     relplace the illegal characters.
     {% endcomment %}
+    
     {% capture default_profile_url %}{{ 'cara-profile.jpg' | asset_url | replace: ' ', '%20' | replace: '&', '%26' | replace: '?', '%3F' | replace: '!', '%21' | replace: ',', '%2C' | replace: "'", "%27" | replace: '/', '%2F' }}{% endcapture %}
 
     {% comment %} https://en.gravatar.com/site/implement/images/ {% endcomment %}
-    {% capture gravitar_url %}//www.gravatar.com/avatar/{{ customer.email | remove: ' ' | strip_newlines | downcase | md5 }}?s=44&d={{ default_profile_url }}{% endcapture %}
+
+    {% capture gravitar_url %}//www.gravatar.com/avatar/{{ customer.email | remove: ' ' | strip_newlines | downcase | md5 }}?s=44&d=mm{% endcapture %}
+
+    {% if ( //www.gravatar.com/avatar/{{ customer.email | remove: ' ' | strip_newlines | downcase | md5 }}?s=44&d=404 ) == 404 %}
+
+      {% capture gravitar_url %}//www.gravatar.com/avatar/{{ customer.email | remove: ' ' | strip_newlines | downcase | md5 }}?s=44&d={{ default_profile_url }}{% endcapture %}
+
+    {% endif %}  
 
     <a class="customer-menu-link customer-profile-link" href="/account">
       <img alt="{{ customer.first_name }}s gravitar" src="{{ gravitar_url }}" />
