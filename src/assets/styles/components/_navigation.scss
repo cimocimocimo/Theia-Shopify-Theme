@@ -935,7 +935,7 @@
     left: 0;
 
     &.menu-open {
-        left: -$mobileNavMenuWidth;
+        left: -$mobileNavMenuWidth !important;
         overflow-y: hidden; // disables scroll when menu open
     }
 }
