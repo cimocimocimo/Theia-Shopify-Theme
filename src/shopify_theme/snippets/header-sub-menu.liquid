@@ -8,11 +8,24 @@
       <a class="sub-menu-link" href="/blogs/blog/tagged/{{ tag | handle }}">{{ tag }}</a>
     {% endfor %}
     <a class="sub-menu-link" href="/blogs/blog/">View All</a>
+
   {% elsif coll.handle == 'bridal' %}
-    {% for link in linklists.bridal-menu.links %}
-      <a class="sub-menu-link" href="{{ link.url }}">{{ link.title }}</a>
-    {% endfor %}
+
+      <a class="sub-menu-link" href="https://bridal.theiacouture.com/bridal/">Lookbook</a>
+      <a class="sub-menu-link" href="https://bridal.theiacouture.com/bridesmaids/">Bridesmaids</a>
+      <a class="sub-menu-link" href="https://bridal.theiacouture.com/runway/">Runway</a>
+      <a class="sub-menu-link" href="https://bridal.theiacouture.com/store-locator/">Store Locator</a>
+      <a class="sub-menu-link" href="https://bridal.theiacouture.com/trunk-shows/">Trunk Shows</a>
+      <a class="sub-menu-link" href="https://bridal.theiacouture.com/real-weddings/">Real Weddings</a>
+      <a class="sub-menu-link hidden-on-desktop-only" href="https://bridal.theiacouture.com/">Bridal Home</a>
+
   {% elsif coll %}
     <a class="sub-menu-link mobile-view-all-link" href="{{ coll.url }}">View All</a>
   {% endif %}
 </div>
+
+{% comment %}
+  {% elsif coll.handle == 'bridal' %}
+    {% for link in linklists.bridal-menu.links %}
+  {% endfor %}
+{% endcomment %}
