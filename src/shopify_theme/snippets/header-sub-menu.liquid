@@ -9,20 +9,16 @@
     {% endfor %}
     <a class="sub-menu-link" href="/blogs/blog/">View All</a>
 
-    <a class="sub-menu-link" href="https://bridal.theiacouture.com/bridal/">Lookbook</a>
-    <a class="sub-menu-link" href="https://bridal.theiacouture.com/bridesmaids/">Bridesmaids</a>
-    <a class="sub-menu-link" href="https://bridal.theiacouture.com/runway/">Runway Spring 2018</a>
-    <a class="sub-menu-link" href="https://bridal.theiacouture.com/store-locator/">Store Locator</a>
-    <a class="sub-menu-link" href="https://bridal.theiacouture.com/trunk-shows/">Trunk Shows</a>
-    <a class="sub-menu-link" href="/pages/bridal-videos">Bridal Videos</a>
+  {% elsif coll.handle == 'bridal' %}
+      <a class="sub-menu-link" href="https://bridal.theiacouture.com/bridal/">Lookbook</a>
+      <a class="sub-menu-link" href="https://bridal.theiacouture.com/bridesmaids/">Bridesmaids</a>
+      <a class="sub-menu-link" href="https://bridal.theiacouture.com/runway/">Runway Spring 2018</a>
+      <a class="sub-menu-link" href="https://bridal.theiacouture.com/store-locator/">Store Locator</a>
+      <a class="sub-menu-link" href="https://bridal.theiacouture.com/trunk-shows/">Trunk Shows</a>
+      <a class="sub-menu-link" href="/pages/bridal-videos">Bridal Videos</a>
     
   {% elsif coll %}
     <a class="sub-menu-link mobile-view-all-link" href="{{ coll.url }}">View All</a>
   {% endif %}
 </div>
 
-{% comment %}
-  {% elsif coll.handle == 'bridal' %}
-    {% for link in linklists.bridal-menu.links %}
-  {% endfor %}
-{% endcomment %}
