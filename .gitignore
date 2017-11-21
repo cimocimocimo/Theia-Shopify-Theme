@@ -47,3 +47,4 @@ node_modules/
 *~
 /private.json
 /dist/
+/src/shopify_theme/config/settings_data.json
