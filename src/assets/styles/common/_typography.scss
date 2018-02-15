@@ -81,6 +81,11 @@
     font-size: 0.75em; /* ~12px */
 }
 
+%century-gothic-uppercase-text {
+  font-family: $centuryGothicFontStack;
+  text-transform: uppercase;
+}
+
 %smallish-century-gothic-text {
     font-family: $centuryGothicFontStack;
     font-weight: 700;
