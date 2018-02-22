@@ -183,7 +183,7 @@ For more information on these Scheme.org tags, visit:
                 <div class="call-to-action-block">
                   <a class="contact-sales-button" href="/pages/contact?style_number={{ style_number }}">
                     <span class="label">Contact Sales</span>
-                    <span class="icon"></span>
+                    <!-- Commenting out this Icon><span class="icon"></span> --!>
                   </a>
                 </div>
 
@@ -233,8 +233,15 @@ For more information on these Scheme.org tags, visit:
 
               <div class="product-offer-block">
                 <p><span class="text"><a style="text-deoration:none" href="#" id="BIS_trigger">Size not available?</a></span></p>
-                <span class="icon"></span>
+				<!-- Commenting out icon <span class="icon"></span> --!>
+                {% if on_sale %}
+                <span class="text">Free shipping available on all orders.</span><br>
+                
+                {% else %}                
                 <span class="text">Free shipping available on all orders.</span>
+                {% endif %}
+                
+                
 
 
               </div>

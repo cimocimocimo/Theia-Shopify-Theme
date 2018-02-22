@@ -1,0 +1,135 @@
+{% assign products_per_page = section.settings.products_per_page %}
+
+<div class="bc-sf-search-container">
+  <h1 class="bc-sf-search-result-header"></h1>
+  <form class="bc-sf-search-form" action="/search" method="get" role="search">
+    <input class="bc-sf-search-box" type="search" name="q" value="{{ search.terms | escape }}">
+    <button type="submit" class="bc-sf-search-btn"></button>
+  </form>
+  <p class="bc-sf-search-result-number"></p>
+</div>
+
+<div id="bc-sf-filter-wrapper">
+  <div id="bc-sf-filter-tree-mobile"></div>
+  <div class="bc-sf-filter-left-col">
+    <div id="bc-sf-filter-tree"></div>
+  </div>
+
+  <div class="bc-sf-filter-right-col">
+    <div id="bc-sf-filter-products"></div>
+  </div>
+
+  <div id="bc-sf-filter-bottom-pagination" class="bc-sf-filter-bottom-pagination-default"></div>
+  <div id="bc-sf-filter-load-more"></div>
+</div>
+
+<script>
+  // Declare bcSfFilterConfig variable
+  var bcSfFilterConfig = {
+    label: {
+      refine: "{{ 'product_filter_search.refine' | t }}",
+      refine_mobile: "{{ 'product_filter_search.refine_mobile' | t }}",
+      clear: "{{ 'product_filter_search.clear' | t }}",
+      clear_all: "{{ 'product_filter_search.clear_all' | t }}",
+      apply: "{{ 'product_filter_search.apply' | t }}",
+      breadcrumb_home: {% if product_filter_search.breadcrumb_home != blank %} {{ 'product_filter_search.breadcrumb_home' | t }}" {% else %} "Home" {% endif %},
+      load_more: {% assign temp = 'product_filter_search.load_more' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Load more Products" {% endunless %},
+      show_limit: {% assign temp = 'product_filter_search.show_limit' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Show" {% endunless %},
+      sorting: {% assign temp = 'collections.sorting.title' | t  %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Sorting" {% endunless %},
+      sorting_best_selling: {% assign temp = 'collections.sorting.best_selling' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Best Selling" {% endunless %},
+      sorting_featured: {% assign temp = 'collections.sorting.featured' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Featured" {% endunless %},
+      sorting_title_ascending: {% assign temp = 'collections.sorting.az' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Alphabetically, A-Z" {% endunless %},
+      sorting_title_descending: {% assign temp = 'collections.sorting.za' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Alphabetically, Z-A" {% endunless %},
+      sorting_price_ascending: {% assign temp = 'collections.sorting.price_ascending' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Lowest Price" {% endunless %},
+      sorting_price_descending: {% assign temp = 'collections.sorting.price_descending' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Highest Price" {% endunless %},
+      sorting_date_ascending: {% assign temp = 'collections.sorting.date_ascending' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Date, Old to New" {% endunless %},
+      sorting_date_descending: {% assign temp = 'collections.sorting.date_descending' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Date, New to Old" {% endunless %},
+      sorting_sale_descending: {% assign temp = 'collections.sorting.sale_descending' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "% Off" {% endunless %},
+      sorting_relevance: {% assign temp = 'collections.sorting.relevance' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Relevance" {% endunless %},
+      search_general_title: {% assign temp = 'product_filter_search.search_general_title' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} 'Search' {% endunless %},
+      search_result_header: {% assign temp = 'product_filter_search.search_result_header' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} {% raw %}'Search Results for "{{ terms }}"'{% endraw %} {% endunless %},
+      search_result_empty: {% assign temp = 'product_filter_search.search_result_empty' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} {% raw %}'Your search for "{{ terms }}"" didn\'t match any results'{% endraw %} {% endunless %},
+      search_result_number: {% assign temp = 'product_filter_search.search_result_number' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} {% raw %}'Showing {{ count }} results for "{{ terms }}"'{% endraw %} {% endunless %}
+    },
+    label_basic: {
+      sale: {% if product_filter_search.sale != blank %} "{{ 'product_filter_search.sale' | t }}" {% else %} "Sale" {% endif %},
+      sold_out: {% if product_filter_search.sold_out != blank %} "{{ 'product_filter_search.sold_out' | t }}" {% else %} "Sold Out" {% endif %},
+      from: {% if product_filter_search.from != blank %} "{{ 'product_filter_search.from' | t }}" {% else %} "from" {% endif %},
+    },
+    custom: {
+      products_per_page: {{ products_per_page }},
+      products_per_row: {{ section.settings.products_per_row }},
+      products_per_row_mobile: {{ section.settings.products_per_row_mobile }},
+      show_vendor: {{ section.settings.show_vendor }},
+      show_price: {{ section.settings.show_price }},
+      show_sale_label: {{ section.settings.show_sale_label }},
+      show_sold_out_label: {{ section.settings.show_sold_out_label }},
+      active_image_swap: {{ section.settings.active_image_swap }},
+    }
+  };
+</script>
+
+{% schema %}
+  {
+    "name": "Search page",
+    "settings": [
+      {
+        "type": "range",
+        "id": "products_per_page",
+        "label": "Products per page",
+        "min": 2,
+        "max": 50,
+        "step": 1,
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "products_per_row",
+        "label": "Products per row on Desktop",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "range",
+        "id": "products_per_row_mobile",
+        "label": "Products per row on Mobile",
+        "min": 1,
+        "max": 3,
+        "step": 1,
+        "default": 2
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show product vendor",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_price",
+        "label": "Show price",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sale_label",
+        "label": "Show sale label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sold_out_label",
+        "label": "Show sold out label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "active_image_swap",
+        "label": "Active image swap",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}
