@@ -2236,8 +2236,15 @@
 
   .slick-slider,
   .slick-list,
-  .slick-track {
+  .slick-track,
+  .slick-slide {
     height: 100%;
+  }
+
+  .js-homepage-carousel {
+    &, & > * {
+      height: 100%;
+    }
   }
 }
 
@@ -2328,5 +2335,22 @@
     .logo-column {
       padding: $gridGutter;
     }
+  }
+}
+
+.homepage-featured-products {
+  @extend %grid-block-base;
+
+  margin-top: $gutter * 2;
+  margin-bottom: $gutter * 3;
+
+  h2 {
+    @extend .h3;
+  }
+
+  .cta-button {
+    @extend %large-gold-outline-arrow-button;
+
+    margin-top: 20px;
   }
 }

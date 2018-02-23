@@ -434,8 +434,13 @@ window.timber.homepageSplash = function(){
 
 window.timber.homepageVideo = function(){
   var $button = window.timber.cache.homepage.$videoPlayButton,
-      $playerContainer = window.timber.cache.homepage.$videoContainer,
-      player = new Vimeo.Player(window.timber.cache.homepage.$videoPlayer[0]);
+      $playerContainer = window.timber.cache.homepage.$videoContainer;
+
+  if (!$playerContainer[0]) {
+    return;
+  }
+
+  var player = new Vimeo.Player(window.timber.cache.homepage.$videoPlayer[0]);
 
   $button.click(function(event){
     event.preventDefault();

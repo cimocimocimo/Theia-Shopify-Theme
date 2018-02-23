@@ -1,0 +1,81 @@
+{% assign hide_header_row = section.settings.hide-product-headers %}
+
+<div class="product-grid-hero">
+  <div class="wrapper">
+    <div class="hero-body">
+
+      <h3>{{ section.settings.header-text }}</h3>
+
+      <div id="collection-items">
+
+        {% for block in section.blocks %}
+
+          {% assign product = all_products[block.settings.featured-product] %}
+
+            {% include 'product-grid-item' %}
+
+          {% else %}
+
+            <div class="grid-item">
+              <p>Sorry, there are no products matching your search.</p>
+            </div>
+
+          {% endfor %}
+      </div>
+
+      <a class="cta-button" href="{{ section.settings.button-url }}">
+        <span class="label">{{ section.settings.button-text }}</span>
+        <span class="icon"></span>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured Products",
+    "class": "homepage-featured-products",
+    "max_blocks": 4,
+    "settings": [
+      {
+        "type": "text",
+        "id": "header-text",
+        "label": "Header Text",
+        "default": "Header Text Default"
+      },
+      {
+        "type": "text",
+        "id": "button-text",
+        "label": "Button Text",
+        "default": "Button text default"
+      },
+      {
+        "type": "url",
+        "id": "button-url",
+        "label": "Button URL"
+      },
+      {
+        "type": "checkbox",
+        "id": "hide-product-headers",
+        "label": "Hide Product Headers",
+        "default": true
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Product",
+        "limit": 4,
+        "settings": [
+          {
+            "type":      "product",
+            "id":        "featured-product",
+            "label":     "Text",
+            "info":      "Text"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

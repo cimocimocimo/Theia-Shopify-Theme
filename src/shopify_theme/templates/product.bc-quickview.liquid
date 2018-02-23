@@ -1,0 +1,150 @@
+{% layout none %}
+  {% assign bc_settings = shop.metafields.bc-sf-filter.settings %}
+  {% if bc_settings != blank and bc_settings.quickview %}
+    {% assign quickview = bc_settings.quickview %}
+    {% assign active_vendor = quickview.settings.activeVendor %}
+    {% assign active_description = quickview.settings.activeVendor %}
+    {% assign active_cart_form = quickview.settings.activeCartForm %}
+    {% assign active_price = quickview.settings.activePrice %}
+    {% assign view_full_label = quickview.label.viewFullLabel %}
+    {% assign quantity_label = quickview.label.quantityLabel %}
+    {% assign add_to_cart_btn_label = quickview.label.addtocartBtnLabel %}
+    {% assign sold_out_btn_label = quickview.label.soldoutBtnLabel %}
+  {% else %}
+    {% assign active_vendor = true %}
+    {% assign active_description = true %}
+    {% assign active_cart_form = true %}
+    {% assign active_price = true %}
+    {% assign view_full_label = 'product_filter_search_quickview.view_full' | t %}
+    {% assign quantity_label = 'product_filter_search_quickview.quantity' | t %}
+    {% assign add_to_cart_btn_label = 'product_filter_search_quickview.add_to_cart' | t %}
+    {% assign sold_out_btn_label = 'product_filter_search_quickview.sold_out' | t %}
+  {% endif %}
+
+  {% assign image_size = 'grande' %}
+  {% assign image_thumb_size = '150x' %}
+  {% assign image_scale = 3 %}
+  {% assign truncate_words = 30 %}
+  {% assign current_variant = product.selected_or_first_available_variant %}
+
+
+  <div class="bc-quickview-wrapper ">    
+    <div class="bc-quickview-content">
+      <div class="bc-quickview-left bc-quickview-product-thumbs">
+        {% assign current_variant = product.selected_or_first_available_variant %}
+        {% assign featured_image = current_variant.featured_image | default: product.featured_image %} 
+        <div class="bc-quickview-featured-image-wrapper" id="bc-quickview-featured-image-wrapper">
+          <img src="{{ featured_image | img_url: image_size }}" alt="{{ featured_image.alt | escape }}" class="bc-quickview-featured-image" id="bc-quickview-featured-image"/>
+        </div>
+        {% if product.images.size > 1 %}
+        <div class="bc-quickview-product-thumbs-list" id="bc-quickview-product-thumbs-list">          
+          <div class="bc-quickview-thumbs-item selected">
+            <img data-main-src="{{ featured_image | img_url: image_size }}" src="{{ featured_image | img_url: image_thumb_size }}" alt="{{ featured_image.alt | escape }}" class="bc-quickview-thumbs-image"/>
+          </div>
+          {% for image in product.images %}
+          {% unless featured_image == image.src %}
+          <div class="bc-quickview-thumbs-item">
+            <img data-main-src="{{ image.src | img_url: image_size }}" src="{{ image.src | img_url: image_thumb_size }}" alt="{{ image.alt | escape }}" class="bc-quickview-thumbs-image"/>
+          </div>
+          {% endunless %}
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="bc-quickview-right product-details">
+        <h1 class="bc-quickview-title">{{ product.title }}</h1>  
+
+        {% if active_vendor %}
+        <p class="bc-quickview-vendor">{{ product.vendor }}</p>
+        {% endif %}
+
+        {% if active_description %}
+        <div class="bc-quickview-description">
+          {{ product.description | strip_html | truncatewords: truncate_words }}
+        </div>            
+        {% endif %}  
+        
+        <a href="{{ product.url | within_collection }}" class="bc-quickview-view-full">{{ view_full_label }}</a>
+        <hr/>
+
+        {% if active_price %}
+        <div class="bc-quickview-price-wrapper {% unless current_variant.available %} bc-quickview-price-sold-out{% endunless %} {% if current_variant.compare_at_price > current_variant.price %} bc-quickview-price-on-sale{% endif %}">      
+            <p class="bc-quickview-price">
+              {% if current_variant.compare_at_price > current_variant.price %}                
+                <span id="bc-quickview-current-price" class="h3 money bc-quickview-price sale">
+                  {{ current_variant.price | money }}
+                </span>
+                <span id="bc-quickview-was-price" class="h3 money bc-quickview-price bc-quickview-was-price">
+                  {{ current_variant.compare_at_price | money }}
+                </span>
+              {% else %}
+                <span id="bc-quickview-current-price" class="h3 money bc-quickview-price">
+                  {{ current_variant.price | money }}
+                </span>
+                <span id="bc-quickview-was-price" class="h3 money bc-quickview-price bc-quickview-was-price"></span>
+              {% endif %}
+            </p>
+        </div>          
+        {% endif %}        
+        
+        {% if active_cart_form %}
+        <form id="bc-quickview-cart-form" action="/cart/add" method="post" enctype="multipart/form-data" class="bc-quickview-cart-form product-form">
+          <select style="display:none" name="id" id="bc-quickview-variants-selector" class="bc-quickview-variants-selector">
+            {% for variant in product.variants %}
+              {% if variant.image != blank %}
+                {% assign variant_image = variant.image %}
+              {% else %}
+                {% assign variant_image = featured_image %}
+              {% endif %}
+              {% if variant.available %}
+                <option data-available="true" data-magnify-src="{{ variant_image | img_url: image_size, scale: image_scale }}" data-featured-image="{{ variant_image | img_url: image_size }}" data-variant-id="{{ variant.id }}" data-options="{{ variant.title }}" data-current-price-without-currency="{{ variant.price | money_without_currency }}" data-current-price="{{ variant.price | money }}" data-was-price-without-currency="{{ variant.compare_at_price | money_without_currency }}" data-was-price="{{ variant.compare_at_price | money }}" {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}"></option>
+              {% else %}
+                <option data-available="false" disabled="disabled" data-magnify-src="{{ variant_image | img_url: image_size, scale: image_scale }}" data-featured-image="{{ variant_image | img_url: image_size }}" data-variant-id="{{ variant.id }}" data-options="{{ variant.title }}" data-current-price-without-currency="{{ variant.price | money_without_currency }}" data-current-price="{{ variant.price | money }}" data-was-price-without-currency="{{ variant.compare_at_price | money_without_currency }}" data-was-price="{{ variant.compare_at_price | money }}" {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}"></option>
+              {% endif %}
+            {% endfor %}
+          </select>
+
+          {% assign option_size = product.options_with_values | size %}
+          
+          {% if option_size > 0 %}
+            {% for option in product.options_with_values %}
+            {% assign index = forloop.index %}
+            <div class="selector-wrapper bc-quickview-selector-wrapper {% if index == option_size %}last{% endif %}">
+              <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="bc-quicview-single-option-selector-{{ forloop.index0 }}">
+                {{ option.name }}
+              </label>
+              <select class="bc-quickview-single-option-selector single-option-selector single-option-selector-{{ section.id }}" id="bc-quicview-single-option-selector-{{ forloop.index0 }}" data-single-option-selector-index="option{{ forloop.index }}">
+                {% for value in option.values %}
+                <option value="{{ value | escape }}" {% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endfor %}
+          {% endif %}
+            
+
+          <div class="bc-quickview-qty-cartbtn-wrapper">
+            <label for="bc-quickview-cart-quantity">{{ quantity_label }}</label>
+            <div class="bc-quickview-qty-cartbtn">
+              <div class="bc-quickview-quantity">              
+                <input type="number" id="bc-quickview-cart-quantity" name="quantity" value="1" min="1" class="bc-quickview-cart-quantity" pattern="[0-9]*">
+              </div>
+              <div class="bc-quickview-cart">
+                <button type="submit" name="add" id="bc-quickview-cart-btn" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="btn bc-quickview-cart-btn{% if product.options.size == 1 and product.variants[0].title == 'Default Title' %} product-form__cart-submit--small{% endif %}">
+                  <span id="bc-quickview-cart-btn-text">
+                    {% unless current_variant.available %}
+                      {{ sold_out_btn_label }}
+                    {% else %}
+                      {{ add_to_cart_btn_label }}
+                    {% endunless %}
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div> 
+        </form>          
+        {% endif %}           
+      </div>
+    </div>
+  </div>

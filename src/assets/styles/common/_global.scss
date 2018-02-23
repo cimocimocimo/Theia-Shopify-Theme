@@ -53,6 +53,12 @@ body {
     }
 }
 
+@include at-query ($min, $postLarge) {
+  .hidden-on-desktop-only {
+    display: none !important;
+  }
+}
+
 /* Mobile */
 @include at-query ($max, $small) {
     .hidden-on-mobile {

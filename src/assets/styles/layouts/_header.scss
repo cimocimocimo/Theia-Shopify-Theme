@@ -28,7 +28,8 @@
 
 /* Header */
 .header-container {
-    @include transition(all 0.3s);
+  @include transition(all 0.3s);
+  @include box-shadow(0 2px 3px rgba(0,0,0,0.05));
 
     z-index: $zindexNavigation;
 
@@ -169,7 +170,6 @@
 
 .site-header-main-row {
     @extend %site-header-row-base;
-    @include box-shadow(0 2px 3px rgba(0,0,0,0.05));
 
     background: $colorWhite;
 
