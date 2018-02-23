@@ -66,14 +66,8 @@
         "id": "left_block_type",
         "label": "Background Type",
         "options": [
-          {
-            "value": "image",
-            "label": "Image"
-          },
-          {
-            "value": "video",
-            "label": "Video"
-          }
+          { "value": "image", "label": "Image" },
+          { "value": "video", "label": "Video" }
         ],
         "default": "image",
         "info": "Either an image or video"
@@ -88,10 +82,7 @@
         "type": "video_url",
         "id": "left_block_video",
         "label": "Video",
-        "accept": [
-          "youtube",
-          "vimeo"
-        ]
+        "accept": ["youtube", "vimeo"]
       },
       {
         "type": "text",
@@ -113,14 +104,8 @@
         "id": "right_block_type",
         "label": "Background Type",
         "options": [
-          {
-            "value": "image",
-            "label": "Image"
-          },
-          {
-            "value": "video",
-            "label": "Video"
-          }
+          { "value": "image", "label": "Image" },
+          { "value": "video", "label": "Video" }
         ],
         "info": "Either an image or video"
       },
@@ -134,10 +119,7 @@
         "type": "video_url",
         "id": "right_block_video",
         "label": "Video",
-        "accept": [
-          "youtube",
-          "vimeo"
-        ]
+        "accept": ["youtube", "vimeo"]
       },
       {
         "type": "text",

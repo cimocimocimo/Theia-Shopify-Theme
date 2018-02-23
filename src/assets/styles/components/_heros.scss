@@ -2337,3 +2337,20 @@
     }
   }
 }
+
+.homepage-featured-products {
+  @extend %grid-block-base;
+
+  margin-top: $gutter * 2;
+  margin-bottom: $gutter * 3;
+
+  h2 {
+    @extend .h3;
+  }
+
+  .cta-button {
+    @extend %large-gold-outline-arrow-button;
+
+    margin-top: 20px;
+  }
+}

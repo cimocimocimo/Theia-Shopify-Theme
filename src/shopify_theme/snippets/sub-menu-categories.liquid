@@ -18,9 +18,9 @@
 {% if coll.handle == 'shop' %}
   {% assign sub-menu-categories = 'New Arrivals, Evening Gowns, Cocktail Dresses, Jumpsuit, Sale' | split: ', ' %}
 {% elsif coll.handle contains 'bridal' %}
-  {% assign sub-menu-categories = 'Lookbook, Bridesmaids, Runway Spring 2018' | split: ', ' %}
+  {% assign sub-menu-categories = '' | split: ', ' %}
 {% elsif coll.handle == 'collections' %}
-  {% assign sub-menu-categories = 'Fall 2017, PreFall 2017, Spring 2017, Resort 2017' | split: ', ' %}
+  {% assign sub-menu-categories = 'Spring 2018, Resort 2018, Fall 2017, PreFall 2017' | split: ', ' %}
 {% else %}
   {% assign sub-menu-categories = false %}
 {% endif %}

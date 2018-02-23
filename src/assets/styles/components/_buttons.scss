@@ -132,6 +132,30 @@
     }
 }
 
+%outline-button-base {
+  @include transition(background-color 0.3s);
+
+  background-color: $colorWhite;
+  border-width: 2px;
+  border-style: solid;
+
+  &:hover {
+    color: $colorWhite;
+  }
+}
+
+%gold-outline-button-base {
+  @extend %outline-button-base;
+
+  border-color: $colorGold;
+  color: $colorDarkGold;
+
+  &:hover {
+    border-color: $colorDarkGold;
+    background-color: $colorDarkGold;
+  }
+}
+
 %gray-outline-button-base {
     @include transition(background-color 0.3s);
 
@@ -303,6 +327,22 @@
     }
 }
 
+%large-gold-outline-arrow-button {
+  @extend %button-base;
+  @extend %large-button-base;
+  @extend %gold-outline-button-base;
+  @extend %arrow-icon-button-base;
+  @extend %century-gothic-uppercase-text;
+
+  text-align: center;
+  font-weight: 700;
+  padding: 3px 32px 0;
+
+  .icon {
+    top: 0px;
+    font-size: 20px;
+  }
+}
 
 /* gold, medium button with rsaquo */
 %large-gold-rsaquo-button {

@@ -30,8 +30,11 @@ page.
       Loop through our products in the current collection.
       See the snippet 'product-grid-item' for the layout.
       {% endcomment %}
+      
+      <div id="bc-sf-filter-tree-mobile"></div>
+      <div id="bc-sf-filter-tree"></div>
 
-      <div id="collection-items"
+      <div class="bc-sf-filter" id="collection-items"
            data-has-next-page="{% if paginate.next %}true{% else %}false{% endif %}"
            {% if paginate.next %}
            data-next-page-url="{{ paginate.next.url }}"
@@ -54,7 +57,8 @@ page.
         <img src="{{ 'loading.gif' | asset_url }}" />
       </div>
 
-      {% include 'pagination-block' %}
+      <div id="bc-sf-filter-bottom-pagination"></div>
+      <div id="bc-sf-filter-load-more"></div>
 
       <div class="back-to-top-block js-hidden">
         <a data-scroll class="back-to-top-link" href="#top">Back to Top</a>
@@ -69,3 +73,42 @@ page.
 <hr class="hr-4-col" />
 
 {% include 'social-link-newsletter-hero' %}
+
+
+<script>
+  // Declare bcSfFilterConfig variable
+  var bcSfFilterConfig = {
+    label: {
+      refine: "Refine By",
+      refine_mobile: "Refine By",
+      refine_mobile_collapse: "Hide Filter",
+      clear: "Clear",
+      clear_all: "Clear All",
+      apply: "Apply",
+      sale: "Sale",
+      sold_out: "Sold Out",
+      from: "from",
+      breadcrumb_home: "Home",
+      load_more: "Load more",
+      show_limit: "Show",
+      search_general_title: "Search",
+      search_result_header: "Search Results for \"{{ terms }}\"",
+      search_result_empty: "Your search for \"{{ terms }}\" didn't match any results",
+      search_result_number: "Showing {{ count }} results for \"{{ terms }}\"",
+      suggestion_popular_header: "Popular Suggestions",
+      suggestion_product_header: "Products",
+      suggestion_did_you_mean_header: "Did you mean",
+      suggestion_view_all: "View all results",
+      error_no_filter_result: "Sorry, no products matched your selection",
+      error_no_products: "No products found in this collection"
+      
+    },
+    label_basic: {
+      sale: {% if product_filter_search.sale != blank %} "{{ 'product_filter_search.sale' | t }}" {% else %} "Sale" {% endif %},
+      sold_out: {% if product_filter_search.sold_out != blank %} "{{ 'product_filter_search.sold_out' | t }}" {% else %} "Sold Out" {% endif %},
+      from: {% if product_filter_search.from != blank %} "{{ 'product_filter_search.from' | t }}" {% else %} "from" {% endif %},
+    },
+    custom: {
+    }
+  };
+</script>
