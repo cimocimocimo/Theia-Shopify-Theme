@@ -3,46 +3,37 @@
     {% if show_home_link %}
       <li><a class="main-menu-link" href="/">Home</a></li>
     {% endif %}
+
     {% for link in linklists.main-menu.links %}
-      {% if link.type == 'collection_link' or link.type == 'blog_link' %}
+
+      {% if link.links != blank %}
         {% capture menu_target %}{{ link.object.handle }}{% endcapture %}
       {% else %}
-        {% assign link_id = link.title | handle %}
         {% assign menu_target = false %}
       {% endif %}
-      {% if link.object.handle == 'bridal' %}
-        {% assign link_href = 'https://bridal.theiacouture.com/' %}
-      {% else %}
-        {% assign link_href = link.url %}
-      {% endif %}
 
-      {% assign link_disabled = false %}
-      {% comment %}disable click action for bridal{% endcomment %}
-      {% comment %}
-      {% if link.object.handle == 'bridal' %}
-        {% assign link_disabled = true %}
-      {% endif %}
-      {% endcomment %}
+      {% assign link_href = link.url %}
+
       {% case location %}
       {% when 'footer' %}
       <li>
-        <a id="{{ link_id }}-footer-main-menu-link"
-           class="main-menu-link"
-           href="{{ link_href }}">{{ link.title }}</a>
-      </li>
-      {% when 'header' %}
-      <li>
-        <a id="{{ link_id }}-header-main-menu-link"
-           class="main-menu-link{% if menu_target %} js-has-sub-menu{% endif %}{% if link_disabled %} js-disabled{% endif %}"
-           {% if menu_target %}data-target="{{ menu_target }}"{% endif %}
+        <a class="main-menu-link"
           href="{{ link_href }}">{{ link.title }}</a>
       </li>
-      {% when 'side-nav' %}
-      {% comment %}showing these main menu links in the header now on mobile.{% endcomment %}
+
+      {% when 'header' %}
+      <li>
+        <a class="main-menu-link{% if menu_target %} js-has-sub-menu{% endif %}"
+          {% if menu_target %}data-target="{{ menu_target }}"{% endif %}
+          href="{{ link_href }}">{{ link.title }}</a>
+      </li>
+
       {% else %}
-      <li><a class="main-menu-link{% if link_disabled %} js-disabled{% endif %}" href="{{ link_href }}">{{ link.title }}</a></li>
+      <li><a class="main-menu-link" href="{{ link_href }}">{{ link.title }}</a></li>
       {% endcase %}
+
     {% endfor %}
+
     {% if collections.shop.tags contains 'Sale' %}
       <li><a class="main-menu-link on-sale-link" href="{{ collections.shop.url }}/sale">Sale</a></li>
     {% endif %}
