@@ -1,15 +1,13 @@
-<!-- Shop - available-online -->
-{% for coll in collections %}
-  {% include 'sub-menu-categories' %}
-  <!-- sub-menu-categories: {{ sub-menu-categories }} -->
-  {% if sub-menu-categories %}
-    <div id="header-sub-menu-{{ coll.handle }}" class="js-header-sub-menu header-sub-menu">
-      {% include 'header-sub-menu' %}
+{% for link in linklists.main-menu.links %}
+  {% if link.links != blank %}
+    <div id="header-sub-menu-{{ link.object.handle }}"
+      class="js-header-sub-menu header-sub-menu">
+      <div class="sub-menu-column">
+        {% for sublink in link.links %}
+          <a class="sub-menu-link"
+            href="{{ sublink.url }}">{{ sublink.title }}</a>
+        {% endfor %}
+      </div>
     </div>
   {% endif %}
-  {% assign sub-menu-categories = false %}
 {% endfor %}
-<!-- Add the blog tag sub menus -->
-<div id="header-sub-menu-blog" class="js-header-sub-menu header-sub-menu">
-  {% include 'header-sub-menu', is_blog_submenu: true %}
-</div>

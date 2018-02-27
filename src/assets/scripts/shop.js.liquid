@@ -379,57 +379,21 @@ window.timber.homepageInit = function(){
   }
 
   window.timber.homepageHeader();
-  window.timber.homepageSplash();
   window.timber.homepageVideo();
 };
 
 window.timber.homepageHeader = function(){
-  // on the home page we want to activate headroom.js when
-  // scrolling up and the header hits the top of the screen.
-  // then deactivate it at the same point on scroll down.
-  // this allows the header to sit below the homepage splash but still
-  // use headroom.js for showing hiding in the main body of the
-  // page.
-
   var $container = window.timber.cache.homepage.$headerContainer, // headroom.js is applied to this element
-      $waypoint = window.timber.cache.homepage.$headerWaypoint,
       // used as the context/scroller element for waypoints and headroom, needed to get around the full-viewport
       // css hacks used.
       $scrollBody = window.timber.cache.homepage.$scrollBody,
       headroomInstance = {}; // closure to hold the headroom instance between waypoint handler calls
 
-  // create the waypoint for the header
-  var headerWaypoint = $waypoint.waypoint({
-    context: $scrollBody[0],
-    handler: function(direction){
-      if (direction === 'down'){
-        headroomInstance = new Headroom($container[0], {
-          scroller: $scrollBody[0]
-        });
-        headroomInstance.init();
-        $waypoint.addClass('js-headroom-active');
-      } else {
-        headroomInstance.destroy();
-        $waypoint.removeClass('js-headroom-active');
-      }
-    },
-    offset: function(){
-      return - window.jQuery(this.element).height();
-    }
+  headroomInstance = new Headroom($container[0], {
+    offset: 300,
+    scroller: $scrollBody[0]
   });
-};
-
-// currently not used on the site. Perhaps get rid of this code later.
-window.timber.homepageSplash = function(){
-  var $splash = window.timber.cache.homepage.$splash,
-      $scroll = window.timber.cache.homepage.$splashScroller,
-      $body = window.timber.cache.homepage.$body;
-
-  $scroll.click(function(event){
-    event.preventDefault();
-
-    window.jQuery('#body-container').animate({scrollTop: $splash.height()});
-  });
+  headroomInstance.init();
 };
 
 window.timber.homepageVideo = function(){
