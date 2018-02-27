@@ -9,18 +9,18 @@
   snippet will use that width. Overwrite the variable to adjust this.
 
   Example
-    - assign grid_item_width = 'large--one-quarter medium--one-half'
+  - assign grid_item_width = 'large--one-quarter medium--one-half'
 
-{% endcomment %}
+  {% endcomment %}
 
 {% comment %}
   Check if the product is on sale and set a variable to be used below.
-{% endcomment %}
+  {% endcomment %}
 {% include 'capture-product-on-sale' %}
 
 {% comment %}
   Check if the product is sold out and set a variable to be used below.
-{% endcomment %}
+  {% endcomment %}
 {% assign sold_out = true %}
 {% if product.available  %}
   {% assign sold_out = false %}
@@ -47,7 +47,7 @@
 {% comment %}
   Set a class for sold-out and on-sale items
   add css class for last item, used to determine when to grab new dresses as user scrolls...
-{% endcomment %}
+  {% endcomment %}
 {% include 'capture-style-number' %}
 <div id="style-{{ style_number }}" class="{% if block_class %}{{ block_class }}{% else %}product-grid-item{% endif %}{% if forloop.last %} last-item{% endif %}{% if sold_out %} sold-out{% endif %}{% if on_sale %} on-sale{% endif %}">
 
@@ -57,21 +57,22 @@
 
     Results of using 'within: collection':
     - Instead of a URL with /products/product-handle
-      you would get /collections/collection-handle/products/product-handle
+    you would get /collections/collection-handle/products/product-handle
 
     For more info on navigation within a collection
-      - http://docs.shopify.com/support/your-store/collections/how-to-navigate-within-a-collection
+    - http://docs.shopify.com/support/your-store/collections/how-to-navigate-within-a-collection
 
-  {% endcomment %}
+    {% endcomment %}
 
-  <div class="header-row">
+  {% unless hide_header_row %}
+    <div class="header-row">
+      <h4>
+        <a href="{{ product_href }}">{{ product.title }}</a>
+      </h4>
+    </div>
+  {% endunless %}
 
-    <h4>
-      <a href="{{ product_href }}">{{ product.title }}</a>
-    </h4>
-
-  </div>
-  <div class="image-row{% if has_back_image %} has-back-image{% endif %}">
+  <div class="{% if has_back_image %}has-back-image {% endif %}image-row">
 
     <a href="{{ product_href }}">
       {% if has_back_image %}

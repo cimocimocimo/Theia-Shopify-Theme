@@ -4,29 +4,37 @@
   <div class="wrapper">
     <div class="hero-body">
 
-      <h3>{{ section.settings.header-text }}</h3>
+      {% if section.settings.header-text %}
+        <h3>{{ section.settings.header-text }}</h3>
+      {% endif %}
 
-      <div id="collection-items">
+      {% if section.blocks.size > 0 %}
 
-        {% for block in section.blocks %}
+        <div id="collection-items">
 
-          {% assign product = all_products[block.settings.featured-product] %}
+          {% for block in section.blocks %}
+
+            {% assign product = all_products[block.settings.featured-product] %}
 
             {% include 'product-grid-item' %}
 
-          {% else %}
+      {% else %}
 
             <div class="grid-item">
               <p>Sorry, there are no products matching your search.</p>
             </div>
 
           {% endfor %}
-      </div>
+        </div>
 
-      <a class="cta-button" href="{{ section.settings.button-url }}">
-        <span class="label">{{ section.settings.button-text }}</span>
-        <span class="icon"></span>
-      </a>
+      {% endif %}
+
+      {% if section.settings.button-url and section.settings.button-text != '' %}
+        <a class="cta-button" href="{{ section.settings.button-url }}">
+          <span class="label">{{ section.settings.button-text }}</span>
+          <span class="icon"></span>
+        </a>
+      {% endif %}
 
     </div>
   </div>

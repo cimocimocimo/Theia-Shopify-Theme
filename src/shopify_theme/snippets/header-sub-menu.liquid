@@ -1,31 +1,13 @@
-<div class="sub-menu-column">
-  <!-- these are the tags that are present in this collection -->
-  {% for c in sub-menu-categories %}{% assign cat = c | strip %}{% if coll.tags contains cat %}
-    <a class="sub-menu-link" href="{{ coll.url }}/{{ cat | handle }}">{{ cat }}</a>
-  {% endif %}{% endfor %}
-  {% if is_blog_submenu %}
-    {% for tag in blogs.blog.all_tags %}
-      <a class="sub-menu-link" href="/blogs/blog/tagged/{{ tag | handle }}">{{ tag }}</a>
-    {% endfor %}
-    <a class="sub-menu-link" href="/blogs/blog/">View All</a>
-
-  {% elsif coll.handle == 'bridal' %}
-
-      <a class="sub-menu-link" href="https://bridal.theiacouture.com/bridal/">Lookbook</a>
-      <a class="sub-menu-link" href="https://bridal.theiacouture.com/bridesmaids/">Bridesmaids</a>
-      <a class="sub-menu-link" href="https://bridal.theiacouture.com/runway/">Runway</a>
-      <a class="sub-menu-link" href="https://bridal.theiacouture.com/store-locator/">Store Locator</a>
-      <a class="sub-menu-link" href="https://bridal.theiacouture.com/trunk-shows/">Trunk Shows</a>
-      <a class="sub-menu-link" href="https://bridal.theiacouture.com/real-weddings/">Real Weddings</a>
-      <a class="sub-menu-link hidden-on-desktop-only" href="https://bridal.theiacouture.com/">Bridal Home</a>
-
-  {% elsif coll %}
-    <a class="sub-menu-link mobile-view-all-link" href="{{ coll.url }}">View All</a>
+{% for link in linklists.main-menu.links %}
+  {% if link.links != blank %}
+    <div id="header-sub-menu-{{ link.object.handle }}"
+      class="js-header-sub-menu header-sub-menu">
+      <div class="sub-menu-column">
+        {% for sublink in link.links %}
+          <a class="sub-menu-link"
+            href="{{ sublink.url }}">{{ sublink.title }}</a>
+        {% endfor %}
+      </div>
+    </div>
   {% endif %}
-</div>
-
-{% comment %}
-  {% elsif coll.handle == 'bridal' %}
-    {% for link in linklists.bridal-menu.links %}
-  {% endfor %}
-{% endcomment %}
+{% endfor %}
